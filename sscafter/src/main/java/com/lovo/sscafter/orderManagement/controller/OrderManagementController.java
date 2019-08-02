@@ -20,12 +20,18 @@ public class OrderManagementController {
         boolean temp = orderManagementService.updateOrderDelType(orderNum);
         return "{'info':'"+temp+"'}";
     }
-    @RequestMapping("findOrderInfo/{orderDate}/{orderType}/{currentPage}/{rows}/{userName}")
 
+    @RequestMapping("findOrderInfo/{orderDate}/{orderType}/{currentPage}/{rows}/{userName}")
     public List<OrderManagementEntity> findOrderInfo(@PathVariable("orderDate")String orderDate,@PathVariable("orderType")int orderType,
     @PathVariable("currentPage")int currentPage, @PathVariable("rows")int rows,@PathVariable("userName")String userName){
         List<OrderManagementEntity> list = orderManagementService.findTrendsOrderInfo(orderDate,orderType,currentPage,rows,userName);
-        System.out.println(list.size());
         return list;
+    }
+    @RequestMapping("findOrderRows/{orderDate}/{orderType}/{userName}")
+    @ResponseBody
+    public int findOrderRows(@PathVariable("orderDate")String orderDate,@PathVariable("orderType")int orderType,
+                             @PathVariable("userName")String userName){
+        int temp = orderManagementService.findOrderRows(orderDate,orderType,userName);
+        return temp;
     }
 }

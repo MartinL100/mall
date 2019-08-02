@@ -23,6 +23,18 @@ public class OrderTrendsDaoImpl implements IOrderTrendsDao {
     @Override
     public List<OrderManagementEntity> findTrendsOrderInfo(String orderDate, int orderType, int currentPage, int rows, String userName) {
         String hql = "from OrderManagementEntity o where o.orderDelType = 0 ";
+        Query query = utilTrendsHql(hql,orderDate,orderType,userName);
+        return query.setFirstResult((currentPage-1)*rows).setMaxResults(rows).getResultList();
+    }
+
+    public int findOrderRows(String orderDate,int orderType,String userName){
+        String hql = "select count(orderNum) from OrderManagementEntity o where o.orderDelType = 0 ";
+        Query query = utilTrendsHql(hql,orderDate,orderType,userName);
+        Long num = (Long) query.getSingleResult();
+        return num.intValue();
+    }
+
+    public Query utilTrendsHql(String hql,String orderDate,int orderType,String userName){
         boolean orderDateFlag =null != orderDate && !"".equals(orderDate) && !"no".equals(orderDate);
         boolean orderTypeFlag = orderType != 3;
         boolean userNameFlag = null != userName && !"".equals(userName);
@@ -36,6 +48,7 @@ public class OrderTrendsDaoImpl implements IOrderTrendsDao {
             hql+="and o.userName like :userName";
         }
         Query query=getEntityManager().createQuery(hql);
+
         if(orderDateFlag){
             query.setParameter("orderDate",orderDate);
         }
@@ -45,6 +58,6 @@ public class OrderTrendsDaoImpl implements IOrderTrendsDao {
         if(userNameFlag){
             query.setParameter("userName","%"+userName+"%");
         }
-        return query.setFirstResult((currentPage-1)*rows).setMaxResults(rows).getResultList();
+        return query;
     }
 }
