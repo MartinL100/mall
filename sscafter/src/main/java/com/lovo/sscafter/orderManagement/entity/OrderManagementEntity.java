@@ -40,6 +40,17 @@ public class OrderManagementEntity {
     //商品集合
     @OneToMany(mappedBy = "orderObj")
     private List<OrderForGoodsEntity> goodsNum;
+    //商品数量
+    @Column(name="goods_size")
+    private int goodsSize;
+
+    public int getGoodsSize() {
+        return goodsSize;
+    }
+
+    public void setGoodsSize(int goodsSize) {
+        this.goodsSize = goodsSize;
+    }
 
     public String getOrderNum() {
         return orderNum;

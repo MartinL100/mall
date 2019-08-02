@@ -29,4 +29,9 @@ public class OrderManagementServiceImpl implements IOrderManagementService {
     public List<OrderManagementEntity> findTrendsOrderInfo(String orderDate, int orderType, int currentPage, int rows, String userName) {
         return orderTrendsDao.findTrendsOrderInfo(orderDate, orderType, currentPage, rows, userName);
     }
+
+    @Override
+    public int findOrderRows(String orderDate, int orderType, String userName) {
+        return orderTrendsDao.findOrderRows(orderDate,orderType,userName);
+    }
 }

@@ -16,4 +16,13 @@ public interface IOrderTrendsDao {
      */
     public List<OrderManagementEntity> findTrendsOrderInfo(String orderDate,int orderType,
                                                            int currentPage,int rows,String userName);
+
+    /**
+     * 根据信息动态查询
+     * @param orderDate 下单时间
+     * @param orderType 订单类型
+     * @param userName 用户名
+     * @return
+     */
+    public int findOrderRows(String orderDate,int orderType,String userName);
 }
