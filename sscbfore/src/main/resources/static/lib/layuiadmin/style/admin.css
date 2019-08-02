@@ -50,7 +50,7 @@ html{background-color: #f2f2f2; color: #666;}
 .layui-layout-admin .layui-layout-left,
 .layadmin-pagetabs,
 .layui-layout-admin .layui-body,
-.layui-layout-admin .layui-footer{left: 220px;}
+.layui-layout-admin .layui-footer{left: 0px;}
 .layadmin-pagetabs{position: fixed; top: 50px; right: 0; z-index: 999;}
 .layadmin-pagetabs .layui-breadcrumb{padding: 0 15px;}
 .layui-layout-admin .layui-body{top: 90px; bottom: 0;}
