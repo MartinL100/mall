@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 @Service(value="userService")
 public class IUserServiceImpl implements IUserService {
+
     @Autowired
     private IUserDao userDao;
 
