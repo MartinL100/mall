@@ -1,7 +1,5 @@
 package com.lovo.sscbfore.configer;
 
-import io.micrometer.core.instrument.util.JsonUtils;
-import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 /**
@@ -14,13 +12,5 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class BeanConfig {
 
-    /**
-     * 配置hutoolJason工具
-     *
-     * @return hutoolJason工具
-     */
-    @Bean
-    public JsonUtils jsonObject() {
-        return new JsonUtils();
-    }
+
 }
