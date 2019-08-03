@@ -21,7 +21,7 @@
 <div class="layui-fluid">
     <div class="layui-row layui-col-space15">
         <div class="layui-col-md6">
-            <div class="layui-card">
+            <div class="layui-card" style="height: 650px">
                 <div class="layui-card-header" style="text-align: center">
                     <h1>请选择退货商品</h1>
                 </div>
@@ -37,6 +37,10 @@
 
                     <div class="layui-row">
                         <table class="layui-table" id="orderTable"></table>
+                    </div>
+
+                    <div class="layui-row" style="text-align: center">
+                        <input class="layuiadmin-button-btn" type="button" value="添加到退货单">
                     </div>
 
                 </div>
@@ -70,6 +74,7 @@
                             </thead>
                         </table>
                     </div>
+
                 </div>
             </div>
         </div>
@@ -88,10 +93,11 @@
         table.render({
             elem: '#orderTable'
             , url: '/returngoods/req'
-            , page: true
-            , cellMinWidth: 80 //全局定义常规单元格的最小宽度，layui 2.2.1 新增
+            , page: false
+            // toolbar: '<div><input type="checkbox"></div>'
             , cols: [[
-                {field: 'goodsId', title: '商品id', id: true, hide: false}
+                {field: 'opeate', title: '选择', type: 'checkbox', align: 'center'}
+                , {field: 'goodsId', title: '商品id', hide: true}
                 , {field: 'goodsName', title: '商品名称'} //width 支持：数字、百分比和不填写。你还可以通过 minWidth 参数局部定义当前单元格的最小宽度，layui 2.2.1 新增
                 , {field: 'goodsNum', title: '商品数量'}
                 , {field: 'goodsPrice', title: '商品价格', sort: true}
