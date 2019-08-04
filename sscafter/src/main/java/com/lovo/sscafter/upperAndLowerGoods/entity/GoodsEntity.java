@@ -34,7 +34,7 @@ public class GoodsEntity {
    //商品售价
     @Column(name="goodsPrice")
     private  Float goodsPrice;
-   //商品折扣
+   //商品折扣1
     @Column(name="goodsDiscount")
     private  int goodsDiscount;
    //商品数量
