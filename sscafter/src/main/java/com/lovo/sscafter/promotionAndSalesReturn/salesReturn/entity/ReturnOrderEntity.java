@@ -11,6 +11,7 @@ import java.util.List;
 public class ReturnOrderEntity {
     //退货订单号
     @Id
+    @Column(name = "oderId")
     private String returnOrderId;
     //退货订单状态（1：等待退货处理 2：已经收货  3：退款完成）
     private int returnStatus;
