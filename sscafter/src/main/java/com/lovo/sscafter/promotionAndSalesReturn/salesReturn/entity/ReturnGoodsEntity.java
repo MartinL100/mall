@@ -11,6 +11,7 @@ import javax.persistence.*;
 public class ReturnGoodsEntity {
     //商品id
     @Id
+    @Column(name = "goodsId")
     private String goodsId;
     //商品名
     private String goodsName;
