@@ -1,5 +1,6 @@
 package com.lovo.sscafter.orderManagement.service.impl;
 
+import com.lovo.common.entity.OrderDTO;
 import com.lovo.sscafter.orderManagement.dao.IOrderManagementDao;
 import com.lovo.sscafter.orderManagement.dao.IOrderTrendsDao;
 import com.lovo.sscafter.orderManagement.entity.OrderManagementEntity;
@@ -27,11 +28,23 @@ public class OrderManagementServiceImpl implements IOrderManagementService {
 
     @Override
     public List<OrderManagementEntity> findTrendsOrderInfo(String orderDate, int orderType, int currentPage, int rows, String userName) {
-        return orderTrendsDao.findTrendsOrderInfo(orderDate, orderType, currentPage, rows, userName);
+        List<OrderManagementEntity> list = orderTrendsDao.findTrendsOrderInfo(orderDate, orderType, currentPage, rows, userName);
+        return list;
     }
 
     @Override
     public int findOrderRows(String orderDate, int orderType, String userName) {
         return orderTrendsDao.findOrderRows(orderDate,orderType,userName);
+    }
+
+    @Override
+    public void receiveOrder(OrderDTO orderDTO) {
+        OrderManagementEntity orderEntity = new OrderManagementEntity();
+        orderEntity.setOrderNum(orderDTO.getOrderNum());
+        orderEntity.setOrderType("0");
+        orderEntity.setOrderDate(orderDTO.getOrderDate());
+        orderEntity.setOrderMoney(orderDTO.getOrderMoney());
+        orderEntity.setPayMoney(Float.parseFloat(orderDTO.getPayMoney()));
+        orderEntity.setPayMethod(orderDTO.getPayMethod());
     }
 }
