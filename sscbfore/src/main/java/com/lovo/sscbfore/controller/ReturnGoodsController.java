@@ -1,9 +1,16 @@
 package com.lovo.sscbfore.controller;
 
+import cn.hutool.json.JSON;
+import cn.hutool.json.JSONUtil;
+import com.lovo.sscbfore.entity.ReturnGoodsVo;
+import com.lovo.sscbfore.entity.TableDateEntity;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -16,29 +23,46 @@ import java.util.Map;
 @RestController
 public class ReturnGoodsController {
 
+    @RequestMapping("returngoods/{userName}/jump/{orderNum}")
+    public String jumpGoodsList(@PathVariable("userName") String userName, @PathVariable("orderNum") String orderNum) {
+
+        //根据订单号查询订单
+
+        return null;
+    }
 
     @RequestMapping("returngoods/req")
     public String orderGoodsList(HttpServletRequest request) {
 
         Map<String, String[]> map = request.getParameterMap();
-        return "{\n" +
-                "    \"code\": 0,\n" +
-                "    \"msg\": \"\",\n" +
-                "    \"count\": 16,\n" +
-                "    \"data\": [\n" +
-                "    {\n" +
-                "        \"goodsId\": 1,\n" +
-                "        \"goodsName\": \"自行车\",\n" +
-                "        \"goodsNum\": 12,\n" +
-                "        \"goodsPrice\": 123\n" +
-                "    },\n" +
-                "    {\n" +
-                "        \"goodsId\": 2,\n" +
-                "        \"goodsName\": \"遥控车\",\n" +
-                "        \"goodsNum\": 11,\n" +
-                "        \"goodsPrice\": 12.3\n" +
-                "    }\n" +
-                "]\n" +
-                "}";
+        int page = Integer.parseInt(map.get("page")[0]);
+        int limit = Integer.parseInt(map.get("limit")[0]);
+
+        List<ReturnGoodsVo> goodsVoList = new ArrayList<>();
+        for (int i = (page - 1) * limit; i < page * limit; i++) {
+            ReturnGoodsVo goodsVo = new ReturnGoodsVo();
+            goodsVo.setGoodsId(i);
+            goodsVo.setGoodsName("水果" + i);
+            goodsVo.setGoodsNum(100);
+            goodsVo.setGoodsPrice("1");
+            goodsVoList.add(goodsVo);
+        }
+
+        TableDateEntity tableDate = new TableDateEntity<ReturnGoodsVo>();
+        tableDate.setCode(0);
+        tableDate.setData(goodsVoList);
+        tableDate.setCount(20);
+        tableDate.setMsg("");
+
+        JSON json = JSONUtil.parse(tableDate);
+        System.out.println(json.toString());
+        return json.toString();
+    }
+
+    @RequestMapping("returngoods/creat")
+    public String creatOrderGoodsList(HttpServletRequest request) {
+        Map<String, String[]> map = request.getParameterMap();
+        System.out.println(map);
+        return null;
     }
 }
