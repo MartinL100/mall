@@ -5,7 +5,7 @@
 <html>
 <head>
     <meta charset="utf-8">
-    <title>列宽自动分配 - 数据表格</title>
+    <title>订单查询</title>
     <meta name="renderer" content="webkit">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=0">
@@ -23,7 +23,7 @@
             <div class="layui-card layui-form" lay-filter="component-form-element">
 
                 <div class="layui-card-body layui-row layui-col-space10">
-                    <div class="layui-inline" style="position: absolute;top: 18%">
+                    <div class="layui-inline" style="position: absolute;top: 16%">
                         <label class="layui-form-label">日期查询:</label>
                         <div class="layui-input-inline">
                             <input type="text" name="date" id="LAY-component-form-group-date" lay-verify="date" placeholder="yyyy-MM-dd" autocomplete="off" class="layui-input">
@@ -42,17 +42,17 @@
                 </div>
 
             </div>
-            <button class="layui-btn" style="position: absolute;top: 20%;right: 20%">查询</button>
+            <button class="layui-btn" style="position: absolute;top: 14%;right: 20%">查询</button>
 
                 <div class="layui-card-body">
                     <table class="layui-hide" id="test-table-autowidth"></table>
                 </div>
 
             <button class="layui-btn" style="width: 20%;height: 30%">退货</button>
-           <a href="orderDealAll.html"><button class="layui-btn" style="width :20%;height:20%" >查询</button></a>
+           <a href="goodsDeal.html"><button class="layui-btn" style="width :20%;height:20%" >查询</button></a>
            <button class="layui-btn" style="width: 20%;height: 30%">删除</button>
             <button class="layui-btn" style="width: 20%;height: 30%">返回</button>
-                    <span style="position: absolute;top: 22%;left: 35%">日期查询:</span>
+                    <span style="position: absolute;top: 16%;left: 35%">类型查询:</span>
             </div>
         </div>
     </div>
@@ -94,15 +94,16 @@
 
         table.render({
             elem: '#test-table-autowidth'
-            ,url:'/pageDel'
+            ,url:'/orderDel'
             ,page:true
             ,cellMinWidth: 80 //全局定义常规单元格的最小宽度，layui 2.2.1 新增
             ,cols: [[
                {field:'ordernum', title: '订单号'}
                 ,{field:'ordertype', title: '订单类型',align: 'center'}
-                ,{field:'goodssize', title: '订单数量'}
+                ,{field:'goodssize', title: '订单数量', sort: true}
                 ,{field:'orderdate', title: '下单日期', sort: true}
                 ,{field:'paymethod', title: '付款方式'}
+                ,{field:'orderMoney', title: '订单金额'}
             ]]
         });
 
