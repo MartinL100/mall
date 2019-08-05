@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>退款申请</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=0">
+    <link rel="stylesheet" href="../../layuiadmin/layui/css/layui.css" media="all">
+    <link rel="stylesheet" href="../../layuiadmin/style/admin.css" media="all">
+</head>
+
+<body>
+
+<div class="layui-card layadmin-header">
+
+</div>
+
+<div class="layui-fluid">
+    <div class="layui-row layui-col-space15" style="height: 720px">
+
+        <div class="layui-col-md6">
+            <div class="layui-card">
+                <div class="layui-card-header" style="text-align: center">
+                    <h1>请选择退货商品</h1>
+                </div>
+                <div class="layui-card-body">
+                    <div class="layui-row layui-col-space3">
+                        <div class="layui-col-md1">
+                            <label class="layui-form-label">订单编号：</label>
+                        </div>
+                        <div class="layui-col-md1 layui-col-md-offset8">
+                            <label class="layui-form-label">支付方式：</label>
+                        </div>
+                    </div>
+
+                    <div class="layui-row" style="height: 500px">
+                        <table class="layui-table returnTable" id="orderTable" lay-filter="orderTable">
+                            <!--lay-data="{height: 450, cellMinWidth: 80,url:'/returngoods/req',page:true, id:'goodsId'}"-->
+                            <!--lay-filter="demo"-->
+                            <!--<thead>-->
+                            <!--<tr>-->
+                            <!--<th lay-data="{type:'checkbox'}"></th>-->
+                            <!--<th lay-data="{field:'goodsId', sort: true}">商品id</th>-->
+                            <!--<th lay-data="{field:'goodsName'}">商品名称</th>-->
+                            <!--<th lay-data="{field:'goodsNum',sort: true}">商品数量</th>-->
+                            <!--<th lay-data="{field:'goodsPrice'}">商品价格</th>-->
+                            <!--<th lay-data="{align:'center', toolbar: '#barDemo'}">操作</th>-->
+                            <!--</tr>-->
+                            <!--</thead>-->
+                        </table>
+                    </div>
+
+                    <div class="layui-row orderTable" style="text-align: center">
+                        <button class="layui-btn" data-type="getCheckData">将所选添加到退货单</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="layui-col-md6 ">
+            <div class="layui-card">
+                <div class="layui-card-header" style="text-align: center">
+                    <h1>退货单预览</h1>
+                    <p>点击商品数量可以更改数量</p>
+                </div>
+
+                <div class="layui-card-body">
+                    <div class="layui-row layui-col-space3">
+                        <div class="layui-col-md1">
+                            <label class="layui-form-label">订单编号：</label>
+                        </div>
+                        <div class="layui-col-md1 layui-col-md-offset8">
+                            <label class="layui-form-label">支付方式：</label>
+                        </div>
+                    </div>
+
+                    <div class="layui-row" style="height: 500px">
+                        <table class="layui-table" id="returnTable" lay-filter="returnTable"></table>
+                    </div>
+
+                    <div class="layui-row returnTable" style="text-align: center">
+                        <button class="layui-btn" data-type="submit">退货单确认无误，我要退货</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script type="text/html" id="barDemo">
+    <a class="layui-btn layui-btn-xs" lay-event="del">删除</a>
+</script>
+
+<script src="../../layuiadmin/layui/layui.js"></script>
+
+<script>
+    //原退货单列表
+    let oldReturnList = null;
+
+    //老退货单列表
+    let returnList = null;
+
+    layui.config({
+        base: '../../layuiadmin/' //静态资源所在路径
+    }).extend({
+        index: 'lib/index' //主入口模块
+    }).use(['index', 'table', 'element'], function () {
+        let table = layui.table;
+        //监听工具条
+        table.on('tool(returnTable)', function (obj) {
+            let data = obj.data;
+            if (obj.event === 'del') {
+                layer.confirm('真的删除行么', function (index) {
+                    for (let i = 0; i < returnList.length; i++) {
+                        if (data.goodsId == returnList[i].goodsId) {
+                            returnList = returnList.splice(i - 1, 1);
+                        }
+                    }
+                    layer.close(index);
+                    table2(returnList);
+                });
+            }
+        });
+
+        //退货表修改事件
+        table.on('edit(returnTable)', function (obj) {
+            let data = obj.data;
+            for (let i = 0; i < oldReturnList.length; i++) {
+
+                if (oldReturnList[i].goodsId == data.goodsId) {
+                    if (oldReturnList[i].goodsNum < data.goodsNum) {
+                        returnList[i].goodsNum = oldReturnList[i].goodsNum;
+                        table2(returnList);
+                        layer.msg('修改失败，该货物最多退' + oldReturnList[i].goodsNum + '个');
+                    } else if (data.goodsNum <= 0) {
+                        returnList[i].goodsNum = 1;
+                        table2(returnList);
+                        layer.msg('修改失败，该货物最少退' + 1 + '个');
+                    } else if (0 < data.goodsNum <= oldReturnList[i].goodsNum && /^\d+$/.test(data.goodsNum)) {
+                        returnList[i].goodsNum = parseInt(data.goodsNum);
+                        table2(returnList);
+                        layer.msg('修改成功');
+                    } else if (/^\d+$/.test(data.goodsNum) === false) {
+                        returnList[i].goodsNum = oldReturnList[i].goodsNum;
+                        table2(returnList);
+                        layer.msg('修改失败，请输入一个有效数字');
+                    }
+                }
+            }
+        });
+
+        let $ = layui.$, active = {
+            getCheckData: function () { //获取选中数据
+                table1();
+                table2(null);
+                let checkStatus = table.checkStatus('goodsId')
+                    , data = checkStatus.data;
+                oldReturnList = data;
+                let str = JSON.stringify(oldReturnList);
+                returnList = eval("(" + str + ")");
+                table2(returnList);
+            }
+            , getCheckLength: function () { //获取选中数目
+                let checkStatus = table.checkStatus('goodsId')
+                    , data = checkStatus.data;
+                layer.msg('选中了：' + data.length + ' 个');
+            }
+            , isAll: function () { //验证是否全选
+                let checkStatus = table.checkStatus('goodsId');
+                layer.msg(checkStatus.isAll ? '全选' : '未全选')
+            }
+            , submit: function () {
+                let str = '';
+                for (let i = 0; i < returnList.length; i++) {
+                    str += returnList[i].goodsId + returnList[i].goodsName + returnList[i].goodsNum + "\n";
+                }
+                alert(str)
+            }
+        };
+
+        //layui active 注册
+        $('.layui-btn').on('click', function () {
+            let type = $(this).data('type');
+            active[type] ? active[type].call(this) : '';
+        });
+
+        //初始化加载
+        $.ready(table1(), table2());
+
+        //加载表格1
+        function table1() {
+            table.render({
+                elem: '#orderTable'
+                , url: '/returngoods/req'
+                , id: 'goodsId'
+                , page: false
+                // , cellMinWidth: 80
+                , cols: [[
+                    {field: 'ch', title: '选择', type: 'checkbox'}
+                    , {field: 'goodsId', title: '商品编号', sort: true}
+                    , {field: 'goodsName', title: '商品名称'}
+                    , {field: 'goodsNum', sort: true, title: '商品数量'}
+                    , {field: 'goodsPrice', title: '商品价格'}
+                ]]
+            });
+        }
+
+        //加载表格2
+        function table2(data) {
+            table.render({
+                elem: '#returnTable'
+                , data: data
+                , id: 'returnTable'
+                , page: false
+                // , cellMinWidth: 80
+                , cols: [[
+                    {field: 'goodsId', title: '商品编号', sort: true}
+                    , {field: 'goodsName', title: '商品名称'}
+                    , {field: 'goodsNum', edit: 'text', sort: true, title: '商品数量'}
+                    , {field: 'goodsPrice', title: '商品价格'}
+                    , {align: 'center', toolbar: '#barDemo', title: '操作'}
+                ]]
+            });
+        }
+    });
+
+
+</script>
+
+</body>
+
+</html>
