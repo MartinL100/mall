@@ -2,11 +2,17 @@ package com.lovo.sscbfore.controller;
 
 import cn.hutool.json.JSON;
 import cn.hutool.json.JSONUtil;
+import com.lovo.common.entity.GoodsDTO;
+import com.lovo.common.entity.OrderDTO;
 import com.lovo.sscbfore.entity.ReturnGoodsVo;
 import com.lovo.sscbfore.entity.TableDateEntity;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jms.annotation.JmsListener;
+import org.springframework.jms.core.JmsMessagingTemplate;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.client.RestTemplate;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
@@ -23,12 +29,53 @@ import java.util.Map;
 @RestController
 public class ReturnGoodsController {
 
+    @Autowired
+    private JmsMessagingTemplate jmsMessagingTemplate;
+
+    @Autowired
+    private RestTemplate restTemplate;
+
+    /**
+     * 根据订单号，查询订单信息
+     *
+     * @param userName 用户名
+     * @param orderNum 订单号
+     * @return 订单Json
+     */
     @RequestMapping("returngoods/{userName}/jump/{orderNum}")
     public String jumpGoodsList(@PathVariable("userName") String userName, @PathVariable("orderNum") String orderNum) {
 
         //根据订单号查询订单
+//        String orderStr = restTemplate.getForEntity("http://sscAfter/findGoodsInfo/" + orderNum + "/", String.class).getBody();
+//        JSONObject jsonObject = new JSONObject(orderStr);
+//        return jsonObject.toString();
 
-        return null;
+        List<GoodsDTO> goodsDTOList = new ArrayList<>();
+
+        for (int i = 0; i < 5; i++) {
+            GoodsDTO goods = new GoodsDTO();
+            goods.setGoodsId(i + "");
+            goods.setGoodsName("水果" + i);
+            goods.setGoodsNorms("个");
+            goods.setGoodsPrice(123123f);
+            goods.setGoodsNum(Long.parseLong(i + ""));
+            goods.setGoodsType("123");
+            goods.setGoodsUnit("123123123");
+            goodsDTOList.add(goods);
+        }
+
+        OrderDTO order = new OrderDTO();
+        order.setAddressId("123123123");
+        order.setOrderNum("1ahsdkj123123");
+        order.setOrderDate(System.currentTimeMillis() + "");
+        order.setUserName("che");
+        order.setOrderMoney(123123f);
+        order.setPayMoney(123123 + "");
+        order.setPayMethod("allipay");
+        order.setGoodsDTOList(goodsDTOList);
+
+        JSON json = JSONUtil.parse(order);
+        return json.toString();
     }
 
     @RequestMapping("returngoods/req")
@@ -64,5 +111,15 @@ public class ReturnGoodsController {
         Map<String, String[]> map = request.getParameterMap();
         System.out.println(map);
         return null;
+    }
+
+    @JmsListener(destination = "returnSuccessMQ")
+    public void getReturnSuccessMessage(String message) {
+
+    }
+
+    @JmsListener(destination = "returnFailedMQ")
+    public void getReturnFailedMessage(String message) {
+
     }
 }
