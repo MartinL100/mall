@@ -1,6 +1,5 @@
 <!DOCTYPE html>
-<html>
-
+<html lang="zh">
 <head>
     <meta charset="utf-8">
     <title>退款申请</title>
@@ -37,24 +36,12 @@
                     </div>
 
                     <div class="layui-row" style="height: 500px">
-                        <table class="layui-table returnTable" id="orderTable" lay-filter="orderTable">
-                            <!--lay-data="{height: 450, cellMinWidth: 80,url:'/returngoods/req',page:true, id:'goodsId'}"-->
-                            <!--lay-filter="demo"-->
-                            <!--<thead>-->
-                            <!--<tr>-->
-                            <!--<th lay-data="{type:'checkbox'}"></th>-->
-                            <!--<th lay-data="{field:'goodsId', sort: true}">商品id</th>-->
-                            <!--<th lay-data="{field:'goodsName'}">商品名称</th>-->
-                            <!--<th lay-data="{field:'goodsNum',sort: true}">商品数量</th>-->
-                            <!--<th lay-data="{field:'goodsPrice'}">商品价格</th>-->
-                            <!--<th lay-data="{align:'center', toolbar: '#barDemo'}">操作</th>-->
-                            <!--</tr>-->
-                            <!--</thead>-->
-                        </table>
+                        <table class="layui-table returnTable" id="orderTable" lay-filter="orderTable"></table>
                     </div>
 
                     <div class="layui-row orderTable" style="text-align: center">
                         <button class="layui-btn" data-type="getCheckData">将所选添加到退货单</button>
+                        <button class="layui-btn" data-type="isAll">选择全部</button>
                     </div>
                 </div>
             </div>
@@ -98,10 +85,10 @@
 
 <script>
     //原退货单列表
-    let oldReturnList = null;
+    let oldReturnList = [];
 
     //老退货单列表
-    let returnList = null;
+    let returnList = [];
 
     layui.config({
         base: '../../layuiadmin/' //静态资源所在路径
@@ -109,6 +96,7 @@
         index: 'lib/index' //主入口模块
     }).use(['index', 'table', 'element'], function () {
         let table = layui.table;
+
         //监听工具条
         table.on('tool(returnTable)', function (obj) {
             let data = obj.data;
@@ -116,21 +104,28 @@
                 layer.confirm('真的删除行么', function (index) {
                     for (let i = 0; i < returnList.length; i++) {
                         if (data.goodsId == returnList[i].goodsId) {
-                            returnList = returnList.splice(i - 1, 1);
+                            if (i === 0) {
+                                returnList.splice(0, 1);
+                                oldReturnList.splice(0, 1);
+                            } else {
+                                returnList.splice(i, 1);
+                                oldReturnList.splice(i, 1);
+                            }
                         }
                     }
-                    layer.close(index);
+                    obj.del();
                     table2(returnList);
+                    layer.close(index);
                 });
             }
         });
 
-        //退货表修改事件
+        //监听退货表修改事件
         table.on('edit(returnTable)', function (obj) {
             let data = obj.data;
-            for (let i = 0; i < oldReturnList.length; i++) {
 
-                if (oldReturnList[i].goodsId == data.goodsId) {
+            for (let i = 0; i < oldReturnList.length; i++) {
+                if (oldReturnList[i].goodsId === data.goodsId) {
                     if (oldReturnList[i].goodsNum < data.goodsNum) {
                         returnList[i].goodsNum = oldReturnList[i].goodsNum;
                         table2(returnList);
@@ -148,17 +143,29 @@
                         table2(returnList);
                         layer.msg('修改失败，请输入一个有效数字');
                     }
+                    break;
                 }
+                table2(returnList);
             }
         });
 
         let $ = layui.$, active = {
-            getCheckData: function () { //获取选中数据
+            getCheckData: function () {
                 table1();
-                table2(null);
-                let checkStatus = table.checkStatus('goodsId')
+                let checkStatus = table.checkStatus('orderTable')
                     , data = checkStatus.data;
-                oldReturnList = data;
+                if (oldReturnList != null && oldReturnList.length === 0) {
+                    oldReturnList = data;
+                } else {
+                    $.each(data, function () {
+                        for (let i = 0; i < oldReturnList.length; i++) {
+                            if (this.goodsId == oldReturnList[i].goodsId) {
+                                return;
+                            }
+                        }
+                        oldReturnList.push(this)
+                    });
+                }
                 let str = JSON.stringify(oldReturnList);
                 returnList = eval("(" + str + ")");
                 table2(returnList);
@@ -168,16 +175,34 @@
                     , data = checkStatus.data;
                 layer.msg('选中了：' + data.length + ' 个');
             }
-            , isAll: function () { //验证是否全选
-                let checkStatus = table.checkStatus('goodsId');
-                layer.msg(checkStatus.isAll ? '全选' : '未全选')
+            , isAll: function () {
+                let orderTableDate = table.cache.orderTable;
+                $.each(orderTableDate, function (index, item) {
+                    orderTableDate[index] = table.clearCacheKey(item)
+                });
+
+                if (oldReturnList != null && oldReturnList.length === 0) {
+                    oldReturnList = orderTableDate;
+                } else {
+                    $.each(orderTableDate, function () {
+                        for (let i = 0; i < oldReturnList.length; i++) {
+                            if (this.goodsId == oldReturnList[i].goodsId) {
+                                return;
+                            }
+                        }
+                        oldReturnList.push(this)
+                    });
+                }
+                let str = JSON.stringify(oldReturnList);
+                returnList = eval("(" + str + ")");
+                table2(returnList);
             }
             , submit: function () {
-                let str = '';
-                for (let i = 0; i < returnList.length; i++) {
-                    str += returnList[i].goodsId + returnList[i].goodsName + returnList[i].goodsNum + "\n";
-                }
-                alert(str)
+                let returnListDate = table.cache.returnTable;
+                $.each(returnListDate, function (index, item) {
+                    returnListDate[index] = table.clearCacheKey(item)
+                });
+                alert(JSON.stringify(returnList))
             }
         };
 
@@ -195,8 +220,8 @@
             table.render({
                 elem: '#orderTable'
                 , url: '/returngoods/req'
-                , id: 'goodsId'
-                , page: false
+                , id: 'orderTable'
+                , page: true
                 // , cellMinWidth: 80
                 , cols: [[
                     {field: 'ch', title: '选择', type: 'checkbox'}
@@ -214,7 +239,7 @@
                 elem: '#returnTable'
                 , data: data
                 , id: 'returnTable'
-                , page: false
+                , page: true
                 // , cellMinWidth: 80
                 , cols: [[
                     {field: 'goodsId', title: '商品编号', sort: true}
@@ -225,11 +250,8 @@
                 ]]
             });
         }
-    });
-
-
+    })
+    ;
 </script>
-
 </body>
-
 </html>
