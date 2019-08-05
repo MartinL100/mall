@@ -10,6 +10,12 @@
     <script type="text/javascript" src="/static/easyui/jquery.min.js"></script>
     <script type="text/javascript" src="/static/easyui/jquery.easyui.min.js"></script>
     <script type="text/javascript" src="/static/easyui/jquery.easyui.mobile.js"></script>
+    <style>
+        .datagrid-cell-group{
+    width: 30px !important;
+}
+
+    </style>
 </head>
 <body>
 
@@ -22,18 +28,13 @@
             <option value="AL">衣服</option>
             <option value="AK">食品</option>
         </select>
-    <a href="#" class="easyui-linkbutton"  plain="true" onclick="doSearch()">搜索</a>
+    <a  href="#" class="easyui-linkbutton" data-options="iconCls:'icon-search'" id="bt1">搜索</a>
 
-    <!--<div title="Top Panel" data-options="iconCls:'icon-search',collapsed:false,collapsible:false" style="padding:10px;">-->
-        <!--<input prompt="Enter something here" style="width:300px;height:25px;">-->
 
-    <!--</div>-->
 
 
 
 </div>
-
-
 
 <table id="tt" class="easyui-datagrid"
        url="/page.lovo"
@@ -41,7 +42,7 @@
        rownumbers="false" pagination="true">
     <thead>
     <tr>
-        <td field="studentId"  style="width: 10%" ><input type="checkbox" name="box"></td>
+        <th style="width:200px !important;"><input type="checkbox"/></th>
         <th field="studentId" style="width: 10%" >商品名</th>
         <th field="studentName" style="width: 10%" >商品规格</th>
         <th field="loginName" style="width: 10%"  align="right">进货批次</th>
@@ -49,7 +50,6 @@
         <th field="loginName" style="width: 12%"  align="right">商品数量</th>
         <th field="loginName" style="width: 12%"  align="right">商品折扣率</th>
         <th field="loginName" style="width: 15%"  align="right">是否已经发送促销申请</th>
-
     </tr>
     </thead>
 </table>
