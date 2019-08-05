@@ -3,6 +3,7 @@ package com.lovo.sscafter.goodsStock.entity;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 @Table(name="sys_goods_stock")
@@ -26,7 +27,37 @@ private Long goodsNum;//商品库存
    private long goodsMinNum;//最低库存量
     @Column(name = "tag")
 private  String tag;//是否正在采购
+     @OneToMany(mappedBy = "goods",fetch = FetchType.LAZY)
+    private List<ReturnGoodsEntity>  returnGoodsEntityList;
+    @OneToMany(mappedBy = "goods",fetch = FetchType.LAZY)
+    private List<SupplyEntity> supplyEntityList;
+    @OneToMany(mappedBy = "goods",fetch = FetchType.LAZY)
+    private List<OrderGoodsEntity> orderGoodsEntityList;
 
+
+    public List<ReturnGoodsEntity> getReturnGoodsEntityList() {
+        return returnGoodsEntityList;
+    }
+
+    public void setReturnGoodsEntityList(List<ReturnGoodsEntity> returnGoodsEntityList) {
+        this.returnGoodsEntityList = returnGoodsEntityList;
+    }
+
+    public List<SupplyEntity> getSupplyEntityList() {
+        return supplyEntityList;
+    }
+
+    public void setSupplyEntityList(List<SupplyEntity> supplyEntityList) {
+        this.supplyEntityList = supplyEntityList;
+    }
+
+    public List<OrderGoodsEntity> getOrderGoodsEntityList() {
+        return orderGoodsEntityList;
+    }
+
+    public void setOrderGoodsEntityList(List<OrderGoodsEntity> orderGoodsEntityList) {
+        this.orderGoodsEntityList = orderGoodsEntityList;
+    }
 
     public String getGoodsId() {
         return goodsId;
