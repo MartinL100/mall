@@ -5,6 +5,8 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.lovo.common.entity.GoodsDTO;
 import com.lovo.common.entity.OrderDTO;
+import com.lovo.sscbfore.util.DealErroInfos;
+import com.lovo.sscbfore.util.UrlUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -13,6 +15,7 @@ import org.springframework.web.client.RestTemplate;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -38,12 +41,12 @@ public class MakeDelController {
         goodsDTO.setGoodsUnit("支");
         GoodsDTO goodsDTO2 = new GoodsDTO();
         goodsDTO2.setGoodsId("zzzzz");
-        goodsDTO2.setGoodsName("牙刷");
+        goodsDTO2.setGoodsName("毛巾");
         goodsDTO2.setGoodsNorms("大号");
         goodsDTO2.setGoodsNum(95l);
         goodsDTO2.setGoodsPrice(45f);
         goodsDTO2.setGoodsType("生活用品");
-        goodsDTO2.setGoodsUnit("支");
+        goodsDTO2.setGoodsUnit("条");
         goodsDTOList.add(goodsDTO);
         goodsDTOList.add(goodsDTO2);
         String goodInfo="";
@@ -58,31 +61,61 @@ public class MakeDelController {
         return  goodInfo;
     }
 
+    /**
+     * 处理交易
+     * @param OrderInfo 订单信息
+     * @param GoodsInfo 商品集合信息
+     * @return 交易结果
+     * @throws IOException json转换异常
+     */
     @RequestMapping("makeDel")
     public String makeDel(String OrderInfo,String GoodsInfo) throws IOException {
         String errorInfo = "";
         OrderDTO orderDTO= objectMapper.readValue(OrderInfo, OrderDTO.class);
         List<GoodsDTO> goodsDTOS= objectMapper.readValue(GoodsInfo, new TypeReference<List<GoodsDTO>>() {});
-        //模拟从session中获取用户名
-        String userName="zhaoyun";
-        //获取订单中商品总共有多少种
-        int orderNum = goodsDTOS.size();
         //获取商品集合中所有的商品，封装为map，进行库存验证
         Map<String,Long>map = new HashMap<String,Long>();
         for (GoodsDTO goods:goodsDTOS) {
             map.put(goods.getGoodsId(),goods.getGoodsNum());
         }
-          //Cloud请求进行库存验证
+          //Cloud请求进行第一次库存验证
        String mapInfo= objectMapper.writeValueAsString(map);
-        String url = "http://sscAfter/findGoodsNum/"+mapInfo;
+        String url = UrlUtil.IS_ENOUGH_URL+mapInfo;
 //        errorInfo= restTemplate.getForEntity(url,String.class).getBody();
         //如果存在商品库存不足
+
+//        errorInfo="[\"aaaaa\",\"zzzzz\"]";//此处为为模拟库存不足的情况
+
+
         if(!StringUtils.isEmpty(errorInfo)){
-
+            String errorInfoTemp="";
+            String [] goodsErrorInfos=objectMapper.readValue(errorInfo,new TypeReference<String[]>() {});
+            for (GoodsDTO goodsDTO:goodsDTOS) {
+                for (String info:goodsErrorInfos) {
+                        if (goodsDTO.getGoodsId().equals(info)){
+                            errorInfoTemp+=goodsDTO.getGoodsName()+"  ";
+                        }
+                }
+            }
+            errorInfoTemp+= DealErroInfos.NOT_ENOUGH;
+            return errorInfoTemp;
         }
+        //如果库存充足，则cloud调用生成订单
+                //模拟从session中获取用户名
+        String userName="zhaoyun";
+        orderDTO.setUserName(userName);
+        //生成订单号
+        String orderNum = DealErroInfos.getOrderNum(orderDTO);
+        orderDTO.setOrderNum(orderNum);
+        orderDTO.setOrderDate(new Timestamp(System.currentTimeMillis()).toString());
+        orderDTO.setGoodsDTOList(goodsDTOS);
+        //商品信息json
+        String orderInfo = objectMapper.writeValueAsString(orderDTO);
+        //post提交审核商品
+        errorInfo="{\"payMoney\":\"800\",\"errorInfo\":\"余额不足 \"}";//模拟审核系统返回消息
 
-        System.out.println(orderDTO);
-        System.out.println(goodsDTOS);
+
+
         return  errorInfo;
 
     }
