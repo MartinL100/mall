@@ -29,7 +29,7 @@ public class TableDateEntity<T> {
     /**
      * 要展示的数据
      */
-    private List<T> date;
+    private List<T> data;
 
     public int getCode() {
         return code;
@@ -55,11 +55,11 @@ public class TableDateEntity<T> {
         this.count = count;
     }
 
-    public List<T> getDate() {
-        return date;
+    public List<T> getData() {
+        return data;
     }
 
-    public void setDate(List<T> date) {
-        this.date = date;
+    public void setData(List<T> data) {
+        this.data = data;
     }
 }
