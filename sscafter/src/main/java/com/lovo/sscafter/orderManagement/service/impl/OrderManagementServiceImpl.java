@@ -46,5 +46,6 @@ public class OrderManagementServiceImpl implements IOrderManagementService {
         orderEntity.setOrderMoney(orderDTO.getOrderMoney());
         orderEntity.setPayMoney(Float.parseFloat(orderDTO.getPayMoney()));
         orderEntity.setPayMethod(orderDTO.getPayMethod());
+        orderEntity.setOrderAddress(orderDTO.getAddressId());
     }
 }

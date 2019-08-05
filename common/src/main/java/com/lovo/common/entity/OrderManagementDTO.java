@@ -18,7 +18,7 @@ public class OrderManagementDTO {
     //支付方式
     private String payMethod;
     //下单地址外键
-    private int orderAddress;
+    private String orderAddress;
     //利润
     private float goodsProfit;
     //删除状态
@@ -92,11 +92,11 @@ public class OrderManagementDTO {
         this.payMethod = payMethod;
     }
 
-    public int getOrderAddress() {
+    public String getOrderAddress() {
         return orderAddress;
     }
 
-    public void setOrderAddress(int orderAddress) {
+    public void setOrderAddress(String orderAddress) {
         this.orderAddress = orderAddress;
     }
 
