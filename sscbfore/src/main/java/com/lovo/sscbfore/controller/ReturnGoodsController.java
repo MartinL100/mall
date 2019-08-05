@@ -4,6 +4,7 @@ import cn.hutool.json.JSON;
 import cn.hutool.json.JSONUtil;
 import com.lovo.sscbfore.entity.ReturnGoodsVo;
 import com.lovo.sscbfore.entity.TableDateEntity;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -21,6 +22,14 @@ import java.util.Map;
  */
 @RestController
 public class ReturnGoodsController {
+
+    @RequestMapping("returngoods/{userName}/jump/{orderNum}")
+    public String jumpGoodsList(@PathVariable("userName") String userName, @PathVariable("orderNum") String orderNum) {
+
+        //根据订单号查询订单
+
+        return null;
+    }
 
     @RequestMapping("returngoods/req")
     public String orderGoodsList(HttpServletRequest request) {
@@ -48,6 +57,12 @@ public class ReturnGoodsController {
         JSON json = JSONUtil.parse(tableDate);
         System.out.println(json.toString());
         return json.toString();
+    }
 
+    @RequestMapping("returngoods/creat")
+    public String creatOrderGoodsList(HttpServletRequest request) {
+        Map<String, String[]> map = request.getParameterMap();
+        System.out.println(map);
+        return null;
     }
 }
