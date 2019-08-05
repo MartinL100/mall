@@ -23,7 +23,7 @@
             <div class="layui-card layui-form" lay-filter="component-form-element">
 
                 <div class="layui-card-body layui-row layui-col-space10">
-                    <div class="layui-inline" style="position: absolute;top: 10%">
+                    <div class="layui-inline" style="position: absolute;top: 18%">
                         <label class="layui-form-label">日期查询:</label>
                         <div class="layui-input-inline">
                             <input type="text" name="date" id="LAY-component-form-group-date" lay-verify="date" placeholder="yyyy-MM-dd" autocomplete="off" class="layui-input">
@@ -42,22 +42,23 @@
                 </div>
 
             </div>
-            <button class="layui-btn" style="position: absolute;top: 10%;right: 20%">查询</button>
+            <button class="layui-btn" style="position: absolute;top: 20%;right: 20%">查询</button>
 
                 <div class="layui-card-body">
                     <table class="layui-hide" id="test-table-autowidth"></table>
                 </div>
 
             <button class="layui-btn" style="width: 20%;height: 30%">退货</button>
-           <a href="orderDealAll.html"><button class="layui-btn" style="width :20%;height:30%" >查询</button></a>
+           <a href="orderDealAll.html"><button class="layui-btn" style="width :20%;height:20%" >查询</button></a>
            <button class="layui-btn" style="width: 20%;height: 30%">删除</button>
             <button class="layui-btn" style="width: 20%;height: 30%">返回</button>
-                    <span style="position: absolute;top: 11%;left: 35%">日期查询:</span>
+                    <span style="position: absolute;top: 22%;left: 35%">日期查询:</span>
             </div>
         </div>
     </div>
 </div>
 <script src="../../layuiadmin/layui/layui.js"></script>
+<script src="../../lib/jquery.js"></script>
 <script>
 
     layui.config({
@@ -84,6 +85,7 @@
 
     layui.config({
         base: '../../layuiadmin/' //静态资源所在路径
+
     }).extend({
         index: 'lib/index' //主入口模块
     }).use(['index', 'table'], function(){
@@ -92,12 +94,12 @@
 
         table.render({
             elem: '#test-table-autowidth'
-            ,url: layui.setter.base + '/orderDel'
+            ,url:'/pageDel'
             ,page:true
             ,cellMinWidth: 80 //全局定义常规单元格的最小宽度，layui 2.2.1 新增
             ,cols: [[
                {field:'ordernum', title: '订单号'}
-                ,{field:'ordertype', title: '订单类型'}
+                ,{field:'ordertype', title: '订单类型',align: 'center'}
                 ,{field:'goodssize', title: '订单数量'}
                 ,{field:'orderdate', title: '下单日期', sort: true}
                 ,{field:'paymethod', title: '付款方式'}
@@ -105,10 +107,6 @@
         });
 
     });
-
-
-
-
 
 
 </script>
