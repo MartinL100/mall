@@ -13,13 +13,23 @@ public class OrderDTO {
     /**下单用户名*/
     private String userName;
     /**订单金额*/
-    private String orderMoney;
+    private Float orderMoney;
     /**实付金额*/
     private String payMoney;
     /**支付方式*/
     private String payMethod;
+    /**收货地址id*/
+    private  String addressId;
     /**商品集合*/
     private List<GoodsDTO> goodsDTOList;
+
+    public String getAddressId() {
+        return addressId;
+    }
+
+    public void setAddressId(String addressId) {
+        this.addressId = addressId;
+    }
 
     public String getOrderNum() {
         return orderNum;
@@ -45,11 +55,11 @@ public class OrderDTO {
         this.userName = userName;
     }
 
-    public String getOrderMoney() {
+    public Float getOrderMoney() {
         return orderMoney;
     }
 
-    public void setOrderMoney(String orderMoney) {
+    public void setOrderMoney(Float orderMoney) {
         this.orderMoney = orderMoney;
     }
 
