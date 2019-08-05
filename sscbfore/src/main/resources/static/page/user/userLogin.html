@@ -8,9 +8,9 @@
     <meta name="renderer" content="webkit">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=0">
-    <link rel="stylesheet" href="../../lib/layuiadmin/layui/css/layui.css" media="all">
-    <link rel="stylesheet" href="../../lib/layuiadmin/style/admin.css" media="all">
-    <link rel="stylesheet" href="../../lib/layuiadmin/style/login.css" media="all">
+    <link rel="stylesheet" href="../../layuiadmin/layui/css/layui.css" media="all">
+    <link rel="stylesheet" href="../../layuiadmin/style/admin.css" media="all">
+    <link rel="stylesheet" href="../../layuiadmin/style/login.css" media="all">
 </head>
 <body>
 
@@ -66,10 +66,10 @@
 
 </div>
 
-<script src="../../lib/layuiadmin/layui/layui.js"></script>
+<script src="../../layuiadmin/layui/layui.js"></script>
 <script>
     layui.config({
-        base: '../../lib/layuiadmin/' //静态资源所在路径
+        base: '../../layuiadmin/' //静态资源所在路径
     }).extend({
         index: 'lib/index' //主入口模块
     }).use(['index', 'user'], function(){
@@ -109,14 +109,6 @@
             });
 
         });
-
-
-        //实际使用时记得删除该代码
-        layer.msg('为了方便演示，用户名密码可随意输入', {
-            offset: '15px'
-            ,icon: 1
-        });
-
     });
 </script>
 </body>
