@@ -3,6 +3,7 @@ package com.lovo.sscafter.goodsStock.entity;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 @Table(name="sys_goods_stock")
@@ -26,6 +27,15 @@ private Long goodsNum;//商品库存
    private long goodsMinNum;//最低库存量
     @Column(name = "tag")
 private  String tag;//是否正在采购
+     @OneToMany(mappedBy = "goods",fetch = FetchType.LAZY)
+    private List<ReturnGoodsEntity>  returnGoodsEntityList;
+    @OneToMany(mappedBy = "goods",fetch = FetchType.LAZY)
+    private List<SupplyEntity> supplyEntityList;
+    @OneToMany(mappedBy = "goods",fetch = FetchType.LAZY)
+    private List<OrderGoodsEntity> orderGoodsEntityList;
+
+
+
 
 
     public String getGoodsId() {
