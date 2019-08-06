@@ -39,4 +39,10 @@ public interface IOrderManagementService {
      * @param orderDTO 订单对象
      */
     public void receiveOrder(OrderDTO orderDTO);
+
+    /**
+     * 根据订单号修改订单类型为0
+     * @param orderId
+     */
+    public void updateOrderType(String orderId);
 }
