@@ -35,29 +35,8 @@ private  String tag;//是否正在采购
     private List<OrderGoodsEntity> orderGoodsEntityList;
 
 
-    public List<ReturnGoodsEntity> getReturnGoodsEntityList() {
-        return returnGoodsEntityList;
-    }
 
-    public void setReturnGoodsEntityList(List<ReturnGoodsEntity> returnGoodsEntityList) {
-        this.returnGoodsEntityList = returnGoodsEntityList;
-    }
 
-    public List<SupplyEntity> getSupplyEntityList() {
-        return supplyEntityList;
-    }
-
-    public void setSupplyEntityList(List<SupplyEntity> supplyEntityList) {
-        this.supplyEntityList = supplyEntityList;
-    }
-
-    public List<OrderGoodsEntity> getOrderGoodsEntityList() {
-        return orderGoodsEntityList;
-    }
-
-    public void setOrderGoodsEntityList(List<OrderGoodsEntity> orderGoodsEntityList) {
-        this.orderGoodsEntityList = orderGoodsEntityList;
-    }
 
     public String getGoodsId() {
         return goodsId;
