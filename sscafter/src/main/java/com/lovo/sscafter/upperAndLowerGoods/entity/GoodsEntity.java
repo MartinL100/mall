@@ -8,7 +8,8 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name="sys_goods")
-public class GoodsEntity {
+public  class GoodsEntity {
+
     @Id
     //商品ID
     @Column(name="goodsId",length = 48)
