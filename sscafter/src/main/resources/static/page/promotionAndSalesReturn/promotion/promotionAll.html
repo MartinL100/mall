@@ -34,7 +34,7 @@
     <thead>
 
     <tr>
-        <th field="goodsId" checkbox="true" id="goodsId" ></th>
+        <th field="goodsId" data-toggle="topjui-checkbox" checkbox="true"   ></th>
         <th field="goodsName" style="width: 10%" >商品名</th>
         <th field="goodsNorms" style="width: 10%" >商品规格</th>
         <th field="goodsType" style="width: 10%"  align="right">商品类型</th>
@@ -54,8 +54,8 @@
 <script>
     function doSearch(){
         $('#tt').datagrid('load',{
-            goodsName: $('#goodsName').val(),
-            goodsType:$('#goodsType').val(),
+            // goodsName: $('#goodsName').val(),
+            // goodsType:$('#goodsType').val(),
         });
     }
 
@@ -67,9 +67,18 @@
 
     //ajax提交数据
     function show() {
-        var f=$("checkbox:checked").val();
-        alert(f);
-        $.post("")
+        //获取选中的value
+        var item=$("#tt").datagrid('getSelections');
+        var ids=[];
+        $(item).each(function () {
+            //获取为goodsId的值
+          ids.push(this.goodsId);
+        });
+
+        var json=JSON.stringify( ids );
+        $.post("/promotion/showGoods",{"list":json},function (list) {
+
+        })
     }
 
 </script>

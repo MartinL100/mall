@@ -95,9 +95,9 @@ public class PromotionGoodsDaoImp implements IPromotionGoodsDao {
         List<GoodsEntity> goodsEntitieList=new ArrayList<>();
         String hql="";
         for (String f:listId) {
-            hql="from GoodsEntity where goodsId='"+f+"'  ";
-             GoodsEntity s=(GoodsEntity) getEntityManager().createQuery(hql).getSingleResult();
-            goodsEntitieList.add(s);
+                    hql = "from GoodsEntity where goodsId='" + f + "'  ";
+                    GoodsEntity s = (GoodsEntity) getEntityManager().createQuery(hql).getSingleResult();
+                    goodsEntitieList.add(s);
         }
 
         return goodsEntitieList;

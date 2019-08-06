@@ -1,5 +1,6 @@
 package com.lovo.sscafter.promotionAndSalesReturn.promotion.beginPromotion.controller;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.lovo.sscafter.promotionAndSalesReturn.promotion.beginPromotion.service.IPromotionGoodsService;
 import com.lovo.sscafter.upperAndLowerGoods.entity.GoodsEntity;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -7,6 +8,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import java.io.IOException;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -36,5 +39,24 @@ public class promotionController {
         map.put("page",nowPage);
         map.put("total",pageCount);
         return map;
+    }
+
+    //根据页面传入的id集合查询商品，返回到设置促销页面
+    @RequestMapping("/showGoods")
+    @ResponseBody
+    public Map<String,Object> findRestList(String list){
+        List<String> listString=null;
+        ObjectMapper mapper=new ObjectMapper();
+        try {
+          listString=  (List<String>)mapper.readValue(list,Object.class);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+      List<GoodsEntity> goodsList=  service.findByGoodsId(listString);
+        for (GoodsEntity f:goodsList) {
+            System.out.printf(""+f.getGoodsName());
+        }
+        return null;
     }
 }
