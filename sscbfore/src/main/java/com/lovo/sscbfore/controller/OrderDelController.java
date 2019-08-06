@@ -49,20 +49,20 @@ public class OrderDelController {
         orderDto2.setOrderMoney(40000);
 
         OrderManagementDTO orderDto3=new OrderManagementDTO();
-        orderDto3.setOrderNum("J16820190801");
-        orderDto3.setOrderType("退货");
+        orderDto3.setOrderNum("J16820190401");
+        orderDto3.setOrderType("已完结");
         orderDto3.setGoodsSize(100);
-        orderDto3.setOrderDate("2018-06-01");
-        orderDto3.setPayMethod("银联支付");
-        orderDto3.setOrderMoney(40000);
+        orderDto3.setOrderDate("2018-04-01");
+        orderDto3.setPayMethod("支付宝");
+        orderDto3.setOrderMoney(22000);
 
         OrderManagementDTO orderDto4=new OrderManagementDTO();
-        orderDto4.setOrderNum("J16820190801");
+        orderDto4.setOrderNum("J16820190711");
         orderDto4.setOrderType("退货");
-        orderDto4.setGoodsSize(100);
-        orderDto4.setOrderDate("2018-06-01");
+        orderDto4.setGoodsSize(99);
+        orderDto4.setOrderDate("2018-07-11");
         orderDto4.setPayMethod("银联支付");
-        orderDto4.setOrderMoney(40000);
+        orderDto4.setOrderMoney(38000);
 
         orderManagementDTOlist.add(orderDto);
         orderManagementDTOlist.add(orderDto1);
