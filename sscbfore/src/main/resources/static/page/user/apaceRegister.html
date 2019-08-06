@@ -12,6 +12,7 @@
     <link rel="stylesheet" href="../../layuiadmin/style/admin.css" media="all">
     <link rel="stylesheet" href="../../layuiadmin/style/login.css" media="all">
     <link rel="stylesheet" href="../../layuiadmin/layui/css/layui.css" media="all">
+    <script type="text/javascript" src="../../lib/jquery.js"></script>
 </head>
 <body>
 
@@ -25,7 +26,7 @@
         <div class="layadmin-user-login-box layadmin-user-login-body layui-form">
             <div class="layui-form-item">
                 <label class="layadmin-user-login-icon layui-icon layui-icon-username" for="LAY-user-login-nickname"></label>
-                <input type="text" name="nickname" id="LAY-user-login-nickname" lay-verify="nickname" placeholder="用户名" class="layui-input">
+                <input type="text" name="nickname" id="LAY-user-login-nickname" lay-verify="nickname" placeholder="用户名" class="layui-input" onblur="findUserName()">
             </div>
             <div class="layui-form-item">
                 <label class="layadmin-user-login-icon layui-icon layui-icon-username" for="LAY-user-login-nickname"></label>
@@ -33,7 +34,7 @@
             </div>
             <div class="layui-form-item">
                 <label class="layadmin-user-login-icon layui-icon layui-icon-cellphone" for="LAY-user-login-cellphone"></label>
-                <input type="text" name="cellphone" id="LAY-user-login-cellphone" lay-verify="phone" placeholder="手机号" class="layui-input">
+                <input type="text" name="cellphone" id="LAY-user-login-cellphone" lay-verify="phone" placeholder="手机号" class="layui-input" onblur="checkPhone()">
             </div>
             <div class="layui-form-item">
                 <label class="layadmin-user-login-icon layui-icon layui-icon-password" for="LAY-user-login-password"></label>
@@ -46,15 +47,15 @@
             <div class="layui-card-body layui-row layui-col-space10">
                 <div class="layui-col-md12">
                     <label class="layui-form-label">性别：</label>
-                    <input type="radio" name="sex" value="nan" title="男">
-                    <input type="radio" name="sex" value="nv" title="女" checked>
+                    <input type="radio" name="sex" value="男" title="男">
+                    <input type="radio" name="sex" value="女" title="女" checked>
                 </div>
             </div>
             <div class="layui-form-item">
                 <input type="checkbox" name="agreement" lay-skin="primary" title="同意用户协议" checked>
             </div>
             <div class="layui-form-item">
-                <button class="layui-btn layui-btn-fluid" lay-submit lay-filter="LAY-user-reg-submit">快 速 注 册</button>
+                <button class="layui-btn layui-btn-fluid" lay-submit lay-filter="LAY-user-reg-submit" id="bid">快 速 注 册</button>
             </div>
         </div>
     </div>
@@ -62,6 +63,44 @@
 
 <script src="../../layuiadmin/layui/layui.js"></script>
 <script>
+   function findUserName(){
+        $.post("../../../find",{"userName":$("#LAY-user-login-nickname").val()},function (re) {
+            if(re=="no"){
+                alert("该用户已存在，请登录或者更改用户名")
+            }
+        });
+    };
+    function checkPhone(){
+       if(!(/^1[3456789]\d{9}$/.test($("#LAY-user-login-cellphone").val()))){
+           alert("输入手机号有误")
+       }
+    };
+
+    $("#bid").click(function () {
+       // alert($('input[name="sex"]:checked').val());
+       // alert($('input[name="agreement"]:checked').val());
+        if($('input[name="agreement"]:checked').val()!="on"){
+            alert("请同意用户注册协议")
+        }else if($("#LAY-user-login-password").val()!=$("#LAY-user-login-repass").val()){
+            alert("两次输入密码不一致，请确认")
+        }else if( ""==$("#LAY-user-login-password").val()){
+            alert("密码不能为空")
+        }
+        else {
+            $.post("../../../rapidEnrollment",{"userName":$("#LAY-user-login-nickname").val(),"password":$("#LAY-user-login-password").val()
+            ,"trueName":$("#LAY-user-login-nickname2").val(),"telphone":$("#LAY-user-login-cellphone").val(),"sex":$('input[name="sex"]:checked').val()},
+                function (re) {
+                if(re=="ok"){
+                    alert("注册成功，请登录");
+                    location.href="userLogin.html";
+                }
+            });
+        }
+
+    });
+    
+    
+    
     layui.config({
         base: '../../layuiadmin/' //静态资源所在路径
     }).extend({
@@ -75,37 +114,6 @@
 
         form.render();
 
-        //提交
-        form.on('submit(LAY-user-reg-submit)', function(obj){
-            var field = obj.field;
-
-            //确认密码
-            if(field.password !== field.repass){
-                return layer.msg('两次密码输入不一致');
-            }
-
-            //是否同意用户协议
-            if(!field.agreement){
-                return layer.msg('你必须同意用户协议才能注册');
-            }
-
-            //请求接口
-            admin.req({
-                url: layui.setter.base + 'json/user/reg.js' //实际使用请改成服务端真实接口
-                ,data: field
-                ,done: function(res){
-                    layer.msg('注册成功', {
-                        offset: '15px'
-                        ,icon: 1
-                        ,time: 1000
-                    }, function(){
-                        location.hash = '/user/login'; //跳转到登入页
-                    });
-                }
-            });
-
-            return false;
-        });
     });
 </script>
 </body>

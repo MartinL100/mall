@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>上架的商品</title>
+    <link rel="stylesheet" type="text/css" href="/static/easyui/themes/metro/easyui.css">
+    <link rel="stylesheet" type="text/css" href="/static/easyui/themes/mobile.css">
+    <link rel="stylesheet" type="text/css" href="/static/easyui/themes/icon.css">
+    <script type="text/javascript" src="/static/easyui/jquery.min.js"></script>
+    <script type="text/javascript" src="/static/easyui/jquery.easyui.min.js"></script>
+    <script type="text/javascript" src="/static/easyui/jquery.easyui.mobile.js"></script>
+</head>
+<body>
+
+<div id="tb" style="padding:3px;">
+
+    <span>商品名：</span>
+    <input id="goodsName" style="line-height:26px;border:1px solid #ccc" >
+
+        <select label="类别:" id="goodsType" class="easyui-combobox"  name="state" style="width:200px;" panelHeight="100">
+            <option value="">衣服</option>
+            <option value="">食品</option>
+        </select>
+
+    <a  href="#" class="easyui-linkbutton" data-options="iconCls:'icon-search'" onclick="doSearch()" id="bt1">搜索</a>
+
+</div>
+
+<table id="tt" class="easyui-datagrid"
+       url="/promotion/findAll"
+       title="分页" iconCls="icon-save"
+       rownumbers="false" pagination="true">
+    <thead>
+
+    <tr>
+        <th field="goodsId" checkbox="true" id="goodsId" ></th>
+        <th field="goodsName" style="width: 10%" >商品名</th>
+        <th field="goodsNorms" style="width: 10%" >商品规格</th>
+        <th field="goodsType" style="width: 10%"  align="right">商品类型</th>
+        <th field="goodsPrice" style="width: 10%"  align="right">商品售价</th>
+        <th field="goodsNum" style="width: 12%"  align="right">商品数量</th>
+        <th field="goodsDiscount" style="width: 12%"  align="right">商品折扣率</th>
+        <th field="promotionState" style="width: 15%"  align="right">是否已经发送促销申请</th>
+    </tr>
+    </thead>
+</table>
+
+<div style="margin-left: 47%;margin-top: 5%">
+    <a href="#" class="easyui-linkbutton" style="width: 100px" onclick="show()"  plain="true">促销</a>
+</div>
+
+
+<script>
+    function doSearch(){
+        $('#tt').datagrid('load',{
+            goodsName: $('#goodsName').val(),
+            goodsType:$('#goodsType').val(),
+        });
+    }
+
+    $(document).ready(function () {
+        $('#tt').datagrid('load',{
+        });
+    });
+
+
+    //ajax提交数据
+    function show() {
+        var f=$("checkbox:checked").val();
+        alert(f);
+        $.post("")
+    }
+
+</script>
+</body>
+</html>

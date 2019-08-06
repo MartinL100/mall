@@ -1,9 +1,6 @@
 package com.lovo.sscafter.promotionAndSalesReturn.salesReturn.service;
 
-import com.lovo.sscafter.promotionAndSalesReturn.salesReturn.entity.ReturnGoodsEntity;
 import com.lovo.sscafter.promotionAndSalesReturn.salesReturn.entity.ReturnOrderEntity;
-
-import java.util.List;
 
 /**
  * 退货订单service接口
