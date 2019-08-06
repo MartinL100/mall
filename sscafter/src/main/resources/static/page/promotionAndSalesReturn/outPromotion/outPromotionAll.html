@@ -25,18 +25,14 @@
 <div id="tb" style="padding:3px;">
 
     <span>商品名：</span>
-    <input id="studentId" style="line-height:26px;border:1px solid #ccc" value="0">
+    <input id="goodsName" style="line-height:26px;border:1px solid #ccc" value="0">
 
-    <select label="类别:" class="easyui-combobox"  name="state" style="width:200px;" panelHeight="100">
+    <select label="类别:" class="easyui-combobox"  name="goodsType" style="width:200px;" panelHeight="100">
         <option value="AL">衣服</option>
         <option value="AK">食品</option>
     </select>
     <a href="#" class="easyui-linkbutton"  plain="true" onclick="doSearch()">搜索</a>
 
-    <!--<div title="Top Panel" data-options="iconCls:'icon-search',collapsed:false,collapsible:false" style="padding:10px;">-->
-    <!--<input prompt="Enter something here" style="width:300px;height:25px;">-->
-
-    <!--</div>-->
 
 
 
@@ -45,38 +41,43 @@
 
 
 <table id="tt" class="easyui-datagrid"
-       url="/page.lovo"
+       url="/cancei/outFindAll"
        title="上架的商品" iconCls="icon-save"
        rownumbers="false" pagination="true">
     <thead>
     <tr>
-        <td field="studentId"  style="width: 10%" ><input type="checkbox" name="box"></td>
-        <th field="studentId" style="width: 10%" >商品名</th>
-        <th field="studentName" style="width: 10%" >商品规格</th>
-        <th field="loginName" style="width: 10%"  align="right">进货批次</th>
-        <th field="loginPassword" style="width: 10%"  align="right">商品售价</th>
-        <th field="loginName" style="width: 12%"  align="right">商品数量</th>
-        <th field="loginName" style="width: 12%"  align="right">商品折扣率</th>
-        <th field="loginName" style="width: 30%"  align="right">是否已经发送取消促销申请</th>
+        <th field="goodsId" checkbox="true" id="goodsId" ></th>
+        <th field="goodsName" style="width: 10%" >商品名</th>
+        <th field="goodsNorms" style="width: 10%" >商品规格</th>
+        <th field="goodsType" style="width: 10%"  align="right">商品类型</th>
+        <th field="goodsPrice" style="width: 10%"  align="right">商品售价</th>
+        <th field="goodsNum" style="width: 12%"  align="right">商品数量</th>
+        <th field="goodsDiscount" style="width: 12%"  align="right">商品折扣率</th>
+        <th field="promotionState" style="width: 15%"  align="right">是否已经发送促销申请</th>
 
     </tr>
     </thead>
 </table>
 
 <div style="margin-left: 47%;margin-top: 5%">
-    <a href="#" class="easyui-linkbutton" style="width: 100px"  plain="true" onclick="doSearch()">取消促销</a>
+    <a href="#" class="easyui-linkbutton" style="width: 100px"  plain="true" >取消促销</a>
 </div>
 
 
 <script>
+    //动态查询
     function doSearch(){
         $('#tt').datagrid('load',{
-            studentId: $('#studentId').val()
+            goodsName: $('#studentId').val(),
+            goodsType:$('goodsType:checked').val()
         });
+        var f=goodsType:$('goodsType:checked').val();
+        alert(f)
     }
+
+    //初始化数据
     $(document).ready(function () {
         $('#tt').datagrid('load',{
-            studentId: $('#studentId').val()
         });
     });
 
