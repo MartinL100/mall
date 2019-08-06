@@ -26,7 +26,9 @@
         <option value="AL">全部</option>
         <option value="AL">已审核</option>
         <option value="AK">冻结</option>
-    </select>
+    </select>user
+    <input class="easyui-textbox" label="用户名:" prompt="用户名:" name="userName" prompt="Name" style="width:200px">
+    <a  href="#" class="easyui-linkbutton" data-options="iconCls:'icon-search'" id="bt1">查询</a>
 </div>
 <table id="tt" class="easyui-datagrid"
        url="../page.lovo"
@@ -45,14 +47,14 @@
     </tr>
     </thead>
 </table>
+<p/>
 
 
-
- <div class="easyui-panel" style="padding:10px;" id="test" align="center">
-            <a href="#" class="easyui-linkbutton" data-options="toggle:true,group:'g1'" onclick="confirm1();">冻结</a>
-            <a href="#" class="easyui-linkbutton" data-options="toggle:true,group:'g1'" onclick="confirm2();">解冻</a>
+ 
+            <a style="margin-left: 20%" href="#" class="easyui-linkbutton" data-options="toggle:true,group:'g1'" onclick="confirm1();">冻结</a>
+            <a style="margin-left: 40%" href="#" class="easyui-linkbutton" data-options="toggle:true,group:'g1'" onclick="confirm2();">解冻</a>
             
-        </div>
+        
 
 <script>
 
@@ -72,8 +74,8 @@
     }
     //初始化加载
     $(document).ready(function () {
-        $('#tt').datagrid('load',{
-            studentId: $('#studentId').val()
+        $('#').datagrid('load',{
+            studentId: $('#').val()
         });
     });
 

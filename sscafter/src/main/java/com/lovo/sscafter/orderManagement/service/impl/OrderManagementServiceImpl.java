@@ -1,8 +1,10 @@
 package com.lovo.sscafter.orderManagement.service.impl;
 
+import com.lovo.common.entity.GoodsDTO;
 import com.lovo.common.entity.OrderDTO;
 import com.lovo.sscafter.orderManagement.dao.IOrderManagementDao;
 import com.lovo.sscafter.orderManagement.dao.IOrderTrendsDao;
+import com.lovo.sscafter.orderManagement.entity.OrderForGoodsEntity;
 import com.lovo.sscafter.orderManagement.entity.OrderManagementEntity;
 import com.lovo.sscafter.orderManagement.service.IOrderManagementService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -47,5 +49,12 @@ public class OrderManagementServiceImpl implements IOrderManagementService {
         orderEntity.setPayMoney(Float.parseFloat(orderDTO.getPayMoney()));
         orderEntity.setPayMethod(orderDTO.getPayMethod());
         orderEntity.setOrderAddress(orderDTO.getAddressId());
+        orderEntity.setOrderDelType(0);
+        //利润
+        orderEntity.setGoodsSize(orderDTO.getGoodsDTOList().size());
+
+        for (GoodsDTO goodsDTO:orderDTO.getGoodsDTOList()) {
+            OrderForGoodsEntity ofge = new OrderForGoodsEntity();
+        }
     }
 }
