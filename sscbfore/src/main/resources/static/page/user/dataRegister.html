@@ -19,19 +19,19 @@
         margin: 0 10px 10px 0;
     }
 </style>
-<form action="" method="post" >
+<form action="pageLogin" method="post" enctype="multipart/form-data">
 <div align="center">
     <div class="layui-card-body">
         <div class="layui-upload">
             <div class="layui-upload-list">
-                <img class="layui-upload-img" id="test-upload-normal-img">
+                <img class="layui-upload-img" id="test-upload-normal-img" name="aptitudeImg">
             </div>
             <button type="button" class="layui-btn" id="test-upload-normal">上传资质图片</button>
           <!--  <button type="button" class="layui-btn" id="test-upload-normal">上传资质图片</button> -->
         </div>
         <div class="layui-upload">
             <div class="layui-upload-list">
-                <img class="layui-upload-img" id="test-upload-normal-img2">
+                <img class="layui-upload-img" id="test-upload-normal-img2" name="identityImg">
             </div>
             <button type="button" class="layui-btn" id="test-upload-normal2">上传身份证图片</button>
             <!--  <button type="button" class="layui-btn" id="test-upload-normal">上传资质图片</button> -->
@@ -66,21 +66,7 @@
                     $('#test-upload-normal-img').attr('src', result);//图片链接（base64）
                 });
             }
-            , done: function (res) {
-                //如果上传失败
-                if (res.code > 0) {
-                    return layer.msg('上传失败');
-                }
-                //上传成功
-            }
-            , error: function () {
-                //演示失败状态，并实现重传
-                var demoText = $('#test-upload-demoText');
-                demoText.html('<span style="color: #FF5722;">上传失败</span> <a class="layui-btn layui-btn-mini demo-reload">重试</a>');
-                demoText.find('.demo-reload').on('click', function () {
-                    uploadInst.upload();
-                });
-            }
+
         });
         var uploadInst = upload.render({
             elem: '#test-upload-normal2'
