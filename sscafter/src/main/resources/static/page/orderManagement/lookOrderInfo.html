@@ -83,11 +83,12 @@
 </div>
 <script>
     $("#lookInfo").click(function () {
-
+        $('#fm').form('clear');
+        $('#fm').form('clear');
         var row = $('#tt').datagrid('getSelected');
         alert(row.orderNum)
         $('#dlg').dialog('open').dialog('center').dialog('setTitle','详细信息');
-        $('#fm').form('clear');
+
         $('#info').datagrid({
             url:'/findGoodsAfter?orderNum='+row.orderNum,
             border:false,
