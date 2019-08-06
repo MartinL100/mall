@@ -1,7 +1,7 @@
 package com.lovo.sscbfore.service;
 
-import com.lovo.sscbfore.user.entity.UserEntity;
-import com.lovo.sscbfore.user.entity.UserInfoEntity;
+import com.lovo.sscbfore.user.entity2.UserEntity;
+import com.lovo.sscbfore.user.entity2.UserInfoEntity;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
