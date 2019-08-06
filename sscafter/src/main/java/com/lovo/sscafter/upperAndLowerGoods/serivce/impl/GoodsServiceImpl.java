@@ -34,16 +34,16 @@ public class  GoodsServiceImpl implements IGoodsService {
     }
 
     @Override
-    public void updateStateUpper(String goodsId) {
+    public void updateStateUpper(String  goodsId) {
 
     }
 
-    @Override
+
     public void updateStateLower(String goodsId) {
 
     }
 
-    @Override
+
     public void updateStateBooking(String goodsId) {
 
     }
