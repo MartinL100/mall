@@ -43,7 +43,7 @@ public class OrderManagementServiceImpl implements IOrderManagementService {
     public void receiveOrder(OrderDTO orderDTO) {
         OrderManagementEntity orderEntity = new OrderManagementEntity();
         orderEntity.setOrderNum(orderDTO.getOrderNum());
-        orderEntity.setOrderType("0");
+        orderEntity.setOrderType("1");
         orderEntity.setOrderDate(orderDTO.getOrderDate());
         orderEntity.setOrderMoney(orderDTO.getOrderMoney());
         orderEntity.setPayMoney(Float.parseFloat(orderDTO.getPayMoney()));
@@ -52,9 +52,14 @@ public class OrderManagementServiceImpl implements IOrderManagementService {
         orderEntity.setOrderDelType(0);
         //利润
         orderEntity.setGoodsSize(orderDTO.getGoodsDTOList().size());
-
+        //准备放商品
         for (GoodsDTO goodsDTO:orderDTO.getGoodsDTOList()) {
             OrderForGoodsEntity ofge = new OrderForGoodsEntity();
         }
+    }
+
+    @Override
+    public void updateOrderType(String orderId) {
+        orderManagementDao.updateOrderType(orderId,0);
     }
 }

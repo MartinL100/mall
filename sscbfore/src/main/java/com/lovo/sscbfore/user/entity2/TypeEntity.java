@@ -1,4 +1,4 @@
-package com.lovo.sscbfore.user.entity;
+package com.lovo.sscbfore.user.entity2;
 
 import org.hibernate.annotations.GenericGenerator;
 

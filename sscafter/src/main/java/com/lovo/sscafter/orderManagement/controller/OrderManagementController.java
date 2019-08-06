@@ -73,4 +73,9 @@ public class OrderManagementController {
     public void receiveOrder(@RequestBody OrderDTO orderDTO){
 
     }
+
+    @RequestMapping("updateOrderType/{orderNum}")
+    public void updateOrderType(@PathVariable("orderNum")String orderNum){
+        orderManagementService.updateOrderType(orderNum);
+    }
 }
