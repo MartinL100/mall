@@ -1,6 +1,6 @@
 package com.lovo.sscbfore.service;
 
-import com.lovo.sscbfore.user.entity.UserInfoEntity;
+import com.lovo.sscbfore.user.entity2.UserInfoEntity;
 
 import java.util.List;
 

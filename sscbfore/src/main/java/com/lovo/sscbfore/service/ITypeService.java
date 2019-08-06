@@ -1,6 +1,6 @@
 package com.lovo.sscbfore.service;
 
-import com.lovo.sscbfore.user.entity.TypeEntity;
+import com.lovo.sscbfore.user.entity2.TypeEntity;
 
 import java.util.List;
 
@@ -20,5 +20,11 @@ public interface ITypeService {
      * @return 下拉集合
      */
     List<TypeEntity> findTypesByTypeName(String typeName);
+
+    /**
+     * 添加下拉信息
+     * @param type 下拉实体类
+     */
+    void addType(TypeEntity type);
 
 }

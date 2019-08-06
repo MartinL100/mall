@@ -6,6 +6,7 @@ import com.lovo.common.entity.GoodsDTO;
 import com.lovo.common.entity.OrderDTO;
 import com.lovo.sscbfore.entity.ReturnGoodsVo;
 import com.lovo.sscbfore.entity.TableDateEntity;
+import org.apache.activemq.Message;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jms.annotation.JmsListener;
 import org.springframework.jms.core.JmsMessagingTemplate;
@@ -78,6 +79,11 @@ public class ReturnGoodsController {
         return json.toString();
     }
 
+    /**
+     * 查询该订单的商品（待修改）
+     * @param request 请求
+     * @return 订单的商品集合Json
+     */
     @RequestMapping("returngoods/req")
     public String orderGoodsList(HttpServletRequest request) {
 
@@ -110,12 +116,14 @@ public class ReturnGoodsController {
     public String creatOrderGoodsList(HttpServletRequest request) {
         Map<String, String[]> map = request.getParameterMap();
         System.out.println(map);
-        return null;
+        return "123123";
     }
+
+
 
     @JmsListener(destination = "returnSuccessMQ")
     public void getReturnSuccessMessage(String message) {
-
+        System.out.println(message);
     }
 
     @JmsListener(destination = "returnFailedMQ")
