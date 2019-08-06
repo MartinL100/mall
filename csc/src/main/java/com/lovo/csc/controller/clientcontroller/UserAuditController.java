@@ -49,7 +49,7 @@ public class UserAuditController {
      * @param endTime   结束时间
      * @return
      */
-    @RequestMapping("page.lovo")
+    @RequestMapping("registerAuditPage.lovo")
     public Map<String, Object> page(String tag, int page, int rows, String userState, String startTime, String endTime) {
         Map<String, Object> map = new HashMap<>();
         // List<SysStudent> list= service.getPageListStudent(page,rows,studentId);
@@ -86,10 +86,12 @@ public class UserAuditController {
     //修改保存用户审核信息
     @RequestMapping("updateUserAuditMessage.lovo")
     public String updateUserAuditMessage(SysUserAuditInformationEntity UserAuditInformation, HttpServletRequest request){
-        String auditPerson="";
+        //String auditPerson="";
         String id= null;
         try {
-            id = userAuditService.updateUserAuditMessage(UserAuditInformation,auditPerson);
+            // AuditEntity auditEntity= (AuditEntity) request.getSession().getAttribute("auditObj");
+           // userAuditService.updateUserAuditMessage(UserAuditInformation,auditEntity.getAuditPeople());
+            id = userAuditService.updateUserAuditMessage(UserAuditInformation,"光");
             //从队列中移除相应数据
         } catch (JsonProcessingException e) {
             e.printStackTrace();
