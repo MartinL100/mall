@@ -1,4 +1,4 @@
-package com.lovo.sscbfore.user.entity;
+package com.lovo.sscbfore.user.entity2;
 
 import org.hibernate.annotations.GenericGenerator;
 
@@ -31,7 +31,7 @@ public class UserEntity {
     private String telphone;
     @Column(name="audit_type",length =48)
     /**审核类型*/
-    private String auditType=null;
+    private String auditType="0";
     @Column(name="user_state",length =48)
     /**用户状态*/
     private String userState="0";
