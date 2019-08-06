@@ -13,4 +13,5 @@ public interface IGoodsStockService {
 
     public void saveGoods(GoodsStockEntity goods);
 
+    public void updateGoodsMinNum(long goodsMinNum,String goodsId);
 }
