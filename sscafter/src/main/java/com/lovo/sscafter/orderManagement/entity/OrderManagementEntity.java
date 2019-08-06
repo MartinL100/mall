@@ -30,7 +30,7 @@ public class OrderManagementEntity {
     private String payMethod;
     //下单地址外键
     @Column(name="order_address")
-    private int orderAddress;
+    private String orderAddress;
     //利润
     @Column(name="goods_profit",columnDefinition = "double")
     private float goodsProfit;
@@ -38,7 +38,7 @@ public class OrderManagementEntity {
     @Column(name="order_delType")
     private int orderDelType;
     //商品集合
-    @OneToMany(mappedBy = "orderObj")
+    @OneToMany(mappedBy = "orderObj",fetch = javax.persistence.FetchType.LAZY)
     private List<OrderForGoodsEntity> goodsNum;
     //商品数量
     @Column(name="goods_size")
@@ -108,11 +108,11 @@ public class OrderManagementEntity {
         this.payMethod = payMethod;
     }
 
-    public int getOrderAddress() {
+    public String getOrderAddress() {
         return orderAddress;
     }
 
-    public void setOrderAddress(int orderAddress) {
+    public void setOrderAddress(String orderAddress) {
         this.orderAddress = orderAddress;
     }
 
@@ -124,13 +124,6 @@ public class OrderManagementEntity {
         this.goodsProfit = goodsProfit;
     }
 
-    public List<OrderForGoodsEntity> getGoodsNum() {
-        return goodsNum;
-    }
-
-    public void setGoodsNum(List<OrderForGoodsEntity> goodsNum) {
-        this.goodsNum = goodsNum;
-    }
 
     public int getOrderDelType() {
         return orderDelType;

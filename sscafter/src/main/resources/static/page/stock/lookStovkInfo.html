@@ -23,32 +23,32 @@
 
 <div style="margin-bottom:10px">
     <select label="类型：" class="easyui-combobox" name="state" style="width:160px" panelHeight="100">
+        <option value="">请选择一个商品类型</option>
         <option value="水果">水果</option>
         <option value="电器">电器</option>
     </select>
-    <input class="easyui-textbox" label="商品名称:" prompt="商品名称:" name="goodsName" prompt="goodsName" style="width:200px">
+    <input class="easyui-textbox" label="商品名称:" id="text1" prompt="商品名称:" name="goodsName" prompt="goodsName" style="width:200px">
    <a  href="#" class="easyui-linkbutton" data-options="iconCls:'icon-search'" id="bt1">查询</a>
 </div>
 
 <table id="tt" class="easyui-datagrid"
-       url="/showStock.lovo"
+       url="/goodsStock"
        iconCls="icon-save"
-       rownumbers="true" pagination="true"  singleSelect="true">
+       rownumbers="true" pagination="true"  singleSelect="false">
     <thead>
-
     <tr>
-        <th field="studentId" width="10%" align="center">商品名</th>
-        <th field="studentName" width="10%" align="center">商品类型</th>
-        <th field="loginName" width="10%" align="center">商品规格</th>
-        <th field="loginPassword" width="10%" align="center">单位</th>
-        <th field="loginPassword" width="10%" align="center">库存数量</th>
-        <th field="loginPassword" width="10%" align="center">最低库存</th>
-        <th field="loginPassword" width="10%" align="center">是否正在采购</th>
+        <th field="goodsId" checkbox="true" id="goodsId"></th>
+        <th field="goodsName" width="10%" align="center">商品名</th>
+        <th field="goodsType" width="10%" align="center">商品类型</th>
+        <th field="goodsNorms" width="10%" align="center">商品规格</th>
+        <th field="goodsUnit" width="10%" align="center">单位</th>
+        <th field="goodsNum" width="10%" align="center">库存数量</th>
+        <th field="goodsMinNum" width="10%" align="center">最低库存</th>
+        <th field="tag" width="10%" align="center">是否正在采购</th>
     </tr>
     </thead>
-
-
 </table></p>
+
 
 <a style="margin-left: 10%" href="#" class="easyui-linkbutton" id="bt2">发起采购</a>
 <a style="margin-left: 10%" href="#" class="easyui-linkbutton"  id="bt3">修改最低库存</a>
@@ -119,6 +119,22 @@
 
 
 <script>
+//初始化加载表格
+$(document).ready(function () {
+    $('#tt').datagrid('load',{
+       // goodsType:$(":selected").val(),
+       // goodsName:$("#text1").val()
+
+    });
+});
+$("#bt1").click(function () {
+    $('#tt').datagrid('load',{
+        goodsType:$(":selected").val(),
+        goodsName:$("#text1").val()
+
+    });
+})
+
 $("#bt2").click(function () {
     $('#dlg').dialog('open').dialog('center').dialog('setTitle','发起采购信息');
     $('#fm').form('clear');

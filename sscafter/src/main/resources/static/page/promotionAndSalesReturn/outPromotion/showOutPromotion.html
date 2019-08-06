@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>你要取消促销的商品为:</title>
+    <link rel="stylesheet" type="text/css" href="/static/easyui/themes/metro/easyui.css">
+    <link rel="stylesheet" type="text/css" href="/static/easyui/themes/mobile.css">
+    <link rel="stylesheet" type="text/css" href="/static/easyui/themes/icon.css">
+    <script type="text/javascript" src="/static/easyui/jquery.min.js"></script>
+    <script type="text/javascript" src="/static/easyui/jquery.easyui.min.js"></script>
+    <script type="text/javascript" src="/static/easyui/jquery.easyui.mobile.js"></script>
+</head>
+<body>
+
+
+
+
+
+<table id="tt" class="easyui-datagrid"
+       url="/page.lovo"
+       title="你要促销的商品有：" iconCls="icon-save"
+       rownumbers="false" pagination="true">
+    <thead>
+    <tr>
+        <th field="studentId" style="width: 10%" >商品名</th>
+        <th field="studentName" style="width: 10%" >商品规格</th>
+        <th field="loginName" style="width: 10%"  align="right">进货批次</th>
+        <th field="loginPassword" style="width: 10%"  align="right">商品售价</th>
+        <th field="loginName" style="width: 12%"  align="right">商品数量</th>
+
+    </tr>
+    </thead>
+</table>
+
+<div style="margin-top: 2%;">
+    <div style="margin-bottom:10px;margin-left: 40%;">
+        <input class="easyui-numberbox" prompt="1-100"  label="折扣率:"  style="width:150px">
+    </div>
+
+    <div style="margin-left: 46%;">
+        <a href="javascript:void(0)" class="easyui-linkbutton" onclick="$('#w').window('open')">提交</a>
+    </div>
+
+
+    <!--<div style="margin:20px 0;">-->
+    <!--<a href="javascript:void(0)" class="easyui-linkbutton" onclick="$('#w').window('open')">Open</a>-->
+
+    <!--</div>-->
+    <div id="w" class="easyui-window" title="Modal Window" data-options="modal:true,closed:true,iconCls:'icon-save'" style="width:500px;height:200px;padding:10px;">
+        <div style="width: 100%;height: 50%">
+        <span >申请已提交，等待审核中</span>
+        </div>
+        <input type="button" id="outId" value="返回主页" style="margin-left: 43%;margin-top: 5%">
+    </div>
+
+
+</div>
+
+
+<script>
+    function doSearch(){
+        $('#tt').datagrid('load',{
+            studentId: $('#studentId').val()
+        });
+    }
+    $(document).ready(function () {
+        $('#tt').datagrid('load',{
+            studentId: $('#studentId').val()
+        });
+    });
+
+    //模态框按钮事件
+    $("#outId").click(function () {
+        location.href="outPromotionAll.html";
+    })
+
+</script>
+</body>
+</html>

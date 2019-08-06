@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>用户信息页面</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=0">
+    <link rel="stylesheet" href="../../layuiadmin/layui/css/layui.css" media="all">
+    <link rel="stylesheet" href="../../layuiadmin/style/admin.css" media="all">
+    <script type="text/javascript" src="../../lib/jquery.js"></script>
+</head>
+<body>
+<div align="center" style="margin-top: 50px">
+    <div>
+    <span style="margin-left: -100px">用户名：<span id="sid"></span></span><br>
+    </div>
+    <div style="margin-top: 30px">
+    <span style="margin-left: -100px">真实姓名：<span id="sid1"></span></span><br>
+    </div>
+    <div style="margin-top: 30px">
+    <span style="margin-left: -100px;margin-top: 180px">性别：<span id="sid2"></span></span><br>
+    </div>
+    <div style="margin-top: 30px">
+    <span style="margin-left: -100px;margin-top: 20px">电话号码：<span id="sid3"></span></span><br>
+    </div>
+    <div class="layui-card-body" style="margin-top: 30px">
+        <div class="layui-btn-container">
+            <button class="layui-btn" id="ddd">补全资料注册</button><br>
+            <button class="layui-btn">我的收货地址</button>
+            <button class="layui-btn" style="width: 120px">修改信息</button><br>
+            <button class="layui-btn" style="width: 120px">查看订单</button>
+            <button class="layui-btn" style="width: 120px">查看预存款</button><br>
+            <button class="layui-btn" style="width: 120px">请求解冻</button>
+            <button class="layui-btn" style="width: 120px">返回</button>
+        </div>
+    </div>
+</div>
+
+<script src="../../layuiadmin/layui/layui.js"></script>
+<script>
+    layui.config({
+        base: '../../layuiadmin/' //静态资源所在路径
+    }).extend({
+        index: 'lib/index' //主入口模块
+    }).use(['index']);
+
+    $("#ddd").click(function () {
+        $("#sid").text("aaaaaa")
+    });
+</script>
+</body>
+</html>

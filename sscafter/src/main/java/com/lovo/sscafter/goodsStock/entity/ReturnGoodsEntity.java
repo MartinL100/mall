@@ -14,7 +14,33 @@ public class ReturnGoodsEntity {
     private String returnGoodsId;
     @Column(name="return_goods_date",length = 48)
     private String returnGoodsDate;
-   @ManyToOne
+    private String returnGoodsCause;
+   @ManyToOne(fetch = FetchType.LAZY)
    @JoinColumn
     private GoodsStockEntity goods;
+
+
+    public String getReturnGoodsId() {
+        return returnGoodsId;
+    }
+
+    public void setReturnGoodsId(String returnGoodsId) {
+        this.returnGoodsId = returnGoodsId;
+    }
+
+    public String getReturnGoodsDate() {
+        return returnGoodsDate;
+    }
+
+    public void setReturnGoodsDate(String returnGoodsDate) {
+        this.returnGoodsDate = returnGoodsDate;
+    }
+
+    public GoodsStockEntity getGoods() {
+        return goods;
+    }
+
+    public void setGoods(GoodsStockEntity goods) {
+        this.goods = goods;
+    }
 }
