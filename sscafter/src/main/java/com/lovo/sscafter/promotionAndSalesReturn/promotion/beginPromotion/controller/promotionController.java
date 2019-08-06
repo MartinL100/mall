@@ -3,12 +3,16 @@ package com.lovo.sscafter.promotionAndSalesReturn.promotion.beginPromotion.contr
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.lovo.sscafter.promotionAndSalesReturn.promotion.beginPromotion.service.IPromotionGoodsService;
 import com.lovo.sscafter.upperAndLowerGoods.entity.GoodsEntity;
+import com.lovo.sscafter.util.StringUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -27,7 +31,7 @@ public class promotionController {
 
     @RequestMapping("/findAll")
     @ResponseBody//只返回数据
-    public Map<String,Object> findAll(String goodsName, String goodsType, int page, int rows, HttpRequest request){
+    public Map<String,Object> findAll(String goodsName, String goodsType, int page, int rows){
         //动态查询总行数
       int pageCount= (int)service.findCount(goodsName,goodsType);
 
@@ -45,7 +49,7 @@ public class promotionController {
     //根据页面传入的id集合查询商品，返回到设置促销页面
     @RequestMapping("/showGoods")
     @ResponseBody
-    public Map<String,Object> findRestList(String list){
+    public Map<String,Object> findRestList(String list, HttpServletRequest request, HttpServletResponse response){
         List<String> listString=null;
         ObjectMapper mapper=new ObjectMapper();
         try {
@@ -56,7 +60,18 @@ public class promotionController {
         }
 
       List<GoodsEntity> goodsList=  service.findByGoodsId(listString);
+        if ( !"".equals(goodsList) && null!=goodsList){
 
+        }
+        request.setAttribute("goodsList",goodsList);
+        try {
+            //请求转发
+            request.getRequestDispatcher("").forward(request,response);
+        } catch (ServletException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         return null;
     }
 }
