@@ -1,5 +1,6 @@
 package com.lovo.sscafter.orderManagement.service;
 
+import com.lovo.sscafter.orderManagement.entity.DTO.ReturnGoodsDTO;
 import com.lovo.sscafter.orderManagement.entity.OrderForGoodsEntity;
 
 import java.util.List;
@@ -20,4 +21,11 @@ public interface IGoodsManagementService {
      * @return 商品总行数
      */
     public int findGoodsRows(String orderNum);
+
+    /**
+     * 修改商品类型,如果是退货中,就修改订单类型为有退货
+     * 如果是退货成功,就修改订单利润
+     * @param goodsDTO
+     */
+    public void updateOrderReturn(ReturnGoodsDTO goodsDTO);
 }
