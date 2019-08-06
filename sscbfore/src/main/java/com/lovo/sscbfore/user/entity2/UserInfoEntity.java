@@ -1,4 +1,4 @@
-package com.lovo.sscbfore.user.entity;
+package com.lovo.sscbfore.user.entity2;
 
 import org.hibernate.annotations.GenericGenerator;
 
@@ -21,7 +21,7 @@ public class UserInfoEntity {
     private String messageDate;
     @Column(name="message_status")
     /**消息状态*/
-    private int messageStatus;
+    private int messageStatus=0;
     @ManyToOne
     @JoinColumn(name="user_name")
     /**用户消息对象*/

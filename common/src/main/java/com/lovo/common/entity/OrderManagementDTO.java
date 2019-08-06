@@ -1,7 +1,7 @@
 package com.lovo.common.entity;
 
 import java.util.List;
-
+//后端订单实体类
 public class OrderManagementDTO {
     //订单编号
     private String orderNum;

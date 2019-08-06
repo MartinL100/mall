@@ -2,7 +2,7 @@ package com.lovo.sscbfore.service.impl;
 
 import com.lovo.sscbfore.dao.IUserMessageDao;
 import com.lovo.sscbfore.service.IUserMessageService;
-import com.lovo.sscbfore.user.entity.UserInfoEntity;
+import com.lovo.sscbfore.user.entity2.UserInfoEntity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

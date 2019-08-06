@@ -1,6 +1,6 @@
 package com.lovo.sscbfore.dao;
 
-import com.lovo.sscbfore.user.entity.TypeEntity;
+import com.lovo.sscbfore.user.entity2.TypeEntity;
 import org.springframework.data.repository.CrudRepository;
 
 import java.util.List;
@@ -21,4 +21,5 @@ public interface ITypeDao extends CrudRepository<TypeEntity, String> {
      * @return 下拉集合
      */
     List<TypeEntity> findAllByTypeName(String TypeName);
+
 }

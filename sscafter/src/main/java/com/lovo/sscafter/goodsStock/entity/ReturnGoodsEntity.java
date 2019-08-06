@@ -15,7 +15,7 @@ public class ReturnGoodsEntity {
     @Column(name="return_goods_date",length = 48)
     private String returnGoodsDate;
     private String returnGoodsCause;
-   @ManyToOne
+   @ManyToOne(fetch = FetchType.LAZY)
    @JoinColumn
     private GoodsStockEntity goods;
 
