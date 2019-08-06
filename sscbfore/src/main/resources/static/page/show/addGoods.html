@@ -1,0 +1,124 @@
+
+
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>列宽自动分配 - 数据表格</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=0">
+    <link rel="stylesheet" href="../../layuiadmin/layui/css/layui.css" media="all">
+    <link rel="stylesheet" href="../../layuiadmin/style/admin.css" media="all">
+    <script type="text/javascript" src="../../lib/jquery.js"></script>
+    
+</head>
+<body>
+<!--头部区域-->
+<div class="layui-card">
+    <div class="layui-card-body">
+
+        <div class="layui-col-md12" style="width: 30%">
+            <input type="text" placeholder="搜索..." autocomplete="off" class="layui-input layui-input-search" id="textId">
+        </div>
+        <div class="layui-card layui-form" >
+
+                <div class="layui-col-md6"style="width: 30%">
+                    <select id="opId" class="layui-input layui-input-search"style="width: 200px;height: 45px">
+                        <option value="">请选择一个城市</option>
+                        <option value="010">北京</option>
+                        <option value="021">上海</option>
+                        <option value="0571">杭州</option>
+                    </select>
+                </div>
+
+            <button class="layui-btn"onclick="findGoods()">查询</button>
+
+        </div>
+    </div>
+</div>
+<!--数据表单的主体-->
+<div class="layui-fluid">
+    <div class="layui-row layui-col-space15">
+        <div class="layui-col-md12">
+            <div class="layui-card">
+                <div class="layui-card-body">
+                    <table class="layui-table"id="test-table-autowidth"lay-filter="test"></table>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+     <!--返回按键-->
+    <div class="layui-card-body">
+        <div class="layui-btn-container">
+            <button class="layui-btn" style=" position: absolute;left: 35%;width: 30%">返回</button>
+
+        </div>
+    </div>
+
+
+
+
+
+
+<script src="../../layuiadmin/layui/layui.js"></script>
+
+<!--表单最后一列的添加按键-->
+<script type="text/html" id="barDemo">
+    <a class="layui-btn layui-btn-xs" lay-event="detail">添加</a>
+</script>
+<script>
+    layui.config({
+        base: '../../layuiadmin/' //静态资源所在路径
+    }).extend({
+        index: 'lib/index' //主入口模块
+    }).use(['index', 'table'], function(){
+        var table = layui.table;
+
+
+
+        table.render({
+            id: 'goodsId'
+            ,elem: '#test-table-autowidth'
+            ,url:'/addGoods'
+            ,page:true
+            ,cellMinWidth: 80 //全局定义常规单元格的最小宽度，layui 2.2.1 新增
+            ,cols: [[
+
+                {field:'goodsId', title: '商品ID', sort: true}
+                ,{field:'goodsName', title: '商品名'} //width 支持：数字、百分比和不填写。你还可以通过 minWidth 参数局部定义当前单元格的最小宽度，layui 2.2.1 新增
+                ,{field:'goodsType', title: '商品类型', sort: true}
+                ,{field:'goodsNorms', title: '商品规格'}
+                ,{field:'goodsUnit', title: '计量单位'}
+                ,{field:'goodsNum', title: '库存', align: 'center'} //单元格内容水平居中
+                ,{field:'goodsBid', title: '进价', sort: true, align: 'right'} //单元格内容水平居中
+                ,{fixed: 'right',  align:'center', toolbar: '#barDemo'}
+            ]]
+        });
+
+        table.on('tool(test)', function(obj){
+            var data = obj.data; //获得当前行数据
+            var layEvent = obj.event; //获得 lay-event 对应的值（也可以是表头的 event 参数对应的值）
+            // var tr = obj.tr; //获得当前行 tr 的DOM对象
+alert(data.goodsName);
+
+        });
+
+    });
+
+
+    <!--获取需要添加的表格数据-->
+function findGoods() {
+    var a=$('#textId').val();
+    alert(a);
+    var b=$('#opId').val();
+    alert(b);
+}
+
+</script>
+</body>
+</html>
