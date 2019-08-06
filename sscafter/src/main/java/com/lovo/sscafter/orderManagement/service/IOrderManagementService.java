@@ -1,5 +1,6 @@
 package com.lovo.sscafter.orderManagement.service;
 
+import com.lovo.common.entity.OrderDTO;
 import com.lovo.sscafter.orderManagement.entity.OrderManagementEntity;
 
 import java.util.List;
@@ -12,7 +13,7 @@ public interface IOrderManagementService {
      */
     public boolean updateOrderDelType(String orderNum);
     /**
-     * 根据条件动态查询订单信息
+     * 根据条件动态查询订单信息，升序排序
      * @param orderDate 下单时间
      * @param orderType 订单类型
      * @param currentPage 当前页面
@@ -21,15 +22,21 @@ public interface IOrderManagementService {
      * @return
      */
     public List<OrderManagementEntity> findTrendsOrderInfo
-            (String orderDate, int orderType, int currentPage,
-             int rows, String userName);
+    (String orderDate, int orderType, int currentPage,
+     int rows, String userName);
 
     /**
-     * 根据信息动态查询
+     * 根据信息动态查询总行数，升序排序
      * @param orderDate 下单时间
      * @param orderType 订单类型
      * @param userName 用户名
      * @return
      */
     public int findOrderRows(String orderDate,int orderType,String userName);
+
+    /**
+     * 接受订单对象,保存到数据库
+     * @param orderDTO 订单对象
+     */
+    public void receiveOrder(OrderDTO orderDTO);
 }

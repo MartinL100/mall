@@ -37,7 +37,7 @@ public class OrderTrendsDaoImpl implements IOrderTrendsDao {
     public Query utilTrendsHql(String hql,String orderDate,int orderType,String userName){
         boolean orderDateFlag =null != orderDate && !"".equals(orderDate) && !"no".equals(orderDate);
         boolean orderTypeFlag = orderType != 3;
-        boolean userNameFlag = null != userName && !"".equals(userName);
+        boolean userNameFlag = null != userName && !"".equals(userName) && !"no".equals(userName);
         if(orderDateFlag){
             hql+="and o.orderDate =:orderDate ";
         }
@@ -47,6 +47,7 @@ public class OrderTrendsDaoImpl implements IOrderTrendsDao {
         if(userNameFlag){
             hql+="and o.userName like :userName";
         }
+        hql+=" order by orderDate";
         Query query=getEntityManager().createQuery(hql);
 
         if(orderDateFlag){

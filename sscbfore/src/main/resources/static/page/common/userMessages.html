@@ -1,0 +1,124 @@
+<html lang="zh">
+<head>
+    <meta charset="utf-8">
+    <title>消息一览</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=0">
+    <link rel="stylesheet" href="../../layuiadmin/layui/css/layui.css" media="all">
+    <link rel="stylesheet" href="../../layuiadmin/style/admin.css" media="all">
+</head>
+
+<body>
+
+<div class="layui-card layadmin-header">
+
+</div>
+
+<div class="layui-fluid">
+    <div class="layui-row layui-col-space15" style="height: 720px">
+
+        <div class="layui-col-md6">
+            <div class="layui-card">
+                <div class="layui-card-header" style="text-align: center">
+                    <h1>消息一览</h1>
+                </div>
+                <div class="layui-card-body">
+                    <div class="layui-row" style="height: 500px">
+                        <table class="layui-table returnTable" id="orderTable" lay-filter="orderTable">
+                            <!--lay-data="{height: 450, cellMinWidth: 80,url:'/returngoods/req',page:true, id:'goodsId'}"-->
+                            <!--lay-filter="demo"-->
+                            <!--<thead>-->
+                            <!--<tr>-->
+                            <!--<th lay-data="{type:'checkbox'}"></th>-->
+                            <!--<th lay-data="{field:'goodsId', sort: true}">商品id</th>-->
+                            <!--<th lay-data="{field:'goodsName'}">商品名称</th>-->
+                            <!--<th lay-data="{field:'goodsNum',sort: true}">商品数量</th>-->
+                            <!--<th lay-data="{field:'goodsPrice'}">商品价格</th>-->
+                            <!--<th lay-data="{align:'center', toolbar: '#barDemo'}">操作</th>-->
+                            <!--</tr>-->
+                            <!--</thead>-->
+                        </table>
+                    </div>
+
+                    <div class="layui-row orderTable" style="text-align: center">
+                        <button class="layui-btn" data-type="getCheckData">返回</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="../../layuiadmin/layui/layui.js"></script>
+
+<script>
+
+
+    layui.config({
+        base: '../../layuiadmin/' //静态资源所在路径
+    }).extend({
+        index: 'lib/index' //主入口模块
+    }).use(['index', 'table', 'element'], function () {
+        let table = layui.table;
+
+        let $ = layui.$, active = {
+            getCheckData: function () { //获取选中数据
+                table1();
+                table2(null);
+                let checkStatus = table.checkStatus('goodsId')
+                    , data = checkStatus.data;
+                oldReturnList = data;
+                let str = JSON.stringify(oldReturnList);
+                returnList = eval("(" + str + ")");
+                table2(returnList);
+            }
+            , getCheckLength: function () { //获取选中数目
+                let checkStatus = table.checkStatus('goodsId')
+                    , data = checkStatus.data;
+                layer.msg('选中了：' + data.length + ' 个');
+            }
+            , isAll: function () { //验证是否全选
+                let checkStatus = table.checkStatus('goodsId');
+                layer.msg(checkStatus.isAll ? '全选' : '未全选')
+            }
+            , submit: function () {
+                let str = '';
+                for (let i = 0; i < returnList.length; i++) {
+                    str += returnList[i].goodsId + returnList[i].goodsName + returnList[i].goodsNum + "\n";
+                }
+                alert(str)
+            }
+        };
+
+        //layui active 注册
+        $('.layui-btn').on('click', function () {
+            let type = $(this).data('type');
+            active[type] ? active[type].call(this) : '';
+        });
+
+        //初始化加载
+        $.ready(table1());
+
+        //加载表格1
+        function table1() {
+            table.render({
+                elem: '#orderTable'
+                , url: '/returngoods/req'
+                , id: 'goodsId'
+                , page: true
+                , cols: [[
+                    {field: 'goodsName', title: '消息正文'}
+                    , {field: 'goodsNum', sort: true, title: '时间'}
+                ]]
+            });
+        }
+    });
+
+
+</script>
+
+</body>
+
+</html>
