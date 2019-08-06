@@ -1,7 +1,7 @@
 package com.lovo.common.entity;
 
 
-
+//后端商品实体类
 public class OrderForGoodsDTO {
     //商品id
     private String goodsId;
@@ -19,6 +19,8 @@ public class OrderForGoodsDTO {
     private String goodsUnit;
     //商品状态  0就是正常,1就是退货中,2就是已退货
     private int goodsStatus;
+    //库存商品外键
+    private String stockGoodsId;
     //订单对象
     private OrderManagementDTO orderObj;
 
@@ -92,5 +94,13 @@ public class OrderForGoodsDTO {
 
     public void setOrderObj(OrderManagementDTO orderObj) {
         this.orderObj = orderObj;
+    }
+
+    public String getStockGoodsId() {
+        return stockGoodsId;
+    }
+
+    public void setStockGoodsId(String stockGoodsId) {
+        this.stockGoodsId = stockGoodsId;
     }
 }
