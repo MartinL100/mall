@@ -1,21 +1,36 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-    <title>Insert title here</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>注册页面</title>
+    <link rel="stylesheet" type="text/css" href="../../easyui/themes/metro/easyui.css">
+    <link rel="stylesheet" type="text/css" href="../../easyui/themes/mobile.css">
+    <link rel="stylesheet" type="text/css" href="../../easyui/themes/icon.css">
+    <script type="text/javascript" src="../../easyui/jquery.min.js"></script>
+    <script type="text/javascript" src="../../easyui/jquery.easyui.min.js"></script>
+    <script type="text/javascript" src="../../easyui/jquery.easyui.mobile.js"></script>
 </head>
 <body>
 <h1 align="center">注册页面</h1>
 <hr/>
-<form action="register" method="post"  align="center" >
-    用户名:<input name="name" type="text"/><br/>
-    <p></p>
-    密&nbsp;码:<input name="password" type="password"/><br/>
-    <p></p>
-    真实姓名:<input name="code" type="text"><br/>
-    <p></p>
-    <input type="submit" style="width:80px; height:35px "value="注册" />
+<form action="/user/addregister" method="post"  align="center" >
+    <div style="margin-bottom:10px">
+        <input class="easyui-textbox" label="用户名:"  name="username" prompt="userName" style="width:20%">
+    </div>
+    <div style="margin-bottom:10px">
+        <input class="easyui-textbox" label="密码:"  name="password" prompt="password" style="width:20%">
+    </div>
+    <div style="margin-bottom:10px">
+        <input class="easyui-textbox" label="再次确认:"  name="password2" prompt="repassword" style="width:20%">
+    </div>
+    <div style="margin-bottom:10px">
+        <input class="easyui-textbox" label="真实姓名:"  name="realname" prompt="trueName" style="width:20%">
+    </div>
+    <input type="button" style="width:80px; height:35px "value="注册"  />
 </form>
+<script>
 
+</script>
 </body>
 </html>
