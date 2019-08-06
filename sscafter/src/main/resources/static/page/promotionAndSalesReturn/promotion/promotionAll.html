@@ -34,6 +34,7 @@
     <thead>
 
     <tr>
+        <th field="goodsId" checkbox="true" id="goodsId" ></th>
         <th field="goodsName" style="width: 10%" >商品名</th>
         <th field="goodsNorms" style="width: 10%" >商品规格</th>
         <th field="goodsType" style="width: 10%"  align="right">商品类型</th>
@@ -46,7 +47,7 @@
 </table>
 
 <div style="margin-left: 47%;margin-top: 5%">
-    <a href="#" class="easyui-linkbutton" style="width: 100px"  plain="true">促销</a>
+    <a href="#" class="easyui-linkbutton" style="width: 100px" onclick="show()"  plain="true">促销</a>
 </div>
 
 
@@ -60,11 +61,16 @@
 
     $(document).ready(function () {
         $('#tt').datagrid('load',{
-            goodsName: $('#goodsName').val(),
-            goodsType: $('#goodsType').val()
         });
-
     });
+
+
+    //ajax提交数据
+    function show() {
+        var f=$("checkbox:checked").val();
+        alert(f);
+        $.post("")
+    }
 
 </script>
 </body>

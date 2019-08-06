@@ -37,7 +37,13 @@ public class OrderForGoodsEntity {
     //订单对象
     @ManyToOne()
     @JoinColumn(name = "order_num")
-    private OrderManagementEntity orderObj;
+    private OrderManagementEntity orderObj;   private float orderProfit;
+    //库存商品外键
+    @Column(name="stock_goodsId",length = 48)
+    private String stockGoodsId;
+
+    //商品利润
+    @Column(name="order_profit",columnDefinition = "double")
 
     public String getGoodsId() {
         return goodsId;
