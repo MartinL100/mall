@@ -2,14 +2,16 @@ package com.lovo.sscafter.customerRetention.controller;
 
 import com.lovo.sscafter.customerRetention.Entity.UserEntity;
 import com.lovo.sscafter.customerRetention.dao.IUserDao;
+import org.apache.http.HttpRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
 
 @Controller
-@RequestMapping("user/*")
 public class loginController {
 
     @Autowired
@@ -22,17 +24,9 @@ public class loginController {
         //return "redirect:/index";
     }
 
-    //注册页面
-    @RequestMapping("/register")
-    public String register(){
-        return "../static/page/loginAndRegister/register.html";
-    }
 
-    //登录页面
-    @RequestMapping("/login")
-    public String login(){
-        return "../static/page/loginAndRegister/login.html";
-    }
+
+
 
     //注册方法
     @RequestMapping("/addregister")
@@ -54,18 +48,17 @@ public class loginController {
     }
 
     //登录方法
-    @RequestMapping("/addlogin")
-    public String login(HttpServletRequest request){
-        String username = request.getParameter("username");
-        String password = request.getParameter("password");
-        UserEntity userEntity = userDao.findByUserName1AAndPassword1(username,password);
-        String str = "";
-        if (userEntity !=null){
-            return  "../static/page/loginAndRegister/index.html";
-        }else {
-            return "../static/page/loginAndRegister/login.html";
-        }
+    @RequestMapping("addlogin/{username}/{password}")
+    @ResponseBody
+    public String login(@PathVariable("username")String username,
+                        @PathVariable("password")String password, HttpServletRequest request){
 
+        UserEntity userEntity = userDao.findByUserName1AAndPassword1(username,password);
+        if(null != userEntity){
+            request.getSession().setAttribute("userName",userEntity);
+            return "{'info':'true'}";
+        }
+        return "{'info':'false'}";
     }
 
 }
