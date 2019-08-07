@@ -1,5 +1,6 @@
 package com.lovo.sscbfore.user.entity2;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
@@ -8,14 +9,14 @@ import java.util.List;
 @Entity
 @Table(name="sys_user")
 public class UserEntity {
-    @Id
     @GenericGenerator(name = "userUuid", strategy = "uuid")
     @GeneratedValue(generator = "userUuid")
     @Column(name="user_id",length = 32)
     /**用户ID*/
     private String userId;
-    @Column(name="user_name",length =48,unique=true)
     /**用户名*/
+    @Column(name="user_name",length =48,unique=true)
+    @Id
     private String userName;
     @Column(name="user_password",length =48)
     /**用户密码*/
@@ -37,25 +38,48 @@ public class UserEntity {
     private String userState="0";
     @Column(name="user_grade",length =48)
     /**用户等级*/
-    private String userGrade=null;
+    private String userGrade="";
     @Column(name="administrator",length =48)
     /**管理员标志*/
     private String administrator="0";
     @Column(name="audit_time",length =48)
     /**请求审核时间*/
-    private String auditTime=null;
+    private String auditTime="";
     @Column(name="audit_opinion",length =48)
     /**审核意见*/
-    private String auditOpinion=null;
+    private String auditOpinion="";
     @Column(name="apply_reason",length =48)
     /**申请原因*/
-    private String applyReason=null;
+    private String applyReason="";
     @OneToMany(mappedBy = "userSite")
     /**用户地址集合*/
+    @JsonIgnore
     private List<SiteEntity> userSiteList;
-    @OneToMany(mappedBy ="userInfo")
+
     /**用户消息集合*/
+    @JsonIgnore
+    @OneToMany(mappedBy ="userInfo")
     private List<UserInfoEntity> userInfoList;
+
+    public UserEntity() {
+    }
+
+    public UserEntity(String userName, String password, String trueName, String sex, String telphone, String auditType, String userState, String userGrade, String administrator, String auditTime, String auditOpinion, String applyReason, List<SiteEntity> userSiteList, List<UserInfoEntity> userInfoList) {
+        this.userName = userName;
+        this.password = password;
+        this.trueName = trueName;
+        this.sex = sex;
+        this.telphone = telphone;
+        this.auditType = auditType;
+        this.userState = userState;
+        this.userGrade = userGrade;
+        this.administrator = administrator;
+        this.auditTime = auditTime;
+        this.auditOpinion = auditOpinion;
+        this.applyReason = applyReason;
+        this.userSiteList = userSiteList;
+        this.userInfoList = userInfoList;
+    }
 
     public String getAuditOpinion() {
         return auditOpinion;

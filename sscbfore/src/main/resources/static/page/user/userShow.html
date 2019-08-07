@@ -9,7 +9,7 @@
           content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=0">
     <link rel="stylesheet" href="../../layuiadmin/layui/css/layui.css" media="all">
     <link rel="stylesheet" href="../../layuiadmin/style/admin.css" media="all">
-    <script type="text/javascript" src="../../lib/jquery.js"></script>
+    <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
 </head>
 <body>
 
@@ -49,18 +49,28 @@
     <div class="layui-card-body" style="margin-top: 30px">
         <div class="layui-btn-container">
             <button class="layui-btn" id="ddd">补全资料注册</button><br>
-            <button class="layui-btn">我的收货地址</button>
-            <button class="layui-btn" style="width: 120px">修改信息</button><br>
-            <button class="layui-btn" style="width: 120px">查看订单</button>
-            <button class="layui-btn" style="width: 120px">查看预存款</button><br>
-            <button class="layui-btn" style="width: 120px">请求解冻</button>
-            <button class="layui-btn" style="width: 120px">返回</button>
+            <button class="layui-btn" id="aaa">我的收货地址</button>
+            <button class="layui-btn" style="width: 120px" id="bbb">修改信息</button><br>
+            <button class="layui-btn" style="width: 120px" id="ccc">查看订单</button>
+            <button class="layui-btn" style="width: 120px" id="eee">查看预存款</button><br>
+            <button class="layui-btn" style="width: 120px" id="fff">请求解冻</button>
+            <button class="layui-btn" style="width: 120px" id="ggg">返回</button>
         </div>
     </div>
 </div>
 
 <script src="../../layuiadmin/layui/layui.js"></script>
 <script>
+    $(document).ready(function () {
+        $.post("../../../showUser",function (re) {
+            $("#sid").text(re.userName);
+            $("#sid1").text(re.trueName);
+            $("#sid2").text(re.sex);
+            $("#sid3").text(re.telphone);
+        });
+    });
+
+
     layui.config({
         base: '../../layuiadmin/' //静态资源所在路径
     }).extend({
@@ -68,7 +78,8 @@
     }).use(['index']);
 
     $("#ddd").click(function () {
-        $("#sid").text("aaaaaa")
+       // $("#sid").text("aaaaaa")
+        location.href="dataRegister.html";
     });
 </script>
 </body>
