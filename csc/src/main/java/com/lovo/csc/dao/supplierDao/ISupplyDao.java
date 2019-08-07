@@ -15,15 +15,8 @@ public interface ISupplyDao extends CrudRepository<SupplyEntity,String> {
     public SupplyEntity save(SupplyEntity supply);
     /**
      *根据供货订单中间ID供货订单中间表
-     * @param supplyId
      * @return
      */
-    public SupplyEntity findBySupplyId(String supplyId);
-    /**
-     * 查询总行数
-     * @param indentStatus  供货订单中间表状态（待投标、已投标、待采购、已采购）
-     * @return
-     */
-    @Query("select count(supplyId) from  SupplyEntity where indentStatus=?1")
-    public long countAll(String indentStatus);
+    @Query("from  SupplyEntity where indentId.indentId=?1")
+    public List<SupplyEntity> findSupply(String indentId);
 }

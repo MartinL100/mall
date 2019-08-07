@@ -8,4 +8,5 @@ public interface IUserService {
     public void savaUser(UserEntity user);
     public UserEntity findByUserName1AndPassword1(String userName1,String password1);
 
+
 }

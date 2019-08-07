@@ -11,7 +11,8 @@ public class InterceptorConfig  implements WebMvcConfigurer {
     public void addInterceptors(InterceptorRegistry registry) {
         registry.addInterceptor(new StaticInterceptor())
                 .addPathPatterns("/**")//添加拦截路径
-                .excludePathPatterns("/static/**")  ;//排除拦截路径
+                .excludePathPatterns("/static/**")  //排除拦截路径
+                .excludePathPatterns("/src/**")  ;//排除拦截路径
 
 
     }
@@ -20,5 +21,7 @@ public class InterceptorConfig  implements WebMvcConfigurer {
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
         registry.addResourceHandler("/static/**")
                 .addResourceLocations("classpath:/static/");
+        registry.addResourceHandler("/img/**")
+                .addResourceLocations("file:/C:/img/");
     }
 }

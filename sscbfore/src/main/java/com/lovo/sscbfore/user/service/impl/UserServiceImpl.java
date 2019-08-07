@@ -6,6 +6,8 @@ import com.lovo.sscbfore.user.service.IUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service(value = "userService")
 public class UserServiceImpl implements IUserService {
     @Autowired
@@ -36,5 +38,11 @@ public class UserServiceImpl implements IUserService {
     @Override
     public void rapidEnrollment(UserEntity user) {
         userDao.save(user);
+    }
+
+    @Override
+    public List<UserEntity> userList(String userName) {
+       List<UserEntity> list= userDao.userList(userName);
+        return list;
     }
 }

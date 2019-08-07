@@ -20,11 +20,4 @@ public interface ISupplierDao extends CrudRepository<SupplierEntity,String> {
      * @return
      */
     public SupplierEntity findBySupplierId(String supplierId);
-    /**
-     * 查询总行数
-     * @param supplierTag  供应商状态（未审核/已审核）
-     * @return
-     */
-    @Query("select count(supplierId) from  SupplierEntity where supplierTag=?1")
-    public long countAll(String supplierTag);
 }
