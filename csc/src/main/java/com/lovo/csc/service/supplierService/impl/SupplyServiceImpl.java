@@ -22,16 +22,16 @@ public class SupplyServiceImpl implements ISupplyService {
 
     @Override
     public List<SupplyEntity> findSupply(String indentId) {
-        return null;
+        return supplyDao.findSupply(indentId);
     }
 
     @Override
     public List<SupplyEntity> findAll(int page, int rows, String goodsName, String indentStatus) {
-        return null;
+        return baseDao.findAllSupply((page-1)*10,rows,goodsName,indentStatus);
     }
 
     @Override
     public long countAll(String goodsName, String indentStatus) {
-        return 0;
+        return baseDao.countSupply(goodsName,indentStatus);
     }
 }

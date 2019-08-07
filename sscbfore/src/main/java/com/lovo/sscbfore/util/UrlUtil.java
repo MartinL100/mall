@@ -14,8 +14,10 @@ public class UrlUtil {
     public static final String UPDATE_GOODS_NUM_URL="http://sscAfter/updateGoodsNum/1/";
     /**修改订单状态，orderNum 订单编号，restfull*/
     public static final String UPDATE_ORDER_STATUE_URL="http://sscAfter/updateOrderType/";
-    /**存入预存款 {userName} 用户名/{depositMoney存入金额  r estfull*/
-    public static final String SAVE_DEPOSIT_MONEY_URL="http://csc/saveDepositMoney/}";
+    /**存入预存款 {userName} 用户名/{saveMoney存入金额  r estfull*/
+    public static final String SAVE_DEPOSIT_MONEY_URL="http://csc/getDepositObj/";
+    /**{userName}用户名， restfull*/
+    public static final String FIND_DEPOSIT_INFO="http://csc/findDeposit/";
     /**验证用户存款是否充足  {userName}/{allPrice}/{ payMethod}   用户名/总价/支付方式，restfull*/
     public static final String MONEY_IS_ENOUGH = "http://csc/countMoney/";
 }

@@ -10,9 +10,10 @@ layui.config({
     base: '../../layuiadmin/' //静态资源所在路径
 }).extend({
     index: 'lib/index' //主入口模块
-}).use(['index', 'table', 'element', 'laytpl'], function () {
+}).use(['index', 'table', 'element', 'laytpl', 'layer'], function () {
     let table = layui.table;
     let laytpl = layui.laytpl;
+    let layer = layui.layer;
 
     //监听工具条
     table.on('tool(returnTable)', function (obj) {
@@ -130,11 +131,26 @@ layui.config({
 
                 sendStr = '{' + sendData + "}";
                 $.post('/returngoods/creat', {'data': sendStr}, function (res) {
-                    alert(res);
+                    res = eval('(' + res + ')');
+                    if (res.info === 'Success') {
+
+
+                        layer.open({
+                            type: 1
+                            , content: '<h1>退货申请已提交</h1><p>请将退货物品邮寄到XXXX，内附小纸条写上您的用户名，耐心等待退款结果</p>' //这里content是一个普通的String
+                            , area: ['500px', '300px']
+                            , btn: ['我已知晓']
+                            , yes: function (index) {
+                                layer.close(index);
+                            }
+                            , shade: [0.5]
+                        });
+                    }
                 })
             }
         }
     };
+
 
     //layui active 注册
     $('.layui-btn').on('click', function () {

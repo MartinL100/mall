@@ -84,9 +84,11 @@
 <script>
     $("#lookInfo").click(function () {
         $('#fm').form('clear');
-        $('#fm').form('clear');
         var row = $('#tt').datagrid('getSelected');
-        alert(row.orderNum)
+        if(row==null){
+            $.messager.alert('警告窗口', '请选择行！', 'info');
+            return;
+        }
         $('#dlg').dialog('open').dialog('center').dialog('setTitle','详细信息');
 
         $('#info').datagrid({

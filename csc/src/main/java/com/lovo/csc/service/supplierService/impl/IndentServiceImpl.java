@@ -26,12 +26,12 @@ public class IndentServiceImpl implements IIndentService {
     }
 
     @Override
-    public List<IndentEntity> findIndent(int page, int rows, String indentId, Date startDate, Date endDate, String indentStatus) {
+    public List<IndentEntity> findIndent(int page, int rows, String indentId, String startDate, String endDate, String indentStatus) {
         return baseDao.findAllIndent((page-1)*rows,rows,indentId,startDate,endDate,indentStatus);
     }
 
     @Override
-    public long countAll(String indentId, Date startDate, Date endDate, String indentStatus) {
+    public long countAll(String indentId, String startDate, String endDate, String indentStatus) {
         return baseDao.countIndent(indentId,startDate,endDate,indentStatus);
     }
 }

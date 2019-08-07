@@ -42,6 +42,9 @@ public class MyStringUtil {
         return  new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date());
     }
 
+    public  static String getFormMatTime(Date date){
+        return  new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(date);
+    }
     //将字符串转换成数组
     public static  String[] getUserNameArray(String userNameStr){
         return userNameStr.split(",");

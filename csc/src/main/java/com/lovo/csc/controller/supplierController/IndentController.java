@@ -33,7 +33,7 @@ public class IndentController {
      * @return
      */
     @RequestMapping("indentPage.lovo")
-    public Map<String,Object> page(int page, int rows, String indentId, Date startDate, Date endDate, String indentStatus){
+    public Map<String,Object> page(int page, int rows, String indentId, String startDate, String endDate, String indentStatus){
         Map<String,Object> map=new HashMap<>();
         List<IndentEntity> list= indentService.findIndent(page,rows,indentId,startDate,endDate,indentStatus);
         map.put("rows",list);

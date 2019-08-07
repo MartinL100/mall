@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>表单提交</title>
+    <link rel="stylesheet" type="text/css" href="/static/easyui/themes/metro/easyui.css">
+    <link rel="stylesheet" type="text/css" href="/static/easyui/themes/mobile.css">
+    <link rel="stylesheet" type="text/css" href="/static/easyui/themes/icon.css">
+    <script type="text/javascript" src="/static/easyui/jquery.min.js"></script>
+    <script type="text/javascript" src="/static/easyui/jquery.easyui.min.js"></script>
+    <script type="text/javascript" src="/static/easyui/jquery.easyui.mobile.js"></script>
+</head>
+<body>
+
+<div id="toolbar">
+    <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-search" plain="true" onclick="allOrder()">所有订单</a>
+    <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-search" plain="true" onclick="loseOrder()">支付失败</a>
+    <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-search" plain="true" onclick="successOrder()">支付成功</a>
+</div>
+<div  id="tb" style="padding:3px">
+
+        <div style="margin-bottom:10px">
+            <span>用户名称:</span>
+            <input id="userName" style="line-height:26px;border:1px solid #ccc;border-right: 200px" >
+            <span>订单编号:</span>
+            <input id="orderNum" style="line-height:26px;border:1px solid #ccc" >
+        </div>
+        <div style="margin-bottom:10px">
+            <span>开始时间:</span>
+            <input id="startTime" class="easyui-datebox" closeText   style="line-height:26px;border:1px solid #ccc" value="">
+            <span>结束时间:</span>
+            <input id="endTime" class="easyui-datebox" style="line-height:26px;border:1px solid #ccc" >
+
+            <a href="#" class="easyui-linkbutton" plain="true" onclick="doSearch()">搜索</a>
+        </div>
+
+</div>
+
+<table id="tt" class="easyui-datagrid"
+       url="/orderList"
+        iconCls="icon-save"
+       rownumbers="true" pagination="true"  singleSelect="true">
+    <thead>
+    <tr>
+        <th field="orderNum" width="15%">订单编号</th>
+        <th field="orderDate" width="14%">订单时间</th>
+        <th field="userName" width="14%" align="right">用户名称</th>
+        <th field="orderMoney" width="14%" align="right">订单金额</th>
+        <th field="payMoney" width="14%" align="right">实付金额</th>
+        <th field="payMethod" width="14%" align="right">支付方式</th>
+        <th field="tagStr" width="15%" align="right">支付状态</th>
+
+    </tr>
+
+    </thead>
+
+</table>
+
+<div>
+    <a href="#" class="easyui-linkbutton" plain="true" onclick="showInfo()">查看详细信息</a>
+    <!--<input type="submit" value="查看详细信息"></input>-->
+</div>
+
+<!--查看详细信息模态框-->
+
+<div id="dlg" class="easyui-dialog" style="width:800px;height: 600px" data-options="closed:true,modal:true,border:'thin',buttons:'#dlg-buttons'">
+    <form id="fm" method="post" novalidate style="margin:0;padding:20px 50px">
+        <div style="margin-bottom:10px">
+            <input name="orderNum" class="easyui-textbox" required="true" label="订单编号：" style="    width:45%">
+            <input name="orderDate" class="easyui-textbox" required="true" label="订单时间:" style="width:45%">
+        </div>
+        <div style="margin-bottom:10px">
+
+        </div>
+        <div style="margin-bottom:10px">
+            <input name="userName" class="easyui-textbox" required="true" label="用户名称:" style="width:45%">
+            <input name="orderMoney" class="easyui-textbox" required="true" label="订单金额:" style="width:45%">
+        </div>
+        <div style="margin-bottom:10px">
+            <input name="payMethod" class="easyui-textbox" required="true" label="支付方式:" style="width:45%">
+            <input name="tagStr" class="easyui-textbox" required="true" label="状态:" style="width:45%">
+        </div>
+    </form>
+    <div align="center">
+        <table id="bb" class="easyui-datagrid"
+               url="/showOrder"
+               iconCls="icon-save"
+               rownumbers="true" pagination="true"  singleSelect="true">
+            <thead>
+            <tr>
+                <th field="goodsName" width="15%">商品名</th>
+                <th field="goodsNorms" width="14%">商品规格</th>
+                <th field="goodsType" width="14%" align="right">商品类型</th>
+                <th field="goodsPrice" width="14%" align="right">商品售价</th>
+                <th field="goodsNum" width="14%" align="right">商品数量</th>
+                <th field="goodsUnit" width="14%" align="right">商品单位</th>
+                <th field="payMoney" width="15%" align="right">商品金额</th>
+            </tr>
+            </thead>
+        </table>
+
+        <div id="dlg-buttons">
+            <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-cancel" onclick="javascript:$('#dlg').dialog('close')" style="width:90px">取消</a>
+        </div>
+    </div>
+</div>
+<!--模态框结束-->
+
+<script>
+    //查询
+    function doSearch(){
+
+        $('#tt').datagrid('load',{
+            userName: $('#userName').val(),
+            orderNum: $('#orderNum').val(),
+            startTime: $('#startTime').val(),
+             endTime: $('#endTime').val(),
+        });
+    }
+    //初始化加载
+    // $(document).ready(function () {
+    //     $('#tt').datagrid('load',{
+    //
+    //         page:1
+    //     });
+    // });
+    //所有订单
+    function  allOrder() {
+        $('#tt').datagrid('load',{
+            page:1
+        });
+    }
+
+    //支付失败
+    function loseOrder() {
+        var op = $("#tt").datagrid("options");//获取 option设置对象
+
+        op.url = "/tagOrderList";//设置url
+        $("#tt").datagrid("load",{
+            tag:2,
+        });//重新加载
+    }
+    //支付成功
+    function successOrder(){
+        $("#tt").attr(url="/tagOrderList")
+        $('#tt').datagrid('load',{
+            tag:1,
+            page:1
+        });
+    }
+
+
+    //查看详细信息
+    function showInfo(){
+        var row = $('#tt').datagrid('getSelected');
+
+        if (row){
+            $('#dlg').dialog('open').dialog('center').dialog('setTitle','订单信息');
+            $('#fm').form('load',row);
+            // $("#bb").attr(url='/showOrder')
+            // alert(row.orderNum)
+            $('#bb').datagrid('load',{
+                orderNum:row.orderNum
+
+            });
+
+        }
+    }
+
+
+</script>
+</body>
+</html>
