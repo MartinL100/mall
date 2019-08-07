@@ -52,5 +52,4 @@ public class MyMQ {
 //        return new JmsMessagingTemplate(connectionFactory());
 //
 //    }
-
 }

@@ -27,8 +27,8 @@ public interface IBaseDao {
      * @param indentStatus 供货订单状态（待投标/已投标/待采购/采购）
      * @return
      */
-    public List<IndentEntity> findAllIndent(int pageNumber, int pageSize, String indentId, Date startDate, Date endDate, String indentStatus);
-    public long countIndent(String indentId,Date startDate,Date endDate, String indentStatus);
+    public List<IndentEntity> findAllIndent(int pageNumber, int pageSize, String indentId, String startDate, String endDate, String indentStatus);
+    public long countIndent(String indentId,String startDate,String endDate, String indentStatus);
     /**
      * 根据供货订单中间表状态分页查询供货订单中间表信息
      * @param indentStatus  供货订单中间表状态（待投标、已投标、待采购、已采购）
