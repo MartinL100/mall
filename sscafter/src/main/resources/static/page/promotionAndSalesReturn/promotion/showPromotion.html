@@ -23,22 +23,23 @@
        rownumbers="false" pagination="true">
     <thead>
     <tr>
-        <th field="goodsName" style="width: 10%" >商品名</th>
-        <th field="goodsNorms" style="width: 10%" >商品规格</th>
-        <th field="goodsPrice" style="width: 10%"  align="right">商品售价</th>
-        <th field="goodsNum" style="width: 12%"  align="right">商品数量</th>
-
+        <th field="goodsId" data-toggle="topjui-checkbox" checkbox="true"  ></th>
+        <th field="goodsName" style="width: 15%" >商品名</th>
+        <th field="goodsNorms" style="width: 15%" >商品规格</th>
+        <th field="goodsPrice" style="width: 15%"  align="right">商品售价</th>
+        <th field="goodsNum" style="width: 15%"  align="right">商品数量</th>
     </tr>
     </thead>
 </table>
 
 <div style="margin-top: 2%;">
     <div style="margin-bottom:10px;margin-left: 40%;">
-        <input class="easyui-numberbox" prompt="1-100"  label="折扣率:"  style="width:150px">
+        <input class="easyui-numberbox" id="textId" prompt="1-99" label="折扣率:"  style="width:150px">
     </div>
 
     <div style="margin-left: 46%;">
-    <a href="javascript:void(0)" class="easyui-linkbutton" onclick="$('#w').window('open')">提交</a>
+    <a href="javascript:void(0)" class="easyui-linkbutton"  onclick="show()">提交</a>
+        <!--$('#w').window('open')-->
     </div>
 
 
@@ -54,12 +55,8 @@
 
 
 <script>
-    function doSearch(){
-        $('#tt').datagrid('load',{
-            studentId: $('#studentId').val()
-        });
-    }
 
+    //初始化
     $(document).ready(function () {
         $('#tt').datagrid('load',{
         });
@@ -69,7 +66,40 @@
     //模态框按钮事件
     $("#outId").click(function () {
         location.href="promotionAll.html";
-    })
+    });
+
+    //获得用户选中的id，和折扣文本框的值，并提交
+    function show() {
+        //获取选中的value
+        var item=$("#tt").datagrid('getSelections');
+        var ids=[];
+        $(item).each(function () {
+            //获取为goodsId的值
+    ids.push(this.goodsId);
+
+        });
+
+        //获取折扣文本框的值
+       var k= $("#textId").val();
+        if (/[1-9][0-9]{2}/.test(k)){
+            $.messager.alert('警告窗口', '只能输入1-99的数字', 'info', function () {
+            });
+            return;
+        }
+
+        if(ids.length==0){
+            $.messager.alert('警告窗口', '请至少选择一行！', 'info', function () {
+            });
+            return;
+        }
+        //数组转换为json字符串
+        var json=JSON.stringify( ids );
+        $.post("/promotion/discount",{"listId":json,"discount":k},function (info) {
+            if (info=="yes"){
+                $('#w').window('open');
+            }
+        })
+    }
 
 </script>
 </body>
