@@ -3,9 +3,8 @@ package com.lovo.sscafter.promotionAndSalesReturn.promotion.beginPromotion.contr
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.lovo.sscafter.promotionAndSalesReturn.promotion.beginPromotion.service.IPromotionGoodsService;
 import com.lovo.sscafter.upperAndLowerGoods.entity.GoodsEntity;
-import com.lovo.sscafter.util.StringUtil;
+import com.lovo.sscafter.util.ListFinal;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -14,7 +13,6 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -46,10 +44,12 @@ public class promotionController {
         return map;
     }
 
-    //根据页面传入的id集合查询商品，返回到设置促销页面
+
+
+    //根据页面传入的id集合，返回到设置促销页面
     @RequestMapping("/showGoods")
     @ResponseBody
-    public Map<String,Object> findRestList(String list, HttpServletRequest request, HttpServletResponse response){
+    public String findRestList(String list, HttpServletRequest request,HttpServletResponse response) {
         List<String> listString=null;
         ObjectMapper mapper=new ObjectMapper();
         try {
@@ -59,19 +59,42 @@ public class promotionController {
             e.printStackTrace();
         }
 
-      List<GoodsEntity> goodsList=  service.findByGoodsId(listString);
-        if ( !"".equals(goodsList) && null!=goodsList){
-
+        String info="";
+        if ( !"".equals(listString) && null!=listString){
+        //查询数据为空则返回no
+            info="yes";
+        }else {
+            //不为空则返回yes
+            info="no";
         }
-        request.setAttribute("goodsList",goodsList);
-        try {
+        //将id集合放入到session中,传入到跳转的controller
+      //  request.setAttribute("listString",listString);
+   //     request.getSession().setAttribute("listString",listString);
             //请求转发
-            request.getRequestDispatcher("").forward(request,response);
-        } catch (ServletException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return null;
+//           request.getRequestDispatcher("promotion/promotionAll").forward(request,response);
+        ListFinal.list=listString;
+        return info;
     }
+
+
+
+    //接收请求转发传入的数据
+    @RequestMapping("/promotionAll")
+    @ResponseBody
+    public Map<String,Object> promotionAll(int page, int rows){
+        System.out.printf("航空的后果发挥卡的活动和公平");
+    Map<String,Object> map=new HashMap<>();
+
+        //得到请求转发的数据(id的集合)
+//    List<String> goodsIdList=(List<String>) request.getSession().getAttribute("listString");
+
+        //根据id集合在从数据库查询
+    List<GoodsEntity> goodsList=service.findByGoodsId(ListFinal.list);
+    int nowPage=(page-1)*rows;
+    map.put("rows",goodsList);
+    map.put("page",nowPage);
+    map.put("total",goodsList.size());
+    return map;
+    }
+
 }
