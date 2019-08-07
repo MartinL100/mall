@@ -1,5 +1,6 @@
 package com.lovo.csc.dao.supplierDao.impl;
 
+import java.util.Date;
 import java.util.List;
 
 import javax.persistence.EntityManager;
@@ -9,6 +10,7 @@ import com.lovo.csc.dao.supplierDao.IBaseDao;
 import com.lovo.csc.entity.IndentEntity;
 import com.lovo.csc.entity.SupplierEntity;
 import com.lovo.csc.entity.SupplyEntity;
+import com.lovo.csc.util.Verify;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
@@ -25,43 +27,101 @@ public class BaseDaoImpl implements IBaseDao{
     }
 
     @Override
-    public List<SupplierEntity> findAllSupplier(int pageNumber, int pageSize, String supplierTag) {
-        String hql="from SupplierEntity";
-        if(null==supplierTag||"".equals(supplierTag)){
-            Query query=getEntityManager().createQuery(hql);
+    public List<SupplierEntity> findAllSupplier(int pageNumber, int pageSize,String supplierName,String supplierType,String supplierLevel, String supplierTag) {
+        String hql="from SupplierEntity where 1=1 ";
+        if(Verify.verifyString(supplierName)){
+            hql+=" and supplierName like '%"+supplierName+"%'";
         }
-        else{
-            hql+=" where supplierTag=?1";
-            Query query=getEntityManager().createQuery(hql).setParameter(1,supplierTag);
+        if(Verify.verifyString(supplierType)){
+            hql+=" and supplierType='"+supplierType+"'";
+        }
+        if(Verify.verifyString(supplierLevel)&&!"不限".equals(supplierLevel)){
+            hql+=" and supplierLevel='"+supplierLevel+"'";
+        }
+        if(Verify.verifyString(supplierTag)&&!"不限".equals(supplierTag)){
+            hql+=" and supplierTag='"+supplierTag+"'";
         }
         Query query=getEntityManager().createQuery(hql);
         return query.setFirstResult(pageNumber).setMaxResults(pageSize).getResultList();
     }
     @Override
-    public List<IndentEntity> findAllIndent(int pageNumber, int pageSize, String indentStatus) {
-        String hql="from IndentEntity";
-        if(null==indentStatus||"".equals(indentStatus)){
-            Query query=getEntityManager().createQuery(hql);
+    public long countSupplier(String supplierName,String supplierType,String supplierLevel,String supplierTag){
+        String hql="from SupplierEntity where 1=1 ";
+        if(Verify.verifyString(supplierName)){
+            hql+=" and supplierName like '%"+supplierName+"%'";
         }
-        else{
-            hql+=" where indentStatus=?1";
-            Query query=getEntityManager().createQuery(hql).setParameter(1,indentStatus);
+        if(Verify.verifyString(supplierType)){
+            hql+=" and supplierType='"+supplierType+"'";
+        }
+        if(!"不限".equals(supplierLevel)){
+            hql+=" and supplierLevel='"+supplierLevel+"'";
+        }
+        if(!"不限".equals(supplierTag)){
+            hql+=" and supplierTag='"+supplierTag+"'";
+        }
+        Query query=getEntityManager().createQuery(hql);
+        return query.getResultList().size();
+    }
+    @Override
+    public List<IndentEntity> findAllIndent(int pageNumber, int pageSize, String indentId, Date startDate, Date endDate, String indentStatus) {
+        String hql="from IndentEntity where 1=1 ";
+        if(Verify.verifyString(indentId)){
+            hql+=" and indentId='"+indentId+"'";
+        }
+        if(null!=startDate){
+            hql+=" and indentDate>='"+startDate+"'";
+        }
+        if(null!=endDate){
+            hql+=" and indentDate<='"+endDate+"'";
+        }
+        if(Verify.verifyString(indentStatus)&&!"不限".equals(indentStatus)){
+            hql+=" and indentStatus='"+indentStatus+"'";
+        }
+        Query query=getEntityManager().createQuery(hql);
+        return query.setFirstResult(pageNumber).setMaxResults(pageSize).getResultList();
+    }
+        @Override
+    public long countIndent(String indentId,Date startDate,Date endDate, String indentStatus){
+            String hql="from IndentEntity where 1=1 ";
+            if(Verify.verifyString(indentId)){
+                hql+=" and indentId='"+indentId+"'";
+            }
+            if(null!=startDate){
+                hql+=" and indentDate>='"+startDate+"'";
+            }
+            if(null!=endDate){
+                hql+=" and indentDate<='"+endDate+"'";
+            }
+            if(Verify.verifyString(indentStatus)&&!"不限".equals(indentStatus)){
+                hql+=" and indentStatus='"+indentStatus+"'";
+            }
+            Query query=getEntityManager().createQuery(hql);
+        return query.getResultList().size();
+    }
+
+    @Override
+    public List<SupplyEntity> findAllSupply(int pageNumber, int pageSize, String goodsName, String indentStatus) {
+        String hql="from SupplyEntity where 1=1 ";
+        if(Verify.verifyString(goodsName)){
+            hql+=" and goodsName like '%"+goodsName+"%'";
+        }
+        if(Verify.verifyString(indentStatus)&&!"不限".equals(indentStatus)){
+            hql+=" and indentStatus='"+indentStatus+"'";
         }
         Query query=getEntityManager().createQuery(hql);
         return query.setFirstResult(pageNumber).setMaxResults(pageSize).getResultList();
     }
 
     @Override
-    public List<SupplyEntity> findAllSupply(int pageNumber, int pageSize, String indentStatus) {
-        String hql="from IndentEntity";
-        if(null==indentStatus||"".equals(indentStatus)){
-            Query query=getEntityManager().createQuery(hql);
+    public long countSupply(String goodsName, String indentStatus) {
+        String hql="from SupplyEntity where 1=1 ";
+        if(Verify.verifyString(goodsName)){
+            hql+=" and goodsName like '%"+goodsName+"%'";
         }
-        else{
-            hql+=" where indentStatus=?1";
-            Query query=getEntityManager().createQuery(hql).setParameter(1,indentStatus);
+        if(Verify.verifyString(indentStatus)&&!"不限".equals(indentStatus)){
+            hql+=" and indentStatus='"+indentStatus+"'";
         }
         Query query=getEntityManager().createQuery(hql);
-        return query.setFirstResult(pageNumber).setMaxResults(pageSize).getResultList();
+        return query.getResultList().size();
     }
 }
