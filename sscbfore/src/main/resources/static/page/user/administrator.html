@@ -9,7 +9,7 @@
           content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=0">
     <link rel="stylesheet" href="../../layuiadmin/layui/css/layui.css" media="all">
     <link rel="stylesheet" href="../../layuiadmin/style/admin.css" media="all">
-    <script type="text/javascript" src="../../lib/jquery.js"></script>
+    <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
 </head>
 <body>
 <div align="center" style="margin-top: 50px">
@@ -33,6 +33,15 @@
     </div>
 </div>
 <script>
+    $(document).ready(function () {
+        $.post("../../../showUser",function (re) {
+            alert(re);
+            $("#sid").text(re.userName);
+            $("#sid1").text(re.trueName);
+            $("#sid2").text(re.sex);
+            $("#sid3").text(re.telphone);
+        });
+    });
     $("#bid").click(function () {
         location.href="userLogin.html";
     });

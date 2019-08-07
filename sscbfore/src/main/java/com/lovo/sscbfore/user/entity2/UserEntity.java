@@ -51,8 +51,9 @@ public class UserEntity {
     @Column(name="apply_reason",length =48)
     /**申请原因*/
     private String applyReason="";
-    @OneToMany(mappedBy = "userSite")
+
     /**用户地址集合*/
+    @OneToMany(mappedBy = "userSite")
     @JsonIgnore
     private List<SiteEntity> userSiteList;
 
