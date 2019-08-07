@@ -2,6 +2,7 @@ package com.lovo.csc.controller.clientcontroller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.lovo.csc.dao.clientdao.IUserAuditNormalDao;
+import com.lovo.csc.entity.AuditEntity;
 import com.lovo.csc.entity.SysFrozenOrUnfrozenAccountsEntity;
 import com.lovo.csc.entity.SysUserAuditInformationEntity;
 import com.lovo.csc.service.clientService.IUserAuditService;
@@ -41,7 +42,7 @@ public class AccountsController {
 
 
     //分页
-    @RequestMapping("page2.lovo")
+    @RequestMapping("frozenOrUnfrozenAccountsPage.lovo")
     public Map<String, Object> page2(String tag,int page,int rows,String auditState,String auditType, String startTime, String endTime) {
         Map<String, Object> map = new HashMap<>();
         List<SysFrozenOrUnfrozenAccountsEntity> list=null;
@@ -84,9 +85,12 @@ public class AccountsController {
     public String updateFrozenOrUnfrozenAccountsEntity(String id, HttpServletRequest request){
         SysFrozenOrUnfrozenAccountsEntity info=
                 userAuditService.findSysFrozenOrUnfrozenAccountsEntityById(id);
-                request.getSession().getAttribute("userObj");
-             String re=  userAuditService.CycleUpdateUserAuditInformation(info,"");
-      // String Id= userAuditService.savaFrozenOrUnfrozenAccountsEntity(frozenOrUnfrozenAccountsEntity);
+             // AuditEntity auditEntity= (AuditEntity) request.getSession()
+        // .getAttribute("auditObj");
+             //String re=  userAuditService.
+        // CycleUpdateUserAuditInformation(info,auditEntity.getAuditPeople());
+        String re=  userAuditService.CycleUpdateUserAuditInformation(info,"光");
+        // String Id= userAuditService.savaFrozenOrUnfrozenAccountsEntity(frozenOrUnfrozenAccountsEntity);
         if (null!=re&&"操作成功".equals(re)){
             return "{'successMsg':'操作成功'}";
         }
