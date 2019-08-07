@@ -27,5 +27,27 @@ public interface  IGoodsService {
     public long  getGoodsCount( String goodsState, String goodsType,
                                 String goodsBooking,String goodsName);
 
+    /**
+     * 上架
+     */
+    public void updateStateUpper(String goodsId);
+
+    /**
+     * 下架
+     * @param goodsId
+     */
+    public void updateStateLower(String goodsId);
+
+    /**
+     * 预售
+     * @param goodsId
+     */
+    public void updateStateBooking(String goodsId);
+
+    /**
+     * 未预售
+     * @param goodsId
+     */
+    public void updateStateBooking1(String goodsId);
 
 }

@@ -4,6 +4,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.lovo.common.entity.GoodsDTO;
 import com.lovo.common.entity.OrderDTO;
+import com.lovo.common.entity.OrderForGoodsDTO;
 import com.lovo.common.entity.OrderManagementDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -17,9 +18,6 @@ import java.util.List;
 public class OrderDelController {
     @Autowired
     ObjectMapper objectMapper;
-    //远程调用的模板
-    @Autowired
-    private RestTemplate restTemplate;
 
     @RequestMapping("orderDel")
     public String orderDel(){
@@ -49,20 +47,20 @@ public class OrderDelController {
         orderDto2.setOrderMoney(40000);
 
         OrderManagementDTO orderDto3=new OrderManagementDTO();
-        orderDto3.setOrderNum("J16820190801");
-        orderDto3.setOrderType("退货");
+        orderDto3.setOrderNum("J16820190401");
+        orderDto3.setOrderType("已完结");
         orderDto3.setGoodsSize(100);
-        orderDto3.setOrderDate("2018-06-01");
-        orderDto3.setPayMethod("银联支付");
-        orderDto3.setOrderMoney(40000);
+        orderDto3.setOrderDate("2018-04-01");
+        orderDto3.setPayMethod("支付宝");
+        orderDto3.setOrderMoney(22000);
 
         OrderManagementDTO orderDto4=new OrderManagementDTO();
-        orderDto4.setOrderNum("J16820190801");
+        orderDto4.setOrderNum("J16820190711");
         orderDto4.setOrderType("退货");
-        orderDto4.setGoodsSize(100);
-        orderDto4.setOrderDate("2018-06-01");
+        orderDto4.setGoodsSize(99);
+        orderDto4.setOrderDate("2018-07-11");
         orderDto4.setPayMethod("银联支付");
-        orderDto4.setOrderMoney(40000);
+        orderDto4.setOrderMoney(38000);
 
         orderManagementDTOlist.add(orderDto);
         orderManagementDTOlist.add(orderDto1);
@@ -86,15 +84,34 @@ public class OrderDelController {
 //            "{\"ordernum\":\"J16820190601\",\"ordertype\":\"已完结\",\"goodssize\":\"50\",\"orderdate\":\"2018-06-01\",\"paymethod\":\"预存款\",\"orderMoney\":\"2000元\"}]}";
         return goodInfo;
     }
+
     @RequestMapping("goodsDel")
     public String goodsDel(){
-        String info="{\"code\":0,\"msg\":\"\",\"count\":1000,\"data\":" +
-                "[{\"goodsName\":\"Ak47-A\",\"goodsNum\":\"100支\",\"goodsPrice\":\"1000元/支\",\"goodsStatus\":" +
-                "\"已退货\"},{\"goodsName\":\"Ak47\",\"goodsNum\":" +
-                "\"100支\",\"goodsPrice\":\"1000元/支\",\"goodsStatus\":\"正常\"},{\"goodsName\":\"火麒麟\",\"goodsNum\":\"100支\",\"goodsPrice\":" +
-                "\"1000元/支\",\"goodsStatus\":\"正常\"},{\"goodsName\":\"激光\",\"goodsNum\":" +
-                "\"100支\",\"goodsPrice\":\"8888元/支\",\"goodsStatus\":\"退货中\"}," +
-                "{\"goodsName\":\"毁灭\",\"goodsNum\":\"100支\",\"goodsPrice\":\"8880元/支\",\"goodsStatus\":\"正常\"}]}";
-        return info;
+        List<OrderForGoodsDTO>orderForGoodsDTOlist=new ArrayList<>();
+        OrderForGoodsDTO orderGoodsDto=new OrderForGoodsDTO();
+        orderGoodsDto.setGoodsName("AK47-A");
+        orderGoodsDto.setGoodsNum(100);
+        orderGoodsDto.setGoodsPrice(1000);
+        orderGoodsDto.setGoodsStatus(0);
+
+        orderForGoodsDTOlist.add(orderGoodsDto);
+
+        String goodsInfo="";
+        try {
+            goodsInfo= objectMapper.writeValueAsString(orderForGoodsDTOlist);
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
+        }
+        goodsInfo="{\"code\":0,\"msg\":\"\",\"count\":1000,\"data\":"+goodsInfo+"}";
+
+
+//        String info="{\"code\":0,\"msg\":\"\",\"count\":1000,\"data\":" +
+//                "[{\"goodsName\":\"Ak47-A\",\"goodsNum\":\"100支\",\"goodsPrice\":\"1000元/支\",\"goodsStatus\":" +
+//                "\"已退货\"},{\"goodsName\":\"Ak47\",\"goodsNum\":" +
+//                "\"100支\",\"goodsPrice\":\"1000元/支\",\"goodsStatus\":\"正常\"},{\"goodsName\":\"火麒麟\",\"goodsNum\":\"100支\",\"goodsPrice\":" +
+//                "\"1000元/支\",\"goodsStatus\":\"正常\"},{\"goodsName\":\"激光\",\"goodsNum\":" +
+//                "\"100支\",\"goodsPrice\":\"8888元/支\",\"goodsStatus\":\"退货中\"}," +
+//                "{\"goodsName\":\"毁灭\",\"goodsNum\":\"100支\",\"goodsPrice\":\"8880元/支\",\"goodsStatus\":\"正常\"}]}";
+        return goodsInfo;
     }
 }

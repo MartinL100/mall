@@ -51,4 +51,10 @@ public class GoodsStockServiceImpl implements IGoodsStockService {
     public void saveGoods(GoodsStockEntity goods) {
         goodsStockCurdDao.save(goods);
     }
+
+    @Override
+    public void updateGoodsMinNum(long goodsMinNum, String goodsId) {
+        goodsStockCurdDao.updateGoodsMinNum(goodsMinNum,goodsId);
+
+    }
 }

@@ -1,10 +1,8 @@
 package com.lovo.sscafter.goodsStock.controller;
 
 import com.lovo.sscafter.goodsStock.entity.GoodsStockEntity;
-import com.lovo.sscafter.goodsStock.service.IGoodsStockService;
-import com.lovo.sscafter.goodsStock.service.IOrderGoodsService;
-import com.lovo.sscafter.goodsStock.service.IReturnGoodsService;
-import com.lovo.sscafter.goodsStock.service.ISupplyService;
+import com.lovo.sscafter.goodsStock.entity.GoodsTypeEntity;
+import com.lovo.sscafter.goodsStock.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jms.core.JmsMessagingTemplate;
 import org.springframework.stereotype.Controller;
@@ -27,6 +25,8 @@ public class GoodsStockController {
     private ISupplyService supplyService;
     @Autowired
     private IReturnGoodsService returnGoodsService;
+    @Autowired
+    private IGoodsTypeService goodsTypeService;
     @RequestMapping("/goodsStock")
     @ResponseBody
     public Map<String,Object> goodsStock(int page,int rows,String goodsName,String goodsType){
@@ -38,5 +38,32 @@ public class GoodsStockController {
         map.put("page",page);
         map.put("total",ro);
         return map;
+    }
+@RequestMapping("/findAllgoodsType")
+@ResponseBody
+    public List<GoodsTypeEntity> goodsTypeFind(){
+    List<GoodsTypeEntity> list=  goodsTypeService.findAll();
+
+        return  list;
+    }
+
+    @RequestMapping("/saveGoods2")
+    @ResponseBody
+    public void  saveGoods(String goodsName,String goodsType,String goodsNorms
+    ,String goodsUnit,Long goodsMinNum){
+   GoodsStockEntity goods= new GoodsStockEntity();
+   goods.setGoodsName(goodsName);
+   goods.setGoodsType(goodsType);
+   goods.setGoodsMinNum(goodsMinNum);
+   goods.setGoodsNorms(goodsNorms);
+   goods.setGoodsUnit(goodsUnit);
+        goodsStockService.saveGoods(goods);
+    }
+
+     @RequestMapping("/updateGoodsMinNum")
+     @ResponseBody
+    public void updateGoodsMinNum(String goodsId,Long goodsMinNum){
+         goodsStockService.updateGoodsMinNum(goodsMinNum,goodsId);
+
     }
 }

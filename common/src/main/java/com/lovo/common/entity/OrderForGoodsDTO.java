@@ -18,7 +18,7 @@ public class OrderForGoodsDTO {
     //商品单位
     private String goodsUnit;
     //商品状态  0就是正常,1就是退货中,2就是已退货
-    private int goodsStatus;
+    private String goodsStatus;
     //库存商品外键
     private String stockGoodsId;
     //订单对象
@@ -80,11 +80,11 @@ public class OrderForGoodsDTO {
         this.goodsUnit = goodsUnit;
     }
 
-    public int getGoodsStatus() {
+    public String getGoodsStatus() {
         return goodsStatus;
     }
 
-    public void setGoodsStatus(int goodsStatus) {
+    public void setGoodsStatus(String goodsStatus) {
         this.goodsStatus = goodsStatus;
     }
 

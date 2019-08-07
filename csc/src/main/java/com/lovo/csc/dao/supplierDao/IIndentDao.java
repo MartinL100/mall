@@ -19,11 +19,4 @@ public interface IIndentDao extends CrudRepository<IndentEntity,String> {
      * @return
      */
     public IndentEntity findByIndentId(String indentId);
-    /**
-     * 查询总行数
-     * @param indentStatus 供货订单状态（待投标/已投标/待采购/采购）
-     * @return
-     */
-    @Query("select count(indentId) from  IndentEntity where indentStatus=?1")
-    public long countAll(String indentStatus);
 }
