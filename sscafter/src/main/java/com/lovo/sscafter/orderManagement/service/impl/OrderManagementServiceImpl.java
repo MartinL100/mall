@@ -99,7 +99,9 @@ public class OrderManagementServiceImpl implements IOrderManagementService {
     }
 
 
-    public List<Map> findDate(String mouth){
-        return orderTrendsDao.findDate(mouth);
+    public Map<String,String> findDate(String mouth){
+        Map<String,String> list =  orderTrendsDao.findDate(mouth);
+
+        return list;
     }
 }

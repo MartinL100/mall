@@ -33,5 +33,5 @@ public interface IOrderTrendsDao {
      * @return
      */
 
-    public List<Map> findDate(String mouth);
+    public Map<String,String> findDate(String mouth);
 }
