@@ -70,16 +70,21 @@ public class UserAuditServiceImpl implements IUserAuditService {
         userAuditInformationEntity.setAuditReplyTime(MyStringUtil.getFormMatTime());
         userAuditInformationEntity.setAuditPerson(auditPerson);
         String userState=userAuditInformationEntity.getUserState();
+        String state="";
+        //vo中默认返回结果状态为1
+        state="1";
+        //如果审核不通过 将结果状态改成2
         if (!"审核通过".equals(userState)){
             userAuditInformationEntity.setIdentityImg("");
             userAuditInformationEntity.setAptitudeImg("");
+           state="2";
         }
                 userRegistraTionAuditDao.save(userAuditInformationEntity);
                 RegisterResultVo vo =new RegisterResultVo();
                 vo.setAuditOpinion(userAuditInformationEntity.getAuditOpinion());
-                vo.setAuditReplyTime(userAuditInformationEntity.getAuditOpinion());
+                vo.setAuditReplyTime(MyStringUtil.getFormMatTime());
                 vo.setUserGrade(userAuditInformationEntity.getUserGrade());
-                vo.setUserState(userState);
+                vo.setUserState(state);
                 vo.setUserName(userAuditInformationEntity.getUserName());
         String json="";
         try {
@@ -161,7 +166,7 @@ public class UserAuditServiceImpl implements IUserAuditService {
 
     //测试通过
     @Override
-    public long getfrozenOrUnfrozenAccountsPageInitCount() {
+    public long getFrozenOrUnfrozenAccountsPageInitCount() {
         return frozenOrUnfrozenAccountsDao.getFrozenOrUnfrozenAccountsPageInitCount();
     }
 

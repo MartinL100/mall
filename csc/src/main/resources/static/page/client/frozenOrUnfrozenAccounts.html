@@ -47,12 +47,14 @@
        rownumbers="false" pagination="true"  singleSelect="true">
     <thead>
     <tr>
-        <th field="frozenOrUnfrozenAccountsMessageId" width="20%" hidden="hidden">请求信息id</th>
+        <th field="FrozenOrUnfrozenAccountsMessageId" width="20%" hidden="hidden">请求信息id</th>
         <th field="maintenanceManager" width="21%" align="center">维护管理员</th>
         <th field="auditType"width="21%" align="center">请求类型</th>
         <th field="auditState" width="21%" align="center">请求状态</th>
         <th field="auditTime" width="21%" align="center">请求审核时间</th>
         --<th field="userNameStr" width="21%" align="center">用户列表</th>
+        <th field="auditOpinion" width="21%" align="center" hidden="hidden">请求理由</th>
+        <th field="auditResult" width="21%" align="center" hidden="hidden">审核结果</th>
     </tr>
     </thead>
 </table>
@@ -85,7 +87,7 @@
 
         <div style="margin-bottom:10px">
             <div style="margin-bottom:10px">
-                <label style="position: relative;left: 18px">审核名单：</label>
+                <label  style="position: relative;left: 18px">审核名单：</label>
                 <textarea  name="userNameStr"  id="userNameStr" fixed="false"   rows="10" cols="50" readonly="readonly" name="auditOpinion"   style="position: relative;left:18px;width:51.5%;height: 150px;resize:none">
             </textarea>
             </div>
@@ -93,7 +95,7 @@
 
         <div style="margin-bottom:10px">
             <div style="margin-bottom:10px">
-                <label style="position: relative;left: 18px">审核意见：</label>
+                <label  style="position: relative;left: 18px">审核意见：</label>
                 <textarea  name="auditOpinion"  id="auditOpinion" fixed="false"   rows="10" cols="50" readonly="readonly" name="auditOpinion"   style="position: relative;left:18px;width:51.5%;height: 150px;resize:none">
             </textarea>
             </div>
@@ -155,8 +157,11 @@
      if (type!=undefined) {
         //根据用户名查找出审核数据
         //并将审核数据赋值给模态框
-         PostToControllerFindById(row);
-        $('#dlg').dialog('open').dialog('center').dialog('setTitle', type+'审核详情');
+        // PostToControllerFindById(row);
+         changeBtnText(type)
+         $('#dlg').dialog('open').dialog('center').dialog('setTitle', type+'审核详情');
+        $('#fm').form('load',row);
+
          }
 
          else{
@@ -164,6 +169,16 @@
       }
     }
 
+function changeBtnText(type) {
+    if (type=="冻结") {
+        $("#passText").text("确定冻结")
+        $("#falseText").text("拒绝冻结")
+    }
+    else{
+        $("#passText").text("确定解冻")
+        $("#falseText").text("拒绝解冻")
+    }
+}
 
     //初始化加载
     var initNum=1;
@@ -249,7 +264,7 @@
     //审核不通过
     function auditFail() {
         $.messager.prompt('请输入拒绝理由', '请输入拒绝通过理由', function (r) {
-            if (r != "") {
+            if (r != undefined) {
                 $("#auditOpinion").val(r);
                 $("#auditReplyTime").val(timeFormat())
                 $("#auditState").val("已审核")
@@ -265,17 +280,8 @@
                 }
 
             }
-            if (r == "") {
-                $("#auditOpinion").val("其他");
-                $("#auditReplyTime").val(timeFormat())
-                $("#auditState").val("已审核")
-                if ($('#auditType').val()=='冻结'){
-                    $("#auditResult").val("审核通过")
-                }
-                else{
-                    $("#auditResult").val("已冻结")
-                    // $("#auditOpinion").val("审核通过")
-                }
+            if (r == undefined) {
+              return;
 
             }
             // $('#dlg').dialog('close');		// close the dialog
@@ -287,7 +293,6 @@
                     return $(this).form('validate');
                 },
                 success: function(result){
-
                    // var result = eval('('+result+')');
 
                     if (result.errorMsg){
