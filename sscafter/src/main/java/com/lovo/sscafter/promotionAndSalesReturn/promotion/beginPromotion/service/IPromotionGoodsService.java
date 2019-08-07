@@ -2,6 +2,7 @@ package com.lovo.sscafter.promotionAndSalesReturn.promotion.beginPromotion.servi
 
 import com.lovo.sscafter.upperAndLowerGoods.entity.GoodsEntity;
 
+
 import java.util.List;
 
 /**
@@ -34,4 +35,21 @@ public interface IPromotionGoodsService {
      * @return 商品集合
      */
     public List<GoodsEntity> findByGoodsId(List<String> listId);
+
+
+    /**
+     * 根据商品id修改促销状态(审核中，正在促销，未促销,促销审核未通过)，和折扣率
+     * @param goodsId 商品id
+     * @param goodsDiscount 商品折扣率
+     * @param promotionState 促销状态
+     */
+    public void updatPromotion(String goodsId,String promotionState,int goodsDiscount);
+
+
+    /**
+     * 根据id修改商品促销状态
+     * @param goodsId 商品id
+     * @param promotionState 促销状态
+     */
+    public void updateGoodspromotionState(String goodsId,String promotionState);
 }
