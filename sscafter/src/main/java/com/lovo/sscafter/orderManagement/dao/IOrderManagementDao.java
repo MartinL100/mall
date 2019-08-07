@@ -35,4 +35,8 @@ public interface IOrderManagementDao extends CrudRepository<OrderManagementEntit
     @Modifying
     public void updateOrderProfit(String orderNum,float goodsProfit);
 
+
+
+
+
 }

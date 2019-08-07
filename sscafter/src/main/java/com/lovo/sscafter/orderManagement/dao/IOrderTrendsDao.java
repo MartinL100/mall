@@ -3,6 +3,7 @@ package com.lovo.sscafter.orderManagement.dao;
 import com.lovo.sscafter.orderManagement.entity.OrderManagementEntity;
 
 import java.util.List;
+import java.util.Map;
 
 public interface IOrderTrendsDao {
     /**
@@ -25,4 +26,12 @@ public interface IOrderTrendsDao {
      * @return
      */
     public int findOrderRows(String orderDate,int orderType,String userName);
+
+    /**
+     * 根据日期查询需要的日期
+     * @param mouth
+     * @return
+     */
+
+    public List<Map> findDate(String mouth);
 }
