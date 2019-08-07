@@ -1,5 +1,5 @@
 package com.lovo.sscafter.customerRetention.Entity;
-
+//客户
 public class CustomerEntity {
     private String userId;
     private String userName;
