@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>lovo商城</title>
+    <link rel="stylesheet" type="text/css" href="../easyui/themes/metro/easyui.css">
+    <link rel="stylesheet" type="text/css" href="../easyui/themes/mobile.css">
+    <link rel="stylesheet" type="text/css" href="../easyui/themes/icon.css">
+    <script type="text/javascript" src="../easyui/jquery.min.js"></script>
+    <script type="text/javascript" src="../easyui/jquery.easyui.min.js"></script>
+    <script type="text/javascript" src="../easyui/jquery.easyui.mobile.js"></script>
+    <!--<script type="text/javascript" src="../../easyui/jquery.js"></script>-->
+</head>
+<body>
+<div data-options="region:'west',split:true" title="导航栏菜单" style="width: 170px;">
+    <div class="easyui-accordion" data-options="fit:true,border:false">
+        <div title="系统设置1" data-options="selected:true">
+            <div style="margin: 5px">
+                <ul class="tree easyui-tree" data-options="animate:true,lines:true">
+                    <li data-options="iconCls:'icon-group'">
+                        <span>基本设置</span>
+                        <ul>
+                            <li data-options="iconCls:'icon-group_add'">
+                                <span>test1</span>
+                            </li>
+                            <li data-options="iconCls:'icon-group_delete'">
+                                <span>test2</span>
+                            </li>
+                            <li data-options="iconCls:'icon-group_edit'">
+                                <span>test3</span>
+                            </li>
+                        </ul>
+                    </li>
+                    <li data-options="state:'closed',iconCls:'icon-joystick'">
+                        <span>系统设置</span>
+                        <ul>
+                            <li data-options="iconCls:'icon-joystick_add'">
+                                <span>test4</span>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <div title="系统设置2" style="padding: 10px;">
+            content2
+        </div>
+        <div title="系统设置3" style="padding: 10px">
+            content3
+        </div>
+    </div>
+</div>
+</body>
+</html>

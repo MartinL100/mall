@@ -18,6 +18,12 @@ public class upperAndLowerGoodsController {
     @Autowired
     private IGoodsService goodsService;
 
+    @RequestMapping("/updateGoodsStateUpper")
+    public void updateLowerTime(String items){
+
+
+
+    }
     @RequestMapping("/saveGoods")
     public  String saveGoodsEntity(GoodsEntity goods){
         goodsService.saveGoods(goods);

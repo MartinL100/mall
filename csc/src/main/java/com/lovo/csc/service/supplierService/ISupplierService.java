@@ -18,16 +18,16 @@ public interface ISupplierService {
     public SupplierEntity findBySupplierId(String supplierId);
     /**
      * 根据审核未审核分页查询供应商信息
-     * @param pageNumber 当前页
-     * @param pageSize 每页显示的行数
+     * @param page 当前页
+     * @param rows 每页显示的行数
      * @param supplierTag  供应商状态（未审核/已审核）
      * @return
      */
-    public List<SupplierEntity> findAll(int pageNumber, int pageSize, String supplierTag);
+    public List<SupplierEntity> findAll(int page, int rows,String supplierName,String supplierType,String supplierLevel, String supplierTag);
     /**
      * 查询总行数
      * @param supplierTag  供应商状态（未审核/已审核）
      * @return
      */
-    public long countAll(String supplierTag);
+    public long countAll(String supplierName,String supplierType,String supplierLevel,String supplierTag);
 }

@@ -115,11 +115,24 @@ layui.config({
             table2(returnList);
         }
         , submit: function () {
+            let sendData = [];
+            let sendStr;
             let returnListDate = table.cache.returnTable;
-            $.each(returnListDate, function (index, item) {
-                returnListDate[index] = table.clearCacheKey(item)
-            });
-            alert(JSON.stringify(returnList))
+
+            if (returnListDate !== undefined) {
+                $.each(returnListDate, function (index, item) {
+                    returnListDate[index] = table.clearCacheKey(item)
+                });
+                returnListDate = JSON.stringify(returnListDate);
+
+                sendData.push('"orderNum":"' + userOrder.orderNum + '"');
+                sendData.push('"data":' + returnListDate);
+
+                sendStr = '{' + sendData + "}";
+                $.post('/returngoods/creat', {'data': sendStr}, function (res) {
+                    alert(res);
+                })
+            }
         }
     };
 

@@ -32,4 +32,24 @@ public class  GoodsServiceImpl implements IGoodsService {
     public long getGoodsCount(String goodsState, String goodsType, String goodsBooking, String goodsName) {
         return goodsQueryDao.getGoodsCount(goodsState,goodsType,goodsBooking,goodsName);
     }
+
+    @Override
+    public void updateStateUpper(String  goodsId) {
+
+    }
+
+
+    public void updateStateLower(String goodsId) {
+
+    }
+
+
+    public void updateStateBooking(String goodsId) {
+
+    }
+
+    @Override
+    public void updateStateBooking1(String goodsId) {
+
+    }
 }

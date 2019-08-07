@@ -12,22 +12,19 @@ public interface ISupplyService {
     public void save(SupplyEntity supply);
     /**
      *根据供货订单中间ID供货订单中间表
-     * @param supplyId
      * @return
      */
-    public SupplyEntity findBySupplyId(String supplyId);
+    public List<SupplyEntity> findSupply(String indentId);
     /**
      * 根据供货订单中间表状态分页查询供货订单中间表信息
-     * @param pageNumber 当前页
-     * @param pageSize 每页显示的行数
      * @param indentStatus  供货订单中间表状态（待投标、已投标、待采购、已采购）
      * @return
      */
-    public List<SupplyEntity> findAll(int pageNumber, int pageSize, String indentStatus);
+    public List<SupplyEntity> findAll(int page, int rows,String goodsName, String indentStatus);
     /**
      * 查询总行数
      * @param indentStatus  供货订单中间表状态（待投标、已投标、待采购、已采购）
      * @return
      */
-    public long countAll(String indentStatus);
+    public long countAll(String goodsName,String indentStatus);
 }

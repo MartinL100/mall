@@ -1,9 +1,9 @@
 package com.lovo.sscafter.orderManagement.entity.DTO;
 
 public class ReturnGoodsDTO {
-        private String orderNum;
-        private String goodsId;
-        private int goodsStatus;
+    private String orderNum;
+    private String goodsId;
+    private int goodsStatus;
 
     public String getOrderNum() {
         return orderNum;

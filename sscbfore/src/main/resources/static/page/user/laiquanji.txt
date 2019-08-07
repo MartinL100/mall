@@ -1,0 +1,5 @@
+<li class="layui-nav-item layui-hide-xs" lay-unselect>
+                    <a href="../../userShow.html" layadmin-event="theme"title="用户">
+                        <i class="layui-icon layui-icon-user"></i>
+                    </a>
+                </li>

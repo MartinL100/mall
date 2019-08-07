@@ -28,9 +28,15 @@
     <div class="layui-card-body" style="margin-top: 30px">
         <div class="layui-btn-container">
             <button class="layui-btn" id="ddd" style="width: 120px">添加商品</button>
-            <button class="layui-btn" style="width: 120px">退出</button>
+            <button class="layui-btn" style="width: 120px" id="bid">退出</button>
         </div>
     </div>
 </div>
+<script>
+    $("#bid").click(function () {
+        location.href="userLogin.html";
+    });
+</script>
+
 </body>
 </html>
