@@ -73,14 +73,14 @@ public class OrderTrendsDaoImpl implements IOrderTrendsDao {
 
         List rows =  getEntityManager().createNativeQuery(sql).getResultList();
         Map<String,String> map = new HashMap();
-        String listMap = "";
+        String listMap1 = "";
         String listMap2 = "";
         for (Object obj : rows) {
             Object[] row = (Object[]) obj;
-            listMap+=row[0]+",";
+            listMap1+=row[0]+",";
             listMap2+=row[1]+",";
         }
-        map.put("listMap",listMap);
+        map.put("listMap",listMap1);
         map.put("listMap2",listMap2);
         return map;
     }
