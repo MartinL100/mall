@@ -27,7 +27,6 @@ public class GoodsManagementController {
     @RequestMapping("findGoodsAfter")
     @ResponseBody
     public Map<String,Object> findGoodsAfter(String orderNum, int page, int rows){
-        System.out.println(orderNum+"---"+page+"---"+rows);
         List<OrderForGoodsEntity> list = goodsManagementService.findGoods(orderNum,page,rows);
         Map<String,Object> map=new HashMap<>();
         map.put("rows",list);
@@ -40,7 +39,6 @@ public class GoodsManagementController {
     public int findGoods(@PathVariable("orderNum")String orderNum){
 
         int tempRows = goodsManagementService.findGoodsRows(orderNum);
-        System.out.println(tempRows);
         return  tempRows;
     }
 }
