@@ -2,6 +2,7 @@ package com.lovo.csc.service.supplierService;
 
 import com.lovo.csc.entity.IndentEntity;
 
+import java.util.Date;
 import java.util.List;
 
 public interface IIndentService {
@@ -18,16 +19,14 @@ public interface IIndentService {
     public IndentEntity findByIndentId(String indentId);
     /**
      * 根据分页查询供应订单信息
-     * @param pageNumber 当前页
-     * @param pageSize 每页显示的行数
      * @param indentStatus 供货订单状态（待投标/已投标/待采购/采购）
      * @return
      */
-    public List<IndentEntity> findAll(int pageNumber, int pageSize, String indentStatus);
+    public List<IndentEntity> findIndent(int page, int rows, String indentId, String startDate, String endDate, String indentStatus);
     /**
      * 查询总行数
      * @param indentStatus 供货订单状态（待投标/已投标/待采购/采购）
      * @return
      */
-    public long countAll(String indentStatus);
+    public long countAll(String indentId,String startDate,String endDate, String indentStatus);
 }

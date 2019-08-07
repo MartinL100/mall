@@ -71,7 +71,7 @@ public class OrderManagementController {
     }
     @RequestMapping("receiveOrder")
     public void receiveOrder(@RequestBody OrderDTO orderDTO){
-
+        orderManagementService.receiveOrder2(orderManagementService.receiveOrder(orderDTO));
     }
 
     @RequestMapping("updateOrderType/{orderNum}")

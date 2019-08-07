@@ -34,7 +34,7 @@
     <input class="easyui-textbox" label="用户名:" prompt="用户名:" id="selectUserName" name="userName" prompt="userName" style="width:200px">
 
     <a  href="#" class="easyui-linkbutton"  id="bt3">清空</a>
-   <a  href="#" class="easyui-linkbutton" data-options="iconCls:'icon-search'" id="bt1">查询</a>
+    <a  href="#" class="easyui-linkbutton" data-options="iconCls:'icon-search'" id="bt1">查询</a>
 </div>
 
 <table id="tt" class="easyui-datagrid"
@@ -58,24 +58,24 @@
 </table></p>
 <a style="margin-left: 10%" href="#" class="easyui-linkbutton" id="lookInfo">查看详细信息</a>
 <div id="dlg" class="easyui-dialog" style="width:800px;height: 400px" data-options="closed:true,modal:true,border:'thin',buttons:'#dlg-buttons'">
-        <table id="info" class="easyui-datagrid"
-               iconCls="icon-save"
-               rownumbers="true" pagination="true"  singleSelect="true">
-            <thead>
+    <table id="info" class="easyui-datagrid"
+           iconCls="icon-save"
+           rownumbers="true" pagination="true"  singleSelect="true">
+        <thead>
 
-            <tr>
-                <th field="goodsName" width="10%" align="center">商品名:</th>
-                <th field="goodsNorms" width="10%" align="center">规  格:</th>
-                <th field="goodsPrice" width="10%" align="center">商品售价:</th>
-                <th field="goodsType" width="10%" align="center">商品类型</th>
-                <th field="goodsNum" width="10%" align="center">商品数量</th>
-                <th field="goodsUnit" width="10%" align="center">商品单位</th>
-                <th field="goodsStatus" width="10%" align="center">商品状态</th>
-            </tr>
-            </thead>
+        <tr>
+            <th field="goodsName" width="10%" align="center">商品名:</th>
+            <th field="goodsNorms" width="10%" align="center">规  格:</th>
+            <th field="goodsPrice" width="10%" align="center">商品售价:</th>
+            <th field="goodsType" width="10%" align="center">商品类型</th>
+            <th field="goodsNum" width="10%" align="center">商品数量</th>
+            <th field="goodsUnit" width="10%" align="center">商品单位</th>
+            <th field="goodsStatus" width="10%" align="center">商品状态</th>
+        </tr>
+        </thead>
 
 
-        </table></p>
+    </table></p>
 </div>
 
 <div id="dlg-buttons">
@@ -83,11 +83,12 @@
 </div>
 <script>
     $("#lookInfo").click(function () {
-
+        $('#fm').form('clear');
+        $('#fm').form('clear');
         var row = $('#tt').datagrid('getSelected');
         alert(row.orderNum)
         $('#dlg').dialog('open').dialog('center').dialog('setTitle','详细信息');
-        $('#fm').form('clear');
+
         $('#info').datagrid({
             url:'/findGoodsAfter?orderNum='+row.orderNum,
             border:false,
@@ -121,8 +122,8 @@
         });
     })
     $("#bt3").click(function () {
-            $("#selectUserName").textbox('setValue','');
-            $("#selectOrderDate").datebox('setValue', '');
+        $("#selectUserName").textbox('setValue','');
+        $("#selectOrderDate").datebox('setValue', '');
     })
 </script>
 

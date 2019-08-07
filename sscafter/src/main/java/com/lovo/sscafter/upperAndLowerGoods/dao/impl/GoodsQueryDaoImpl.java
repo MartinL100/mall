@@ -20,22 +20,27 @@ public class GoodsQueryDaoImpl implements IGoodsQueryDao {
     }
 
     public List<GoodsEntity> getGoodsList(int page,int rows,String goodsState, String goodsType, String goodsBooking, String goodsName) {
-        String hql="from GoodsEntity where goodsState=:goodsState";
-        if(!"不限".equals(goodsType)){
+        String hql="from GoodsEntity where 1=1 ";
+        if(!StringUtil.blString(goodsState)){
+            hql+="  and goodsState=:goodsState";
+        }
+        if(!"不限".equals(goodsType)&&!StringUtil.blString(goodsType)){
             hql+="  and goodsType=:goodsType";
         }
-        if(!"不限".equals(goodsBooking)){
+        if(!"不限".equals(goodsBooking)&&!StringUtil.blString(goodsBooking)){
             hql+="  and goodsBooking=:goodsBooking";
         }
          if(!StringUtil.blString(goodsName)){
             hql+="  and goodsName like '%"+goodsName+"%'";
         }
         Query query=	getEntityManager().createQuery(hql);
-        query.setParameter("goodsState",goodsState);
-        if(!"不限".equals(goodsType)){
+        if(!StringUtil.blString(goodsState)){
+            query.setParameter("goodsState",goodsState);
+        }
+        if(!"不限".equals(goodsType)&&!StringUtil.blString(goodsType)){
             query.setParameter("goodsType",goodsType);
         }
-         if(!"不限".equals(goodsBooking)){
+         if(!"不限".equals(goodsBooking)&&!StringUtil.blString(goodsBooking)){
             query.setParameter("goodsBooking",goodsBooking);
         }
 //         if(!StringUtil.blString(goodsName)){
@@ -46,22 +51,28 @@ public class GoodsQueryDaoImpl implements IGoodsQueryDao {
 
     @Override
     public long getGoodsCount(String goodsState, String goodsType, String goodsBooking, String goodsName) {
-        String hql="select count(*) from GoodsEntity where goodsState=:goodsState";
-        if(!"不限".equals(goodsType)){
+
+        String hql="select count(*) from GoodsEntity where 1=1";
+        if(!StringUtil.blString(goodsState)){
+            hql+="  and goodsState=:goodsState";
+        }
+        if(!"不限".equals(goodsType)&&!StringUtil.blString(goodsType)){
             hql+="  and goodsType=:goodsType";
         }
-        if(!"不限".equals(goodsBooking)){
+        if(!"不限".equals(goodsBooking)&&!StringUtil.blString(goodsBooking)){
             hql+="  and goodsBooking=:goodsBooking";
         }
         if(!StringUtil.blString(goodsName)){
             hql+="  and goodsName like '%"+goodsName+"%'";
         }
         Query query=	getEntityManager().createQuery(hql);
-        query.setParameter("goodsState",goodsState);
-        if(!"不限".equals(goodsType)){
+        if(!StringUtil.blString(goodsState)){
+            query.setParameter("goodsState",goodsState);
+        }
+        if(!"不限".equals(goodsType)&&!StringUtil.blString(goodsType)){
             query.setParameter("goodsType",goodsType);
         }
-        if(!"不限".equals(goodsBooking)){
+        if(!"不限".equals(goodsBooking)&&!StringUtil.blString(goodsBooking)){
             query.setParameter("goodsBooking",goodsBooking);
         }
         return (long) query.getSingleResult();
