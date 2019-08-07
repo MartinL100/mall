@@ -21,8 +21,6 @@ public class OrderForGoodsDTO {
     private int goodsStatus;
     //库存商品外键
     private String stockGoodsId;
-    //商品利润
-    private float orderProfit;
     //订单对象
     private OrderManagementDTO orderObj;
 
@@ -104,13 +102,5 @@ public class OrderForGoodsDTO {
 
     public void setStockGoodsId(String stockGoodsId) {
         this.stockGoodsId = stockGoodsId;
-    }
-
-    public float getOrderProfit() {
-        return orderProfit;
-    }
-
-    public void setOrderProfit(float orderProfit) {
-        this.orderProfit = orderProfit;
     }
 }
