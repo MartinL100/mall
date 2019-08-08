@@ -49,7 +49,7 @@ public class UserAuditController {
      * @param endTime   结束时间
      * @return
      */
-    @RequestMapping("page.lovo")
+    @RequestMapping("registerAuditPage.lovo")
     public Map<String, Object> page(String tag, int page, int rows, String userState, String startTime, String endTime) {
         Map<String, Object> map = new HashMap<>();
         // List<SysStudent> list= service.getPageListStudent(page,rows,studentId);
@@ -86,10 +86,12 @@ public class UserAuditController {
     //修改保存用户审核信息
     @RequestMapping("updateUserAuditMessage.lovo")
     public String updateUserAuditMessage(SysUserAuditInformationEntity UserAuditInformation, HttpServletRequest request){
-        String auditPerson="";
+        //String auditPerson="";
         String id= null;
         try {
-            id = userAuditService.updateUserAuditMessage(UserAuditInformation,auditPerson);
+            // AuditEntity auditEntity= (AuditEntity) request.getSession().getAttribute("auditObj");
+           // userAuditService.updateUserAuditMessage(UserAuditInformation,auditEntity.getAuditPeople());
+            id = userAuditService.updateUserAuditMessage(UserAuditInformation,"光");
             //从队列中移除相应数据
         } catch (JsonProcessingException e) {
             e.printStackTrace();
@@ -107,7 +109,11 @@ public class UserAuditController {
     public String savaUserAuditMessage(String message){
         ResgisterMessageVo vo = null;
         try {
+            if (null==message||"".equals(message)){
+                return "{'message':'没有信息'}";
+            }
           vo= new ObjectMapper().readValue(message,ResgisterMessageVo.class);
+            System.out.println(vo);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -120,6 +126,8 @@ public class UserAuditController {
             e.printStackTrace();
         }
         ToAuditInformation(vo);
+        //=====================================================================
+
 //          SysUserAuditInformationEntity AuditInformation= new SysUserAuditInformationEntity();
 //        AuditInformation.setUserName(vo.getUserName());
 //        AuditInformation.setTrueName(vo.getTrueName());
@@ -233,7 +241,7 @@ public class UserAuditController {
         AuditInformation.setPassword(vo.getPassword());
         AuditInformation.setAptitudeImg(vo.getAptitudeImg());
         AuditInformation.setIdentityImg(vo.getIdentityImg());
-        AuditInformation.setAuditReplyTime(vo.getAuditTime());
+        AuditInformation.setAuditTime(vo.getAuditTime());
         AuditInformation.setCompanyName(vo.getCompanyName());
         AuditInformation.setSex(vo.getSex());
         AuditInformation.setUserState("未审核");
@@ -255,8 +263,8 @@ public class UserAuditController {
 
 //
 //    //添加测试数据
-//    @RequestMapping("testMySave")
-//    public  void testSave() {
+//    @RequestMapping("testMySaveAuditInformation")
+//    public  void testSaveAuditInformation() {
 //        for (int i =2; i <= 20; i++) {
 //            SysUserAuditInformationEntity AuditInformation = new SysUserAuditInformationEntity();
 //            AuditInformation.setUserName("zs" + i);

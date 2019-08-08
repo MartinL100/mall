@@ -13,7 +13,7 @@ public interface IGoodsManagementService {
      * @param rows 每页要显示的行数
      * @return 商品集合
      */
-    public List<OrderForGoodsEntity> findGoods(String orderNum, int currentPage, int rows);
+    public  List<OrderForGoodsEntity> findGoods(String orderNum, int currentPage, int rows);
 
     /**
      * 根据订单号查询商品总行数

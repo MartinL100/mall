@@ -10,8 +10,10 @@ package com.lovo.sscafter.promotionAndSalesReturn.promotion.beginPromotion.dao.d
 
         import javax.persistence.EntityManager;
         import javax.persistence.Query;
+        import javax.transaction.Transactional;
         import java.util.ArrayList;
         import java.util.List;
+        import java.util.Optional;
 
 @Repository
 public class PromotionGoodsDaoImp implements IPromotionGoodsDao {
@@ -24,7 +26,6 @@ public class PromotionGoodsDaoImp implements IPromotionGoodsDao {
 
         return entityManagerFactory.getObject().createEntityManager();
     }
-
 
 
 
@@ -95,12 +96,15 @@ public class PromotionGoodsDaoImp implements IPromotionGoodsDao {
         List<GoodsEntity> goodsEntitieList=new ArrayList<>();
         String hql="";
         for (String f:listId) {
-            hql="from GoodsEntity where goodsId='"+f+"'  ";
-             GoodsEntity s=(GoodsEntity) getEntityManager().createQuery(hql).getSingleResult();
+                    hql = "from GoodsEntity where goodsId='" + f + "'  ";
+            GoodsEntity s = (GoodsEntity) getEntityManager().createQuery(hql).getSingleResult();
             goodsEntitieList.add(s);
         }
 
         return goodsEntitieList;
     }
+
+
+
 
 }

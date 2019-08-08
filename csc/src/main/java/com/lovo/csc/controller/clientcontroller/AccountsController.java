@@ -2,6 +2,7 @@ package com.lovo.csc.controller.clientcontroller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.lovo.csc.dao.clientdao.IUserAuditNormalDao;
+import com.lovo.csc.entity.AuditEntity;
 import com.lovo.csc.entity.SysFrozenOrUnfrozenAccountsEntity;
 import com.lovo.csc.entity.SysUserAuditInformationEntity;
 import com.lovo.csc.service.clientService.IUserAuditService;
@@ -41,14 +42,14 @@ public class AccountsController {
 
 
     //分页
-    @RequestMapping("page2.lovo")
+    @RequestMapping("frozenOrUnfrozenAccountsPage.lovo")
     public Map<String, Object> page2(String tag,int page,int rows,String auditState,String auditType, String startTime, String endTime) {
         Map<String, Object> map = new HashMap<>();
         List<SysFrozenOrUnfrozenAccountsEntity> list=null;
         long total=0;
         if (null!=tag&&"".equals(tag)){
            list= userAuditService.frozenOrUnfrozenAccountsPageInitList(page-1,rows);
-           total= userAuditService.getfrozenOrUnfrozenAccountsPageInitCount();
+           total= userAuditService.getFrozenOrUnfrozenAccountsPageInitCount();
         }
         else{
             PageRequest pageable= PageRequest.of(page-1,rows);
@@ -65,8 +66,16 @@ public class AccountsController {
     //保存
     @JmsListener(destination = "frozenOrUnfrozenAccountsMessageMQ ")
     @RequestMapping("saveFrozenOrUnfrozenAccountsEntity.lovo")
-    public String savaSysFrozenOrUnfrozenAccountsEntity(PreserveMessageVo vo) {
-
+    public String savaSysFrozenOrUnfrozenAccountsEntity(String message) {
+        if (null==message||"".equals(message)){
+            return "无新的请求";
+        }
+        PreserveMessageVo vo=null;
+        try {
+            vo=new ObjectMapper().readValue(message,PreserveMessageVo.class);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         if (null != vo) {
             ToFrozenOrUnfrozenAccountsMsg(vo);
             try {
@@ -84,9 +93,12 @@ public class AccountsController {
     public String updateFrozenOrUnfrozenAccountsEntity(String id, HttpServletRequest request){
         SysFrozenOrUnfrozenAccountsEntity info=
                 userAuditService.findSysFrozenOrUnfrozenAccountsEntityById(id);
-                request.getSession().getAttribute("userObj");
-             String re=  userAuditService.CycleUpdateUserAuditInformation(info,"");
-      // String Id= userAuditService.savaFrozenOrUnfrozenAccountsEntity(frozenOrUnfrozenAccountsEntity);
+             // AuditEntity auditEntity= (AuditEntity) request.getSession()
+        // .getAttribute("auditObj");
+             //String re=  userAuditService.
+        // CycleUpdateUserAuditInformation(info,auditEntity.getAuditPeople());
+        String re=  userAuditService.CycleUpdateUserAuditInformation(info,"光");
+        // String Id= userAuditService.savaFrozenOrUnfrozenAccountsEntity(frozenOrUnfrozenAccountsEntity);
         if (null!=re&&"操作成功".equals(re)){
             return "{'successMsg':'操作成功'}";
         }
@@ -147,22 +159,23 @@ public class AccountsController {
     }
 
 
-    @RequestMapping("testSaveAccounts")
-    public void saveAccounts(){
-        System.out.println("==============================================================================");
-        for (int i = 1; i <= 20; i++) {
-        SysFrozenOrUnfrozenAccountsEntity Accounts=
-                new SysFrozenOrUnfrozenAccountsEntity();
-        Accounts.setUserNameStr("zs"+i+",ls"+i);
-        Accounts.setAuditOpinion("非法登录");
-        Accounts.setAuditType("冻结");
-        Accounts.setAuditTime(MyStringUtil.getFormMatTime());
-        Accounts.setMaintenanceManager("大古");
-        userAuditService.savaFrozenOrUnfrozenAccountsEntity(Accounts);
-        System.out.println(Accounts.getFrozenOrUnfrozenAccountsMessageId());
-        }
-        System.out.println("=========================" +
-                "=====================================================");
-    }
+//    @RequestMapping("testSaveAccounts")
+//    public void saveAccounts(){
+//        System.out.println("==============================================================================");
+//        for (int i = 1; i <= 20; i++) {
+//        SysFrozenOrUnfrozenAccountsEntity Accounts=
+//                new SysFrozenOrUnfrozenAccountsEntity();
+//        Accounts.setUserNameStr("zs"+i+",ls"+i);
+//        Accounts.setAuditOpinion("非法登录");
+//        Accounts.setAuditType("冻结");
+//        Accounts.setAuditState("未审核");
+//        Accounts.setAuditTime(MyStringUtil.getFormMatTime());
+//        Accounts.setMaintenanceManager("大古");
+//        userAuditService.savaFrozenOrUnfrozenAccountsEntity(Accounts);
+//        System.out.println(Accounts.getFrozenOrUnfrozenAccountsMessageId());
+//        }
+//        System.out.println("=========================" +
+//                "=====================================================");
+//    }
 
 }
