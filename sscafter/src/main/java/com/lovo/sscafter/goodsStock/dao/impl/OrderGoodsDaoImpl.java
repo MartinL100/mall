@@ -87,4 +87,14 @@ public class OrderGoodsDaoImpl implements IOrderGoodsDao {
 
         return (Long) query.getSingleResult();
     }
+
+    @Override
+    public float findGoodsBidByGoodsId(String goodsId) {
+        String hql="select og.goodsBid from " +
+                "OrderGoodsEntity og left join GoodsStockEntity g on g.goodsId=og.goods.goodsId where g.goodsId=: goodsId";
+        Query query = getEntityManager().createQuery(hql);
+        query.setParameter("goodsId",goodsId);
+
+        return(float) query.getSingleResult();
+    }
 }

@@ -12,5 +12,8 @@ public interface IOrderGoodsService {
 
     public void updateIsReturnGoods(String status,String orderGoodsId);
 
+   public void saveOrderGoods(OrderGoodsEntity orderGoodsEntity);
 
+    //根据商品id查找进货价格
+    public float findGoodsBidByGoodsId(String goodsId);
 }
