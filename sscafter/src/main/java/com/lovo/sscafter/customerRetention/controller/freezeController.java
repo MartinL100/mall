@@ -68,7 +68,7 @@ public class freezeController {
 
     @RequestMapping("freezeUser")
     @ResponseBody
-    public void freezeUser(String jsonStr, HttpServletRequest request) {
+    public void freezeUser(String jsonStr, HttpServletRequest request,String account) {
         ObjectMapper om = new ObjectMapper();
         List<String> list = null;
         try {
@@ -85,9 +85,11 @@ public class freezeController {
         SimpleDateFormat sdf = new SimpleDateFormat("YYYY-MM-dd");
         String AuditTime = sdf.format(System.currentTimeMillis());
         predto.setAuditTime(AuditTime);
-        predto.setMaintenanceManager(request.getSession().getAttribute("userName")+"");
 
-        System.out.println(predto);
+        predto.setMaintenanceManager(((UserEntity)(request.getSession().getAttribute("userName"))).getUserName1());
+        predto.setAuditOpinion(account);
+        //放入mq
         ActiveMQQueue queue=new ActiveMQQueue("frozenOrUnfrozenAccountsMessageMQ");
+        jmsMessagingTemplate.convertAndSend(queue,predto);
     }
 }
