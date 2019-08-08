@@ -19,11 +19,11 @@
 
 
                 <div class="layui-card-body">
-                    <table class="layui-hide" id="test-table-autowidth"></table>
+                    <table class="layui-hide" id="test-table-autowidth" ></table>
                 </div>
 
 
-           <a href="orderDeal.html"> <button class="layui-btn" style="float: right;width: 10%">返回</button></a>
+           <a href="orderDeal.html"><button class="layui-btn" style="float: right;width: 10%">返回</button></a>
 
             </div>
         </div>
@@ -37,7 +37,7 @@
         index: 'lib/index' //主入口模块
     }).use(['index', 'table'], function(){
 
-        var table = layui.table;
+        var  table = layui.table;
         table.render({
             elem: '#test-table-autowidth'
             ,url: '/goodsDel'
@@ -51,6 +51,7 @@
 
             ]]
         });
+
 
     });
 

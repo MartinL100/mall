@@ -66,13 +66,13 @@
    function findUserName(){
         $.post("../../../find",{"userName":$("#LAY-user-login-nickname").val()},function (re) {
             if(re=="no"){
-                alert("该用户已存在，请登录或者更改用户名")
+                layer.msg('该用户已存在，请登录或者更改用户名', {icon: 5, anim: 6});
             }
         });
     };
     function checkPhone(){
        if(!(/^1[3456789]\d{9}$/.test($("#LAY-user-login-cellphone").val()))){
-           alert("输入手机号有误")
+           layer.msg('输入手机号有误，请重新输入', {icon: 5, anim: 6});
        }
     };
 
@@ -80,18 +80,18 @@
        // alert($('input[name="sex"]:checked').val());
        // alert($('input[name="agreement"]:checked').val());
         if($('input[name="agreement"]:checked').val()!="on"){
-            alert("请同意用户注册协议")
+            layer.msg('请同意用户注册协议', {icon: 5, anim: 6});
         }else if($("#LAY-user-login-password").val()!=$("#LAY-user-login-repass").val()){
-            alert("两次输入密码不一致，请确认")
+            layer.msg('两次输入密码不一致，请确认', {icon: 5, anim: 6});
         }else if( ""==$("#LAY-user-login-password").val()){
-            alert("密码不能为空")
+            layer.msg('密码不能为空', {icon: 5, anim: 6});
         }
         else {
             $.post("../../../rapidEnrollment",{"userName":$("#LAY-user-login-nickname").val(),"password":$("#LAY-user-login-password").val()
             ,"trueName":$("#LAY-user-login-nickname2").val(),"telphone":$("#LAY-user-login-cellphone").val(),"sex":$('input[name="sex"]:checked').val()},
                 function (re) {
                 if(re=="ok"){
-                    alert("注册成功，请登录");
+                    layer.msg('注册成功，请登录', {icon: 6, anim: 6});
                     location.href="userLogin.html";
                 }
             });

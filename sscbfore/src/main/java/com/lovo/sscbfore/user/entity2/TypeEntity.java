@@ -7,6 +7,7 @@ import javax.persistence.*;
 @Entity
 @Table(name="sys_type")
 public class TypeEntity {
+
     @Id
     @GenericGenerator(name = "typeUuid", strategy = "uuid")
     @GeneratedValue(generator = "typeUuid")

@@ -13,22 +13,6 @@ import java.util.List;
  */
 public interface IUserMessageService {
 
-    /**
-     * 查询用户所有消息记录，按时间倒序，分页显示
-     *
-     * @param userName 用户名
-     * @param page     当前页
-     * @param limit    每页显示行数
-     * @return 用户消息集合
-     */
-    List<UserInfoEntity> findAllUserMessage(String userName, String page, String limit);
-
-    /**
-     * 修改用户所有消息状态，将未读（0）改为已读（1）
-     *
-     * @param userName 用户名
-     */
-    void updateMessageStatus(String userName);
 
     /**
      * 添加用户消息
@@ -36,4 +20,14 @@ public interface IUserMessageService {
      * @param userMessage 消息实体类
      */
     void addUserMessage(UserInfoEntity userMessage);
+
+    List<UserInfoEntity> findAllUserMessage(String userName);
+
+    List<UserInfoEntity> findAllUserMessagePageAble(String userName, int page, int limit);
+
+    int countUserMessages(String userName);
+
+    int countUserNewMessage(String userName);
+
+    void updateUserMessage(String userName);
 }

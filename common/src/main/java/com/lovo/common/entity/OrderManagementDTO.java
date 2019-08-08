@@ -1,7 +1,7 @@
 package com.lovo.common.entity;
 
 import java.util.List;
-//后端订单实体类
+
 public class OrderManagementDTO {
     //订单编号
     private String orderNum;
@@ -18,7 +18,7 @@ public class OrderManagementDTO {
     //支付方式
     private String payMethod;
     //下单地址外键
-    private String orderAddress;
+    private int orderAddress;
     //利润
     private float goodsProfit;
     //删除状态
@@ -92,11 +92,11 @@ public class OrderManagementDTO {
         this.payMethod = payMethod;
     }
 
-    public String getOrderAddress() {
+    public int getOrderAddress() {
         return orderAddress;
     }
 
-    public void setOrderAddress(String orderAddress) {
+    public void setOrderAddress(int orderAddress) {
         this.orderAddress = orderAddress;
     }
 

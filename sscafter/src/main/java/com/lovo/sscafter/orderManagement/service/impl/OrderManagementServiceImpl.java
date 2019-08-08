@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 @Service
 @Transactional
@@ -95,5 +96,12 @@ public class OrderManagementServiceImpl implements IOrderManagementService {
     @Override
     public void updateOrderType(String orderId) {
         orderManagementDao.updateOrderType(orderId,0+"");
+    }
+
+
+    public  Map<String,String> findDate(String mouth){
+        Map<String,String> list =  orderTrendsDao.findDate(mouth);
+
+        return list;
     }
 }

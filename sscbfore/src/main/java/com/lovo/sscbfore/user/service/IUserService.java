@@ -2,6 +2,8 @@ package com.lovo.sscbfore.user.service;
 
 import com.lovo.sscbfore.user.entity2.UserEntity;
 
+import java.util.List;
+
 public interface IUserService {
     /**
      * 根据用户名查询用户对象
@@ -38,4 +40,13 @@ public interface IUserService {
      * @param user 用户对象
      */
     public void rapidEnrollment(UserEntity user);
+
+    /**
+     * 根据用户名模糊查询用户集合
+     * @param userName 用户名
+     * @return 用户集合
+     */
+    public List<UserEntity> userList(String userName,String userState,int currentPage,int rows);
+
+    public int userRows(String userName,String userState);
 }

@@ -16,7 +16,7 @@
 <h1>lovo商城后端系统</h1>
 
 <div class="easyui-layout" style="width: 100%;height:500px;">
-    <div region="west" split="true" title="系统菜单" style="width:200px;">
+    <div region="west" split="true" title="库存维护" style="width:200px;">
             <ul class="easyui-tree" >
 
                         <li data-options="state:'closed'">
@@ -25,7 +25,9 @@
                                 <li><a href="lookStovkInfo.html" target="cc">查看库存信息</a></li>
                                 <li><a href="lookBuyInfo.html" target="cc">查看采购信息</a></li>
                                 <li><a href="lookReturnGoodsInfo.html" target="cc">查看退货信息</a></li>
+                                <li><a href="LookOrderGoods.html" target="cc">查看到货信息</a></li>
                                 <li><a href="goodsTypeDefend.html" target="cc">商品类别维护</a></li>
+
                             </ul>
                         </li>
 
@@ -35,7 +37,7 @@
     </div>
 
     <div id="content" region="center" style="overflow:hidden;">
-        <iframe name="cc" frameborder="no" border="0" marginwidth="0" marginheight="0" scrolling="no" allowtransparency="yes" style="width:100%;height:100%" ></iframe>
+        <iframe name="cc" frameborder="no" border="0" marginwidth="0" marginheight="0" scrolling="yes" allowtransparency="yes" style="width:100%;height:100%" ></iframe>
     </div>
 </div>
 </body>

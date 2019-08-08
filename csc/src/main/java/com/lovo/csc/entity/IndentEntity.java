@@ -20,14 +20,14 @@ public class IndentEntity {
     @GeneratedValue(generator="myuuid")
     private String indentId;
     //订单生产日期
-    @Column()
-    private Date indentDate;
+    @Column(length=48)
+    private String indentDate;
     //订单状态
     @Column(length=48)
     private String indentStatus;
     //结算时间
-    @Column()
-    private Date closeTime;
+    @Column(length=48)
+    private String closeTime;
     //订单金额  数据库转decimal类型
     @Column()
 //    @ColumnDefault(value = "decimal")
@@ -41,11 +41,11 @@ public class IndentEntity {
         this.indentId = indentId;
     }
 
-    public Date getIndentDate() {
+    public String getIndentDate() {
         return indentDate;
     }
 
-    public void setIndentDate(Date indentDate) {
+    public void setIndentDate(String indentDate) {
         this.indentDate = indentDate;
     }
 
@@ -57,11 +57,11 @@ public class IndentEntity {
         this.indentStatus = indentStatus;
     }
 
-    public Date getCloseTime() {
+    public String getCloseTime() {
         return closeTime;
     }
 
-    public void setCloseTime(Date closeTime) {
+    public void setCloseTime(String closeTime) {
         this.closeTime = closeTime;
     }
 

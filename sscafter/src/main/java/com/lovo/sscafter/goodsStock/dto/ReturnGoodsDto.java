@@ -14,6 +14,11 @@ public class ReturnGoodsDto {
     private Long returnGoodsNum;//退货数量
     private float goodsBid;//进货价格
 
+
+    public ReturnGoodsDto() {
+
+    }
+
     public String getGoodsId() {
         return goodsId;
     }

@@ -24,8 +24,8 @@ public class SupplyDaoImpl implements ISupplyDao {
     public List<LookBuyInfoDTO> findOrderGoods(String goodsName, String goodsType,
            String startDate, String endDate, int currentPage, int rows) {
    String hql="select new com.lovo.sscafter.goodsStock.dto.LookBuyInfoDTO(ie.indentId as indentId,ie.indentDate as indentDate,se.supplyNum as supplyNum" +
-           ",se.supplierId as supplierId,ge.goodsName as goodsName,ge.goodsType as goodsType,ge.goodsNorms as goodsNorms,ge.goodsUnit as goodsUnit) from SupplyEntity se left join IndentEntity ie on ie.indentId=se.indent.indentId" +
-           " left join GoodsStockEntity ge on ge.goodsId=se.goods.goodsId where 1=1 ";
+           ",ge.goodsName as goodsName,ge.goodsType as goodsType,ge.goodsNorms as goodsNorms,ge.goodsUnit as goodsUnit) from SupplyEntity se left join IndentEntity ie on ie.indentId=se.indent.indentId" +
+           " left join GoodsStockEntity ge on ge.goodsId=se.goods.goodsId left join OrderGoodsEntity og on og.goods.goodsId=ge.goodsId where 1=1 ";
         if(null!=goodsName&&goodsName.length()!=0){
             hql+=" and ge.goodsName like '%"+goodsName+"%' ";
         }
@@ -47,6 +47,34 @@ public class SupplyDaoImpl implements ISupplyDao {
         query.setFirstResult((currentPage-1)*rows);
         query.setMaxResults(rows);
 
-        return query.getResultList();
+        return (List<LookBuyInfoDTO>)query.getResultList();
+    }
+
+    @Override
+    public long findOrderGoodsCount(String goodsName, String goodsType, String startDate, String endDate) {
+        String hql="select count(*) from SupplyEntity se left join IndentEntity ie on ie.indentId=se.indent.indentId" +
+                " left join GoodsStockEntity ge on ge.goodsId=se.goods.goodsId left join OrderGoodsEntity og on og.goods.goodsId=ge.goodsId where 1=1 ";
+        if(null!=goodsName&&goodsName.length()!=0){
+            hql+=" and ge.goodsName like '%"+goodsName+"%' ";
+        }
+        if(null!=goodsType&&goodsType.length()!=0){
+            hql+=" and ge.goodsType=: goodsType1 ";
+        }if(null!=startDate&&startDate.length()!=0){
+            hql +=" and ie.indentDate>=:startDate";
+        }if(null!=endDate&&endDate.length()!=0){
+            hql+=" and  ie.indentDate<=:endDate";
+        }
+
+        Query query = getEntityManager().createQuery(hql);
+
+        if(null!=goodsType&&goodsType.length()!=0){
+            query.setParameter("goodsType1",goodsType);
+        }if(null!=startDate&&startDate.length()!=0){
+            query.setParameter("startDate",startDate);
+        }if(null!=endDate&&endDate.length()!=0){
+            query.setParameter("endDate",endDate);
+        }
+
+        return (Long) query.getSingleResult();
     }
 }

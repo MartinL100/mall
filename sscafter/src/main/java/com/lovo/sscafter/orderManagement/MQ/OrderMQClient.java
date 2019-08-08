@@ -9,7 +9,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class OrderMQClient {
 
-    IGoodsManagementService iGoodsManagementService;
+    IGoodsManagementService  iGoodsManagementService;
 
     @JmsListener(destination = "orderReturnMQ")
     public void orderMQ(String orderReturn){

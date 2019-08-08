@@ -3,319 +3,234 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>用户注册审核页面Test</title>
+    <title>lovo商城</title>
     <link rel="stylesheet" type="text/css" href="../../easyui/themes/metro/easyui.css">
     <link rel="stylesheet" type="text/css" href="../../easyui/themes/mobile.css">
     <link rel="stylesheet" type="text/css" href="../../easyui/themes/icon.css">
     <script type="text/javascript" src="../../easyui/jquery.min.js"></script>
     <script type="text/javascript" src="../../easyui/jquery.easyui.min.js"></script>
     <script type="text/javascript" src="../../easyui/jquery.easyui.mobile.js"></script>
-    <!--<script type="text/javascript" src="../../easyui/jquery.js"></script>-->
 </head>
 <body>
+<h1 align="center">供应商供应商品审核</h1>
 <div id="tb" style="padding:3px">
     <div style="margin-bottom:20px">
-        <input class="easyui-datebox"  id="startTime" name="startTime" label="开始时间:" prompt="搜索请求审核开始时间" data-options="editable:false,panelWidth:220,panelHeight:240,iconWidth:30" style="width:45%">
-        <input class="easyui-datebox"  id="endTime" name="endTime" label="结束时间:" prompt="搜索请求审核结束时间" data-options="editable:false,panelWidth:220,panelHeight:240,iconWidth:30" style="width:45%">
-    </div>
-    <div style="margin-bottom:20px">
-        <input name="indentId" class="easyui-textbox" disabled="true" required="true" label="订单编号:" style="width:45%">
+        <input id="supplierName" class="easyui-textbox" labelWidth="120" label="供应商名称:" style="width:45%">
+        <input id="supplierType" class="easyui-textbox" labelWidth="120" label="供应商类型:" style="width:45%">
     </div>
     <div style="margin-bottom:20px">
         <div style="margin-bottom:10px">
-            <select name="indentStatus" id="indentStatus2" label="订单状态:" class="easyui-combobox" name="state" style="width:45%" panelHeight="100">
-                <option value="未投标">                      未投标</option>
-                <option value="不限">                    不限</option>
-                <option value="已投标">                      已投标</option>
+            <select name="supplierLevel" id="supplierLevel" labelWidth="120" label="供应商等级:" class="easyui-combobox" name="state" style="width:45%" panelHeight="100">
+                <option value="不限">不限</option>
+                <option value="大型">大型</option>
+                <option value="中型">中型</option>
+                <option value="小型">小型</option>
             </select>
-            <input id="auditTypeTag" name="auditTypeTag" type="hidden">
+        </div>
+    </div>
+    <div style="margin-bottom:20px">
+        <div style="margin-bottom:10px">
+            <select name="supplierTag" id="supplierTag" labelWidth="120" label="供应商状态:" class="easyui-combobox" name="state" style="width:45%" panelHeight="100">
+                <option value="供应商未审核">供应商未审核</option>
+                <option value="供应商供应商品未审核">供应商供应商品未审核</option>
+                <option value="不限">不限</option>
+                <option value="已审核">已审核</option>
+            </select>
             <a href="javascript:void(0)" class="easyui-linkbutton"  onclick="doSearch()" style="right :0px;width:90px;">搜索</a>
         </div>
     </div>
 </div>
 <table id="tt" class="easyui-datagrid"
-       url="/page.lovo"
+       url="/supplierPage.lovo"
        iconCls="icon-save"
        rownumbers="false" pagination="true"  singleSelect="true">
     <thead>
     <tr>
-        <th field="indentId" width="34%">订单编号</th>
-        <th field="indentDate" width="34%">订单日期</th>
-        <th field="indentStatus"width="34%">订单状态</th>
+        <th field="supplierId" width="0%" hidden="hidden">ID</th>
+        <th field="supplierName" width="17%">供应商名称</th>
+        <th field="supplierType"width="17%">供应类型</th>
+        <th field="supplierLevel" width="17%">供应商等级</th>
+        <th field="supplierTag"width="17%">审核情况</th>
+        <th field="supplierPrincipal" width="0%" hidden="hidden"></th>
+        <th field="principalTel" width="0%" hidden="hidden"></th>
+        <th field="supplierAddress" width="0%" hidden="hidden"></th>
+        <th field="checkId.auditName"width="17%">审核人</th>
+        <th field="checkDate"width="17%">审核时间</th>
     </tr>
     </thead>
 </table>
 
 <div id="buttons" align="center" style="margin-bottom:40px;margin-top: 40px;position: relative;right: -300px" >
-    <a href="javascript:void(0)"  class="easyui-linkbutton" onclick="openMyWind()" style="left :-255px;width:90px"> 审 核 </a>
+    <a href="javascript:void(0)"  class="easyui-linkbutton" onclick="Supplier()" style="left :-255px;width:150px"> 供应商查看 </a>
+    <a href="javascript:void(0)"  class="easyui-linkbutton" onclick="SupplierGoods()" style="left :-255px;width:150px"> 供应商供应商品查看 </a>
 </div>
-<!-- 模态框 -->
-<div id="dlg" class="easyui-dialog" style="width:800px;height: 600px" data-options="closed:true,modal:true,border:'thin',buttons:'#dlg-buttons'">
-    <form id="fm" method="post" novalidate style="margin:0;padding:20px 50px">
-        <input type="hidden" name="auditType" id="auditType">
-        <input type="hidden" name="userAuditInformationId" id="userAuditInformationId">
-        <div style="margin-bottom:10px;position: relative;right: -32px">
-            <!-- 用户名-->
-            <span>用户名：</span>
-            <input id="userName" type="text" name="userName"
-                   class="textbox-text validatebox-text validatebox-readonly textbox-prompt"
-                   autocomplete="off" tabindex="" readonly="" placeholder=""
-                   style="width: 224px; margin: 0px; padding-top: 0px; padding-bottom: 0px;
-            height: 30px; line-height: 30px;">
-            <!-- 真实姓名-->
-            <span>真实姓名：</span>
-            <input id="trueName"  name="trueName" class="textbox-text validatebox-text validatebox-readonly textbox-prompt"
-                   autocomplete="off" tabindex="" readonly="" placeholder=""
-                   style="width: 224px; margin: 0px; padding-top: 0px; padding-bottom: 0px;
-            height: 30px; line-height: 30px;">
+<!--供应商模态框-->
+<div id="dlg1" class="easyui-dialog" style="width:800px;height: 600px" data-options="closed:true,modal:true,border:'thin',buttons:'#dlg-buttons'">
+    <form id="fm1" method="post" novalidate style="margin:0;padding:20px 50px">
+        <div style="margin-bottom:10px" hidden="hidden">
+        <input id="supplierId" name="supplierId" class="easyui-textbox" disabled="true" required="true" label="供应商编号:" style="width:100%">
         </div>
-
-        <!-- 性别-->
-        <div style="margin-bottom:10px;position: relative;right: -42px">
-            <label> 性 别： </label>
-            <input id="sex"  name="sex" class="textbox-text validatebox-text validatebox-readonly textbox-prompt"
-                   autocomplete="off" tabindex="" readonly="" placeholder=""
-                   style="width: 224px; margin: 0px; padding-top: 0px; padding-bottom: 0px;
-            height: 30px; line-height: 30px;">
-            <!-- 电话-->
-            <label style="position: relative;left: 10px"> 电 话:</label>
-            <input id="telphone"  name="telphone" class="textbox-text validatebox-text validatebox-readonly textbox-prompt"
-                   autocomplete="off" tabindex="" readonly="" placeholder=""
-                   style="width: 224px; margin: 0px; padding-top: 0px; padding-bottom: 0px;position: relative;left: 34px;
-            height: 30px; line-height: 30px;">
-        </div>
-
-        <!-- 资质图片-->
-        <div style="margin-bottom:30px"  >
-            <span>用户资质图片:</span>  <img id="aptitudeImg" style="height: 250px;width:350px "/>
-            <input type="hidden" id="aptitudeImgStr" name="aptitudeImg">
-        </div>
-
-        <!-- 身份图片-->
-        <div style="margin-bottom:10px" >
-            <span>用户身份图片:</span>  <img id="identityImg" style="height: 250px;width:350px "/>
-            <input type="hidden" id="identityImgStr" name="identityImg">
-        </div>
-
         <div style="margin-bottom:10px">
+            <input name="supplierName" class="easyui-textbox" disabled="true" required="true" label="供应商名称:" style="width:100%">
+        </div>
+        <div style="margin-bottom:10px">
+            <input name="supplierType" class="easyui-textbox" disabled="true" required="true" label="供应商品类型:" style="width:100%">
+        </div>
+        <div style="margin-bottom:10px">
+            <input name="supplierLevel" class="easyui-textbox" disabled="true" required="true" label="供应商等级:" style="width:100%">
+        </div>
+        <div style="margin-bottom:10px">
+            <input name="supplierPrincipal" class="easyui-textbox" disabled="true" required="true" label="负责人:" style="width:100%">
+        </div>
+        <div style="margin-bottom:10px">
+            <input name="principalTel" class="easyui-textbox" disabled="true" required="true" label="负责人电话:" style="width:100%">
+        </div>
+        <div style="margin-bottom:10px">
+            <input name="supplierAddress" class="easyui-textbox" disabled="true" required="true" label="公司地址:" style="width:100%">
+        </div>
             <div style="margin-bottom:10px">
-                <label style="position: relative;left: 18px">审核意见：</label>
-                <textarea   id="auditOpinion" fixed="false"   rows="10" cols="50" readonly="readonly" name="auditOpinion"   style="position: relative;left:18px;width:51.5%;height: 200px;resize:none">
-            </textarea>
+                <select name="supplierLevel" id="supplierLeve2" labelWidth="120" label="供应商等级:" class="easyui-combobox" name="state" style="width:100%" panelHeight="100">
+                    <option value="不限">不限</option>
+                    <option value="大型">大型</option>
+                    <option value="中型">中型</option>
+                    <option value="小型">小型</option>
+                </select>
             </div>
+        <div id="buttons1" align="center" style="margin-bottom:40px;margin-top: 40px;position: relative;right: -300px" >
+            <a href="javascript:void(0)" id="audit"  class="easyui-linkbutton" onclick="audit()" style="left :-255px;width:150px"> 审核通过 </a>
+            <a href="javascript:void(0)" id="auditFasle" class="easyui-linkbutton" onclick="auditFasle()" style="left :-255px;width:150px"> 问题反馈 </a>
+            <a href="javascript:void(0)"  class="easyui-linkbutton" onclick="back()" style="left :-255px;width:150px"> 取消 </a>
         </div>
-
-        <div style="margin-bottom:10px;position: relative;right: 10px" >
-            <span>请求审核时间：</span>
-            <input  id="auditTime"   name="auditTime" class="textbox-text validatebox-text validatebox-readonly textbox-prompt"
-                    autocomplete="off" tabindex="" readonly="" placeholder=""
-                    style="width: 224px; margin: 0px; padding-top: 0px; padding-bottom: 0px;
-            height: 30px; line-height: 30px;"   style="width:45%" style="width:45%">
-            <span>审核批复时间：</span>
-            <input id="auditReplyTime" name="auditReplyTime"   class="textbox-text validatebox-text validatebox-readonly textbox-prompt"
-                   autocomplete="off" tabindex="" readonly="" placeholder=""
-                   style="width: 224px; margin: 0px; padding-top: 0px; padding-bottom: 0px;
-            height: 30px; line-height: 30px;" style="width:45%">
+    </form>
+</div>
+<!--供应商供应商品模态框-->
+<div id="dlg3" class="easyui-dialog" style="width:800px;height: 600px" data-options="closed:true,modal:true,border:'thin',buttons:'#dlg-buttons'">
+    <form id="fm3" method="post" novalidate style="margin:0;padding:20px 50px">
+            <div style="margin-bottom:10px" hidden="hidden">
+                <input id="supplierId3" name="supplierId" class="easyui-textbox" disabled="true" required="true" label="供应商编号:" style="width:100%">
+            </div>
+            <div style="margin-bottom:20px">
+                <input name="supplierName" class="easyui-textbox" labelWidth="120" readonly="true" label="供应商名称:" style="width:45%">
+                <input name="supplierType" class="easyui-textbox" labelWidth="120" readonly="true" label="供应商品类型:" style="width:45%">
+            </div>
+            <div style="margin-bottom:20px">
+                <input name="supplierPrincipal" class="easyui-textbox" labelWidth="120" readonly="true" label="负责人:" style="width:45%">
+                <input name="supplierType" class="easyui-textbox" labelWidth="120" readonly="true" label="供应商等级:" style="width:45%">
+            </div>
+            <div style="margin-bottom:20px">
+                <input name="principalTel" class="easyui-textbox" labelWidth="120" readonly="true" label="负责人电话:" style="width:45%">
+                <input name="supplierAddress" class="easyui-textbox" labelWidth="120" readonly="true" label="公司地址:" style="width:45%">
+            </div>
+        <table id="tt3" class="easyui-datagrid"
+               url="/getSupplierGoods.lovo"
+               iconCls="icon-save"
+               rownumbers="false" pagination="true"  singleSelect="false">
+            <thead>
+            <tr>
+                <th field="codeId" width="0%" hidden="hidden">供应商供应商品表ID</th>
+                <th field="goodsName" width="17%">商品名</th>
+                <th field="goodsNorms"width="17%">商品规格</th>
+                <th field="goodsType" width="17%">商品类型</th>
+                <th field="goodsUnit"width="17%">商品单位</th>
+                <th field="supplierStatus" width="17%">供应商品状态</th>
+                <th field="supplierType" width="17%">供应商操作</th>
+            </tr>
+            </thead>
+        </table>
+        <div id="buttons3" align="center" style="margin-bottom:40px;margin-top: 40px;position: relative;right: -300px" >
+            <a href="javascript:void(0)" id="audit3"  class="easyui-linkbutton" onclick="update(商品供应)" style="left :-255px;width:150px"> 商品供应 </a>
+            <a href="javascript:void(0)" id="audit4"  class="easyui-linkbutton" onclick="update(取消供应)" style="left :-255px;width:150px"> 取消供应 </a>
+            <a href="javascript:void(0)" class="easyui-linkbutton" onclick="back()" style="left :-255px;width:150px"> 取消 </a>
         </div>
-
-        <div style="margin-bottom:10px;position: relative;left: 0px">
-            <span> 用户账号状态: </span>
-            <input id="userState"  name="userState"  class="textbox-text validatebox-text validatebox-readonly textbox-prompt"
-                   autocomplete="off" tabindex="" readonly="" placeholder=""
-                   style="width: 224px; margin: 0px; padding-top: 0px; padding-bottom: 0px;
-            height: 30px; line-height: 30px;">
-
-            <span style="position: relative;left: 15px"> 审核人：</span>
-            <input id="auditPerson"  name="auditPerson"class="textbox-text validatebox-text validatebox-readonly textbox-prompt"
-                   autocomplete="off" tabindex="" readonly="" placeholder=""
-                   style="width: 224px; margin: 0px; padding-top: 0px; padding-bottom: 0px;
-            height: 30px; line-height: 30px;position: relative;left: 42px"   style="width:45%">
+    </form>
+</div>
+<!--模态框-->
+<div id="dlg2" class="easyui-dialog" style="width:800px;height: 600px" data-options="closed:true,modal:true,border:'thin',buttons:'#dlg-buttons'">
+    <form id="fm2" method="post" novalidate style="margin:0;padding:20px 50px">
+        <h1 align="center">问题反馈</h1>
+        <div style="margin-bottom:10px" hidden="hidden">
+            <input id="supplierId2" name="supplierId" class="easyui-textbox" disabled="true" required="true" label="供应商编号:" style="width:100%">
         </div>
-
-        <div id="dlg-buttons" align="center" style="margin-bottom:10px">
-            <a href="javascript:void(0)" class="easyui-linkbutton c6" iconCls="icon-ok" onclick="auditPass()" style="left :-255px;width:90px">审核通过</a>
-            <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-cancel" onclick="auditFail()" style="left :-255px;width:90px">拒绝通过</a>
-            <!-- <a href="javascript:void(0)" class="easyui-linkbutton"  onclick="ChangeTx()" style="left :-255px;width:90px">change</a>  -->
-            <a href="javascript:void(0)" class="easyui-linkbutton"  onclick="javascript:$('#dlg').dialog('close')" style="left :-255px;width:90px">取消操作</a>
+        <div style="margin-bottom:10px">
+            <input id="supplierTag2" name="supplierTag" data-options="multiline:true" class="easyui-textbox" required="true" label="审核意见:" style="width:100%;height:150px">
+        </div>
+        <div id="buttons2" align="center" style="margin-bottom:40px;margin-top: 40px;position: relative;right: -300px" >
+            <a href="javascript:void(0)"  class="easyui-linkbutton" onclick="audit()" style="left :-255px;width:150px"> 确认 </a>
+            <a href="javascript:void(0)"  class="easyui-linkbutton" onclick="back2()" style="left :-255px;width:150px"> 取消 </a>
         </div>
     </form>
 </div>
 <script>
-    //弹出模态框
-    function openMyWind(){
-
+    function SupplierGoods() {
         var row = $('#tt').datagrid('getSelected');
-        //alert(row)
-        //if (row) {
-        //根据用户名查找出审核数据
-        //并将审核数据赋值给模态框
-        PostToControllerFindUserMessageByUserName(row);
-        $('#dlg').dialog('open').dialog('center').dialog('setTitle', '用户详情');
-        //  }
+        if("供应商供应商品未审核"!=(row).supplierTag){
+            $("#audit3").hide();
+        }
+        if("供应商未审核"==(row).supplierTag){
+            $("#audit3").show();
+        }
+        if (row) {
+            $('#dlg3').dialog('open').dialog('center').dialog('setTitle','供应商供应商品审核');
+            $('#fm3').form('load',row);
+            url = '/getSupplier.lovo?id='+row.supplierId;
+        }
+        $('#tt3').datagrid('load',{
+            supplierId: row.supplierId,
+            page:1,
+        });
     }
-    //返回时间格式如下: 2018-8-21 10:24:41
-    function timeFormat() {
-        var date=new Date()
-        var n = date.getFullYear();
-        var y = date.getMonth() + 1;
-        var r = date.getDate();
-        var mytime = date.toLocaleTimeString();
-        var mytimes = n + "-" + y + "-" + r + " " + mytime;
-        return mytimes;
-
+    function auditFasle() {
+        var a=$("#supplierId").val()
+        // $("#supplierId2").val(a)
+        $("#supplierId2").textbox('setValue',a);
+        $('#dlg2').dialog('open').dialog('center').dialog('setTitle','问题反馈');
+    }
+    function back2() {
+        $('#dlg2').dialog('close');
+    }
+    function back() {
+        $('#dlg1').dialog('close');
+        $('#dlg3').dialog('close');
+    }
+    function openMyWind(){
+        var row = $('#tt').datagrid('getSelected');
+        if (row) {
+            $('#dlg1').dialog('open').dialog('center').dialog('setTitle','供应商审核');
+            $('#fm1').form('load',row);
+            url = '/getSupplier.lovo?id='+row.supplierId;
+            $("#audit").hide();
+            $("#auditFasle").hide();
+        }
+    }
+    function Supplier(){
+        var row = $('#tt').datagrid('getSelected');
+        if("供应商未审核"!=(row).supplierTag){
+            $("#audit").hide();
+            $("#auditFasle").hide();
+        }
+        if("供应商未审核"==(row).supplierTag){
+            $("#audit").show();
+            $("#auditFasle").show();
+        }
+        if (row) {
+            $('#dlg1').dialog('open').dialog('center').dialog('setTitle','供应商审核');
+            $('#fm1').form('load',row);
+            url = '/getSupplier.lovo?id='+row.supplierId;
+        }
     }
     //初始化加载
     $(document).ready(function () {
-        $('#tt').datagrid('load',{
-            userState: $('#userState').val(),
-            startTime:$("#startTime").val(),
-            endTime:$("#endTime").val(),
-            page:1,
-            tag:init,
-        });
+        doSearch();
     });
     //查询
     function doSearch(){
-        $('#tt').attr("url","../../findUserAuditMessagePage.lovo")
         $('#tt').datagrid('load',{
-            userState: $('#userState').val(),
-            startTime:$("#startTime").val(),
-            endTime:$("#endTime").val()
-
+            supplierName: $('#supplierName').val(),
+            supplierType:$("#supplierType").val(),
+            supplierLevel:$("#supplierLevel").val(),
+            supplierTag:$("#supplierTag").val(),
+            page:1,
         });
-        //alert(  $('#tt').attr("url"))
-    }
-
-    var url;
-    //审核通过
-    function auditPass() {
-        $("#auditOpinion").val("审核通过")
-        $("#userState").val("审核通过")
-        //var timeFormat=timeFormat();
-        //alert(timeFormat())
-        $("#auditReplyTime").val(timeFormat())
-        url="updateUserAuditMessage.lovo"
-        $('#fm').form('submit',{
-            url: url,
-            onSubmit: function(){
-                return $(this).form('validate');
-            },
-            success: function(result){
-
-                var result = eval('('+result+')');
-
-                if (result.errorMsg){
-                    $.messager.show({
-                        title: 'Error',
-                        msg: result.errorMsg
-                    });
-                } else {
-                    $('#dlg').dialog('close');		// close the dialog
-                    $('#tt').datagrid('reload');	// reload the user data
-                }
-            }
-        });
-    }
-    //审核不通过
-    function auditFail() {
-        $.messager.prompt('请输入拒绝理由', '请输入拒绝通过理由', function (r) {
-            if (r != "") {
-                $("#auditOpinion").val(r);
-                $("#auditReplyTime").val(timeFormat())
-                $("#userState").val("审核未通过")
-                return;
-            }
-            if (r == "") {
-                $("#auditOpinion").val("其他");
-                $("#auditReplyTime").val(timeFormat())
-                $("#userState").val("审核未通过")
-
-            }
-            // $('#dlg').dialog('close');		// close the dialog
-            // $('#tt').datagrid('reload');	// reload the user data
-            url="updateUserAuditMessage.lovo"
-            $('#fm').form('submit',{
-                url: url,
-                onSubmit: function(){
-                    return $(this).form('validate');
-                },
-                success: function(result){
-
-                    var result = eval('('+result+')');
-
-                    if (result.errorMsg){
-                        $.messager.show({
-                            title: 'Error',
-                            msg: result.errorMsg
-                        });
-                    } else {
-                        $('#dlg').dialog('close');		// close the dialog
-                        $('#tt').datagrid('reload');	// reload the user data
-                    }
-                }
-            });
-        });
-
-    }
-
-
-
-
-    //提交到后台查找用户信息
-    function PostToControllerFindUserMessageByUserName(row) {
-        // alert()
-        $.post('../../findUserAuditMessageByUserName.lovo',{userName:$(row).userName},
-            function(result){
-                var result = eval('('+result+')');
-                if (result!=""){
-                    //var  userName= result.userName;
-                    $("#userAuditInformationId").val(result.userAuditInformationId)
-                    $("#auditType").val(result.auditType)
-                    $("#userName").val(result.userName)
-                    $("#trueName").val(result.trueName)
-                    $("#sex").val(result.sex)
-                    $("#telphone").val(result.telphone)
-                    $("#aptitudeImg").attr("src",result.aptitudeImg)
-                    $("#identityImg").attr("src",result.identityImg)
-                    $("#aptitudeImgStr").val(result.aptitudeImg)
-                    $("#identityImgStr").val(result.identityImg)
-                    $("#userState").val(result.userState)
-                    $("#auditOpinion").val(result.auditOpinion)
-                    $("#auditTime").val(result.auditTime)
-                    $("#auditReplyTime").val(result.auditReplyTime)
-                    $("#auditPerson").val(result.auditPerson)
-                } else {
-                    $.messager.show({	// show error message
-                        title: 'Error',
-                        msg: "该账号存在异常，请查看是否被冻结"
-                    });
-                }
-            },'json');
-    }
-    //提交审核结果到后台
-    function PostToControllerUpdateUserMessageByUserName() {
-        $.post('../../updateUserAuditMessage.lovo',
-            {userName:$("#userName").val(),
-                auditType:$("#auditType").val(),
-                auditOpinion:$("#auditOpinion").val(),
-                auditReplyTime:$("#auditReplyTime").val()},
-            function(result){
-                var result = eval('('+result+')');
-
-                if (result.success){
-                    $('#tt').datagrid('load',{
-                        // userId: $('#userId').val()
-                    });
-                } else {
-                    $.messager.show({	// show error message
-                        title: 'Error',
-                        msg: result.errorMsg
-                    });
-                }
-            },'json');
-
-        $('#fm').form('clear');
-
     }
 </script>
 </body>

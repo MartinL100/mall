@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <meta charset="utf-8">
+    <meta http-equiv="Content-Type" content="multipart/form-data; charset=utf-8" />
     <title>补全资料注册界面</title>
     <meta name="renderer" content="webkit">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
@@ -9,6 +9,7 @@
           content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=0">
     <link rel="stylesheet" href="../../layuiadmin/layui/css/layui.css" media="all">
     <link rel="stylesheet" href="../../layuiadmin/style/admin.css" media="all">
+    <script type="text/javascript" src="../../lib/jquery.js"></script>
 </head>
 <body>
 
@@ -19,7 +20,6 @@
         margin: 0 10px 10px 0;
     }
 </style>
-<form action="pageLogin" method="post" enctype="multipart/form-data">
 <div align="center">
     <div class="layui-card-body">
         <div class="layui-upload">
@@ -27,6 +27,7 @@
                 <img class="layui-upload-img" id="test-upload-normal-img" name="aptitudeImg">
             </div>
             <button type="button" class="layui-btn" id="test-upload-normal">上传资质图片</button>
+
           <!--  <button type="button" class="layui-btn" id="test-upload-normal">上传资质图片</button> -->
         </div>
         <div class="layui-upload">
@@ -36,18 +37,32 @@
             <button type="button" class="layui-btn" id="test-upload-normal2">上传身份证图片</button>
             <!--  <button type="button" class="layui-btn" id="test-upload-normal">上传资质图片</button> -->
         </div>
-            <input type="text" name="title" placeholder="公司名" autocomplete="off" class="layui-input" style="width:250px;margin-top: 20px">
+            <input type="text" name="title" placeholder="公司名" id="tid" autocomplete="off" class="layui-input" style="width:250px;margin-top: 20px">
         <div class="layui-card-body">
             <div class="layui-btn-container">
-                <button class="layui-btn">补全资料注册</button>
-                <button class="layui-btn" style="width: 120px">返回</button>
+                <button class="layui-btn" id="bid">补全资料注册</button>
+                <button class="layui-btn" style="width: 120px" id="aaaa">返回</button>
             </div>
         </div>
     </div>
 </div>
-</form>
 <script src="../../layuiadmin/layui/layui.js"></script>
 <script>
+    $("#bid").click(function () {
+        $.post("../../../pageUpload",{"aptitudeImg":$("#test-upload-normal-img").attr("src"),"identityImg":$("#test-upload-normal-img2").attr("src"),
+                        "companyName":$("#tid").val()},function (re) {
+            if(re=="ok"){
+               layer.msg('申请成功，请等待审核', {icon: 6, anim: 6});
+                location.href="userShow.html";
+            }
+        });
+    });
+
+    $("#aaaa").click(function () {
+        location.href="userShow.html";
+    });
+
+
     layui.config({
         base: '../../layuiadmin/' //静态资源所在路径
     }).extend({
@@ -68,6 +83,15 @@
             }
 
         });
+
+
+        // $("#tBtn").click(function () {
+        //
+        //     alert($("#test-upload-normal-img2").attr("src"));
+        //     $("#TestImg").attr("src", $("#test-upload-normal-img2").attr("src"))
+        // });
+
+
         var uploadInst = upload.render({
             elem: '#test-upload-normal2'
             , url: '/upload/'
@@ -77,21 +101,21 @@
                     $('#test-upload-normal-img2').attr('src', result);//图片链接（base64）
                 });
             }
-            , done: function (res) {
-                //如果上传失败
-                if (res.code > 0) {
-                    return layer.msg('上传失败');
-                }
-                //上传成功
-            }
-            , error: function () {
-                //演示失败状态，并实现重传
-                var demoText = $('#test-upload-demoText');
-                demoText.html('<span style="color: #FF5722;">上传失败</span> <a class="layui-btn layui-btn-mini demo-reload">重试</a>');
-                demoText.find('.demo-reload').on('click', function () {
-                    uploadInst.upload();
-                });
-            }
+            // , done: function (res) {
+            //     //如果上传失败
+            //     if (res.code > 0) {
+            //         return layer.msg('上传失败');
+            //     }
+            //     //上传成功
+            // }
+            // , error: function () {
+            //     //演示失败状态，并实现重传
+            //     var demoText = $('#test-upload-demoText');
+            //     demoText.html('<span style="color: #FF5722;">上传失败</span> <a class="layui-btn layui-btn-mini demo-reload">重试</a>');
+            //     demoText.find('.demo-reload').on('click', function () {
+            //         uploadInst.upload();
+            //     });
+            // }
         });
 
         //指定允许上传的文件类型

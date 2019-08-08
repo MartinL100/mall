@@ -5,6 +5,7 @@ import com.lovo.sscafter.orderManagement.entity.OrderForGoodsEntity;
 import com.lovo.sscafter.orderManagement.entity.OrderManagementEntity;
 
 import java.util.List;
+import java.util.Map;
 
 public interface IOrderManagementService {
     /**
@@ -52,4 +53,11 @@ public interface IOrderManagementService {
      * @param orderId
      */
     public void updateOrderType(String orderId);
+
+    /**
+     * 根据月查询需要的日期格式
+     * @param mouth
+     * @return
+     */
+    public  Map<String,String> findDate(String mouth);
 }

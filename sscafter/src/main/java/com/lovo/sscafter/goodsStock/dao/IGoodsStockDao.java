@@ -12,6 +12,12 @@ public interface IGoodsStockDao {
 //动态查询总行数
    public long findAllGoodsStockCount(String goodsName,String goodsType);
 
+    public String findSupplyIdByGoodsId(String goodsId);
+    //动态查询总行数(远程调用)
+    public List<GoodsStockEntity> findAllGoodsStockCloud(String goodsName,String goodsType,int currentPage,int rows);
+    //动态查询总行数(远程调用)
+    public long findAllGoodsStockCountCloud(String goodsName,String goodsType);
+
 
 
 }

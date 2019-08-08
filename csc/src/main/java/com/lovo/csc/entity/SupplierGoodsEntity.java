@@ -5,7 +5,7 @@ import org.hibernate.annotations.GenericGenerator;
 import javax.persistence.*;
 
 /**
- * 供应商供应商品中间表
+ * 供应商供应商品表
  */
 @Entity
 @Table(name = "sys_supplierGoods")
@@ -28,10 +28,10 @@ public class SupplierGoodsEntity {
     //商品单位
     @Column(length=48)
     private String goodsUnit;
-    //供应商品状态
+    //供应商品状态（供应/取消供应）
     @Column(length=48)
     private String supplierStatus;
-    //进行的操作（添加/删除）
+    //进行的操作（上架/下架）
     @Column(length=48)
     private String supplierType;
     //供应商ID
