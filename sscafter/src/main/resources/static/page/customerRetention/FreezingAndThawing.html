@@ -22,62 +22,63 @@
 <h1>用户信息</h1>
 </div>
 <div style="margin-bottom:10px">
-    <select label="用户状态：" class="easyui-combobox" name="state" style="width:200px" panelHeight="100">
-        <option value="AL">全部</option>
-        <option value="AL">已审核</option>
-        <option value="AK">冻结</option>
-    </select>user
-    <input class="easyui-textbox" label="用户名:" prompt="用户名:" name="userName" prompt="Name" style="width:200px">
+    <select label="用户状态：" id="userState" class="easyui-combobox" name="state" style="width:160px" panelHeight="100">
+
+        <option value="0">全部</option>
+        <option value="1">未冻结</option>
+        <option value="2">冻结</option>
+    </select>
+    <input class="easyui-textbox" label="用户名:" prompt="用户名:" id="userName" name="userName" prompt="Name" style="width:200px">
     <a  href="#" class="easyui-linkbutton" data-options="iconCls:'icon-search'" id="bt1">查询</a>
 </div>
 <table id="tt" class="easyui-datagrid"
-       url="../page.lovo"
+       url="/freezePage"
        iconCls="icon-save"
-       rownumbers="true" pagination="true"  singleSelect="true">
+       rownumbers="true" pagination="true"  singleSelect="false">
     <thead>
     <tr>
-        <th field="studentId" width="10%"></th>
+        <th field="ck" checkbox="true"></th>
         <th field="userName" width="15%">用户名</th>
         <th field="password" width="15%" align="right">密码</th>
         <th field="trueName" width="15%" align="right">真实姓名</th>
         <th field="sex" width="15%" align="right">性别</th>
-        <th field="telephone" width="15%" align="right">电话</th>
-        <th field="UserState" width="15%" align="right">用户状态</th>
+        <th field="telphone" width="15%" align="right">电话</th>
+        <th field="userState" width="15%" align="right">用户状态</th>
 
     </tr>
     </thead>
 </table>
 <p/>
 
-
- 
-            <a style="margin-left: 20%" href="#" class="easyui-linkbutton" data-options="toggle:true,group:'g1'" onclick="confirm1();">冻结</a>
-            <a style="margin-left: 40%" href="#" class="easyui-linkbutton" data-options="toggle:true,group:'g1'" onclick="confirm2();">解冻</a>
-            
-        
-
+            <a style="margin-left: 20%" href="#" class="easyui-linkbutton" onclick="confirm1();">冻结</a>
 <script>
 
     function confirm1(){
+        var selectrow = $("#tt").datagrid("getSelections");//获取的是数组，多行数据
+        var idArry = [];
+        $(selectrow).each(function () {
+            idArry.push(this.userName);
+        })
+        if(idArry.length==0){
+            $.messager.alert('警告窗口', '请选择行！', 'info');
+            return ;
+        }
         $.messager.confirm('My Title', '是否确定冻结?', function(r){
             if (r){
-                alert('confirmed: '+r);
+                var jsonStr = JSON.stringify(idArry);
+                $.post("/freezeUser",{"jsonStr":jsonStr},function () {
+
+                })
+
             }
         });
     }
-    function confirm2(){
-        $.messager.confirm('My Title', '是否确定解除冻结?', function(r){
-            if (r){
-                alert('confirmed: '+r);
-            }
+    $("#bt1").click(function () {
+        $('#tt').datagrid('load',{
+            userState: $("#userState option:selected").val(),
+            userName : $("#userName").val()
         });
-    }
-    //初始化加载
-    $(document).ready(function () {
-        $('#').datagrid('load',{
-            studentId: $('#').val()
-        });
-    });
+    })
 
 </script>
 </body>

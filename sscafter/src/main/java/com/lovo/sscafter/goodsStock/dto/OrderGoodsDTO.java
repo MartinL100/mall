@@ -4,6 +4,7 @@ package com.lovo.sscafter.goodsStock.dto;
 
 
 public class OrderGoodsDTO {
+private String orderGoodsId;
     private String orderId;
     private String goodsOrderDate;
     private String supplierId;
@@ -14,8 +15,42 @@ public class OrderGoodsDTO {
     private Long goodsNum;
     private float goodsBid;
     private String isReturnGoods;
+    private String supplierName="a公司";
+    private String goodsId;
 
-    public OrderGoodsDTO(String orderId, String goodsOrderDate, String supplierId, String goodsName, String goodsType, String goodsNorms, String goodsUnit, Long goodsNum, float goodsBid, String isReturnGoods) {
+
+
+    public String getOrderGoodsId() {
+        return orderGoodsId;
+    }
+
+    public void setOrderGoodsId(String orderGoodsId) {
+        this.orderGoodsId = orderGoodsId;
+    }
+
+    public String getGoodsId() {
+        return goodsId;
+    }
+
+    public void setGoodsId(String goodsId) {
+        this.goodsId = goodsId;
+    }
+
+    public void setGoodsNum(Long goodsNum) {
+        this.goodsNum = goodsNum;
+    }
+
+    public String getSupplierName() {
+        return supplierName;
+    }
+
+    public void setSupplierName(String supplierName) {
+        this.supplierName = supplierName;
+    }
+
+    public OrderGoodsDTO(String orderGoodsId ,String goodsId,String orderId, String goodsOrderDate, String supplierId, String goodsName, String goodsType, String goodsNorms, String goodsUnit, Long goodsNum, float goodsBid, String isReturnGoods) {
+       this.orderGoodsId=orderGoodsId;
+        this.goodsId=goodsId;
         this.orderId = orderId;
         this.goodsOrderDate = goodsOrderDate;
         this.supplierId = supplierId;

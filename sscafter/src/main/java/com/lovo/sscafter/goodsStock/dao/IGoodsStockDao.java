@@ -12,6 +12,8 @@ public interface IGoodsStockDao {
 //动态查询总行数
    public long findAllGoodsStockCount(String goodsName,String goodsType);
 
+    public String findSupplyIdByGoodsId(String goodsId);
+
 
 
 }

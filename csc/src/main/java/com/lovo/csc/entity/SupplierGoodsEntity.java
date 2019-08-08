@@ -5,7 +5,7 @@ import org.hibernate.annotations.GenericGenerator;
 import javax.persistence.*;
 
 /**
- * 供应商供应商品中间表
+ * 供应商供应商品表
  */
 @Entity
 @Table(name = "sys_supplierGoods")

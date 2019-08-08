@@ -9,7 +9,7 @@
     <script type="text/javascript" src="../../easyui/jquery.min.js"></script>
     <script type="text/javascript" src="../../easyui/jquery.easyui.min.js"></script>
     <script type="text/javascript" src="../../easyui/jquery.easyui.mobile.js"></script>
-
+    <script type="text/javascript" src="../../easyui/locale/easyui-lang-zh_CN.js"></script>
 </head>
 <body>
 <div align="center">
@@ -18,35 +18,63 @@
 
 
 <div style="margin-bottom:10px">
-    <select label="类型：" class="easyui-combobox" name="state" style="width:160px" panelHeight="100">
-        <option value="水果">水果</option>
-        <option value="电器">电器</option>
-    </select>
-    <input class="easyui-textbox" label="商品名称:" prompt="商品名称:" name="goodsName" prompt="goodsName" style="width:200px">
+    商品类型：  <input class="easyui-combobox" id="indexType" name="GoodsType" style="width: 200px" data-options="required:true">
+   起始日期: <input  type="text"  editable="false" id="selectOrderDate" class="easyui-datebox" >
+    结束日期:<input  type="text"  editable="false" id="selectOrderDate2" class="easyui-datebox" >
+   商品名: <input class="easyui-textbox" id="text1" label="商品名称:" prompt="商品名称:" name="goodsName" prompt="goodsName" style="width:200px">
     <a  href="#" class="easyui-linkbutton" data-options="iconCls:'icon-search'" id="bt1">查询</a>
 </div>
 
 <table id="tt" class="easyui-datagrid"
-       url="/showStock.lovo"
+       url="/lookBuyInfo"
        iconCls="icon-save"
        rownumbers="true" pagination="true"  singleSelect="true">
     <thead>
 
     <tr>
-        <th field="studentId" width="10%" align="center">商品名</th>
-        <th field="studentName" width="10%" align="center">商品类型</th>
-        <th field="loginName" width="10%" align="center">商品规格</th>
-        <th field="loginPassword" width="10%" align="center">单位</th>
-        <th field="loginPassword" width="10%" align="center">采购批次</th>
-        <th field="loginPassword" width="10%" align="center">发起采购日期</th>
-        <th field="loginPassword" width="10%" align="center">采购数量</th>
-        <th field="loginPassword" width="10%" align="center">进货价格</th>
+        <th field="goodsName" width="10%" align="center">商品名</th>
+        <th field="goodsType" width="10%" align="center">商品类型</th>
+        <th field="goodsNorms" width="10%" align="center">商品规格</th>
+        <th field="goodsUnit" width="10%" align="center">单位</th>
+        <th field="indentId" width="10%" align="center">采购批次</th>
+        <th field="indentDate" width="10%" align="center">发起采购日期</th>
+        <th field="supplyNum" width="10%" align="center">采购数量</th>
     </tr>
     </thead>
 
 </table></p>
 
+<script>
+    //初始化下拉框
+    $("#indexType").combobox({
+        required: true,
+        url:"/findAllgoodsType", //后台获取下拉框数据的url
+        method:'post',
+        panelHeight:150,//设置为固定高度，combobox出现竖直滚动条
+        valueField:'typeName',
+        textField:'typeName',
+        multiple:false,
+        editable: false
+    });
 
+    //查询
+    $("#bt1").click(function () {
+        $('#tt').datagrid('load',{
+       startDate :$("#selectOrderDate").datebox('getValue'),
+            endDate:$("#selectOrderDate2").datebox('getValue'),
+            goodsType:$("#indexType").combobox("getValue"),
+            goodsName:$("#text1").val()
+        });
+    })
+   // $("#selectOrderDate").datebox('getValue')
+
+    //初始化加载表格
+    $(document).ready(function () {
+        $('#tt').datagrid('load',{
+
+        });
+    });
+</script>
 
 
 </body>

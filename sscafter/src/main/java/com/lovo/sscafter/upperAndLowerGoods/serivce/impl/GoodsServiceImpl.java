@@ -36,20 +36,27 @@ public class  GoodsServiceImpl implements IGoodsService {
     @Override
     public void updateStateUpper(String  goodsId) {
 
+        goodsDao.updateStateUpper(goodsId,"上架");
+
     }
 
 
     public void updateStateLower(String goodsId) {
-
+        goodsDao.updateStateLower(goodsId,"下架");
     }
 
 
     public void updateStateBooking(String goodsId) {
-
+        goodsDao.updateStateBooking(goodsId,"预售");
     }
 
     @Override
     public void updateStateBooking1(String goodsId) {
+        goodsDao.updateStateBooking1(goodsId,"未预售");
+    }
 
+    @Override
+    public void updateGoodsLowerTime(String goodsId, String lowerTime) {
+        goodsDao.updateGoodsLowerTime(goodsId,lowerTime);
     }
 }
