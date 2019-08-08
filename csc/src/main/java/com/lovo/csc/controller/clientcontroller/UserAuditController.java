@@ -56,10 +56,10 @@ public class UserAuditController {
         List<SysUserAuditInformationEntity> list = null;
         long total = 0;
         if (null != tag && "init".equals(tag)) {
-            list = userAuditService.PageInitList(page-1, rows);
+            list = userAuditService.PageInitList((page-1)*rows, rows);
             total = userAuditService.getPageInitCount();
         } else {
-            PageRequest pageable = PageRequest.of(page-1, rows);
+            PageRequest pageable = PageRequest.of((page-1)*rows, rows);
             list = userAuditService.DynamicQueryAuditInformation(userState, startTime, endTime, pageable);
             total = userAuditService.DynamicQueryAuditInformationCount(userState, startTime, endTime);
         }

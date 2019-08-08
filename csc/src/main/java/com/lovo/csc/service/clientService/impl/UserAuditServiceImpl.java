@@ -20,7 +20,6 @@ import org.springframework.jms.core.JmsMessagingTemplate;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service("userAuditService")
 public class UserAuditServiceImpl implements IUserAuditService {
@@ -153,21 +152,12 @@ public class UserAuditServiceImpl implements IUserAuditService {
 
     @Override
     public SysFrozenOrUnfrozenAccountsEntity findSysFrozenOrUnfrozenAccountsEntityById(String id) {
-        return frozenOrUnfrozenAccountsDao.findById(id).get();
+        return frozenOrUnfrozenAccountsDao.getFrozenOrUnfrozenAccountsMessageById(id);
     }
 
 
-    @Override
-    public List<SysFrozenOrUnfrozenAccountsEntity> frozenOrUnfrozenAccountsPageInitList(int page, int rows) {
-        Pageable pa= PageRequest.of(page, rows);
-        return frozenOrUnfrozenAccountsDao.FrozenOrUnfrozenAccountsPageInitList(pa);
-    }
 
 
-    @Override
-    public long getFrozenOrUnfrozenAccountsPageInitCount() {
-        return frozenOrUnfrozenAccountsDao.getFrozenOrUnfrozenAccountsPageInitCount();
-    }
 
     //
     public String CycleUpdateUserAuditInformation
@@ -195,6 +185,7 @@ public class UserAuditServiceImpl implements IUserAuditService {
                 State="已冻结";
             }
             else{
+                objAuditType="用户注册审核";
                 Opinion=obj.getAuditOpinion();
                 State="审核通过";
             }
@@ -207,6 +198,7 @@ public class UserAuditServiceImpl implements IUserAuditService {
                 State="审核通过";
             }
             else{
+                objAuditType="冻结";
                 Opinion=obj.getAuditOpinion();
                 State="已冻结";
             }
@@ -219,7 +211,7 @@ public class UserAuditServiceImpl implements IUserAuditService {
                     userRegistraTionAuditDao.findByUserName(userName);
                     info.setAuditOpinion(auditOpinion);
                     //设置账户状态
-                    info.setUserState(objAuditResultState);
+                    info.setUserState(State);
                     info.setAuditPerson(auditPerson);
                     info.setMaintenanceManager(maintenanceManager);
                     info.setAuditReplyTime(MyStringUtil.getFormMatTime());
@@ -235,6 +227,7 @@ public class UserAuditServiceImpl implements IUserAuditService {
         //判断状态
         if("已冻结".equals(State)){
             resultVo.setUserState("3");
+
         }
         else{
             resultVo.setUserState("1");
@@ -248,11 +241,13 @@ public class UserAuditServiceImpl implements IUserAuditService {
         }
         //将该数据状态改成已处理
         obj.setAuditState("已审核");
+
         frozenOrUnfrozenAccountsDao.save(obj);
         //将处理结果发送给审核管理员
         jmsMessagingTemplate.convertAndSend(frozenOrUnfrozenAccountsResultMQ,json);
         re="操作成功";
         return re;
     }
+
 }
 
