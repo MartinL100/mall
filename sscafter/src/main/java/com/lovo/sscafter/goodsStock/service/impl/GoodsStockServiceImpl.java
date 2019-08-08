@@ -98,4 +98,14 @@ public class GoodsStockServiceImpl implements IGoodsStockService {
     public void updateGoodsTag1ById(String id) {
         goodsStockCurdDao.updateGoodsTag1ById(id);
     }
+
+    @Override
+    public void updateGoodsNumByNameAndTypeAndnorms(Long num, String name, String type, String norms) {
+        goodsStockCurdDao.updateGoodsNumByNameAndTypeAndnorms(num,name,type,norms);
+    }
+
+    @Override
+    public void updateGoodsTagByNameAndTypeAndnorms(String name, String type, String norms) {
+        goodsStockCurdDao.updateGoodsTagByNameAndTypeAndnorms(name,type,norms);
+    }
 }
