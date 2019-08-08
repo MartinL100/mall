@@ -23,7 +23,7 @@ public class OrderDelController {
     @Autowired
     ObjectMapper objectMapper;
     @RequestMapping("orderDel")
-    public String orderDel(int page,int limit){
+    public String orderDel(){
 
         List<OrderManagementDTO>orderManagementDTOlist=new ArrayList<>();
         OrderManagementDTO orderDto=new OrderManagementDTO();
