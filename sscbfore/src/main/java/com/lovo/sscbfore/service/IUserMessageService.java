@@ -13,22 +13,6 @@ import java.util.List;
  */
 public interface IUserMessageService {
 
-    /**
-     * 查询用户所有消息记录，按时间倒序，分页显示
-     *
-     * @param userName 用户名
-     * @param page     当前页
-     * @param limit    每页显示行数
-     * @return 用户消息集合
-     */
-    List<UserInfoEntity> findAllUserMessage(String userName, String page, String limit);
-
-    /**
-     * 修改用户所有消息状态，将未读（0）改为已读（1）
-     *
-     * @param userName 用户名
-     */
-    void updateMessageStatus(String userName);
 
     /**
      * 添加用户消息
@@ -36,4 +20,45 @@ public interface IUserMessageService {
      * @param userMessage 消息实体类
      */
     void addUserMessage(UserInfoEntity userMessage);
+
+    /**
+     * 按用户名查询用户所有消息
+     *
+     * @param userName 用户名
+     * @return 用户消息集合
+     */
+    List<UserInfoEntity> findAllUserMessage(String userName);
+
+    /**
+     * 按用户名查询所有用户消息（翻页）
+     *
+     * @param userName 用户名称
+     * @param page     当前页
+     * @param limit    每页显示行数
+     * @return 用户消息集合
+     */
+    List<UserInfoEntity> findAllUserMessagePageAble(String userName, int page, int limit);
+
+    /**
+     * 查询用户所有消息总数
+     *
+     * @param userName 用户名
+     * @return 用户所有消息总数
+     */
+    int countUserMessages(String userName);
+
+    /**
+     * 查询用户新消息总数
+     *
+     * @param userName 用户名称
+     * @return 用户新消息总数
+     */
+    int countUserNewMessage(String userName);
+
+    /**
+     * 按用户名称 更新用户消息状态
+     *
+     * @param userName 用户名称
+     */
+    void updateUserMessage(String userName);
 }

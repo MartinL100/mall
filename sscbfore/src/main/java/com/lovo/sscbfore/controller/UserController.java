@@ -65,7 +65,7 @@ public class UserController {
     @RequestMapping("update2/{userName}/{userState}")
     public String updateUserState(@PathVariable("userName")String userName,@PathVariable("userState")String userState) {
         serService.updateUserState(userName,userState);
-        return "ok";
+        return "true";
     }
 
     @RequestMapping("update3")

@@ -15,22 +15,22 @@ import java.util.logging.Logger;
 public class MQController {
     @Autowired
     private JmsMessagingTemplate jmsMessagingTemplate;
-//    @Autowired
+    //    @Autowired
 //    private  ActiveMQQueue frozenOrUnfrozenAccountsMessageMQ;
-   Log log= LogFactory.getLog(this.getClass());
+    Log log= LogFactory.getLog(this.getClass());
     //发送保审核请求到MQ
 
     @RequestMapping(value = "sendMessageToMQ.lovo")
     public String sendMessageToMQ(){
 //    jmsMessagingTemplate.convertAndSend(frozenOrUnfrozenAccountsMessageMQ,"我送的信息");
-    log.info("+++++++++++++++++++++++++++++++++++++++++");
+        log.info("+++++++++++++++++++++++++++++++++++++++++");
         return "提交成功";
 
     }
 
     @JmsListener(destination = "frozenOrUnfrozenAccountsMessageMQ")
     public void l(String message){
-       log.info(message);
+        log.info(message);
     }
 
 
