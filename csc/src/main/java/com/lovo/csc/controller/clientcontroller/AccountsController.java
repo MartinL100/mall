@@ -49,7 +49,7 @@ public class AccountsController {
         long total=0;
         if (null!=tag&&"".equals(tag)){
            list= userAuditService.frozenOrUnfrozenAccountsPageInitList(page-1,rows);
-           total= userAuditService.getfrozenOrUnfrozenAccountsPageInitCount();
+           total= userAuditService.getFrozenOrUnfrozenAccountsPageInitCount();
         }
         else{
             PageRequest pageable= PageRequest.of(page-1,rows);
@@ -66,8 +66,16 @@ public class AccountsController {
     //保存
     @JmsListener(destination = "frozenOrUnfrozenAccountsMessageMQ ")
     @RequestMapping("saveFrozenOrUnfrozenAccountsEntity.lovo")
-    public String savaSysFrozenOrUnfrozenAccountsEntity(PreserveMessageVo vo) {
-
+    public String savaSysFrozenOrUnfrozenAccountsEntity(String message) {
+        if (null==message||"".equals(message)){
+            return "无新的请求";
+        }
+        PreserveMessageVo vo=null;
+        try {
+            vo=new ObjectMapper().readValue(message,PreserveMessageVo.class);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         if (null != vo) {
             ToFrozenOrUnfrozenAccountsMsg(vo);
             try {
@@ -151,22 +159,23 @@ public class AccountsController {
     }
 
 
-    @RequestMapping("testSaveAccounts")
-    public void saveAccounts(){
-        System.out.println("==============================================================================");
-        for (int i = 1; i <= 20; i++) {
-        SysFrozenOrUnfrozenAccountsEntity Accounts=
-                new SysFrozenOrUnfrozenAccountsEntity();
-        Accounts.setUserNameStr("zs"+i+",ls"+i);
-        Accounts.setAuditOpinion("非法登录");
-        Accounts.setAuditType("冻结");
-        Accounts.setAuditTime(MyStringUtil.getFormMatTime());
-        Accounts.setMaintenanceManager("大古");
-        userAuditService.savaFrozenOrUnfrozenAccountsEntity(Accounts);
-        System.out.println(Accounts.getFrozenOrUnfrozenAccountsMessageId());
-        }
-        System.out.println("=========================" +
-                "=====================================================");
-    }
+//    @RequestMapping("testSaveAccounts")
+//    public void saveAccounts(){
+//        System.out.println("==============================================================================");
+//        for (int i = 1; i <= 20; i++) {
+//        SysFrozenOrUnfrozenAccountsEntity Accounts=
+//                new SysFrozenOrUnfrozenAccountsEntity();
+//        Accounts.setUserNameStr("zs"+i+",ls"+i);
+//        Accounts.setAuditOpinion("非法登录");
+//        Accounts.setAuditType("冻结");
+//        Accounts.setAuditState("未审核");
+//        Accounts.setAuditTime(MyStringUtil.getFormMatTime());
+//        Accounts.setMaintenanceManager("大古");
+//        userAuditService.savaFrozenOrUnfrozenAccountsEntity(Accounts);
+//        System.out.println(Accounts.getFrozenOrUnfrozenAccountsMessageId());
+//        }
+//        System.out.println("=========================" +
+//                "=====================================================");
+//    }
 
 }

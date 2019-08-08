@@ -1,12 +1,19 @@
-package com.lovo.sscafter.customerRetention.Entity;
-
-public class CustomerEntity {
+package com.lovo.sscafter.customerRetention.Entity.DTO;
+//客户
+public class CustomerDTO {
+    //用户ID
     private String userId;
+    //用户名
     private String userName;
+    //用户密码
     private String password;
+    //真实姓名
     private String trueName;
+    //性别
     private String sex;
-    private String telephone;
+    //电话
+    private String telphone;
+    //用户状态
     private String userState;
 
     public String getUserId() {
@@ -50,11 +57,11 @@ public class CustomerEntity {
     }
 
     public String getTelephone() {
-        return telephone;
+        return telphone;
     }
 
-    public void setTelephone(String telephone) {
-        this.telephone = telephone;
+    public void setTelephone(String telphone) {
+        this.telphone = telphone;
     }
 
     public String getUserState() {

@@ -2,12 +2,13 @@ package com.lovo.sscafter.promotionAndSalesReturn.promotion.beginPromotion.dao;
 
 import com.lovo.sscafter.upperAndLowerGoods.entity.GoodsEntity;
 
+
 import java.util.List;
 
 /**
  * 促销dao
  */
-public interface IPromotionGoodsDao {
+public interface IPromotionGoodsDao{
 
     /**
      * 动态查询所有已上架的商品并分页
@@ -34,4 +35,8 @@ public interface IPromotionGoodsDao {
      * @return 商品集合
      */
     public List<GoodsEntity> findByGoodsId(List<String> listId);
+
+
+
+    public List<GoodsEntity> findList(String goodsState);
 }

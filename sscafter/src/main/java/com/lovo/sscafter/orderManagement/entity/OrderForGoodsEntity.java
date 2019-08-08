@@ -12,6 +12,7 @@ public class OrderForGoodsEntity {
     @Column(name="goods_id",length = 48)
     @GenericGenerator(name = "goodsId", strategy = "uuid")
     @GeneratedValue(generator = "goodsId")
+
     private String goodsId;
     //商品名
     @Column(name="goods_name",length = 48)

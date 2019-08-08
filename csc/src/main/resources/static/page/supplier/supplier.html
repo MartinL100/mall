@@ -88,6 +88,14 @@
         <div style="margin-bottom:10px">
             <input name="supplierAddress" class="easyui-textbox" disabled="true" required="true" label="公司地址:" style="width:100%">
         </div>
+            <div style="margin-bottom:10px">
+                <select name="supplierLevel" id="supplierLeve2" labelWidth="120" label="供应商等级:" class="easyui-combobox" name="state" style="width:100%" panelHeight="100">
+                    <option value="不限">不限</option>
+                    <option value="大型">大型</option>
+                    <option value="中型">中型</option>
+                    <option value="小型">小型</option>
+                </select>
+            </div>
         <div id="buttons1" align="center" style="margin-bottom:40px;margin-top: 40px;position: relative;right: -300px" >
             <a href="javascript:void(0)" id="audit"  class="easyui-linkbutton" onclick="audit()" style="left :-255px;width:150px"> 审核通过 </a>
             <a href="javascript:void(0)" id="auditFasle" class="easyui-linkbutton" onclick="auditFasle()" style="left :-255px;width:150px"> 问题反馈 </a>
@@ -116,7 +124,7 @@
         <table id="tt3" class="easyui-datagrid"
                url="/getSupplierGoods.lovo"
                iconCls="icon-save"
-               rownumbers="false" pagination="true"  singleSelect="true">
+               rownumbers="false" pagination="true"  singleSelect="false">
             <thead>
             <tr>
                 <th field="codeId" width="0%" hidden="hidden">供应商供应商品表ID</th>
@@ -130,7 +138,8 @@
             </thead>
         </table>
         <div id="buttons3" align="center" style="margin-bottom:40px;margin-top: 40px;position: relative;right: -300px" >
-            <a href="javascript:void(0)" id="audit3"  class="easyui-linkbutton" onclick="audit()" style="left :-255px;width:150px"> 审核通过 </a>
+            <a href="javascript:void(0)" id="audit3"  class="easyui-linkbutton" onclick="update(商品供应)" style="left :-255px;width:150px"> 商品供应 </a>
+            <a href="javascript:void(0)" id="audit4"  class="easyui-linkbutton" onclick="update(取消供应)" style="left :-255px;width:150px"> 取消供应 </a>
             <a href="javascript:void(0)" class="easyui-linkbutton" onclick="back()" style="left :-255px;width:150px"> 取消 </a>
         </div>
     </form>
@@ -139,7 +148,7 @@
 <div id="dlg2" class="easyui-dialog" style="width:800px;height: 600px" data-options="closed:true,modal:true,border:'thin',buttons:'#dlg-buttons'">
     <form id="fm2" method="post" novalidate style="margin:0;padding:20px 50px">
         <h1 align="center">问题反馈</h1>
-        <div style="margin-bottom:10px">
+        <div style="margin-bottom:10px" hidden="hidden">
             <input id="supplierId2" name="supplierId" class="easyui-textbox" disabled="true" required="true" label="供应商编号:" style="width:100%">
         </div>
         <div style="margin-bottom:10px">
@@ -154,10 +163,6 @@
 <script>
     function SupplierGoods() {
         var row = $('#tt').datagrid('getSelected');
-        if(null==row){
-            $.messager.alert('温馨提示','请选择行!');
-            return;
-        }
         if("供应商供应商品未审核"!=(row).supplierTag){
             $("#audit3").hide();
         }
@@ -189,10 +194,6 @@
     }
     function openMyWind(){
         var row = $('#tt').datagrid('getSelected');
-        if(null==row){
-            $.messager.alert('温馨提示','请选择行!');
-            return;
-        }
         if (row) {
             $('#dlg1').dialog('open').dialog('center').dialog('setTitle','供应商审核');
             $('#fm1').form('load',row);
@@ -203,10 +204,6 @@
     }
     function Supplier(){
         var row = $('#tt').datagrid('getSelected');
-        if(null==row){
-            $.messager.alert('温馨提示','请选择行!');
-            return;
-        }
         if("供应商未审核"!=(row).supplierTag){
             $("#audit").hide();
             $("#auditFasle").hide();

@@ -66,22 +66,22 @@ public class OrderTrendsDaoImpl implements IOrderTrendsDao {
         return query;
     }
 
-    public List<Map> findDate(String mouth){
+    public Map<String,String> findDate(String mouth){
         String sql = "SELECT c.datelist AS mydata , IF(SUM(s.goods_profit)IS NULL ,0,SUM(s.goods_profit)) AS profit FROM calendar c " +
                 "LEFT JOIN sys_order_after s ON c.datelist = s.order_date " +
                 "WHERE c.datelist LIKE '%"+mouth+"%'GROUP BY c.datelist";
 
         List rows =  getEntityManager().createNativeQuery(sql).getResultList();
-        List<Map> listMap = new ArrayList<>();
+        Map<String,String> map = new HashMap();
+        String listMap1 = "";
+        String listMap2 = "";
         for (Object obj : rows) {
             Object[] row = (Object[]) obj;
-            System.out.println("mydata = " + row[0]);
-            System.out.println("profit = " + row[1]);
-            Map<String,String> map = new HashMap<>();
-            map.put("mydata", row[0]+"");
-            map.put("profit", row[1]+"");
-            listMap.add(map);
+            listMap1+=row[0]+",";
+            listMap2+=row[1]+",";
         }
-        return listMap;
+        map.put("listMap",listMap1);
+        map.put("listMap2",listMap2);
+        return map;
     }
 }

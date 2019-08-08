@@ -1,5 +1,6 @@
 package com.lovo.sscafter.orderManagement.controller;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.lovo.common.entity.OrderDTO;
 import com.lovo.sscafter.orderManagement.entity.OrderManagementEntity;
 import com.lovo.sscafter.orderManagement.service.IOrderManagementService;
@@ -70,12 +71,20 @@ public class OrderManagementController {
         return map;
     }
     @RequestMapping("receiveOrder")
+    @ResponseBody
     public void receiveOrder(@RequestBody OrderDTO orderDTO){
         orderManagementService.receiveOrder2(orderManagementService.receiveOrder(orderDTO));
     }
 
     @RequestMapping("updateOrderType/{orderNum}")
+    @ResponseBody
     public void updateOrderType(@PathVariable("orderNum")String orderNum){
         orderManagementService.updateOrderType(orderNum);
+    }
+    @RequestMapping("findData/{mouth}")
+    @ResponseBody
+    public Map<String,String> findData(@PathVariable("mouth")String mouth){
+ 
+        return orderManagementService.findDate(mouth);
     }
 }

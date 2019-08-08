@@ -1,8 +1,11 @@
 package com.lovo.sscafter.orderManagement.entity.DTO;
 
 public class ReturnGoodsDTO {
+    //订单号
     private String orderNum;
+    //商品id
     private String goodsId;
+    //商品状态
     private int goodsStatus;
 
     public String getOrderNum() {

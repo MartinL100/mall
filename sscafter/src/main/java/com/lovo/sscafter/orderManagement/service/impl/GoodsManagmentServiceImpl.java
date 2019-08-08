@@ -24,7 +24,7 @@ public class GoodsManagmentServiceImpl implements IGoodsManagementService {
     @Autowired
     IOrderManagementDao orderManagementDao;
     @Override
-    public List<OrderForGoodsEntity> findGoods(String orderNum, int currentPage, int rows) {
+    public  List<OrderForGoodsEntity> findGoods(String orderNum, int currentPage, int rows) {
         Pageable page = new PageRequest(currentPage-1,rows);
         return goodsManagementDao.findGoods(orderNum,page);
     }

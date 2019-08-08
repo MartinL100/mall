@@ -41,6 +41,29 @@
         </div>
     </div>
 </div>
+<script>
+    $(document).ready(function () {
+        $.post("../../../showUser",function (re) {
+            $("#sid").text(re.userName);
+            $("#sid1").text(re.trueName);
+            $("#sid2").text(re.sex);
+            $("#tid").val(re.telphone);
+        });
+    });
+
+    $("#ddd").click(function () {
+        if($("#tid2").val() != $("#tid3").val()){
+            alert("两次输入密码不一致，请从新输入");
+        }else {
+            $.post("../../../update3",{"telphone":$("#tid").val(),"password":$("#tid2").val()},function (re) {
+                    if(re=="ok"){
+                        alert("修改成功");
+                    }
+            });
+        }
+
+    });
+</script>
 
 
 </body>

@@ -1,4 +1,4 @@
 package com.lovo.csc.controller.supplierController;
 
-public class t {
+public class MQController {
 }

@@ -93,7 +93,7 @@ public interface IUserAuditService {
     public List<SysFrozenOrUnfrozenAccountsEntity> frozenOrUnfrozenAccountsPageInitList(int page,int rows);
 
     //用户审核页面初始化数据总数
-    public long getfrozenOrUnfrozenAccountsPageInitCount();
+    public long getFrozenOrUnfrozenAccountsPageInitCount();
     //得到解冻与解冻初始化数据总数
 
     //循环更新用户状态
