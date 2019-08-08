@@ -120,9 +120,6 @@
         </div>
 
 
-
-
-
         <div style="margin-bottom:10px;position: relative;right: 10px" >
             <span>请求审核时间：</span>
             <input  id="auditTime"   name="auditTime"
@@ -167,7 +164,7 @@
 
         <div id="dlg-buttons" align="center" style="margin-bottom:10px">
             <a href="javascript:void(0)" class="easyui-linkbutton c6" iconCls="icon-ok" onclick="auditPass()" style="left :-255px;width:90px">审核通过</a>
-            <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-cancel" onclick="saveUser()" style="left :-255px;width:90px">拒绝通过</a>
+            <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-cancel" onclick="auditFail()" style="left :-255px;width:90px">拒绝通过</a>
            <!-- <a href="javascript:void(0)" class="easyui-linkbutton"  onclick="ChangeTx()" style="left :-255px;width:90px">change</a>  -->
             <a href="javascript:void(0)" class="easyui-linkbutton"  onclick="javascript:$('#dlg').dialog('close')" style="left :-255px;width:90px">取消操作</a>
         </div>
@@ -298,9 +295,8 @@
             }
             if (r == undefined) {
                 return;
-
             }
-        });
+
             url = "/updateUserAuditMessage.lovo";
             // alert(url)
             $('#fm').form('submit', {
@@ -328,6 +324,8 @@
                     }
                 }
             });
+        });
+
 
     }
 

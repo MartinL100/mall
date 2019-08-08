@@ -289,29 +289,29 @@ function changeBtnText(type) {
               return;
 
             }
-            // $('#dlg').dialog('close');		// close the dialog
-            // $('#tt').datagrid('reload');	// reload the user data
+            url='/updateFrozenOrUnfrozenAccountsEntity.lovo'
+            $('#fm').form('submit',{
+                url: url,
+                onSubmit: function(){
+                    return $(this).form('validate');
+                },
+                success: function(result){
+                    // var result = eval('('+result+')');
 
-        });
-        url='/updateFrozenOrUnfrozenAccountsEntity.lovo'
-        $('#fm').form('submit',{
-            url: url,
-            onSubmit: function(){
-                return $(this).form('validate');
-            },
-            success: function(result){
-                // var result = eval('('+result+')');
-
-                if (result.errorMsg){
-                    $.messager.show({
-                        title: 'Error',
-                        msg: result.errorMsg
-                    });
-                } else {
+                    if (result.errorMsg){
+                        $.messager.show({
+                            title: 'Error',
+                            msg: result.errorMsg
+                        });
+                    } else {
+                        $('#dlg').dialog('close');		// close the dialog
+                        $('#tt').datagrid('reload');	// reload the user data
+                    }
                     $('#dlg').dialog('close');		// close the dialog
                     $('#tt').datagrid('reload');	// reload the user data
                 }
-            }
+            });
+
         });
 
     }

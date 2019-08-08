@@ -78,7 +78,7 @@ public class AccountsAuditController {
     //修改
     @RequestMapping("updateFrozenOrUnfrozenAccountsEntity.lovo")
     public String updateFrozenOrUnfrozenAccountsEntity(String frozenOrUnfrozenAccountsMessageId,SysFrozenOrUnfrozenAccountsEntity infoBean, HttpServletRequest request){
-        System.out.println((infoBean.getFrozenOrUnfrozenAccountsMessageId()));
+       // System.out.println((infoBean.getFrozenOrUnfrozenAccountsMessageId()));
         SysFrozenOrUnfrozenAccountsEntity info=
                 userAuditService.findSysFrozenOrUnfrozenAccountsEntityById(frozenOrUnfrozenAccountsMessageId);
              // AuditEntity auditEntity= (AuditEntity) request.getSession().getAttribute("auditObj");

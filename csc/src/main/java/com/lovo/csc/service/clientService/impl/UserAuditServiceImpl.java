@@ -65,19 +65,30 @@ public class UserAuditServiceImpl implements IUserAuditService {
 
     @Override
     public String updateUserAuditMessage(SysUserAuditInformationEntity userAuditInformationEntity,String auditPerson) {
-        userAuditInformationEntity.setAuditReplyTime(MyStringUtil.getFormMatTime());
-        userAuditInformationEntity.setAuditPerson(auditPerson);
+        String userName=userAuditInformationEntity.getUserName();
+        //根据name查找用户信息
+        SysUserAuditInformationEntity infoBean=
+                findSysUserAuditInformationEntityByName(userName);
+        //
+       // userAuditInformationEntity.setAuditReplyTime(MyStringUtil.getFormMatTime());
+
+
+
         String userState=userAuditInformationEntity.getUserState();
+        infoBean.setAuditPerson(auditPerson);
+        infoBean.setAuditTime(MyStringUtil.getFormMatTime());
+        infoBean.setUserState(userState);
+        infoBean.setAuditOpinion(userAuditInformationEntity.getAuditOpinion());
         String state="";
         //vo中默认返回结果状态为1
         state="1";
         //如果审核不通过 将结果状态改成2
         if (!"审核通过".equals(userState)){
-            userAuditInformationEntity.setIdentityImg("");
-            userAuditInformationEntity.setAptitudeImg("");
+            infoBean.setIdentityImg("");
+            infoBean.setAptitudeImg("");
            state="2";
         }
-                userRegistraTionAuditDao.save(userAuditInformationEntity);
+                userRegistraTionAuditDao.save(infoBean);
                 RegisterResultVo vo =new RegisterResultVo();
                 vo.setAuditOpinion(userAuditInformationEntity.getAuditOpinion());
                 vo.setAuditReplyTime(MyStringUtil.getFormMatTime());
