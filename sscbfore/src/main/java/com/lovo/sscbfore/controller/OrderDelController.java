@@ -25,7 +25,7 @@ public class OrderDelController {
     @RequestMapping("orderDel")
     public String orderDel(){
 
-        List<OrderManagementDTO>orderManagementDTOlist=new ArrayList<>();
+        List<OrderManagementDTO> orderManagementDTOlist=new ArrayList<>();
         OrderManagementDTO orderDto=new OrderManagementDTO();
         orderDto.setOrderNum("J16820190801");
         orderDto.setOrderType("已完结");
