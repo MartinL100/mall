@@ -7,6 +7,7 @@ import javax.persistence.*;
 @Entity
 @Table(name="sys_info")
 public class UserInfoEntity {
+
     @Id
     @GenericGenerator(name = "messageUuid", strategy = "uuid")
     @GeneratedValue(generator = "messageUuid")

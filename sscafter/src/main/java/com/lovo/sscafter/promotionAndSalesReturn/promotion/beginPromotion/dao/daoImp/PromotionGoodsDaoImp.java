@@ -13,6 +13,7 @@ package com.lovo.sscafter.promotionAndSalesReturn.promotion.beginPromotion.dao.d
         import java.util.ArrayList;
         import java.util.List;
 
+
 @Repository
 public class PromotionGoodsDaoImp implements IPromotionGoodsDao {
 
@@ -28,7 +29,6 @@ public class PromotionGoodsDaoImp implements IPromotionGoodsDao {
 
 
 
-
     /**
      * 动态查询所有已上架的商品并分页
      * @param goodsName 商品名
@@ -37,13 +37,14 @@ public class PromotionGoodsDaoImp implements IPromotionGoodsDao {
      * @param pageLine 每页显示的行数
      * @return 商品集合
      */
+
     @Override
     public List<GoodsEntity> findBygoodsNameAndgoodsState(String goodsName, String goodsType, int pageNumber, int pageLine) {
-        String hql="from GoodsEntity where 1=1 and goodsState='已上架'  ";
+        String hql="  from GoodsEntity  where    goodsState = '已上架' " ;
 
-        //商品名不为空，商品类型为空
+    //    商品名不为空，商品类型为空
         if (!StringUtil.blString(goodsName)&& StringUtil.blString(goodsType)){
-            hql+="and  goodsName like  '%"+goodsName+"%' ";
+            hql+="and  goodsName like  '%"+goodsName+"%'  ";
         }
         //商品名为空，商品类型不为空
         else if (!StringUtil.blString(goodsType)&& StringUtil.blString(goodsName)){
@@ -69,7 +70,7 @@ public class PromotionGoodsDaoImp implements IPromotionGoodsDao {
      */
     @Override
     public long findCount(String goodsName, String goodsType) {
-        String hql="select  count(*) from GoodsEntity where 1=1 and goodsState='已上架' ";
+        String hql="select  count(*) from GoodsEntity where   goodsState='已上架' ";
         //商品名不为空，商品类型为空
         if (!StringUtil.blString(goodsName)&&StringUtil.blString(goodsType)){
             hql+="and goodsName like '%"+goodsName+"%'  ";
@@ -85,6 +86,7 @@ public class PromotionGoodsDaoImp implements IPromotionGoodsDao {
         Query query=getEntityManager().createQuery(hql);
         return (Long)query.getSingleResult();
     }
+
 
     /**
      * 根据id查询商品集合
@@ -102,5 +104,16 @@ public class PromotionGoodsDaoImp implements IPromotionGoodsDao {
 
         return goodsEntitieList;
     }
+
+
+
+    //没用的
+    @Override
+    public List<GoodsEntity> findList(String goodsState) {
+        String hql="from GoodsEntity where goodsState = '"+goodsState+"' " ;
+       List<GoodsEntity> s = (List<GoodsEntity>)  getEntityManager().createQuery(hql).getResultList();
+        return s;
+    }
+
 
 }

@@ -41,6 +41,35 @@
         </div>
     </div>
 </div>
+<script>
+    $(document).ready(function () {
+        $.post("../../../showUser",function (re) {
+            $("#sid").text(re.userName);
+            $("#sid1").text(re.trueName);
+            $("#sid2").text(re.sex);
+            $("#tid").val(re.telphone);
+        });
+    });
+
+    $("#ddd").click(function () {
+        if($("#tid2").val() != $("#tid3").val()){
+            layer.msg('两次输入密码不一致，请从新输入', {icon: 5, anim: 6});
+        }else if(!(/^1[3456789]\d{9}$/.test($("#tid").val()))){
+            layer.msg('输入手机号有误，请重新输入', {icon: 5, anim: 6});
+        }else if( ""==$("#tid2").val()){
+            layer.msg('密码不能为空', {icon: 5, anim: 6});
+        }
+        else {
+            $.post("../../../update3",{"telphone":$("#tid").val(),"password":$("#tid2").val()},function (re) {
+                    if(re=="ok"){
+                        alert("修改成功,请重新登录");
+                        location.href="userLogin.html";
+                    }
+            });
+        }
+
+    });
+</script>
 
 
 </body>

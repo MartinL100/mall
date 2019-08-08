@@ -41,8 +41,7 @@ public class CancelPromotionDaoImp implements ICancelPromotionDao {
      */
     @Override
     public List<GoodsEntity> findBygoodsNameAndgoodsState(String goodsName, String goodsType, int pageNumber, int pageLine) {
-        String hql="from GoodsEntity where 1=1 and promotionState='是'  ";
-
+        String hql="from GoodsEntity where 1=1 and  promotionState='是' ";
         //商品名不为空，商品类型为空
         if (!StringUtil.blString(goodsName)&& StringUtil.blString(goodsType)){
             hql+="and  goodsName like  '%"+goodsName+"%' ";

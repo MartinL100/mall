@@ -1,9 +1,9 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<!DOCTYPE html>
 <html>
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>注册页面</title>
+    <title>登陆页面</title>
     <link rel="stylesheet" type="text/css" href="../../easyui/themes/metro/easyui.css">
     <link rel="stylesheet" type="text/css" href="../../easyui/themes/mobile.css">
     <link rel="stylesheet" type="text/css" href="../../easyui/themes/icon.css">
@@ -12,25 +12,33 @@
     <script type="text/javascript" src="../../easyui/jquery.easyui.mobile.js"></script>
 </head>
 <body>
-<h1 align="center">注册页面</h1>
-<hr/>
-<form action="/user/addregister" method="post"  align="center" >
+<div align="center"><h1>登陆页面</h1></div>
+<hr/><br><br>
+<div align="center">
     <div style="margin-bottom:10px">
-        <input class="easyui-textbox" label="用户名:"  name="username" prompt="userName" style="width:20%">
+        <input class="easyui-textbox" label="用户名:" id="username"  name="username" prompt="userName" style="width:30%">
     </div>
     <div style="margin-bottom:10px">
-        <input class="easyui-textbox" label="密码:"  name="password" prompt="password" style="width:20%">
+        <input class="easyui-textbox" label="真实姓名:" id="realUsername"  name="realUsername" prompt="userName" style="width:30%">
     </div>
     <div style="margin-bottom:10px">
-        <input class="easyui-textbox" label="再次确认:"  name="password2" prompt="repassword" style="width:20%">
+        <input class="easyui-passwordbox" label="密码:"id="password" prompt="password" name="password" style="width:30%">
     </div>
-    <div style="margin-bottom:10px">
-        <input class="easyui-textbox" label="真实姓名:"  name="realname" prompt="trueName" style="width:20%">
+    <div align="center">
+        <a  href="javascript:void(0)" class="easyui-linkbutton" onclick="login()">注册</a>
+        <a href="javascript:void(0)" style="font-size: 13px"  onclick="register()" target="_blank">登录</a>
     </div>
-    <input type="button" style="width:80px; height:35px "value="注册"  />
-</form>
-<script>
-
-</script>
+</div>
 </body>
+<script>
+    function login(){
+        $.post("/addregister/"+$("#username").val()+"/"+$("#password").val()+"/"+$("#realUsername").val(),{},function (data) {
+
+                location.href="/page/stock/login.html";
+        })
+    }
+    function register() {
+        location.href="/page/loginAndRegister/login.html";
+    }
+</script>
 </html>

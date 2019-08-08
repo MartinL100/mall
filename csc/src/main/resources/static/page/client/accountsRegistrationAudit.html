@@ -14,7 +14,7 @@
     <!--<script type="text/javascript" src="../../easyui/jquery.js"></script>-->
 </head>
 <body>
-<h1 align="center" style="margin-bottom: 50px">账号冻结与解冻</h1>
+<h1 align="center" style="margin-bottom: 50px">用户注册审核</h1>
 <div id="tb" style="padding:3px">
     <div style="margin-bottom:20px">
         <input class="easyui-datebox"  id="startTime" name="startTime" label="开始时间:" prompt="搜索请求审核开始时间" data-options="editable:false,panelWidth:220,panelHeight:240,iconWidth:30" style="width:45%">
@@ -188,7 +188,7 @@ var url;
        }
        else {
 
-           $.messager.alert('错误!','请先选中你要审核的数据!','error');
+           $.messager.alert('错误信息!','请先选中你要审核的数据!','error');
        }
     }
 
@@ -270,16 +270,14 @@ var url;
     //审核不通过
     function auditFail() {
             $.messager.prompt('请输入拒绝理由', '请输入拒绝通过理由', function (r) {
-                if (r != "") {
+                if (r != undefined) {
                     $("#auditOpinion").val(r);
                     $("#auditReplyTime").val(timeFormat())
                     $("#userState").val("审核未通过")
                     return;
                 }
-                if (r == "") {
-                    $("#auditOpinion").val("其他");
-                    $("#auditReplyTime").val(timeFormat())
-                    $("#userState").val("审核未通过")
+                if (r == undefined) {
+                    return;
 
                 }
                 // $('#dlg').dialog('close');		// close the dialog

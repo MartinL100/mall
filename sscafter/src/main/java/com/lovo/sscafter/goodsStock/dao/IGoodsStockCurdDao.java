@@ -1,6 +1,7 @@
 package com.lovo.sscafter.goodsStock.dao;
 
 import com.lovo.sscafter.goodsStock.entity.GoodsStockEntity;
+import com.lovo.sscafter.goodsStock.entity.GoodsTypeEntity;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
@@ -21,4 +22,19 @@ public interface IGoodsStockCurdDao extends CrudRepository<GoodsStockEntity,Stri
     @Modifying
     @Transactional
     public void updateGoodsMinNum(long goodsMinNum,String goodsId);
+
+    @Query("update  GoodsStockEntity g set g.tag=?1 where g.goodsId=?2")
+    @Modifying
+    @Transactional
+    public void upDateGoodsTag(String tag,String goodsId);
+
+       @Query("from GoodsStockEntity where goodsName=?1 and goodsType=?2 and goodsNorms=?3")
+       public GoodsStockEntity findByNameTypeAnAndNorms(String name,String type,String norms);
+
+       public GoodsStockEntity findGoodsStockEntityByGoodsId(String goodsId);
+
+       @Query("update GoodsStockEntity set tag1='已添加' where goodsId=?1")
+       @Modifying
+       @Transactional
+       public void updateGoodsTag1ById(String id);
 }
