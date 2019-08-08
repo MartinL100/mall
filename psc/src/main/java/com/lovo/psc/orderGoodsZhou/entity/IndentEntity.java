@@ -1,4 +1,4 @@
-package com.lovo.psc.entity;
+package com.lovo.psc.orderGoodsZhou.entity;
 
 import org.hibernate.annotations.GenericGenerator;
 
@@ -31,6 +31,9 @@ public class IndentEntity {
     /**中间表集合*/
     @OneToMany(mappedBy = "indentEntity")
     private List<SupplyCenterEntity> supplyCenterList;
+    @ManyToOne
+    @JoinColumn(name = "supplierId")
+    private SupplierEntity supplier;
 
     public String getIndentId() {
         return indentId;
@@ -72,20 +75,29 @@ public class IndentEntity {
         this.orderMoney = orderMoney;
     }
 
-    public List<SupplyCenterEntity> getSupplyCenterList() {
-        return supplyCenterList;
+//    public List<SupplyCenterEntity> getSupplyCenterList() {
+//        return supplyCenterList;
+//    }
+//
+//    public void setSupplyCenterList(List<SupplyCenterEntity> supplyCenterList) {
+//        this.supplyCenterList = supplyCenterList;
+//    }
+
+    public SupplierEntity getSupplier() {
+        return supplier;
     }
 
-    public void setSupplyCenterList(List<SupplyCenterEntity> supplyCenterList) {
-        this.supplyCenterList = supplyCenterList;
+    public void setSupplier(SupplierEntity supplier) {
+        this.supplier = supplier;
     }
 
-    public IndentEntity(String indentDate, String indentStatus, String closeTime, float orderMoney, List<SupplyCenterEntity> supplyCenterList) {
+    public IndentEntity(String indentDate, String indentStatus, String closeTime, float orderMoney, List<SupplyCenterEntity> supplyCenterList, SupplierEntity supplier) {
         this.indentDate = indentDate;
         this.indentStatus = indentStatus;
         this.closeTime = closeTime;
         this.orderMoney = orderMoney;
         this.supplyCenterList = supplyCenterList;
+        this.supplier = supplier;
     }
 
     public IndentEntity() {
