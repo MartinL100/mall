@@ -2,12 +2,8 @@ package com.lovo.sscbfore.service.impl;
 
 import com.lovo.sscbfore.dao.IUserMessageDao;
 import com.lovo.sscbfore.service.IUserMessageService;
-import com.lovo.sscbfore.user.entity2.UserEntity;
 import com.lovo.sscbfore.user.entity2.UserInfoEntity;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -19,7 +15,7 @@ import java.util.List;
  * @description: 用户消息接口实现类
  * @date 2019/8/5  14:17
  */
-@Service(value = "userMessageService")
+@Service
 public class UserMessageServiceImpl implements IUserMessageService {
 
     /**
@@ -29,42 +25,15 @@ public class UserMessageServiceImpl implements IUserMessageService {
     IUserMessageDao userMessageDao;
 
     @Override
-    public List<UserInfoEntity> findAllUserMessage(String userName) {
+    public List<UserInfoEntity> findAllUserMessage(String userName, String page, String limit) {
 
-        UserEntity user = new UserEntity();
-        user.setUserName(userName);
-        return userMessageDao.findAllByUserInfoIsOrderByMessageDateDesc(user);
+        return null;
     }
 
     @Override
-    public List<UserInfoEntity> findAllUserMessagePageAble(String userName, int page, int limit) {
-        UserEntity user = new UserEntity();
-        user.setUserName(userName);
-        Pageable pageable = PageRequest.of(page - 1, limit);
-        return userMessageDao.findByUserNameAndPage(user, pageable);
-    }
+    public void updateMessageStatus(String userName) {
 
-    @Override
-    public int countUserMessages(String userName) {
-        UserEntity user = new UserEntity();
-        user.setUserName(userName);
-        return userMessageDao.countByUserInfo(user);
     }
-
-    @Override
-    public int countUserNewMessage(String userName) {
-        UserEntity user = new UserEntity();
-        user.setUserName(userName);
-        return userMessageDao.countByUserInfoAndAndMessageStatus(user, 0);
-    }
-
-    @Override
-    public void updateUserMessage(String userName) {
-        UserEntity user = new UserEntity();
-        user.setUserName(userName);
-        userMessageDao.updateMessageStatus(userName);
-    }
-
 
     @Override
     public void addUserMessage(UserInfoEntity userMessage) {

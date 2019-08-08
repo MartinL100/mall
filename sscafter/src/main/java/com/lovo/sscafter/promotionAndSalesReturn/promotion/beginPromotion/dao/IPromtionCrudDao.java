@@ -29,4 +29,5 @@ public interface IPromtionCrudDao  extends CrudRepository<GoodsEntity,String> {
     @Modifying
     @Query("update GoodsEntity set promotionState=?2 where goodsId=?1")
     public void updateGoodspromotionState(String goodsId,String promotionState);
+
 }

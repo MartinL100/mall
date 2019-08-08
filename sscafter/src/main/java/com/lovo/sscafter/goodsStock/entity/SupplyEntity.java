@@ -14,8 +14,7 @@ public class SupplyEntity {
     private String supplyId;
     @Column(name = "supply_num",length = 48)
     private long supplyNum;
-    @Column(name = "supplier_id",length = 48)
-    private String supplierId;
+
     @ManyToOne
     @JoinColumn
     private GoodsStockEntity goods;
@@ -48,13 +47,6 @@ public class SupplyEntity {
         this.supplyNum = supplyNum;
     }
 
-    public String getSupplierId() {
-        return supplierId;
-    }
-
-    public void setSupplierId(String supplierId) {
-        this.supplierId = supplierId;
-    }
 
     public GoodsStockEntity getGoods() {
         return goods;

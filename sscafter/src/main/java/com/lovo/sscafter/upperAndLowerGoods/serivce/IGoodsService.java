@@ -50,4 +50,11 @@ public interface  IGoodsService {
      */
     public void updateStateBooking1(String goodsId);
 
+    /**
+     * 修改下架时间
+     * @param goodsId
+     * @param lowerTime
+     */
+    public void updateGoodsLowerTime(String goodsId,String lowerTime);
+
 }

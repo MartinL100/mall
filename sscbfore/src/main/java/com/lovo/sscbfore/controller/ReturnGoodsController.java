@@ -107,13 +107,14 @@ public class ReturnGoodsController {
             goodsVoList.add(goodsVo);
         }
 
-        TableDateEntity<ReturnGoodsVo> tableDate = new TableDateEntity<ReturnGoodsVo>();
+        TableDateEntity tableDate = new TableDateEntity<ReturnGoodsVo>();
         tableDate.setCode(0);
         tableDate.setData(goodsVoList);
         tableDate.setCount(20);
         tableDate.setMsg("");
 
         JSON json = JSONUtil.parse(tableDate);
+        System.out.println(json.toString());
         return json.toString();
     }
 
@@ -172,7 +173,8 @@ public class ReturnGoodsController {
             list.add(g);
         }
         re.setReturnGoodsList(list);
-
+        System.out.println(re);
+        System.out.println(JSONUtil.toJsonStr(re));
         ActiveMQQueue queue = new ActiveMQQueue("goodsReturnMQ");
         jmsMessagingTemplate.convertAndSend(queue, JSONUtil.toJsonStr(re));
     }

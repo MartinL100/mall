@@ -47,7 +47,7 @@ public interface IPromotionGoodsService {
 
 
     /**
-     * 根据id修改商品促销状态
+     * 根据id修改商品促销状态(改为审核中)
      * @param goodsId 商品id
      * @param promotionState 促销状态
      */

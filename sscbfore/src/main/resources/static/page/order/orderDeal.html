@@ -25,10 +25,15 @@
 
                 <div class="layui-card-body layui-row layui-col-space10">
                     <div class="layui-inline" style="position: absolute;top: 16%">
+
+
                         <label class="layui-form-label">日期查询:</label>
                         <div class="layui-input-inline">
                             <input  type="text" name="date" id="LAY-component-form-group-date" lay-verify="date" placeholder="yyyy-MM-dd" autocomplete="off" class="layui-input">
                         </div>
+
+                        <button class="layui-btn" style="position: relative;left: 210%" onclick="findorder()">查询</button>
+                        <span style="position: relative;left: 25%">类型查询:</span>
                     </div>
 
                     <div class="layui-col-md6" style="width: 30%;position: relative;top: 40%;left: 40%">
@@ -43,31 +48,26 @@
                 </div>
 
             </div>
-            <button class="layui-btn" style="position: absolute;top: 14%;right: 20%" onclick="findorder()">查询</button>
 
                 <div class="layui-card-body">
                     <table  table class="layui-table" id="test-table-autowidth" lay-filter="test" lay-data="{id: 'idTest'}"></table>
-
                 </div>
 
             <button class="layui-btn" data-type="parseTable" style="width: 20%;height: 30%;position: relative;left: 58%">返回</button>
-                    <span style="position: absolute;top: 16%;left: 35%">类型查询:</span>
             </div>
         </div>
     </div>
 </div>
 <script src="../../layuiadmin/layui/layui.js"></script>
 <script src="../../lib/jquery.js"></script>
+
 <!--表单最后一列的添加按键-->
 <script type="text/html" id="component-form-time">
-    <a class="layui-btn layui-btn-xs" lay-event="detail">查询</a>
-    <a  class="layui-btn layui-btn-xs" lay-event="detail">退货</a>
-    <a  class="layui-btn layui-btn-xs" lay-event="detail">删除</a>
+    <a class="layui-btn layui-btn-xs" lay-event="cx">查询</a>
+    <a  class="layui-btn layui-btn-xs" lay-event="th">退货</a>
+    <a  class="layui-btn layui-btn-xs" lay-event="sc">删除</a>
 </script>
 <script>
-
-
-
     layui.config({
         base: '../../layuiadmin/' //静态资源所在路径
     }).extend({
@@ -80,51 +80,58 @@
             ,laydate = layui.laydate
             ,form = layui.form;
 
-        form.render(null, 'component-form-element');
+
         laydate.render({
             elem: '#LAY-component-form-group-date'
         });
     });
+
 //表单
     layui.config({
         base: '../../layuiadmin/' //静态资源所在路径
 
     }).extend({
         index: 'lib/index' //主入口模块
-    }).use(['index', 'table'], function(){
+    }).use(['index', 'table'], function() {
 
-        var table = layui.table
-            ,form = layui.form
-            ,element = layui.element
-            ,layer = layui.layer;
-        element.render();
-
+        var table = layui.table;
 
         table.render({
             elem: '#test-table-autowidth'
-            ,url:'/orderDel'
-            ,page:true
-            ,cellMinWidth: 80 //全局定义常规单元格的最小宽度，layui 2.2.1 新增
-            ,cols: [[
-                {field:'orderNum', title: '订单号'}
-                ,{field:'orderType', title: '订单类型',align: 'center'}
-                ,{field:'goodsSize', title: '订单数量', sort: true}
-                ,{field:'orderDate', title: '下单日期', sort: true}
-                ,{field:'payMethod', title: '付款方式'}
-                ,{field:'orderMoney', title: '订单金额(元)'}
-                ,{fixed: 'right', title: '操作', align:'center', toolbar: '#component-form-time'}
+            , url: '/orderDel'
+            , page: true
+            , cellMinWidth: 80 //全局定义常规单元格的最小宽度，layui 2.2.1 新增
+            , cols: [[
+                {field: 'orderNum', title: '订单号'}
+                , {field: 'orderType', title: '订单类型', align: 'center'}
+                , {field: 'goodsSize', title: '订单数量', sort: true}
+                , {field: 'orderDate', title: '下单日期', sort: true}
+                , {field: 'payMethod', title: '付款方式'}
+                , {field: 'orderMoney', title: '订单金额(元)'}
+                , {fixed: 'right', title: '操作', align: 'center', toolbar: '#component-form-time'}
             ]]
         });
-        table.on('tool(test)', function(obj){
+        table.on('tool(test)', function (obj) {
             var data = obj.data; //获得当前行数据
             var layEvent = obj.event; //获得 lay-event 对应的值（也可以是表头的 event 参数对应的值）
             // var tr = obj.tr; //获得当前行 tr 的DOM对象
-            goodsNum+=data.orderNum;
-            $.post("/goodsDel",{"goodsNum":goodsNum},function (r) {
-                table.val("component-form-element",{
-                    "goodsNum":r
-                })
-            })
+            var  orderNum=data.orderNum; //订单号
+            // alert(orderNum)
+
+            if(layEvent==='sc'){
+                layer.confirm('真的删除行么', function(index) {
+                    obj.del();
+                    layer.close(index);
+                });
+            }else if(layEvent==='cx'){
+                $.post("/goodsDel",{"orderNum":orderNum},function (r) {
+                    // alert(r);
+                    location.href="goodsDeal.html";
+                    // var  sss=eval("("+r+")")
+                });
+            }else if(layEvent==='th'){
+
+            }
 
         });
     });
@@ -134,9 +141,14 @@
     function findorder() {
         var table = layui.table;
         var a=$('#LAY-component-form-group-date').val();
-        $.post(/)
+        alert(a)
+
         var b=$('#opId').val();
         alert(b);
+
+        $.post("/orderDel",{"orderDate":a,"orderType":b},function (r) {
+            alert(r)
+        })
     }
 
 

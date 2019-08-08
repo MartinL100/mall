@@ -1,6 +1,8 @@
 package com.lovo.csc.controller.supplierController;
 
 import com.lovo.csc.entity.SupplierEntity;
+import com.lovo.csc.entity.SupplierGoodsEntity;
+import com.lovo.csc.service.supplierService.ISupplierGoodsService;
 import com.lovo.csc.service.supplierService.ISupplierService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -8,6 +10,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.persistence.Column;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -16,6 +19,8 @@ import java.util.Map;
 public class SupplierController {
     @Autowired
     private ISupplierService supplierService;
+    @Autowired
+    private ISupplierGoodsService supplierGoodsService;
     @RequestMapping("saveSupplier.lovo")
     public  String saveSupplier(SupplierEntity supplier){
         supplierService.save(supplier);
@@ -26,6 +31,16 @@ public class SupplierController {
     public  SupplierEntity findBySupplierId(String id){
         SupplierEntity supplier=supplierService.findBySupplierId(id);
         return  supplier;
+    }
+    @RequestMapping("findSupplier.lovo")
+//    @ResponseBody
+    public  List<SupplierEntity> findGoodsName(String goodsName,String goodsNorms){
+        List<SupplierGoodsEntity> supplierGoodsList=supplierGoodsService.findSupplierGoods(goodsName,goodsNorms);
+        List<SupplierEntity> list=new  ArrayList<SupplierEntity>();
+        for (SupplierGoodsEntity s:supplierGoodsList) {
+            list.add(s.getSupplierId());
+        }
+        return  list;
     }
     /**
      *
