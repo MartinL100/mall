@@ -30,11 +30,11 @@ public class MyMQ {
     }
     //websocket 放入到spring容器
 
-    @LoadBalanced   //使用负载均衡机制
-    @Bean
-    public ServerEndpointExporter serverEndpointExporter() {
-        return new ServerEndpointExporter();
-    }
+//    //@LoadBalanced   //使用负载均衡机制
+//    @Bean
+//    public ServerEndpointExporter serverEndpointExporter() {
+//        return new ServerEndpointExporter();
+//    }
 
 //    @Bean
 //    public ConnectionFactory connectionFactory(){
