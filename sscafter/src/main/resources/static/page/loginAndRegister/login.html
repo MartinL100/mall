@@ -21,8 +21,10 @@
     <div style="margin-bottom:10px">
         <input class="easyui-passwordbox" label="密码:"id="password" prompt="password" name="password" style="width:20%">
     </div>
-    <a  href="#" class="easyui-linkbutton" data-options="toggle:true" onclick="login()">登录</a>
-    <a href="register.html" target="_blank">注册</a>
+    <div align="center">
+    <a  href="javascript:void(0)" class="easyui-linkbutton" onclick="login()">登录</a>
+    <a href="javascript:void(0)" style="font-size: 13px"  onclick="register()" target="_blank">注册</a>
+    </div>
 </div>
 </body>
 <script>
@@ -30,11 +32,14 @@
         $.post("/addlogin/"+$("#username").val()+"/"+$("#password").val(),{},function (data) {
             var tempJson = eval("("+data+")");
             if(tempJson.info == 'true'){
-                location.href="/stock/main.html";
+                location.href="/page/stock/main.html";
             }else{
                 $.messager.alert('提示窗口', '登录失败！', 'info');
             }
         })
+    }
+    function register() {
+        location.href="/page/loginAndRegister/register.html";
     }
 </script>
 </html>
