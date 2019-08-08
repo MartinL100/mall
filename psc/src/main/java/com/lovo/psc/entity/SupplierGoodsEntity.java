@@ -1,4 +1,4 @@
-package com.lovo.psc.orderGoodsZhou.entity;
+package com.lovo.psc.entity;
 
 import org.hibernate.annotations.GenericGenerator;
 
@@ -31,6 +31,12 @@ public class SupplierGoodsEntity {
     private String goodsUnit;
     /**商品库存 */
     private int goodsNum;
+    @Column(length = 48)
+    /**商品状态*/
+    private String supplierStatus;
+    @Column(length = 48)
+    /**商品操作*/
+    private  String supplierType;
     /**供应商对象 */
     @ManyToOne
     @JoinColumn(name="supplierId")
@@ -95,13 +101,21 @@ public class SupplierGoodsEntity {
         this.supplier = supplier;
     }
 
-//    public List<SupplyCenterEntity> getSupplyCenterEntityList() {
-//        return supplyCenterEntityList;
-//    }
-//
-//    public void setSupplyCenterEntityList(List<SupplyCenterEntity> supplyCenterEntityList) {
-//        this.supplyCenterEntityList = supplyCenterEntityList;
-//    }
+    public String getSupplierStatus() {
+        return supplierStatus;
+    }
+
+    public void setSupplierStatus(String supplierStatus) {
+        this.supplierStatus = supplierStatus;
+    }
+
+    public String getSupplierType() {
+        return supplierType;
+    }
+
+    public void setSupplierType(String supplierType) {
+        this.supplierType = supplierType;
+    }
 
     public SupplierGoodsEntity(String goodsName, String goodsNoms, String goodsType, String goodsUnit, int goodsNum, SupplierEntity supplier, List<SupplyCenterEntity> supplyCenterEntityList) {
         this.goodsName = goodsName;
