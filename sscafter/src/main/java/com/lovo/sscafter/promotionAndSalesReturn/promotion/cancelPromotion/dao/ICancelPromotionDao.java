@@ -31,7 +31,7 @@ public interface ICancelPromotionDao {
 
 
         /**
-         * 根据id查询商品集合
+         * 根据id集合查询商品集合
          * @param listId id集合
          * @return 商品集合
          */

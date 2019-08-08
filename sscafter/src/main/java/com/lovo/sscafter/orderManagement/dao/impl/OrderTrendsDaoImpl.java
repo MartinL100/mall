@@ -8,7 +8,11 @@ import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+
 @Repository(value = "orderTrendsDao")
 public class OrderTrendsDaoImpl implements IOrderTrendsDao {
 
@@ -60,5 +64,24 @@ public class OrderTrendsDaoImpl implements IOrderTrendsDao {
             query.setParameter("userName","%"+userName+"%");
         }
         return query;
+    }
+
+    public Map<String,String> findDate(String mouth){
+        String sql = "SELECT c.datelist AS mydata , IF(SUM(s.goods_profit)IS NULL ,0,SUM(s.goods_profit)) AS profit FROM calendar c " +
+                "LEFT JOIN sys_order_after s ON c.datelist = s.order_date " +
+                "WHERE c.datelist LIKE '%"+mouth+"%'GROUP BY c.datelist";
+
+        List rows =  getEntityManager().createNativeQuery(sql).getResultList();
+        Map<String,String> map = new HashMap();
+        String listMap1 = "";
+        String listMap2 = "";
+        for (Object obj : rows) {
+            Object[] row = (Object[]) obj;
+            listMap1+=row[0]+",";
+            listMap2+=row[1]+",";
+        }
+        map.put("listMap",listMap1);
+        map.put("listMap2",listMap2);
+        return map;
     }
 }

@@ -19,7 +19,7 @@
 <div class="layui-fluid">
     <div class="layui-row layui-col-space15" style="height: 720px">
 
-        <div class="layui-col-md6">
+        <div style="margin: auto ;">
             <div class="layui-card">
                 <div class="layui-card-header" style="text-align: center">
                     <h1>消息一览</h1>
@@ -30,7 +30,7 @@
                     </div>
 
                     <div class="layui-row orderTable" style="text-align: center">
-                        <button class="layui-btn" data-type="getCheckData">返回</button>
+                        <button class="layui-btn" data-type="backHome">我已经知晓，返回</button>
                     </div>
                 </div>
             </div>
@@ -39,7 +39,6 @@
 </div>
 
 <script src="../../layuiadmin/layui/layui.js"></script>
-
 <script>
 
 
@@ -51,31 +50,14 @@
         let table = layui.table;
 
         let $ = layui.$, active = {
-            getCheckData: function () { //获取选中数据
-                table1();
-                table2(null);
-                let checkStatus = table.checkStatus('goodsId')
-                    , data = checkStatus.data;
-                oldReturnList = data;
-                let str = JSON.stringify(oldReturnList);
-                returnList = eval("(" + str + ")");
-                table2(returnList);
-            }
-            , getCheckLength: function () { //获取选中数目
-                let checkStatus = table.checkStatus('goodsId')
-                    , data = checkStatus.data;
-                layer.msg('选中了：' + data.length + ' 个');
-            }
-            , isAll: function () { //验证是否全选
-                let checkStatus = table.checkStatus('goodsId');
-                layer.msg(checkStatus.isAll ? '全选' : '未全选')
-            }
-            , submit: function () {
-                let str = '';
-                for (let i = 0; i < returnList.length; i++) {
-                    str += returnList[i].goodsId + returnList[i].goodsName + returnList[i].goodsNum + "\n";
-                }
-                alert(str)
+            backHome: function () {
+                $.get('/userMessage/up/' + 'che', [], function (res) {
+                    res = eval('(' + res + ')');
+
+                    if (res.info == 'Success') {
+                        alert('123123')
+                    }
+                });
             }
         };
 
@@ -90,20 +72,27 @@
 
         //加载表格1
         function table1() {
+
             table.render({
                 elem: '#orderTable'
-                , url: '/returngoods/req'
-                , id: 'goodsId'
+                , url: '/userMessage/' + 'che'
                 , page: true
                 , cols: [[
-                    {field: 'goodsName', title: '消息正文'}
-                    , {field: 'goodsNum', sort: true, title: '时间'}
+                    {
+                        field: 'messageStatus', title: '', width: 130, templet: function (d) {
+                            if (d.messageStatus === 0) {
+                                return '<span class="layui-badge" style="text-align: center ; width: 100px">NEW Message</span>';
+                            } else {
+                                return "";
+                            }
+                        }
+                    }
+                    , {field: 'messageInfo', title: '消息正文'}
+                    , {field: 'messageDate', sort: true, title: '时间'}
                 ]]
             });
         }
     });
-
-
 </script>
 
 </body>

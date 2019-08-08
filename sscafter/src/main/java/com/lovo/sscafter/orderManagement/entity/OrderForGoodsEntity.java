@@ -12,6 +12,7 @@ public class OrderForGoodsEntity {
     @Column(name="goods_id",length = 48)
     @GenericGenerator(name = "goodsId", strategy = "uuid")
     @GeneratedValue(generator = "goodsId")
+
     private String goodsId;
     //商品名
     @Column(name="goods_name",length = 48)
@@ -37,14 +38,13 @@ public class OrderForGoodsEntity {
     //订单对象
     @ManyToOne()
     @JoinColumn(name = "order_num")
-    private OrderManagementEntity orderObj;   private float orderProfit;
+    private OrderManagementEntity orderObj;
     //库存商品外键
     @Column(name="stock_goodsId",length = 48)
     private String stockGoodsId;
-
     //商品利润
     @Column(name="order_profit",columnDefinition = "double")
-
+    private float orderProfit;
     public String getGoodsId() {
         return goodsId;
     }
@@ -115,5 +115,21 @@ public class OrderForGoodsEntity {
 
     public void setOrderObj(OrderManagementEntity orderObj) {
         this.orderObj = orderObj;
+    }
+
+    public float getOrderProfit() {
+        return orderProfit;
+    }
+
+    public void setOrderProfit(float orderProfit) {
+        this.orderProfit = orderProfit;
+    }
+
+    public String getStockGoodsId() {
+        return stockGoodsId;
+    }
+
+    public void setStockGoodsId(String stockGoodsId) {
+        this.stockGoodsId = stockGoodsId;
     }
 }

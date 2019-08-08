@@ -9,6 +9,7 @@ public class OrderManagementEntity {
     //订单编号
     @Id
     @Column(name="order_num",length = 48)
+
     private String orderNum;
     //订单类型0就是正常情况,1就是下单未付款,2为有退货
     @Column(name="order_type",length = 48)
@@ -38,11 +39,12 @@ public class OrderManagementEntity {
     @Column(name="order_delType")
     private int orderDelType;
     //商品集合
-    @OneToMany(mappedBy = "orderObj",fetch = javax.persistence.FetchType.LAZY)
+    @OneToMany(mappedBy = "orderObj",fetch = javax.persistence.FetchType.LAZY,cascade= {CascadeType.ALL})
     private List<OrderForGoodsEntity> goodsNum;
     //商品数量
     @Column(name="goods_size")
     private int goodsSize;
+
 
     public int getGoodsSize() {
         return goodsSize;
