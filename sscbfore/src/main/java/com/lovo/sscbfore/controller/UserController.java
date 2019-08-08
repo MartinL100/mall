@@ -1,27 +1,31 @@
 package com.lovo.sscbfore.controller;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.lovo.sscbfore.user.entity2.ResgisterMessageVo;
 import com.lovo.sscbfore.user.entity2.UserEntity;
+import com.lovo.sscbfore.user.entity2.UserShowDto;
 import com.lovo.sscbfore.user.service.IUserService;
+import org.apache.activemq.command.ActiveMQQueue;
+import org.hibernate.annotations.Parameter;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jms.core.JmsMessagingTemplate;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.multipart.MultipartFile;
-import sun.misc.BASE64Encoder;
 
 
 import javax.servlet.http.HttpServletRequest;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.InputStream;
 import java.sql.Timestamp;
-import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.List;
 
 @RestController
 public class UserController {
     @Autowired
     private IUserService serService;
+    @Autowired
+    private JmsMessagingTemplate jmsMessagingTemplate;
 
     @RequestMapping("find")
     public String find(String userName) {
@@ -43,6 +47,7 @@ public class UserController {
                 info="no";
                 return info;
             } else if ("1".equals(user.getAdministrator())) {
+                request.getSession().setAttribute("userEntity",user2);
                 return "adm";
             }
 
@@ -55,9 +60,9 @@ public class UserController {
 
     }
 
-    @RequestMapping("update2")
-    public String updateUserState() {
-        serService.updateUserState("zy", "1");
+    @RequestMapping("update2/{userName}/{userState}")
+    public String updateUserState(@PathVariable("userName")String userName,@PathVariable("userState")String userState) {
+        serService.updateUserState(userName,userState);
         return "ok";
     }
 
@@ -74,7 +79,7 @@ public class UserController {
     }
 
     @RequestMapping("pageUpload")
-    public String uploadPage(String aptitudeImg, String identityImg, String companyName,HttpServletRequest request) {
+    public String uploadPage(String aptitudeImg, String identityImg, String companyName,HttpServletRequest request) throws JsonProcessingException {
         ResgisterMessageVo vo=new ResgisterMessageVo();
         UserEntity user= (UserEntity) request.getSession().getAttribute("userEntity");
         vo.setUserName(user.getUserName());
@@ -86,8 +91,11 @@ public class UserController {
         vo.setIdentityImg(identityImg);
         vo.setCompanyName(companyName);
         vo.setAuditType(user.getAuditType());
-        System.out.printf(""+new Timestamp(System.currentTimeMillis()));
         vo.setAuditTime(new Timestamp(System.currentTimeMillis())+"");
+        ObjectMapper obj=new ObjectMapper();
+        String json=obj.writeValueAsString(vo);
+        ActiveMQQueue queue=new ActiveMQQueue("accountsRegistrationAuditMessageMQ");
+        jmsMessagingTemplate.convertAndSend(queue,json);
         return "ok";
     }
 
@@ -96,4 +104,23 @@ public class UserController {
       UserEntity user= (UserEntity) request.getSession().getAttribute("userEntity");
       return user;
     }
+    @RequestMapping("userList/{userName}")
+    public List<UserShowDto> userEntityList(@PathVariable("userName")String userName){
+       List<UserEntity> list= serService.userList(userName);
+       List<UserShowDto> list1=new ArrayList<>();
+       UserShowDto user=new UserShowDto();
+        for (UserEntity u:list) {
+            user.setUserId(u.getUserId());
+            user.setUserName(u.getUserName());
+            user.setPassword(u.getPassword());
+            user.setSex(u.getSex());
+            user.setTelphone(u.getTelphone());
+            user.setTrueName(u.getTrueName());
+            user.setUserState(u.getUserState());
+            list1.add(user);
+        }
+       return list1;
+    }
+
+
 }

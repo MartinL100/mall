@@ -38,26 +38,25 @@ public class UserAuditServiceImpl implements IUserAuditService {
     private ActiveMQQueue frozenOrUnfrozenAccountsResultMQ;
     Log log= LogFactory.getLog(this.getClass());
 
-    //测试通过
+
     @Override
     public SysUserAuditInformationEntity findSysUserAuditInformationEntityByName(String userName) {
         return userRegistraTionAuditDao.findByUserName(userName);
     }
 
-    //测试通过
     @Override
     public List<SysUserAuditInformationEntity> PageInitList(int page,int rows) {
         Pageable pa=PageRequest.of(page,rows);
         return   userRegistraTionAuditDao.PageInitList(pa);
     }
 
-    //测试通过
+
     @Override
     public long getPageInitCount() {
         return userRegistraTionAuditDao.getPageInitCount();
     }
 
-    //测试通过
+
     @Override
     public String savaUserAuditMessage(SysUserAuditInformationEntity userAuditInformationEntity) {
         return userRegistraTionAuditDao.
@@ -70,16 +69,21 @@ public class UserAuditServiceImpl implements IUserAuditService {
         userAuditInformationEntity.setAuditReplyTime(MyStringUtil.getFormMatTime());
         userAuditInformationEntity.setAuditPerson(auditPerson);
         String userState=userAuditInformationEntity.getUserState();
+        String state="";
+        //vo中默认返回结果状态为1
+        state="1";
+        //如果审核不通过 将结果状态改成2
         if (!"审核通过".equals(userState)){
             userAuditInformationEntity.setIdentityImg("");
             userAuditInformationEntity.setAptitudeImg("");
+           state="2";
         }
                 userRegistraTionAuditDao.save(userAuditInformationEntity);
                 RegisterResultVo vo =new RegisterResultVo();
                 vo.setAuditOpinion(userAuditInformationEntity.getAuditOpinion());
-                vo.setAuditReplyTime(userAuditInformationEntity.getAuditOpinion());
+                vo.setAuditReplyTime(MyStringUtil.getFormMatTime());
                 vo.setUserGrade(userAuditInformationEntity.getUserGrade());
-                vo.setUserState(userState);
+                vo.setUserState(state);
                 vo.setUserName(userAuditInformationEntity.getUserName());
         String json="";
         try {
@@ -102,7 +106,7 @@ public class UserAuditServiceImpl implements IUserAuditService {
                 getFrozenOrUnfrozenAccountsMessageId();
     }
 
-    //测试通过
+
     @Override
     public double getUserDiscount(String userName) {
      String level=userRegistraTionAuditDao.findByUserName(userName).getUserGrade();
@@ -112,56 +116,56 @@ public class UserAuditServiceImpl implements IUserAuditService {
         return  1.0;
     }
 
-    //测试通过
+
     @Override
     public SysUserAuditInformationEntity getSysUserAuditInformationEntity(String userName) {
         return userRegistraTionAuditDao.findByUserName(userName);
     }
 
-    //测试通过
+
     @Override
     public List<SysUserAuditInformationEntity> DynamicQueryAuditInformation(String userState, String startTime, String endTime, Pageable page) {
         return userAuditNormalDao.DynamicQueryAuditInformation
                 (userState,startTime,endTime,page);
     }
 
-    //测试通过
+
     @Override
     public long DynamicQueryAuditInformationCount(String userState, String startTime, String endTime) {
         return userAuditNormalDao.DynamicQueryAuditInformationCount
                 (userState,startTime,endTime);
     }
 
-    //测试通过
+
     @Override
     public List<SysFrozenOrUnfrozenAccountsEntity> DynamicQuerySysFrozenOrUnfrozenAccountsEntity(String auditState,String auditType, String startTime, String endTime, Pageable page) {
         return userAuditNormalDao.DynamicQuerySysFrozenOrUnfrozenAccountsEntity
                 (auditState,auditType,startTime,endTime,page);
     }
 
-    //测试通过
+
     @Override
     public long DynamicQuerySysFrozenOrUnfrozenAccountsEntityCount(String auditState,String auditType, String startTime, String endTime) {
         return userAuditNormalDao.DynamicQuerySysFrozenOrUnfrozenAccountsEntityCount
                 (auditState, auditType,startTime,endTime);
     }
 
-    //测试通过
+
     @Override
     public SysFrozenOrUnfrozenAccountsEntity findSysFrozenOrUnfrozenAccountsEntityById(String id) {
         return frozenOrUnfrozenAccountsDao.findById(id).get();
     }
 
-    //测试通过
+
     @Override
     public List<SysFrozenOrUnfrozenAccountsEntity> frozenOrUnfrozenAccountsPageInitList(int page, int rows) {
         Pageable pa= PageRequest.of(page, rows);
         return frozenOrUnfrozenAccountsDao.FrozenOrUnfrozenAccountsPageInitList(pa);
     }
 
-    //测试通过
+
     @Override
-    public long getfrozenOrUnfrozenAccountsPageInitCount() {
+    public long getFrozenOrUnfrozenAccountsPageInitCount() {
         return frozenOrUnfrozenAccountsDao.getFrozenOrUnfrozenAccountsPageInitCount();
     }
 

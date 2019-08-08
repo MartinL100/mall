@@ -14,4 +14,12 @@ public interface IGoodsStockService {
     public void saveGoods(GoodsStockEntity goods);
 
     public void updateGoodsMinNum(long goodsMinNum,String goodsId);
+
+    public void upDateGoodsTag(String tag,String goodsId);
+
+    public String findSupplyIdByGoodsId(String goodsId);
+
+    public GoodsStockEntity findByNameTypeAnAndNorms(String name,String type,String norms);
+
+    public GoodsStockEntity findGoodsStockEntityByGoodsId(String goodsId);
 }

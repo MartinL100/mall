@@ -2,7 +2,7 @@ package com.lovo.csc.vo.clientvo;
 
 //用户账户维护审核 发送信息Vo
 public class PreserveMessageVo {
-    //请求类型
+    //请求类型 冻结 、解冻
     private String auditType;
     //请求时间
     private  String auditTime;

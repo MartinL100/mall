@@ -9,4 +9,8 @@ public interface ISupplyDao {
 
     public List<LookBuyInfoDTO> findOrderGoods(String goodsName,
   String goodsType, String startDate, String endDate, int currentPage, int rows);
+
+
+    public long findOrderGoodsCount(String goodsName,
+  String goodsType, String startDate, String endDate);
 }

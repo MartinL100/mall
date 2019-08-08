@@ -67,4 +67,13 @@ public class GoodsStockDaoImpl implements IGoodsStockDao {
         return (long)query.getSingleResult();
     }
 
+    @Override
+    public String findSupplyIdByGoodsId(String goodsId) {
+     String hql="select og.supplierId from GoodsStockEntity g left join OrderGoodsEntity og on g.goodsId=og.goods.goodsId where g.goodsId=:goodsId";
+
+        Query query = getEntityManager().createQuery(hql);
+        query.setParameter("goodsId",goodsId);
+        return(String) query.getSingleResult();
+    }
+
 }
