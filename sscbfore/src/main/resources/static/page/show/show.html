@@ -283,6 +283,7 @@ var countGoods=0;
                 console.log(Info);
                 $.post("/buyRight",{"goodsInfo":Info},function (r) {
                     console.log(r)
+                    window.location.href ="../deal/presellMakeDeal.html";
                 })
 
             });
