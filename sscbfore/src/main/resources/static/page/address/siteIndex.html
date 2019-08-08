@@ -90,27 +90,62 @@
         table.on('tool(test1)', function (obj) { //注：tool是工具条事件名，test是table原始容器的属性 lay-filter="对应的值"
             var data = obj.data; //获得当前行数据
             console.log(data)
-
             var Name = obj.goodsName;//获得当前数据的商品名
             var layEvent = obj.event; //获得 lay-event 对应的值（也可以是表头的 event 参数对应的值）
             var tr = obj.tr; //获得当前行 tr 的DOM对象
-
-            alert(data.siteMan)
              // console.log(obj);
             if (layEvent === 'edit') {
                 layer.open({
                     area: ['500px', '300px'],
                     title: "修改商品信息",
                     type: 1,
-                    content:'地址信息:<input type="text" id="spid" value="">'
-                           +'详细地址:<input type="text" id="spid" >'
-                           +'邮政邮编:<input type="text" id="spid" >'
-                           +'收货人姓名:<input type="text" id="spid" >'
-                           +'手机/电话:<input type="text" id="spid" >'//这里content是一个普通的String
-                })
-            }
-            ;
+                    content: '<div align="center" class="layui-card layui-form" lay-filter="component-form-element">' +
+                        '<div style="padding: 10px;"> <div class="layui-form-item">\n' +
+                        '                            <label class="layui-form-label">地址信息</label>\n' +
+                        '                            <div class="layui-input-block">\n' +
+                        '                                <input type="text" name="siteArea" value='+data.siteArea+'  placeholder="" autocomplete="off" class="layui-input" >\n' +
+                        '                            </div>\n' +
+                        '                        </div>\n' +
+                        '                        <div class="layui-form-item" hidden="hidden">\n' +
+                        '                            <label class="layui-form-label">详细地址</label>\n' +
+                        '                            <div class="layui-input-block">\n' +
+                        '                                <input type="text" name="siteDetail" value='+data.siteDetail+'  placeholder="" autocomplete="off" class="layui-input" >\n' +
+                        '                            </div>\n' +
+                        '                        </div>\n' + '                        <div class="layui-form-item">\n' +
+                        '                            <label class="layui-form-label">邮政编码</label>\n' +
+                        '                            <div class="layui-input-block">\n' +
+                        '                                <input type="text" name="sitePostcode" value='+data.sitePostcode+'  placeholder="" autocomplete="off" class="layui-input" >\n' +
+                        '                            </div>\n' +
+                        '                        </div>\n'+
+                        '                        <div class="layui-form-item">\n' +
+                        '                            <label class="layui-form-label">收货人姓名</label>\n' +
+                        '                            <div class="layui-input-block">\n' +
+                        '                                <input type="text" name="siteMan" value='+data.siteMan+' placeholder="" autocomplete="off" class="layui-input" >\n' +
+                        '                            </div>\n' +
+                        '                        </div>\n' +
+                        '                        <div class="layui-form-item">\n' +
+                        '                            <label class="layui-form-label">手机/电话</label>\n' +
+                        '                            <div class="layui-input-block">\n' +
+                        '                                <input type="text" name="sitePhone" value='+data.sitePhone+' placeholder="" autocomplete="off" class="layui-input" >\n' +
+                        '                            </div>\n' +
+                        '                        </div>\n' +
+                        '                                <button class="layui-btn" lay-submit lay-filter="buy">保存</button>\n' +
+                        '                                <button class="layui-btn"  lay-submit lay-filter="addToCar">返回</button>\n' +
+                        '                            </div>'+
+                        '                        </div></div></div>'
 
+
+                })};
+            form.on('submit(buy)', function(data){
+                var Info = JSON.stringify(data.field) ;
+                //直接购买
+                console.log(Info);
+                $.post("/buyRight",{"goodsInfo":Info},function (r) {
+                    console.log(r)
+                    window.location.href ="static/page/address/siteIndex.html";
+                })
+
+            });
             function fun() {
                 location.href = "siteAdd.html"
             }
