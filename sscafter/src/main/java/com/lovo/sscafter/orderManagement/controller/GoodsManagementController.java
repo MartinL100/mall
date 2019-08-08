@@ -14,7 +14,7 @@ import java.util.Map;
 
 @Controller
 public class GoodsManagementController {
-    @Autowired 
+    @Autowired
     IGoodsManagementService goodsManagementService;
     @RequestMapping("findGoods/{orderNum}/{currentPage}/{rows}")
     @ResponseBody
@@ -32,7 +32,7 @@ public class GoodsManagementController {
         map.put("rows",list);
         map.put("page",page);
         map.put("total",goodsManagementService.findGoodsRows(orderNum));
-        return  map;
+        return map;
     }
     @RequestMapping("findGoodsRows/{orderNum}")
     @ResponseBody
