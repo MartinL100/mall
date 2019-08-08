@@ -6,6 +6,8 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 
 public interface IUserDao extends CrudRepository<UserEntity,String> {
 
@@ -19,5 +21,8 @@ public interface IUserDao extends CrudRepository<UserEntity,String> {
     @Transactional
     @Query("update UserEntity set userState=?2 where userName=?1 ")
     public void updateUserState(String userName,String userState);
+
+    @Query("from UserEntity as user where user.userName like %?1% and user.userState=null")
+    public List<UserEntity> userList(String userName);
 
 }

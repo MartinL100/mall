@@ -9,6 +9,7 @@ public class OrderManagementEntity {
     //订单编号
     @Id
     @Column(name="order_num",length = 48)
+
     private String orderNum;
     //订单类型0就是正常情况,1就是下单未付款,2为有退货
     @Column(name="order_type",length = 48)

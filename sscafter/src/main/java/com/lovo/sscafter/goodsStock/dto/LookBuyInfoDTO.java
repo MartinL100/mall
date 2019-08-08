@@ -1,14 +1,17 @@
 package com.lovo.sscafter.goodsStock.dto;
 
 public class LookBuyInfoDTO {
-    private String indentId;
-    private String indentDate;
-    private Long supplyNum;
-    private String supplierId;
-    private String goodsName;
-    private String goodsType;
-    private String goodsNorms;
-    private String goodsUnit;
+    private String indentId;//采购单号
+    private String indentDate;//采购日期
+    private Long supplyNum; //采购数量
+    private String goodsName;//商品名称
+    private String goodsType;//商品 类型
+    private String goodsNorms;//商品规格
+    private String goodsUnit;//商品单位
+
+    public LookBuyInfoDTO() {
+    }
+
 
 
     public String getIndentId() {
@@ -35,13 +38,7 @@ public class LookBuyInfoDTO {
         this.supplyNum = supplyNum;
     }
 
-    public String getSupplierId() {
-        return supplierId;
-    }
 
-    public void setSupplierId(String supplierId) {
-        this.supplierId = supplierId;
-    }
 
     public String getGoodsName() {
         return goodsName;
@@ -75,11 +72,12 @@ public class LookBuyInfoDTO {
         this.goodsUnit = goodsUnit;
     }
 
-    public LookBuyInfoDTO(String indentId, String indentDate, Long supplyNum, String supplierId, String goodsName, String goodsType, String goodsNorms, String goodsUnit) {
+    public LookBuyInfoDTO(String indentId, String indentDate, Long supplyNum, String goodsName, String goodsType, String goodsNorms, String goodsUnit) {
+        //this.goodsBid=goodsBid;
         this.indentId = indentId;
         this.indentDate = indentDate;
         this.supplyNum = supplyNum;
-        this.supplierId = supplierId;
+       // this.supplierId = supplierId;
         this.goodsName = goodsName;
         this.goodsType = goodsType;
         this.goodsNorms = goodsNorms;

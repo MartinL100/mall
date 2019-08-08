@@ -25,4 +25,9 @@ public class SupplierGoodsServiceImpl implements ISupplierGoodsService {
     public List<SupplierGoodsEntity> findBySuppliegrId(String supplierId) {
         return supplierGoodsDao.findBySuppliegrId(supplierId);
     }
+
+    @Override
+    public List<SupplierGoodsEntity> findSupplierGoods(String goodsName, String goodsNorms) {
+        return supplierGoodsDao.findSupplierGoods(goodsName,goodsNorms);
+    }
 }

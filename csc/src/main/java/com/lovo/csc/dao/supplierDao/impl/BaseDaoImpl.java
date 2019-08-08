@@ -63,15 +63,15 @@ public class BaseDaoImpl implements IBaseDao{
         return query.getResultList().size();
     }
     @Override
-    public List<IndentEntity> findAllIndent(int pageNumber, int pageSize, String indentId, Date startDate, Date endDate, String indentStatus) {
+    public List<IndentEntity> findAllIndent(int pageNumber, int pageSize, String indentId, String startDate, String endDate, String indentStatus) {
         String hql="from IndentEntity where 1=1 ";
         if(Verify.verifyString(indentId)){
             hql+=" and indentId='"+indentId+"'";
         }
-        if(null!=startDate){
+        if(Verify.verifyString(startDate)){
             hql+=" and indentDate>='"+startDate+"'";
         }
-        if(null!=endDate){
+        if(Verify.verifyString(endDate)){
             hql+=" and indentDate<='"+endDate+"'";
         }
         if(Verify.verifyString(indentStatus)&&!"不限".equals(indentStatus)){
@@ -81,15 +81,15 @@ public class BaseDaoImpl implements IBaseDao{
         return query.setFirstResult(pageNumber).setMaxResults(pageSize).getResultList();
     }
         @Override
-    public long countIndent(String indentId,Date startDate,Date endDate, String indentStatus){
+    public long countIndent(String indentId,String startDate,String endDate, String indentStatus){
             String hql="from IndentEntity where 1=1 ";
             if(Verify.verifyString(indentId)){
                 hql+=" and indentId='"+indentId+"'";
             }
-            if(null!=startDate){
+            if(Verify.verifyString(startDate)){
                 hql+=" and indentDate>='"+startDate+"'";
             }
-            if(null!=endDate){
+            if(Verify.verifyString(endDate)){
                 hql+=" and indentDate<='"+endDate+"'";
             }
             if(Verify.verifyString(indentStatus)&&!"不限".equals(indentStatus)){

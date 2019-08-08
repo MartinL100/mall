@@ -22,14 +22,23 @@
     <div class="layui-card-body" style="margin-top: 30px">
         <div class="layui-btn-container">
             <button class="layui-btn" style="width: 120px" id="ddd">请求解冻</button>
-            <button class="layui-btn" style="width: 120px">返回</button>
+            <button class="layui-btn" style="width: 120px" id="aaaaaa">返回</button>
         </div>
     </div>
 </div>
 
 <script>
     $("#ddd").click(function () {
-        alert($("#aaa").val())
+      //  alert($("#aaa").val())
+        $.post("requestUnfreezeMQ",{"applyReason":$("#aaa").val()},function (re) {
+            if(re=="ok"){
+                layer.msg('申请成功，请等待审核', {icon: 6, anim: 6});
+                location.href="userShow.html";
+            }
+        });
+    });
+    $("#aaaaaa").click(function () {
+        location.href="userShow.html";
     });
 </script>
 </body>

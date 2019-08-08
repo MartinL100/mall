@@ -69,7 +69,28 @@
             $("#sid3").text(re.telphone);
         });
     });
-
+    $("#bbb").click(function () {
+        location.href="updateUser.html";
+    });
+    $("#fff").click(function () {
+        location.href="unfreeze.html";
+    });
+    $("#ccc").click(function () {
+        location.href="../order/orderDeal.html";
+    });
+    $("#eee").click(function () {
+        location.href="../deal/showDeposit.html";
+    });
+    $("#ggg").click(function () {
+        location.href="../show/show.html";
+    });
+    $("#aaa").click(function () {
+        location.href="../address/siteIndex.html";
+    });
+    $("#ddd").click(function () {
+        // $("#sid").text("aaaaaa")
+        location.href="dataRegister.html";
+    });
 
     layui.config({
         base: '../../layuiadmin/' //静态资源所在路径
@@ -77,10 +98,6 @@
         index: 'lib/index' //主入口模块
     }).use(['index']);
 
-    $("#ddd").click(function () {
-       // $("#sid").text("aaaaaa")
-        location.href="dataRegister.html";
-    });
 </script>
 </body>
 </html>

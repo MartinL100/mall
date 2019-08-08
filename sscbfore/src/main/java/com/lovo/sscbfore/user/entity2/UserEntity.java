@@ -1,5 +1,6 @@
 package com.lovo.sscbfore.user.entity2;
 
+import cn.hutool.core.util.IdUtil;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.hibernate.annotations.GenericGenerator;
 
@@ -9,11 +10,9 @@ import java.util.List;
 @Entity
 @Table(name="sys_user")
 public class UserEntity {
-    @GenericGenerator(name = "userUuid", strategy = "uuid")
-    @GeneratedValue(generator = "userUuid")
     @Column(name="user_id",length = 32)
     /**用户ID*/
-    private String userId;
+    private String userId = IdUtil.simpleUUID();
     /**用户名*/
     @Column(name="user_name",length =48,unique=true)
     @Id

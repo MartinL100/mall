@@ -16,7 +16,7 @@ public interface IGoodsManagementDao extends CrudRepository<OrderForGoodsEntity,
      * @param page 页面对象
      * @return
      */
-    @Query("from OrderForGoodsEntity g left join g.orderObj o where o.orderNum = ?1")
+    @Query ("from OrderForGoodsEntity g left join g.orderObj o where o.orderNum = ?1")
     public List<OrderForGoodsEntity> findGoods(String orderNum, Pageable page);
 
     /**

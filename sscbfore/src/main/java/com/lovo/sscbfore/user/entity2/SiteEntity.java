@@ -7,6 +7,7 @@ import javax.persistence.*;
 @Entity
 @Table(name="sys_site")
 public class SiteEntity {
+
     @Id
     @GenericGenerator(name = "siteUuid", strategy = "uuid")
     @GeneratedValue(generator = "siteUuid")

@@ -23,11 +23,11 @@
 <div style="margin-bottom:10px">
     <select label="类型：" id="selectType" class="easyui-combobox" name="state" style="width:160px" panelHeight="100">
 
-        <option value="3">全部</option>
-        <option value="0">已付款</option>
-        <option value="2">退货</option>
-        <option value="1">未付款</option>
-    </select>
+    <option value="3">全部</option>
+    <option value="0">已付款</option>
+    <option value="2">退货</option>
+    <option value="1">未付款</option>
+</select>
 
     下单时间:<input  type="text"  editable="false" id="selectOrderDate" class="easyui-datebox" >
 
@@ -84,9 +84,11 @@
 <script>
     $("#lookInfo").click(function () {
         $('#fm').form('clear');
-        $('#fm').form('clear');
         var row = $('#tt').datagrid('getSelected');
-        alert(row.orderNum)
+        if(row==null){
+            $.messager.alert('警告窗口', '请选择行！', 'info');
+            return;
+        }
         $('#dlg').dialog('open').dialog('center').dialog('setTitle','详细信息');
 
         $('#info').datagrid({

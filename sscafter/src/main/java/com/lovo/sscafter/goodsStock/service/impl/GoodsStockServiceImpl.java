@@ -57,4 +57,45 @@ public class GoodsStockServiceImpl implements IGoodsStockService {
         goodsStockCurdDao.updateGoodsMinNum(goodsMinNum,goodsId);
 
     }
+
+    @Override
+    public void upDateGoodsTag(String tag, String goodsId) {
+
+        goodsStockCurdDao.upDateGoodsTag(tag,goodsId);
+    }
+
+    @Override
+    public String findSupplyIdByGoodsId(String goodsId) {
+
+        return goodsStockDao.findSupplyIdByGoodsId(goodsId);
+    }
+
+    @Override
+    public GoodsStockEntity findByNameTypeAnAndNorms(String name, String type, String norms) {
+
+
+        return goodsStockCurdDao.findByNameTypeAnAndNorms(name,type,norms);
+    }
+
+    @Override
+    public GoodsStockEntity findGoodsStockEntityByGoodsId(String goodsId) {
+
+
+        return goodsStockCurdDao.findGoodsStockEntityByGoodsId(goodsId);
+    }
+
+    @Override
+    public List<GoodsStockEntity> findAllGoodsStockCloud(String goodsName, String goodsType, int currentPage, int rows) {
+        return goodsStockDao.findAllGoodsStockCloud(goodsName,goodsType,currentPage,rows);
+    }
+
+    @Override
+    public long findAllGoodsStockCountCloud(String goodsName, String goodsType) {
+        return goodsStockDao.findAllGoodsStockCountCloud(goodsName,goodsType);
+    }
+
+    @Override
+    public void updateGoodsTag1ById(String id) {
+        goodsStockCurdDao.updateGoodsTag1ById(id);
+    }
 }

@@ -11,7 +11,7 @@ public interface IOrderManagementDao extends CrudRepository<OrderManagementEntit
      * @param orderNum
      * @return
      */
-    @Query("update OrderManagementEntity set orderDelType = 1 " +
+    @Query ("update OrderManagementEntity set orderDelType = 1 " +
             "where orderNum = ?1")
     @Modifying
     public int updateOrderDelType(String orderNum);

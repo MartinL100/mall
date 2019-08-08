@@ -54,27 +54,81 @@
     $(document).ready(function () {
         $('#tt').datagrid('load',{
         });
+
+        //初始化下拉
+        $("#indexType").combobox({
+            required: true,
+            url:"/promotion/initialize", //后台获取下拉框数据的url
+            method:'post',
+            panelHeight:150,//设置为固定高度，combobox出现竖直滚动条
+            valueField:'typeName',
+            textField:'typeName',
+            multiple:false,
+            editable: false
+        });
+
+
+
+
+
+
+        // var socket;
+        // if(typeof(WebSocket) == "undefined") {
+        //     alert("您的浏览器不支持WebSocket");
+        // }else {
+        //
+        //     //实现化WebSocket对象，指定要连接的服务器地址与端口  建立连接
+        //     socket = new WebSocket("ws://localhost:8002/promotion/getCuXiaoMQ");
+        //
+        //     //打开事件
+        //     socket.onopen = function () {
+        //         alert("Socket 已打开");
+        //         socket.send(location.href);
+        //         // socket.send("这是来自客户端的消息" + location.href + new Date());
+        //     };
+        //     //获得消息事件
+        //     socket.onmessage = function (info) {
+        //         var r = info.data;//获得socket服务器的信息
+        //         alert(r);
+        //     };
+        //     //关闭事件
+        //     socket.onclose = function () {
+        //         alert("Socket已关闭");
+        //     };
+        //     //发生了错误事件
+        //     socket.onerror = function () {
+        //         alert("Socket发生了错误");
+        //         //此时可以尝试刷新页面
+        //     }
+        // }
+        //
+        //
+
+
+
+
+        //获取后台从mq中得到的数据
+        // $.post("/promotion/getCuXiaoMQ",function (mq) {
+        //     if ("yes"==mq){
+        //         //弹出模态框
+        //     }else {
+        //
+        //     }
+        //
+        // })
+
     });
 
-    //初始化下拉
-    $("#indexType").combobox({
-        required: true,
-        url:"/findAllgoodsType", //后台获取下拉框数据的url
-        method:'post',
-        panelHeight:150,//设置为固定高度，combobox出现竖直滚动条
-        valueField:'typeName',
-        textField:'typeName',
-        multiple:false,
-        editable: false
-    });
+
 
     //获取下拉框和文本框的值
     $("#bt1").click(function () {
         $('#tt').datagrid('load',{
             goodsType:$("#indexType").combobox("getValue"),
-            goodsName:$("#text1").val()
+            goodsName:$("#goodsName").val()
         });
-    })
+    });
+
 
     //ajax提交数据
     function show() {
@@ -87,6 +141,7 @@
         });
 
 
+        //验证用户是否选中
         if(ids.length==0){
             $.messager.alert('警告窗口', '请至少选择一行！', 'info', function () {
             });

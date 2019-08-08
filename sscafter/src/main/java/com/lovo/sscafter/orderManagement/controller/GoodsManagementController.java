@@ -14,7 +14,7 @@ import java.util.Map;
 
 @Controller
 public class GoodsManagementController {
-    @Autowired
+    @Autowired 
     IGoodsManagementService goodsManagementService;
     @RequestMapping("findGoods/{orderNum}/{currentPage}/{rows}")
     @ResponseBody
