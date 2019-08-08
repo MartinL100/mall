@@ -1,5 +1,6 @@
 package com.lovo.sscafter.customerRetention.Entity.DTO;
 
+
 //用户账户维护审核 发送信息Vo
 public class PreserveMessageDTO {
     //请求类型 冻结 、解冻
