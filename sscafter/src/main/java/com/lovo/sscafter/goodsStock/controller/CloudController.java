@@ -4,6 +4,8 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.lovo.sscafter.goodsStock.entity.GoodsStockEntity;
 import com.lovo.sscafter.goodsStock.service.IGoodsStockService;
+import com.lovo.sscafter.goodsStock.service.IOrderGoodsService;
+import com.lovo.sscafter.goodsStock.service.IOrderServicr;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -16,6 +18,9 @@ import java.util.List;
 public class CloudController {
     @Autowired
     private IGoodsStockService goodsStockService;
+    @Autowired
+    private IOrderGoodsService orderGoodsService;
+
 @RequestMapping("/findAll/{goodsType}/{goodsName}/{currentPage}/{rows}")
 @ResponseBody
     public  String findAll(@PathVariable("goodsType")String goodsType,
@@ -58,5 +63,11 @@ public class CloudController {
     public void upDateTag1ById(@PathVariable("goodsId")String goodsId){
 
         goodsStockService.updateGoodsTag1ById(goodsId);
+    }
+    @RequestMapping("/findGoodsBidById/{goodsId}")
+    @ResponseBody
+    public float findGoodsBidById(@PathVariable("goodsId")String goodsId){
+
+         return orderGoodsService.findGoodsBidByGoodsId(goodsId);
     }
 }
