@@ -1,5 +1,6 @@
 package com.lovo.csc.util.promotionutil;
 
+
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 
