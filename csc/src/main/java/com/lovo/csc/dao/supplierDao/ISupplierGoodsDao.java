@@ -20,4 +20,6 @@ public interface ISupplierGoodsDao extends CrudRepository<SupplierGoodsEntity,St
     public void deleteByCodeId(String codeId);
     @Query("from  SupplierGoodsEntity where supplierId.supplierId=?1")
     public List<SupplierGoodsEntity> findBySuppliegrId(String supplierId);
+    @Query("from  SupplierGoodsEntity where goodsName=?1 and goodsNorms=?2 and supplierType<>'下架'")
+    public List<SupplierGoodsEntity> findSupplierGoods(String goodsName,String goodsNorms);
 }
