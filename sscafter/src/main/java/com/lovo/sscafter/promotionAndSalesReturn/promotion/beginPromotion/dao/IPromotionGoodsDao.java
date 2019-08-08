@@ -38,4 +38,5 @@ public interface IPromotionGoodsDao{
 
 
 
+    public List<GoodsEntity> findList(String goodsState);
 }

@@ -1,6 +1,7 @@
 package com.lovo.sscbfore.user.service.impl;
 
 import com.lovo.sscbfore.user.dao.IUserDao;
+import com.lovo.sscbfore.user.dao.IUserDao2;
 import com.lovo.sscbfore.user.entity2.UserEntity;
 import com.lovo.sscbfore.user.service.IUserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,6 +13,8 @@ import java.util.List;
 public class UserServiceImpl implements IUserService {
     @Autowired
     private IUserDao userDao;
+    @Autowired
+    private IUserDao2 userDao2;
     @Override
     public UserEntity findUserByName(String userName) {
         return userDao.findUserByName(userName);
@@ -41,8 +44,13 @@ public class UserServiceImpl implements IUserService {
     }
 
     @Override
-    public List<UserEntity> userList(String userName) {
-       List<UserEntity> list= userDao.userList(userName);
+    public List<UserEntity> userList(String userName,String userState,int currentPage,int rows) {
+       List<UserEntity> list= userDao2.userList(userName,userState,currentPage,rows);
         return list;
+    }
+
+    @Override
+    public int userRows(String userName, String userState) {
+        return userDao2.userRows(userName,userState);
     }
 }

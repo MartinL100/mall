@@ -11,7 +11,7 @@
     <link rel="stylesheet" href="../../layuiadmin/layui/css/layui.css" media="all">
     <link rel="stylesheet" href="../../layuiadmin/style/admin.css" media="all">
     <link rel="stylesheet" href="../../layuiadmin/style/login.css" media="all">
-    <script type="text/javascript" src="../../lib/jquery.js"></script>
+    <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
 </head>
 <body>
 
@@ -22,7 +22,7 @@
             <h2>登录界面</h2>
             <p>LOVO商城前端系统</p>
         </div>
-        <div class="layadmin-user-login-box layadmin-user-login-body layui-form">
+        <div class="layadmin-user-login-box layadmin-user-login-body layui-form" lay-filter="test1">
             <div class="layui-form-item">
                 <label class="layadmin-user-login-icon layui-icon layui-icon-username" for="LAY-user-login-username"></label>
                 <input type="text" name="username" id="LAY-user-login-username" lay-verify="required" placeholder="用户名" class="layui-input">
@@ -79,21 +79,28 @@
             ,setter = layui.setter
             ,admin = layui.admin
             ,form = layui.form
+            ,element = layui.element
+            ,layer = layui.layer
             ,router = layui.router()
             ,search = router.search;
+        element.render();
 
-        form.render();
+        form.render(null,"test1");
+        form.on('submit(LAY-user-login-submit)', function(data){
+            console.log(data.field)
+        });
 
         $("#bid").click(function () {
             $.post("../../../find2",{"userName":$("#LAY-user-login-username").val(),"password":$("#LAY-user-login-password").val()},function (re) {
                 if(re=="no"){
-                    alert("密码错误")
+                    layer.msg('密码错误，请重新输入', {icon: 5, anim: 6});
                 }else if(re=="ok"){
-                    location.href="userShow.html";
+                    location.href="../show/show.html";
                 }else if(re=="adm"){
                     location.href="administrator.html";
                 }else {
-                    alert("用户不存在，请注册")
+                    //alert("用户不存在，请注册")
+                    layer.msg('用户不存在，请注册', {icon: 5, anim: 6});
                 }
             });
         });

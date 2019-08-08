@@ -24,4 +24,5 @@ public interface ISupplierGoodsService {
      * @return
      */
     public List<SupplierGoodsEntity> findBySuppliegrId(String supplierId);
+    public List<SupplierGoodsEntity> findSupplierGoods(String goodsName,String goodsNorms);
 }

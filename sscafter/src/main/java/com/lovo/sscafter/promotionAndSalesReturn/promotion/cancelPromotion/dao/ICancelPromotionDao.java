@@ -36,4 +36,6 @@ public interface ICancelPromotionDao {
          * @return 商品集合
          */
         public List<GoodsEntity> findByGoodsId(List<String> listId);
+
+
 }
