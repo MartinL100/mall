@@ -23,6 +23,9 @@ public class CargoEntity {
     // 报价  数据库转decimal类型
     @Column()
     private BigDecimal supplyPrice;
+    //供应商供货状态
+    @Column(length = 48)
+    private String cargoStatus;
     //投标审核人
     @Column(length = 48)
     private String tenderPeople;
@@ -39,6 +42,14 @@ public class CargoEntity {
     @OneToOne
     @JoinColumn(name = "supplier_id")
     private SupplierEntity supplierId;
+
+    public String getCargoStatus() {
+        return cargoStatus;
+    }
+
+    public void setCargoStatus(String cargoStatus) {
+        this.cargoStatus = cargoStatus;
+    }
 
     public String getCargoId() {
         return cargoId;

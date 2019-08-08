@@ -27,7 +27,17 @@ private Long goodsNum;//商品库存
    private long goodsMinNum;//最低库存量
     @Column(name = "tag")
 private  String tag;//是否正在采购
-     @OneToMany(mappedBy = "goods",fetch = FetchType.LAZY)
+    private String tag1;//是否已添加
+
+    public String getTag1() {
+        return tag1;
+    }
+
+    public void setTag1(String tag1) {
+        this.tag1 = tag1;
+    }
+
+    @OneToMany(mappedBy = "goods",fetch = FetchType.LAZY)
     private List<ReturnGoodsEntity>  returnGoodsEntityList;
     @OneToMany(mappedBy = "goods",fetch = FetchType.LAZY)
     private List<SupplyEntity> supplyEntityList;

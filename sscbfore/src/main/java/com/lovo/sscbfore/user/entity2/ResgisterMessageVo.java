@@ -2,6 +2,7 @@ package com.lovo.sscbfore.user.entity2;
 
 //用户账户注册审核 发送信息VO
 public class ResgisterMessageVo {
+
     //用户名唯一标识符
     private String userName;
     //真实姓名

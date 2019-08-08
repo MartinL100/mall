@@ -35,11 +35,11 @@ public class promotionController {
     @Autowired
     private IGoodsTypeService goodsTypeService;
 
-    //调用mq的模板
+    //调用atvicmq的模板
     @Autowired
     private JmsMessagingTemplate jmsMessagingTemplate;
 
-
+    //初始化页面
     @RequestMapping("/findAll")
     @ResponseBody//只返回数据
     public Map<String,Object> findAll(String goodsName, String goodsType, int page, int rows){
@@ -161,7 +161,7 @@ public class promotionController {
     @JmsListener(destination = "CuXiaoResultMQ")
     public String getCuXiaoMQ(String resultMq) throws IOException {
 
-    //将监听到的消息转换为map
+   // 将监听到的消息转换为map
     ObjectMapper mapper=new ObjectMapper();
     Map<String,Object> map= mapper.readValue(resultMq,Map.class);
        String goodsId= (String)map.get("goodId");

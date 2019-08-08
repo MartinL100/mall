@@ -41,7 +41,7 @@
         <div class="layui-card-body">
             <div class="layui-btn-container">
                 <button class="layui-btn" id="bid">补全资料注册</button>
-                <button class="layui-btn" style="width: 120px">返回</button>
+                <button class="layui-btn" style="width: 120px" id="aaaa">返回</button>
             </div>
         </div>
     </div>
@@ -49,15 +49,17 @@
 <script src="../../layuiadmin/layui/layui.js"></script>
 <script>
     $("#bid").click(function () {
-      var s=  $("#test-upload-normal-img2").attr("src");
-        alert(s);
         $.post("../../../pageUpload",{"aptitudeImg":$("#test-upload-normal-img").attr("src"),"identityImg":$("#test-upload-normal-img2").attr("src"),
                         "companyName":$("#tid").val()},function (re) {
             if(re=="ok"){
-                alert("申请成功，请等待审核");
+               layer.msg('申请成功，请等待审核', {icon: 6, anim: 6});
                 location.href="userShow.html";
             }
         });
+    });
+
+    $("#aaaa").click(function () {
+        location.href="userShow.html";
     });
 
 

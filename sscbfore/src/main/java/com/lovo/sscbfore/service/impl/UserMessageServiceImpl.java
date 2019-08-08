@@ -30,7 +30,6 @@ public class UserMessageServiceImpl implements IUserMessageService {
 
     @Override
     public List<UserInfoEntity> findAllUserMessage(String userName) {
-
         UserEntity user = new UserEntity();
         user.setUserName(userName);
         return userMessageDao.findAllByUserInfoIsOrderByMessageDateDesc(user);

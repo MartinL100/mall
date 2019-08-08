@@ -84,7 +84,7 @@
         table.render({
             id: 'goodsId'
             ,elem: '#test-table-autowidth'
-            ,url:'/addGoods'
+            ,url:'/initDel'
             ,page:true
             ,cellMinWidth: 80 //全局定义常规单元格的最小宽度，layui 2.2.1 新增
             ,cols: [[
@@ -104,7 +104,7 @@
             var data = obj.data; //获得当前行数据
             var layEvent = obj.event; //获得 lay-event 对应的值（也可以是表头的 event 参数对应的值）
             // var tr = obj.tr; //获得当前行 tr 的DOM对象
-alert(data.goodsName);
+        alert(data.goodsName);
 
         });
 

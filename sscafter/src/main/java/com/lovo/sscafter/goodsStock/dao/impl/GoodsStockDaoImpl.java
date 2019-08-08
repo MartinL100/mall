@@ -67,4 +67,52 @@ public class GoodsStockDaoImpl implements IGoodsStockDao {
         return (long)query.getSingleResult();
     }
 
+    @Override
+    public String findSupplyIdByGoodsId(String goodsId) {
+     String hql="select og.supplierId from GoodsStockEntity g left join OrderGoodsEntity og on g.goodsId=og.goods.goodsId where g.goodsId=:goodsId";
+
+        Query query = getEntityManager().createQuery(hql);
+        query.setParameter("goodsId",goodsId);
+        return(String) query.getSingleResult();
+    }
+
+    @Override
+    public List<GoodsStockEntity> findAllGoodsStockCloud(String goodsName, String goodsType, int currentPage, int rows) {
+        String   hql="from GoodsStockEntity where tag1='未添加' ";
+        if(null!=goodsName&&goodsName.length()!=0){
+            hql+=" and goodsName like '%"+goodsName+"%'";
+
+        }
+        if(null!=goodsType&&goodsType.length()!=0){
+            hql+=" and goodsType=:goodsType";
+        }
+
+        Query query = getEntityManager().createQuery(hql);
+
+        if(null!=goodsType&&goodsType.length()!=0){
+            query.setParameter("goodsType",goodsType);
+        }
+        query.setFirstResult((currentPage-1)*rows);
+        query.setMaxResults(rows);
+
+
+        return query.getResultList();
+    }
+
+    @Override
+    public long findAllGoodsStockCountCloud(String goodsName, String goodsType) {
+        String   hql="select count(*) from GoodsStockEntity where tag1='未添加' ";
+        if(null!=goodsName&&goodsName.length()!=0){
+            hql+=" and goodsName like '%"+goodsName+"%'";
+        }
+        if(null!=goodsType&&goodsType.length()!=0){
+            hql+=" and goodsType=:goodsType";
+        }
+        Query query = getEntityManager().createQuery(hql);
+        if(null!=goodsType&&goodsType.length()!=0){
+            query.setParameter("goodsType",goodsType);
+        }
+        return (long)query.getSingleResult();
+    }
+
 }

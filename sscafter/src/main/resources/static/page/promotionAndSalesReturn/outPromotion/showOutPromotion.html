@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>你要取消促销的商品为:</title>
+    <title>需要促销的商品</title>
     <link rel="stylesheet" type="text/css" href="/static/easyui/themes/metro/easyui.css">
     <link rel="stylesheet" type="text/css" href="/static/easyui/themes/mobile.css">
     <link rel="stylesheet" type="text/css" href="/static/easyui/themes/icon.css">
@@ -18,38 +18,34 @@
 
 
 <table id="tt" class="easyui-datagrid"
-       url="/page.lovo"
+       url="/cancei/promotionAll"
        title="你要促销的商品有：" iconCls="icon-save"
        rownumbers="false" pagination="true">
     <thead>
     <tr>
-        <th field="studentId" style="width: 10%" >商品名</th>
-        <th field="studentName" style="width: 10%" >商品规格</th>
-        <th field="loginName" style="width: 10%"  align="right">进货批次</th>
-        <th field="loginPassword" style="width: 10%"  align="right">商品售价</th>
-        <th field="loginName" style="width: 12%"  align="right">商品数量</th>
-
+        <th field="goodsId" data-toggle="topjui-checkbox" checkbox="true"  ></th>
+        <th field="goodsName" style="width: 15%" >商品名</th>
+        <th field="goodsNorms" style="width: 15%" >商品规格</th>
+        <th field="goodsPrice" style="width: 15%"  align="right">商品售价</th>
+        <th field="goodsNum" style="width: 15%"  align="right">商品数量</th>
     </tr>
     </thead>
 </table>
 
 <div style="margin-top: 2%;">
-    <div style="margin-bottom:10px;margin-left: 40%;">
-        <input class="easyui-numberbox" prompt="1-100"  label="折扣率:"  style="width:150px">
-    </div>
+    <!--<div style="margin-bottom:10px;margin-left: 40%;">-->
+        <!--<input class="easyui-numberbox" id="textId" prompt="1-99" label="折扣率:"  style="width:150px">-->
+    <!--</div>-->
 
     <div style="margin-left: 46%;">
-        <a href="javascript:void(0)" class="easyui-linkbutton" onclick="$('#w').window('open')">提交</a>
+        <a href="javascript:void(0)" class="easyui-linkbutton"  onclick="show()">提交</a>
+        <!--$('#w').window('open')-->
     </div>
 
 
-    <!--<div style="margin:20px 0;">-->
-    <!--<a href="javascript:void(0)" class="easyui-linkbutton" onclick="$('#w').window('open')">Open</a>-->
-
-    <!--</div>-->
     <div id="w" class="easyui-window" title="Modal Window" data-options="modal:true,closed:true,iconCls:'icon-save'" style="width:500px;height:200px;padding:10px;">
         <div style="width: 100%;height: 50%">
-        <span >申请已提交，等待审核中</span>
+            <span >申请已提交，等待审核中</span>
         </div>
         <input type="button" id="outId" value="返回主页" style="margin-left: 43%;margin-top: 5%">
     </div>
@@ -59,21 +55,51 @@
 
 
 <script>
-    function doSearch(){
-        $('#tt').datagrid('load',{
-            studentId: $('#studentId').val()
-        });
-    }
+
+    //初始化
     $(document).ready(function () {
         $('#tt').datagrid('load',{
-            studentId: $('#studentId').val()
         });
     });
+
 
     //模态框按钮事件
     $("#outId").click(function () {
         location.href="outPromotionAll.html";
-    })
+    });
+
+    //获得用户选中的id，和折扣文本框的值，并提交
+    function show() {
+        //获取选中的value
+        var item=$("#tt").datagrid('getSelections');
+        var ids=[];
+        $(item).each(function () {
+            //获取为goodsId的值
+            ids.push(this.goodsId);
+
+        });
+
+        //获取折扣文本框的值
+        // var k= $("#textId").val();
+        // if (/[1-9][0-9]{2}/.test(k)){
+        //     $.messager.alert('警告窗口', '只能输入1-99的数字', 'info', function () {
+        //     });
+        //     return;
+        // }
+
+        if(ids.length==0){
+            $.messager.alert('警告窗口', '请至少选择一行！', 'info', function () {
+            });
+            return;
+        }
+        //数组转换为json字符串
+        var json=JSON.stringify( ids );
+        $.post("/cancei/discount",{"listId":json},function (info) {
+            if (info=="yes"){
+                $('#w').window('open');
+            }
+        })
+    }
 
 </script>
 </body>

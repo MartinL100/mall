@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>表单提交</title>
+    <link rel="stylesheet" type="text/css" href="../../easyui/themes/metro/easyui.css">
+    <link rel="stylesheet" type="text/css" href="../../easyui/themes/mobile.css">
+    <link rel="stylesheet" type="text/css" href="../../easyui/themes/icon.css">
+    <script type="text/javascript" src="../../easyui/jquery.min.js"></script>
+    <script type="text/javascript" src="../../easyui/jquery.easyui.min.js"></script>
+    <script type="text/javascript" src="../../easyui/jquery.easyui.mobile.js"></script>
+</head>
+<body>
+<h2 align="center">促销审核</h2>
+<div id="toolbar">
+    <span>商品名:</span>
+    <input class="easyui-validatebox" type="text" id="goodsName" name="goodsName"style="margin: 0px 28px 0px 0px; padding-top: 0px; padding-bottom: 0px; height: 30px; line-height: 30px; width: 170px;"/>
+    <span>审核结果:</span>
+    <input class="easyui-validatebox" type="text" id="auditResult" name="goodsName" style="margin: 0px 28px 0px 0px; padding-top: 0px; padding-bottom: 0px; height: 30px; line-height: 30px; width: 170px;""/>
+    开始时间：<input class="easyui-datebox" id="startTime" name="startTime" style="width: 200px;"  />
+    结束时间：<input class="easyui-datebox" id="endTime" name="endTime" style="width: 200px;"  />
+    <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-search" plain="true" onclick="doSearch()">搜索</a>
+    <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-back" plain="true" onclick="goto()" style="float: right" >返回</a>
+</div>
+
+<!--表格-->
+<table id="tt" class="easyui-datagrid"
+       url="/findSuperSaleList"
+        iconCls="icon-save"
+       rownumbers="true" pagination="true"  singleSelect="true">
+    <thead>
+    <tr>
+        <th field="id" hidden="true">ID</th>
+        <th field="goodsId" hidden="true">goodsId</th>
+        <th field="goodsType" hidden="true">类型</th>
+        <th field="goodsBid" hidden="true">进价</th>
+        <th field="goodsUnit" hidden="true">计量单位</th>
+        <th field="goodsNorms" hidden="true">规格</th>
+        <th field="applyTime" hidden="true">申请时间</th>
+        <th field="goodsName" width="16%">商品名</th>
+        <th field="goodsPrice" width="16%" >原售价</th>
+        <th field="goodsDiscount" width="16%" >折扣率</th>
+        <th field="applyMan" width="18%" >审核人</th>
+        <th field="auditTime" width="18%" >审核时间</th>
+        <th field="auditResult" width="18%" >审核结果</th>
+
+
+
+    </tr>
+    </thead>
+</table>
+<div style="float: right">
+    <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-blank" plain="true" onclick="showinfo()">查看详情</a>
+
+</div>
+ <!--模态框 1-->
+<div id="dlg" class="easyui-dialog"  data-options="closed:true,modal:true,border:'thin',buttons:'#dlg-buttons'" style="width:600px">
+    <div id="fm"  style="margin:0;padding:20px 50px">
+        <div style="margin-top:0px;height: 20px">
+            <label id="t1" style="width: 240px;display:block;float:left">商品名：</label><label id="t2" style="width: 240px;display:block;float: left">规格：</label>
+        </div>
+        <div style="margin-top:20px;height: 20px">
+            <label id="t3" style="width: 240px;display:block;float:left">原价：</label><label id="t4" style="width: 240px;display:block;float: left">计量单位：</label>
+        </div>
+        <div style="margin-top:20px;height: 20px">
+            <label id="t5" style="width: 240px;display:block;float:left">进价：</label><label id="t6" style="width: 240px;display:block;float: left">申请人：</label>
+        </div>
+        <div style="margin-top:20px;height: 20px">
+            <label id="t7" style="width: 240px;display:block;float:left">打折率：</label><label id="t8" style="width: 240px;display:block;float: left">申请时间：</label>
+        </div>
+        <div style="margin-top:20px;height: 20px">
+            <label id="t9" style="width: 240px;display:block;float:left">数量：</label><label id="t10" style="width: 240px;display:block;float: left">审核人：</label>
+        </div>
+        <div style="margin-top:20px;height: 20px">
+            <label id="t11" style="width: 240px;display:block;float:left">审核时间：</label><label id="t12" style="width: 240px;display:block;float: left">审核结果：</label>
+        </div>
+    </div>
+    <div style="margin-left: 500px">
+    <a href="javascript:void(0)" class="easyui-linkbutton c6" iconCls="icon-undo"onclick="javascript:$('#dlg').dialog('close')" style="width:90px">返回</a>
+    </div>
+</div>
+
+<!--模态框 2-->
+<div id="dlg4" class="easyui-dialog"  data-options="closed:true,modal:true,border:'thin',buttons:'#dlg-buttons'" style="width:200px">
+    <div align="center">
+        请选中行！
+    </div>
+    <div style="margin-top: 20px ;margin-bottom: 30px;"align="center">
+        <a href="javascript:void(0)" class="easyui-linkbutton c6" iconCls="icon-no"onclick="javascript:$('#dlg4').dialog('close')"  style="width:90px">确定</a>
+    </div>
+</div>
+
+<script>
+
+
+
+    //动态查询
+    function doSearch(){
+        alert($("#startTime").val());
+        $('#tt').datagrid('load',{
+            auditResult:$('#auditResult').val(),
+            goodsName:$('#goodsName').val(),
+            startTime:$('#startTime').val(),
+            endTime:$('#endTime').val(),
+            page:1
+        });
+
+    }
+
+    //查看详细信息
+    function showinfo(){
+        var row = $('#tt').datagrid('getSelected');
+        if (row){
+            $("#t1").text('商品名：'+row.goodsName);
+            $("#t2").text('商品类型：'+row.goodsType);
+            $("#t3").text('商品规格：'+row.goodsNorms);
+            $("#t4").text('计量单位：'+row.goodsUnit);
+            $("#t5").text('商品进价：'+row.goodsBid);
+            $("#t6").text('商品售价：'+row.goodsPrice);
+            $("#t7").text('打折率：'+row.goodsDiscount);
+            $("#t8").text('申请人：'+row.applyMan);
+            $("#t9").text('申请时间：'+row.applyTime);
+            $("#t10").text('审核人：'+row.auditMan);
+            $("#t11").text('审核时间：'+row.auditTime);
+            $("#t12").text('审核结果：'+row.auditResult);
+
+            $('#dlg').dialog('open').dialog('center').dialog('setTitle','商品详细信息');
+        }else{
+            $('#dlg4').dialog('open').dialog('center').dialog('setTitle','提示信息');
+        }
+    }
+    //页面跳转
+    function goto() {
+        location.href='superSaleAudit.html';
+    }
+
+
+</script>
+</body>
+</html>
