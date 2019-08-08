@@ -12,28 +12,57 @@
     <version>0.0.1-SNAPSHOT</version>
     <name>csc</name>
     <description>审核系统</description>
-<!--引入公共模块-->
-<dependencies>
-    <!--websocket连接需要使用到的包-->
-    <dependency>
-        <groupId>org.springframework.boot</groupId>
-        <artifactId>spring-boot-starter-websocket</artifactId>
-    </dependency>
-    <dependency>
-        <groupId>com.lovo</groupId>
-        <artifactId>common</artifactId>
-        <version>0.0.1-SNAPSHOT</version>
-    </dependency>
-</dependencies>
+    <!--引入公共模块-->
+    <dependencies>
+        <dependency>
+            <groupId>com.lovo</groupId>
+            <artifactId>common</artifactId>
+            <version>0.0.1-SNAPSHOT</version>
+        </dependency>
+
+
+        <!--websocket连接需要使用到的包-->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-websocket</artifactId>
+            <scope>provided</scope>
+        </dependency>
+
+
+        <dependency>
+            <groupId>org.eclipse.jetty.websocket</groupId>
+            <artifactId>websocket-server</artifactId>
+            <version>9.4.7.v20170914</version>
+            <scope>test</scope>
+        </dependency>
+
+
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-devtools</artifactId>
+            <optional>true</optional>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-test</artifactId>
+            <scope>test</scope>
+        </dependency>
+
+
+
+    </dependencies>
 
 
     <build>
+
         <plugins>
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
             </plugin>
         </plugins>
+
+
 
         <!-- 配置java版本 不配置的话默认父类配置的是1.6-->
         <pluginManagement>
@@ -64,5 +93,12 @@
 
             </plugins>
         </pluginManagement>
+
+        <finalName>chat</finalName>
+
+
+
     </build>
+
+
 </project>
