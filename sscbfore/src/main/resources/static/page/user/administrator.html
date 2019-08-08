@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>管理员界面</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=0">
+    <link rel="stylesheet" href="../../layuiadmin/layui/css/layui.css" media="all">
+    <link rel="stylesheet" href="../../layuiadmin/style/admin.css" media="all">
+    <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+</head>
+<body>
+<div align="center" style="margin-top: 50px">
+    <div>
+        <span style="margin-left: -100px">用户名：<span id="sid"></span></span><br>
+    </div>
+    <div style="margin-top: 30px">
+        <span style="margin-left: -100px">真实姓名：<span id="sid1"></span></span><br>
+    </div>
+    <div style="margin-top: 30px">
+        <span style="margin-left: -100px;margin-top: 180px">性别：<span id="sid2"></span></span><br>
+    </div>
+    <div style="margin-top: 30px">
+        <span style="margin-left: -100px;margin-top: 20px">电话号码：<span id="sid3"></span></span><br>
+    </div>
+    <div class="layui-card-body" style="margin-top: 30px">
+        <div class="layui-btn-container">
+            <button class="layui-btn" id="ddd" style="width: 120px">添加商品</button>
+            <button class="layui-btn" style="width: 120px" id="bid">退出</button>
+        </div>
+    </div>
+</div>
+<script>
+    $(document).ready(function () {
+        $.post("../../../showUser",function (re) {
+            alert(re);
+            $("#sid").text(re.userName);
+            $("#sid1").text(re.trueName);
+            $("#sid2").text(re.sex);
+            $("#sid3").text(re.telphone);
+        });
+    });
+    $("#bid").click(function () {
+        location.href="userLogin.html";
+    });
+</script>
+
+</body>
+</html>

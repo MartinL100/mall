@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>商品库存信息</title>
+    <script type="text/javascript" src="../../lib/echarts.min.js"></script>
+    <script type="text/javascript" src="../../lib/jquery.js"></script>
+    <link rel="stylesheet" type="text/css" href="../../easyui/themes/metro/easyui.css">
+    <link rel="stylesheet" type="text/css" href="../../easyui/themes/mobile.css">
+    <link rel="stylesheet" type="text/css" href="../../easyui/themes/icon.css">
+    <script type="text/javascript" src="../../easyui/jquery.min.js"></script>
+    <script type="text/javascript" src="../../easyui/jquery.easyui.min.js"></script>
+    <script type="text/javascript" src="../../easyui/jquery.easyui.mobile.js"></script>
+</head>
+<body onload="a('2019-01')">
+<!-- 为ECharts准备一个具备大小（宽高）的Dom -->
+<div id="main" style="width: 1500px;height:400px;"align="center"></div>
+<select label="日期：" id="selectData" class="easyui-combobox" name="state" style="width:400px" panelHeight="100">
+    <option value="2019-01">2019-01</option>
+    <option value="2019-02">2019-02</option>
+    <option value="2019-03">2019-03</option>
+    <option value="2019-04">2019-04</option>
+    <option value="2019-05">2019-05</option>
+    <option value="2019-06">2019-06</option>
+    <option value="2019-07">2019-07</option>
+    <option value="2019-08">2019-08</option>
+    <option value="2019-09">2019-09</option>
+    <option value="2019-10">2019-10</option>
+    <option value="2019-11">2019-11</option>
+    <option value="2019-12">2019-12</option>
+</select>
+
+<a href="#" class="easyui-linkbutton" data-options="iconCls:'icon-search'" id="bt1">查询</a>
+<script>
+
+    var dateList="";
+    var valueList="";
+    $("#bt1").click(function () {
+        a($("#selectData option:selected").val())
+    })
+    function a(mouth) {
+        $.post("/findData/"+mouth,{},function (data1) {
+
+            dateList  = JSON.stringify(data1.listMap).split(",");
+            valueList = JSON.stringify(data1.listMap2).split(",");
+
+            b()
+        })
+    }
+    function b() {
+        // 基于准备好的dom，初始化echarts实例
+        var myChart = echarts.init(document.getElementById('main'));
+
+
+        // 指定图表的配置项和数据
+        var option = {
+
+            // Make gradient line here
+            visualMap: [{
+                show: false,
+                type: 'continuous',
+                seriesIndex: 0,
+                min: 0,
+                max: 400
+            }],
+
+
+            title: [{
+                left: 'center',
+                text: '订单利润总览'
+            }],
+            tooltip: {
+                trigger: 'axis'
+            },
+            xAxis: [{
+                data: dateList
+            }],
+            yAxis: [{
+                splitLine: {show: false}
+            }],
+            series: [{
+                type: 'line',
+                showSymbol: false,
+                data: valueList
+            }]
+        };
+
+        // 使用刚指定的配置项和数据显示图表。
+        myChart.setOption(option);
+    }
+
+</script>
+</body>
+</html>

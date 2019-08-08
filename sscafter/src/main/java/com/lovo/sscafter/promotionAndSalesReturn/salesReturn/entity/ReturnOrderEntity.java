@@ -11,13 +11,17 @@ import java.util.List;
 public class ReturnOrderEntity {
     //退货订单号
     @Id
+    @Column(length = 32)
     private String returnOrderId;
     //退货订单状态（1：等待退货处理 2：已经收货  3：退款完成）
+    @Column(length = 32)
     private int returnStatus;
     //退货时间
+    @Column(length = 32)
     private String returnTime;
 
     //订单编号
+    @Column(length = 32)
     private String oderNum;
 
     //商品集合

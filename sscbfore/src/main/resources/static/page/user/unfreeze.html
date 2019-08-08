@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>解冻界面</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=0">
+    <link rel="stylesheet" href="../../layuiadmin/layui/css/layui.css" media="all">
+    <link rel="stylesheet" href="../../layuiadmin/style/admin.css" media="all">
+    <script type="text/javascript" src="../../lib/jquery.js"></script>
+</head>
+<body>
+<div align="center" style="margin-top: 50px">
+    <div class="layui-card-header">解冻理由</div>
+    <div class="layui-card-body layui-row layui-col-space10">
+        <div class="layui-col-md12">
+            <textarea name="" placeholder="请输入" class="layui-textarea" style="width: 400px;" id="aaa"></textarea>
+        </div>
+    </div>
+    <div class="layui-card-body" style="margin-top: 30px">
+        <div class="layui-btn-container">
+            <button class="layui-btn" style="width: 120px" id="ddd">请求解冻</button>
+            <button class="layui-btn" style="width: 120px" id="aaaaaa">返回</button>
+        </div>
+    </div>
+</div>
+
+<script>
+    $("#ddd").click(function () {
+      //  alert($("#aaa").val())
+        $.post("requestUnfreezeMQ",{"applyReason":$("#aaa").val()},function (re) {
+            if(re=="ok"){
+                alert("申请成功，请等待审核");
+                location.href="userShow.html";
+            }
+        });
+    });
+    $("#aaaaaa").click(function () {
+        location.href="userShow.html";
+    });
+</script>
+</body>
+</html>

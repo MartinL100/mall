@@ -9,6 +9,7 @@ public class OrderManagementEntity {
     //订单编号
     @Id
     @Column(name="order_num",length = 48)
+
     private String orderNum;
     //订单类型0就是正常情况,1就是下单未付款,2为有退货
     @Column(name="order_type",length = 48)
@@ -30,7 +31,7 @@ public class OrderManagementEntity {
     private String payMethod;
     //下单地址外键
     @Column(name="order_address")
-    private int orderAddress;
+    private String orderAddress;
     //利润
     @Column(name="goods_profit",columnDefinition = "double")
     private float goodsProfit;
@@ -38,8 +39,20 @@ public class OrderManagementEntity {
     @Column(name="order_delType")
     private int orderDelType;
     //商品集合
-    @OneToMany(mappedBy = "orderObj")
+    @OneToMany(mappedBy = "orderObj",fetch = javax.persistence.FetchType.LAZY,cascade= {CascadeType.ALL})
     private List<OrderForGoodsEntity> goodsNum;
+    //商品数量
+    @Column(name="goods_size")
+    private int goodsSize;
+
+
+    public int getGoodsSize() {
+        return goodsSize;
+    }
+
+    public void setGoodsSize(int goodsSize) {
+        this.goodsSize = goodsSize;
+    }
 
     public String getOrderNum() {
         return orderNum;
@@ -97,11 +110,11 @@ public class OrderManagementEntity {
         this.payMethod = payMethod;
     }
 
-    public int getOrderAddress() {
+    public String getOrderAddress() {
         return orderAddress;
     }
 
-    public void setOrderAddress(int orderAddress) {
+    public void setOrderAddress(String orderAddress) {
         this.orderAddress = orderAddress;
     }
 
@@ -113,13 +126,6 @@ public class OrderManagementEntity {
         this.goodsProfit = goodsProfit;
     }
 
-    public List<OrderForGoodsEntity> getGoodsNum() {
-        return goodsNum;
-    }
-
-    public void setGoodsNum(List<OrderForGoodsEntity> goodsNum) {
-        this.goodsNum = goodsNum;
-    }
 
     public int getOrderDelType() {
         return orderDelType;

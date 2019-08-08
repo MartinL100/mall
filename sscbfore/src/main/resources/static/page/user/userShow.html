@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>用户信息页面</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=0">
+    <link rel="stylesheet" href="../../layuiadmin/layui/css/layui.css" media="all">
+    <link rel="stylesheet" href="../../layuiadmin/style/admin.css" media="all">
+    <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+</head>
+<body>
+
+<div id="LAY_app">
+    <div class="layui-layout layui-layout-admin">
+        <div class="layui-header">
+            <!-- 头部区域 -->
+            <!--购物车和用户按钮-->
+            <ul class="layui-nav layui-layout-right" lay-filter="layadmin-layout-right">
+                <li class="layui-nav-item layui-hide-xs" lay-unselect>
+                    <a href="userShow.html" layadmin-event="theme"title="用户">
+                        <i class="layui-icon layui-icon-user"></i>
+                    </a>
+                </li>
+                <li class="layui-nav-item layui-hide-xs" lay-unselect>
+                    <a href="javascript:;" layadmin-event="note"title="购物车">
+                        <i class="layui-icon layui-icon-cart"></i>
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>
+<div align="center" style="margin-top: 100px">
+    <div>
+    <span style="margin-left: -100px">用户名：<span id="sid"></span></span><br>
+    </div>
+    <div style="margin-top: 30px">
+    <span style="margin-left: -100px">真实姓名：<span id="sid1"></span></span><br>
+    </div>
+    <div style="margin-top: 30px">
+    <span style="margin-left: -100px;margin-top: 180px">性别：<span id="sid2"></span></span><br>
+    </div>
+    <div style="margin-top: 30px">
+    <span style="margin-left: -100px;margin-top: 20px">电话号码：<span id="sid3"></span></span><br>
+    </div>
+    <div class="layui-card-body" style="margin-top: 30px">
+        <div class="layui-btn-container">
+            <button class="layui-btn" id="ddd">补全资料注册</button><br>
+            <button class="layui-btn" id="aaa">我的收货地址</button>
+            <button class="layui-btn" style="width: 120px" id="bbb">修改信息</button><br>
+            <button class="layui-btn" style="width: 120px" id="ccc">查看订单</button>
+            <button class="layui-btn" style="width: 120px" id="eee">查看预存款</button><br>
+            <button class="layui-btn" style="width: 120px" id="fff">请求解冻</button>
+            <button class="layui-btn" style="width: 120px" id="ggg">返回</button>
+        </div>
+    </div>
+</div>
+
+<script src="../../layuiadmin/layui/layui.js"></script>
+<script>
+    $(document).ready(function () {
+        $.post("../../../showUser",function (re) {
+            $("#sid").text(re.userName);
+            $("#sid1").text(re.trueName);
+            $("#sid2").text(re.sex);
+            $("#sid3").text(re.telphone);
+        });
+    });
+    $("#bbb").click(function () {
+        location.href="updateUser.html";
+    });
+    $("#fff").click(function () {
+        location.href="unfreeze.html";
+    });
+    $("#ccc").click(function () {
+        location.href="../order/orderDeal.html";
+    });
+    $("#eee").click(function () {
+        location.href="../deal/showDeposit.html";
+    });
+    $("#ggg").click(function () {
+        location.href="../show/show.html";
+    });
+    $("#aaa").click(function () {
+        location.href="../address/siteIndex.html";
+    });
+    $("#ddd").click(function () {
+        // $("#sid").text("aaaaaa")
+        location.href="dataRegister.html";
+    });
+
+    layui.config({
+        base: '../../layuiadmin/' //静态资源所在路径
+    }).extend({
+        index: 'lib/index' //主入口模块
+    }).use(['index']);
+
+</script>
+</body>
+</html>

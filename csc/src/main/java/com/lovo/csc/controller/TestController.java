@@ -19,6 +19,7 @@ public class TestController {
         entityTest.setUserName(userName);
         ActiveMQQueue queue = new ActiveMQQueue("MqTest");
         jmsMessagingTemplate.convertAndSend(queue,"Hello Mq");
+
         System.out.println(entityTest.getUserName());
         return "hello page";
     }

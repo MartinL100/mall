@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>查询退货信息</title>
+    <link rel="stylesheet" type="text/css" href="../../easyui/themes/metro/easyui.css">
+    <link rel="stylesheet" type="text/css" href="../../easyui/themes/mobile.css">
+    <link rel="stylesheet" type="text/css" href="../../easyui/themes/icon.css">
+    <script type="text/javascript" src="../../easyui/jquery.min.js"></script>
+    <script type="text/javascript" src="../../easyui/jquery.easyui.min.js"></script>
+    <script type="text/javascript" src="../../easyui/jquery.easyui.mobile.js"></script>
+    <script type="text/javascript" src="../../easyui/locale/easyui-lang-zh_CN.js"></script>
+</head>
+<body>
+<div align="center">
+    <h1>查看退货信息</h1>
+</div>
+
+<div style="margin-bottom:10px">
+    商品类型：  <input class="easyui-combobox" id="indexType" name="GoodsType" style="width: 200px" data-options="required:true">
+    起始日期: <input  type="text"  editable="false" id="selectOrderDate" class="easyui-datebox" >
+    结束日期:<input  type="text"  editable="false" id="selectOrderDate2" class="easyui-datebox" >
+    商品名: <input class="easyui-textbox" id="text1" label="商品名称:" prompt="商品名称:" name="goodsName" prompt="goodsName" style="width:200px">
+    <a  href="#" class="easyui-linkbutton" data-options="iconCls:'icon-search'" id="bt1">查询</a>
+</div>
+
+<table id="tt" class="easyui-datagrid"
+       url="/lookReturnGoodsInfo"
+       iconCls="icon-save"
+       rownumbers="true" pagination="true"  singleSelect="true">
+    <thead>
+
+    <tr>
+        <th field="goodsName" width="10%" align="center">商品名</th>
+        <th field="goodsType" width="10%" align="center">商品类型</th>
+        <th field="goodsNorms" width="10%" align="center">商品规格</th>
+        <th field="goodsUnit" width="10%" align="center">单位</th>
+        <th field="returnGoodsId" width="10%" align="center">退货批次</th>
+        <th field="returnGoodsDate" width="10%" align="center">退货日期</th>
+        <th field="returnGoodsNum" width="10%" align="center">退货数量</th>
+        <th field="supplierId" width="10%" align="center">供应商</th>
+        <th field="returnGoodsCause" width="10%" align="center">退货理由</th>
+    </tr>
+    </thead>
+
+</table></p>
+
+<script>
+    //初始化下拉框
+    $("#indexType").combobox({
+        required: true,
+        url:"/findAllgoodsType", //后台获取下拉框数据的url
+        method:'post',
+        panelHeight:150,//设置为固定高度，combobox出现竖直滚动条
+        valueField:'typeName',
+        textField:'typeName',
+        multiple:false,
+        editable: false
+    });
+
+    //初始化加载表格
+    $(document).ready(function () {
+        $('#tt').datagrid('load',{
+
+        });
+    });
+
+    //查询
+    $("#bt1").click(function () {
+        $('#tt').datagrid('load',{
+            startDate :$("#selectOrderDate").datebox('getValue'),
+            endDate:$("#selectOrderDate2").datebox('getValue'),
+            goodsType:$("#indexType").combobox("getValue"),
+            goodsName:$("#text1").val()
+        });
+    })
+
+</script>
+
+</body>
+</html>

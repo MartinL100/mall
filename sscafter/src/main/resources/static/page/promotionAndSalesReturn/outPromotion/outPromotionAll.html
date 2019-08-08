@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>上架的商品</title>
+    <link rel="stylesheet" type="text/css" href="/static/easyui/themes/metro/easyui.css">
+    <link rel="stylesheet" type="text/css" href="/static/easyui/themes/mobile.css">
+    <link rel="stylesheet" type="text/css" href="/static/easyui/themes/icon.css">
+    <script type="text/javascript" src="/static/easyui/jquery.min.js"></script>
+    <script type="text/javascript" src="/static/easyui/jquery.easyui.min.js"></script>
+    <script type="text/javascript" src="/static/easyui/jquery.easyui.mobile.js"></script>
+</head>
+<body>
+
+<div id="tb" style="padding:3px;">
+
+    <span>商品名：</span>
+    <input id="goodsName" style="line-height:26px;border:1px solid #ccc" >
+    商品类型：  <input class="easyui-combobox" id="indexType" name="GoodsType" style="width: 200px" data-options="required:true">
+
+
+    <a  href="#" class="easyui-linkbutton" data-options="iconCls:'icon-search'"  id="bt1">搜索</a>
+
+</div>
+
+<table id="tt" class="easyui-datagrid"
+       url="/cancei/outFindAll"
+       title="分页" iconCls="icon-save"
+       rownumbers="false" pagination="true">
+    <thead>
+
+    <tr>
+        <th field="goodsId" data-toggle="topjui-checkbox" checkbox="true"  ></th>
+        <th field="goodsName" style="width: 10%" >商品名</th>
+        <th field="goodsNorms" style="width: 10%" >商品规格</th>
+        <th field="goodsType" style="width: 10%"  align="right">商品类型</th>
+        <th field="goodsPrice" style="width: 10%"  align="right">商品售价</th>
+        <th field="goodsNum" style="width: 12%"  align="right">商品数量</th>
+        <th field="goodsDiscount" style="width: 12%"  align="right">商品折扣率</th>
+        <th field="promotionState" style="width: 15%"  align="right">是否已经发送促销申请</th>
+    </tr>
+    </thead>
+</table>
+
+<div style="margin-left: 47%;margin-top: 5%">
+    <a href="#" class="easyui-linkbutton" style="width: 100px" onclick="show()"  plain="true">促销</a>
+</div>
+
+
+<script>
+
+
+    $(document).ready(function () {
+        $('#tt').datagrid('load',{
+        });
+
+        //初始化下拉
+        $("#indexType").combobox({
+            required: true,
+            url:"/cancei/initialize", //后台获取下拉框数据的url
+            method:'post',
+            panelHeight:150,//设置为固定高度，combobox出现竖直滚动条
+            valueField:'typeName',
+            textField:'typeName',
+            multiple:false,
+            editable: false
+        });
+
+
+
+
+
+
+        // var socket;
+        // if(typeof(WebSocket) == "undefined") {
+        //     alert("您的浏览器不支持WebSocket");
+        // }else {
+        //
+        //     //实现化WebSocket对象，指定要连接的服务器地址与端口  建立连接
+        //     socket = new WebSocket("ws://localhost:8002/promotion/getCuXiaoMQ");
+        //
+        //     //打开事件
+        //     socket.onopen = function () {
+        //         alert("Socket 已打开");
+        //         socket.send(location.href);
+        //         // socket.send("这是来自客户端的消息" + location.href + new Date());
+        //     };
+        //     //获得消息事件
+        //     socket.onmessage = function (info) {
+        //         var r = info.data;//获得socket服务器的信息
+        //         alert(r);
+        //     };
+        //     //关闭事件
+        //     socket.onclose = function () {
+        //         alert("Socket已关闭");
+        //     };
+        //     //发生了错误事件
+        //     socket.onerror = function () {
+        //         alert("Socket发生了错误");
+        //         //此时可以尝试刷新页面
+        //     }
+        // }
+
+
+
+
+
+
+        //获取后台从mq中得到的数据
+        // $.post("/promotion/getCuXiaoMQ",function (mq) {
+        //     if ("yes"==mq){
+        //         //弹出模态框
+        //     }else {
+        //
+        //     }
+        //
+        // })
+
+    });
+
+
+
+    //获取下拉框和文本框的值
+    $("#bt1").click(function () {
+        $('#tt').datagrid('load',{
+            goodsType:$("#indexType").combobox("getValue"),
+            goodsName:$("#goodsName").val()
+        });
+    });
+
+
+    //提交数据
+    function show() {
+        //获取选中的value
+        var item=$("#tt").datagrid('getSelections');
+        var ids=[];
+        $(item).each(function () {
+            //获取为goodsId的值
+            ids.push(this.goodsId);
+        });
+
+
+        //验证用户是否选中
+        if(ids.length==0){
+            $.messager.alert('警告窗口', '请至少选择一行！', 'info', function () {
+            });
+            return;
+        }
+
+        var json=JSON.stringify( ids );
+        $.post("/cancei/showGoods",{"list":json},function (list) {
+            if (list=="yes"){
+                location.href="showOutPromotion.html";
+            }
+        })
+    }
+
+</script>
+</body>
+</html>

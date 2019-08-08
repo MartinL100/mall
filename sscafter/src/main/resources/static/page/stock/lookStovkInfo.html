@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>商品库存信息</title>
+    <link rel="stylesheet" type="text/css" href="../../easyui/themes/metro/easyui.css">
+    <link rel="stylesheet" type="text/css" href="../../easyui/themes/mobile.css">
+    <link rel="stylesheet" type="text/css" href="../../easyui/themes/icon.css">
+    <script type="text/javascript" src="../../easyui/jquery.min.js"></script>
+    <script type="text/javascript" src="../../easyui/jquery.easyui.min.js"></script>
+    <script type="text/javascript" src="../../easyui/jquery.easyui.mobile.js"></script>
+
+</head>
+
+
+
+<p>
+<div align="center">
+    <h1>商品库存信息</h1>
+</div>
+
+
+<div style="margin-bottom:10px" id="div1">
+  商品类型：  <input class="easyui-combobox" id="indexType" name="GoodsType" style="width: 200px" >
+
+    <input class="easyui-textbox" label="商品名称:" id="text1" prompt="商品名称:" name="goodsName" prompt="goodsName" style="width:200px">
+   <a  href="#" class="easyui-linkbutton" data-options="iconCls:'icon-search'" id="bt1">查询</a>
+</div>
+
+<table id="tt" class="easyui-datagrid"
+       url="/goodsStock"
+       iconCls="icon-save"
+       rownumbers="true" pagination="true"  singleSelect="false">
+    <thead>
+    <tr>
+        <th field="goodsId" data-toggle="topjui-checkbox" checkbox="true" id="goodsId"></th>
+        <th field="goodsName" width="10%" align="center">商品名</th>
+        <th field="goodsType" width="10%" align="center">商品类型</th>
+        <th field="goodsNorms" width="10%" align="center">商品规格</th>
+        <th field="goodsUnit" width="10%" align="center">单位</th>
+        <th field="goodsNum" width="10%" align="center">库存数量</th>
+        <th field="goodsMinNum" width="10%" align="center">最低库存</th>
+        <th field="tag" width="10%" align="center">是否正在采购</th>
+    </tr>
+    </thead>
+</table></p>
+
+
+<a style="margin-left: 10%" href="#" class="easyui-linkbutton" id="bt2">发起采购</a>
+<a style="margin-left: 10%" href="#" class="easyui-linkbutton"   id="bt3">修改最低库存</a>
+<a style="margin-left: 10%" href="#" class="easyui-linkbutton"  id="bt4">添加商品种类</a>
+
+<!-- 修改最低库存模态框 -->
+<div id="dlg" class="easyui-dialog" style="width:400px" data-options="closed:true,modal:true,border:'thin',buttons:'#dlg-buttons'">
+    <form id="fm" method="post" novalidate style="margin:0;padding:20px 50px">
+
+        <div style="margin-bottom:10px">
+            商品名：<label id="l1"></label>
+        </div>
+        <div style="margin-bottom:10px">
+            商品类型：<label id="l2"></label>
+        </div>
+        <div style="margin-bottom:10px">
+            商品规格：<label id="l3"></label>
+        </div>
+        <div style="margin-bottom:10px">
+            单位：<label id="l4"></label>
+        </div>
+        <div style="margin-bottom:10px">
+       数量：  <input id="num" name="goodsMinNum" class="easyui-numberbox" prompt="Number" style="width:100%">
+        </div>
+
+    </form>
+</div>
+
+<div id="dlg-buttons">
+    <a href="javascript:void(0)" class="easyui-linkbutton c6" iconCls="icon-ok" onclick="updateMinNum()" style="width:90px">修改</a>
+    <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-cancel" onclick="javascript:$('#dlg').dialog('close')" style="width:90px">取消</a>
+</div>
+
+<!-- 采购模态框开始 -->
+<div id="dlg3" class="easyui-dialog" style="width:400px" data-options="closed:true,modal:true,border:'thin',buttons:'#dlg3-buttons'">
+    <form id="fm3" method="post" novalidate style="margin:0;padding:20px 50px">
+        <div style="margin-bottom:10px">
+            请输入采购数量:<input id="num3"  class="easyui-numberbox" prompt="Number" style="width:100%">
+        </div>
+
+    </form>
+</div>
+<!-- 采购模态框结束 -->
+<div id="dlg3-buttons">
+
+    <a href="javascript:void(0)" class="easyui-linkbutton c6" iconCls="icon-ok" onclick="goToBuy()" style="width:90px">发起采购</a>
+    <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-cancel" onclick="javascript:$('#dlg3').dialog('close')" style="width:90px">取消</a>
+</div>
+
+
+
+<!-- 添加商品种类模态框 -->
+<div id="dlg2" class="easyui-dialog" style="width:400px" data-options="closed:true,modal:true,border:'thin',buttons:'#dlg2-buttons'">
+    <form id="fm2" method="post" novalidate style="margin:0;padding:20px 50px">
+            <div style="margin-bottom:10px">
+                <input name="goodsName" class="easyui-textbox" required="true" label="商品名:" style="width:100%">
+            </div>
+        <div style="margin-bottom:10px">
+            <input class="easyui-combobox" label="商品类型:"  id="indexType2" name="goodsType" style="width:100%;" data-options="required:true"  >
+        </div>
+        <div style="margin-bottom:10px">
+            <input name="goodsNorms" class="easyui-textbox" required="true" label="商品规格:" style="width:100%" data-options="required:true">
+        </div>
+        <div style="margin-bottom:10px">
+            <input name="goodsUnit" class="easyui-textbox" required="true" label="单位:" style="width:100%">
+        </div>
+
+        <div style="margin-bottom:10px">
+           <input id="num2" name="goodsMinNum" label="最低库存量" prompt="Number" class="easyui-numberbox"   style="width:100%" data-options="required:true">
+        </div>
+
+    </form>
+</div>
+
+
+<div id="dlg2-buttons">
+    <a href="javascript:void(0)" class="easyui-linkbutton c6" iconCls="icon-ok" onclick="saveGoods()" style="width:90px">保存</a>
+    <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-cancel" onclick="javascript:$('#dlg2').dialog('close')" style="width:90px">取消</a>
+</div>
+
+
+<script>
+    var url="";
+    var goodsIdJson;
+
+    //发起采购
+    function goToBuy() {
+        var supplyNum=$("#num3").val();
+      $.post("/buySomthing",{"goodsIdJson":goodsIdJson,"supplyNum":supplyNum},function (re) {
+          if("yes"==re){
+              $('#dlg3').dialog('close')
+              $('#tt').datagrid('reload')
+          }
+
+      })
+
+    }
+    
+    
+    //修改最低库存
+    function updateMinNum() {
+        $('#fm').form('submit',{
+            url:url,
+            success: function() {
+                $('#dlg').dialog('close')
+                $('#tt').datagrid('reload')
+            }
+        })
+    }
+
+    //添加商品种类
+    function saveGoods(){
+        $('#fm2').form('submit',{
+            url: "/saveGoods2",
+            success: function(re) {
+                alert(re)
+              if("no"==re){
+                  $('#dlg2').dialog('close');
+                  $.messager.alert('警告窗口', '该商品已存在！请重新输入!', 'info', function () {
+                  });
+                  return;
+              }else {
+                  $('#dlg2').dialog('close')
+                  $('#fm2').form('clear');
+                  $('#tt').datagrid('reload')
+              }
+            }
+    })
+    }
+
+
+    //初始化下拉框
+    $("#indexType").combobox({
+        required: true,
+        url:"/findAllgoodsType", //后台获取下拉框数据的url
+        method:'post',
+        panelHeight:150,//设置为固定高度，combobox出现竖直滚动条
+        valueField:'typeName',
+        textField:'typeName',
+        multiple:false,
+        editable: false
+    });
+    $("#indexType2").combobox({
+        required: true,
+        url:"/findAllgoodsType", //后台获取下拉框数据的url
+        method:'post',
+        panelHeight:150,//设置为固定高度，combobox出现竖直滚动条
+        valueField:'typeName',
+        textField:'typeName',
+        multiple:false,
+        editable: false
+    });
+
+//初始化加载表格
+$(document).ready(function () {
+
+    $('#tt').datagrid('load',{
+        goodsType:$("#indexType").combobox("getValue"),
+        goodsName:$("#text1").val()
+    });
+});
+
+$("#bt1").click(function () {
+    $('#tt').datagrid('load',{
+        goodsType:$("#indexType").combobox("getValue"),
+        goodsName:$("#text1").val()
+
+    });
+})
+
+$("#bt2").click(function () {
+    var items = $('#tt').datagrid('getSelections');
+    var ids = [];
+    $(items).each(function(){
+        ids.push(this.goodsId);
+    });
+
+  if(ids.length==0){
+      $.messager.alert('警告窗口', '请选择行！', 'info', function () {
+      });
+      return;
+  }
+     goodsIdJson = JSON.stringify(ids);
+    $('#dlg3').dialog('open').dialog('center').dialog('setTitle','发起采购信息');
+    $('#fm3').form('clear');
+})
+
+    $("#bt3").click(function () {
+        var row = $('#tt').datagrid('getSelected');
+        var items = $('#tt').datagrid('getSelections');
+        var ids = [];
+        $(items).each(function(){
+            ids.push(this.goodsId);
+        });
+        if(ids.length>1||ids.length==0){
+            $.messager.alert('警告窗口', '请选择一行修改！', 'info', function () {
+
+            });
+            return;
+        }
+
+      var goodsId=  row.goodsId;
+      var goodsName=row.goodsName;
+      var goodsType=row.goodsType;
+      var goodsNorms=row.goodsNorms;
+      var goodsUnit=row.goodsUnit;
+      url="/updateGoodsMinNum?goodsId="+goodsId;
+      $("#l1").html(goodsName);
+          $("#l2").html(goodsType);
+          $("#l3").html(goodsNorms);
+          $("#l4").html(goodsUnit);
+        $('#dlg').dialog('open').dialog('center').dialog('setTitle','修改最低库存');
+
+        $('#fm').form('clear');
+        $('#fm2').form('load',row);
+
+    })
+
+$("#bt4").click(function () {
+    $('#dlg2').dialog('open').dialog('center').dialog('setTitle','添加商品种类');
+    $('#fm2').form('load',row);
+
+})
+
+</script>
+
+
+</body>
+</html>
