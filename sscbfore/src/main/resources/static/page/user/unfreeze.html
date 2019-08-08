@@ -32,7 +32,7 @@
       //  alert($("#aaa").val())
         $.post("requestUnfreezeMQ",{"applyReason":$("#aaa").val()},function (re) {
             if(re=="ok"){
-                alert("申请成功，请等待审核");
+                layer.msg('申请成功，请等待审核', {icon: 6, anim: 6});
                 location.href="userShow.html";
             }
         });
