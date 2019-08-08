@@ -30,6 +30,7 @@ public class MakeDelController {
     private RestTemplate restTemplate;
     @RequestMapping("initDel")
     public String initDel(){
+        //模拟从map中读取数据
         List<GoodsDTO> goodsDTOList = new ArrayList<>();
         GoodsDTO goodsDTO = new GoodsDTO();
         goodsDTO.setGoodsId("aaaaa");
@@ -149,6 +150,14 @@ public class MakeDelController {
                errorInfo = discountPrice+"";
            }
             return  errorInfo;
+    }
+
+    @RequestMapping("buyRight")
+    public String buyRight(String goodsInfo){
+
+        String info = "";
+        System.out.println(goodsInfo);
+        return  goodsInfo;
     }
 
 
