@@ -10,4 +10,11 @@ public interface IUserService {
      * @return 用户对象
      */
     public AuditEntity findAuditEntityByAuditNameAndAuditPwd(String auditName,String auditPwd);
+
+    /**
+     * 注册
+     * @param audit 用户对象
+     * @return 用户对象
+     */
+    public AuditEntity addAudit(AuditEntity audit);
 }

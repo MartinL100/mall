@@ -18,7 +18,7 @@ public class loginController {
     @Autowired
     private IUserService userService;
 
-    public  static String userName="";
+    public static String userName="";
     //注册方法
     @RequestMapping("/addregister/{username}/{password}/{realUsername}")
     public void register(@PathVariable("username")String username,
