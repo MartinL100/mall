@@ -36,4 +36,5 @@ public interface IUserMessageService {
      * @param userMessage 消息实体类
      */
     void addUserMessage(UserInfoEntity userMessage);
+
 }
