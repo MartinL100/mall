@@ -11,4 +11,6 @@ public interface IGoodsQueryDao {
     // 动态查询商品总行数
     public long  getGoodsCount( String goodsState, String goodsType,
                                            String goodsBooking,String goodsName);
+
+
 }

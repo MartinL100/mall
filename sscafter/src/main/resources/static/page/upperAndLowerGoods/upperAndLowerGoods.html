@@ -10,7 +10,7 @@
     <script type="text/javascript" src="../../easyui/jquery.min.js"></script>
     <script type="text/javascript" src="../../easyui/jquery.easyui.min.js"></script>
     <script type="text/javascript" src="../../easyui/jquery.easyui.mobile.js"></script>
-
+    <script type="text/javascript" src="../../easyui/locale/easyui-lang-zh_CN.js"></script>
 </head>
 
 
@@ -23,13 +23,10 @@
 
 <div style="margin-bottom:10px">
     <select  id="goodsStateId1" label="商品状态：" class="easyui-combobox"  name="goodsState" style="width:160px" panelHeight="100">
-        <option selected="selected" value="上架">上架</option>
-        <option value="下架">下架</option>
+        <option  value="上架">上架</option>
+        <option  selected="selected" value="下架">下架</option>
     </select>
-    <select  id="goodsTypeId1" label="类型：" class="easyui-combobox" name="goodsType" style="width:160px" panelHeight="100">
-        <option selected="selected" value="不限">不限</option>
-        <option value="水果">水果</option>
-        <option value="电器">电器</option>
+    <select  id="indexType" label="类型：" class="easyui-combobox" name="GoodsType" style="width:160px" panelHeight="100">
     </select>
     <select id="goodsBookingId1" label="预售状态：" class="easyui-combobox" name="goodsBooking" style="width:160px" panelHeight="100">
         <option selected="selected" value="不限">不限</option>
@@ -46,6 +43,7 @@
        rownumbers="true" pagination="true"  singleSelect="false">
     <thead>
     <tr>
+        <th field="goodsId1" data-toggle="topjui-checkbox" checkbox="true" id="goodsId1"></th>
         <th field="goodsId" width="6.4%" align="center">商品ID</th>
         <th field="goodsName" width="6.4%" align="center">商品名</th>
         <th field="goodsType" width="6.4%" align="center">商品类型</th>
@@ -62,15 +60,15 @@
         <th field="lowerTime" width="6.4%" align="center">下架时间</th>
     </tr>
     </thead>
-
-
 </table></p>
-<a style="margin-left: 10%" href="#" class="easyui-linkbutton"  id="bt3">修改商品信息</a>
-
-<!--  -->
+<a style="margin-left: 10%" href="#" class="easyui-linkbutton" id="bt9">上架</a>
+<a style="margin-left: 10%" href="#" class="easyui-linkbutton"   id="bt10">下架</a>
+<a style="margin-left: 10%" href="#" class="easyui-linkbutton" id="bt11">预售</a>
+<a style="margin-left: 10%" href="#" class="easyui-linkbutton"   id="bt12">未预售</a>
+<a style="margin-left: 10%" href="#" class="easyui-linkbutton"  id="bt13">修改商品信息</a>
+<!--修改下架时间模态框-->
 <div id="dlg" class="easyui-dialog" style="width:400px" data-options="closed:true,modal:true,border:'thin',buttons:'#dlg-buttons'">
     <form id="fm" method="post" novalidate style="margin:0;padding:20px 50px">
-
         <div style="margin-bottom:10px">
             商品名：<label id="l1"></label>
         </div>
@@ -84,68 +82,128 @@
             单位：<label id="l4"></label>
         </div>
         <div style="margin-bottom:10px">
-            商品状态：  <input id="goodsStateId" name="goodsState" class="easyui-numberbox" prompt="商品状态" style="width:100%">
-        </div>
-        <div style="margin-bottom:10px">
-            预售状态：  <input id="goodsBookingId" name="goodsBooking" class="easyui-numberbox" prompt="预售状态" style="width:100%">
-        </div>
-        <div style="margin-bottom:10px">
-            下架时间：  <input id="lowerTimeId" name="lowerTime" class="easyui-numberbox" prompt="下架时间" style="width:100%">
+
+            下架时间：<input  type="text"  editable="false"  name="lowerTime" id="lowerTimeId" class="easyui-datebox" >
+            <!--<input id="lowerTimeId" name="lowerTime" class="easyui-numberbox" prompt="下架时间" style="width:100%">-->
         </div>
 
     </form>
 </div>
 
 <div id="dlg-buttons">
-    <a href="javascript:void(0)" class="easyui-linkbutton c6" iconCls="icon-ok" onclick="" style="width:90px">修改商品信息</a>
+    <a href="javascript:void(0)" class="easyui-linkbutton c6" iconCls="icon-ok" onclick="updateLowerTime()" style="width:90px">修改</a>
     <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-cancel" onclick="javascript:$('#dlg').dialog('close')" style="width:90px">取消</a>
 </div>
 
 
-<!--修改商品信息模态框 -->
-<div id="dlg2" class="easyui-dialog" style="width:400px" data-options="closed:true,modal:true,border:'thin',buttons:'#dlg2-buttons'">
-    <form id="fm2" method="post" novalidate style="margin:0;padding:20px 50px">
-
-
-        <div style="margin-bottom:10px">
-            <input name="goodsName" class="easyui-textbox" required="true" label="商品名:" style="width:100%">
-        </div>
-        <div style="margin-bottom:10px">
-            <select label="类型：" class="easyui-combobox" name="goodsType2" style="width:100%" panelHeight="100">
-                <option value="水果">水果</option>
-                <option value="电器">电器</option>
-            </select>
-        </div>
-        <div style="margin-bottom:10px">
-            <input name="goodsNorms" class="easyui-textbox" required="true" label="商品规格:" style="width:100%">
-        </div>
-        <div style="margin-bottom:10px">
-            <input name="goodsUnit" class="easyui-textbox" required="true" label="单位:" style="width:100%">
-        </div>
-
-        <div style="margin-bottom:10px">
-            最低库存量：  <input id="num2" name="supplyNum" class="easyui-numberbox" prompt="Number" style="width:100%">
-        </div>
-
-    </form>
-</div>
-
-
-<div id="dlg2-buttons">
-    <a href="javascript:void(0)" class="easyui-linkbutton c6" iconCls="icon-ok" onclick="" style="width:90px">修改商品信息</a>
-    <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-cancel" onclick="javascript:$('#dlg2').dialog('close')" style="width:90px">取消</a>
-</div>
-
 
 <script>
+
+    //初始化下拉框
+    $("#indexType").combobox({
+        required: true,
+        url:"/upperAndLower/findAllgoodsType", //后台获取下拉框数据的url
+        method:'post',
+        panelHeight:150,//设置为固定高度，combobox出现竖直滚动条
+        valueField:'typeName',
+        textField:'typeName',
+        multiple:false,
+        editable: false
+    });
+
+
+    //未预售
+    $("#bt12").click(function () {
+        var items = $('#tt').datagrid('getSelections');
+        var ids = [];
+        $(items).each(function () {
+         //   alert(this.goodsId);
+            ids.push(this.goodsId);
+        });
+        if(ids.length<1||ids.length==0){
+            $.messager.alert('警告窗口', '请选择一行修改！', 'info', function () {
+            });
+         return;}
+        else{
+            var Booking1Json=JSON.stringify(ids);
+            $.post("/upperAndLower/updateGoodsStateBooking1",{"list":Booking1Json},function (list) {
+            })
+            $('#tt').datagrid('reload')
+        }
+    });
+    //预售
+    $("#bt11").click(function () {
+        var items = $('#tt').datagrid('getSelections');
+        var ids = [];
+        $(items).each(function () {
+           // alert(this.goodsId)
+            ids.push(this.goodsId);
+        });
+        if(ids.length<1||ids.length==0){
+            $.messager.alert('警告窗口', '请选择一行修改！', 'info', function () {
+            });
+            return;}
+        else{
+            var BookingJson=JSON.stringify(ids);
+            $.post("/upperAndLower/updateGoodsStateBooking",{"list":BookingJson},function (list) {
+            })
+            $('#tt').datagrid('reload')
+        }
+    });
+
+
+    //下架
+    $("#bt10").click(function () {
+        var items = $('#tt').datagrid('getSelections');
+        var ids = [];
+        $(items).each(function () {
+          //  alert(this.goodsId)
+            ids.push(this.goodsId);
+        });
+        if(ids.length<1||ids.length==0){
+            $.messager.alert('警告窗口', '请选择一行修改！', 'info', function () {
+            });
+            return;}
+        else{
+            var LowerJson=JSON.stringify(ids);
+            $.post("/upperAndLower/updateGoodsStateLower",{"list":LowerJson},function (list) {
+            });
+            $('#tt').datagrid('reload')
+        }
+
+    });
+
+    //上架
+    $("#bt9").click(function () {
+        var items = $('#tt').datagrid('getSelections');
+        var ids = [];
+        $(items).each(function () {
+          //  alert(this.goodsId)
+            ids.push(this.goodsId);
+        });
+
+        if(ids.length<1||ids.length==0){
+            $.messager.alert('警告窗口', '请选择一行修改！', 'info', function () {
+            });
+            return;}
+        else{
+            var upperJson=JSON.stringify(ids);
+            $.post("/upperAndLower/updateGoodsStateUpper",{"list":upperJson},function (list) {
+            });
+            $('#tt').datagrid('reload')
+        }
+
+    });
+
+
 
     //查询
     function doSearch(){
         $('#tt').datagrid('load',{
-            goodsName: $('#goodsNameId1').val(),
-            goodsState: $('#goodsStateId1').val(),
-            goodsType: $('#goodsTypeId1').val(),
-            goodsBooking: $('#goodsBookingId1').val()
+            goodsName: $('#goodsNameId1 ').val(),
+            goodsState: $("#goodsStateId1").combobox("getValue"),
+            goodsType: $("#indexType").combobox("getValue"),
+            goodsBooking: $("#goodsBookingId1").combobox("getValue")
         });
     }
     //初始化加载
@@ -159,15 +217,47 @@
     });
 
 
+    var url="";
+    //修改商品下架时间
+    function updateLowerTime() {
+        $('#fm').form('submit',{
+            url:url,
+            success: function() {
+                $('#dlg').dialog('close');
+                $('#tt').datagrid('reload')
+            }
+        })
+    }
 
-    var url;
-    $("#bt3").click(function () {
+
+    $("#bt13").click(function () {
         var row = $('#tt').datagrid('getSelected');
-        $('#dlg').dialog('open').dialog('center').dialog('setTitle','修改商品信息');
-        $('#fm').form('clear');
+        var items = $('#tt').datagrid('getSelections');
+        var ids = [];
+        $(items).each(function () {
+            ids.push(this.goodsId);
+        });
+        if (ids.length > 1 || ids.length == 0) {
+            $.messager.alert('警告窗口', '请选择一行修改！', 'info', function () {
 
+            });
+            return;
+        }
+
+        var goodsId=row.goodsId;
+        var goodsName=row.goodsName;
+        var goodsType=row.goodsType;
+        var goodsNorms=row.goodsNorms;
+        var goodsUnit=row.goodsUnit;
+        var lowerTime=$("#selectOrderDate").datebox('setValue', '');
+        url="/upperAndLower/updateGoodsLowerTime?goodsId="+goodsId;
+        $("#l1").html(goodsName);
+        $("#l2").html(goodsType);
+        $("#l3").html(goodsNorms);
+        $("#l4").html(goodsUnit);
+        $('#dlg').dialog('open').dialog('center').dialog('setTitle','修改下架时间');
+        $('#fm').form('clear');
         $('#fm').form('load',row);
-       url = '/updateGoods.lovo?id='+row.goodsId+"&num="+$("#num").val();
     })
 
 
