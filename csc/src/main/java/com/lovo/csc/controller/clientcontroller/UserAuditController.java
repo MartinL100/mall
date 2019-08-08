@@ -105,7 +105,7 @@ public class UserAuditController {
     //监听MQ 如果有新数据则保存到数据库中
     //并实现服务器主推
     @JmsListener(destination = "accountsRegistrationAuditMessageMQ")
-    @RequestMapping("saveUserAuditMessage.lovo")
+    //@RequestMapping("saveUserAuditMessage.lovo")
     public String savaUserAuditMessage(String message){
         ResgisterMessageVo vo = null;
         try {
