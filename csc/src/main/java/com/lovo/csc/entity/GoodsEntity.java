@@ -13,8 +13,6 @@ import java.util.List;
 public class GoodsEntity {
     @Id
     @Column(name = "goods_id",length = 48)
-    @GenericGenerator(name="guuid",strategy = "uuid")
-    @GeneratedValue(generator = "guuid")
     private String goodsId;//商品id
     @Column(length = 48)
     private String goodsName;//商品名

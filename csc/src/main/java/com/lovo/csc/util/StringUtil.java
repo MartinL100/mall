@@ -10,7 +10,7 @@ public class StringUtil {
 	 */
 	public static boolean blString(String str) {
 		boolean bl=false;
-		if(null==str||"".equals(str)) {
+		if(null==str||"".equals(str)||" ".equals(str)) {
 			bl=true;
 		}
 		return bl;

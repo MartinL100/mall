@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.transaction.Transactional;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -26,6 +27,7 @@ import java.util.List;
 import java.util.Map;
 
 @RestController
+
 public class GoodsCountController {
     @Autowired
     private IOrderService orderService;
@@ -43,7 +45,7 @@ public class GoodsCountController {
     public double countMoney(@PathVariable("userName")String userName,
                              @PathVariable("allPrice")double allPrice,
                              @PathVariable("payMethod")String payMethod) {
-        System.out.println(userName + "/" + allPrice + "/" + payMethod);
+//        System.out.println(userName + "/" + allPrice + "/" + payMethod);
         double discount = userAuditService.getUserDiscount(userName);//计算用户的折扣
         double payMoney = allPrice * discount;
         if (payMethod.equals("deposit")) {
@@ -56,7 +58,7 @@ public class GoodsCountController {
     @RequestMapping(value = "checkOrder/{str}")
     public String addOrder(@PathVariable("str") String jsonStr) throws JsonProcessingException {
         //将json字符串转换为对象
-//         jsonStr="{\"orderNum\":\"092019070823578\",\"orderDate\":\"07/03/2019\",\"userName\":\"小王\"" +
+//         jsonStr="{\"orderNum\":\"092349070823569\",\"orderDate\":\"07/03/2019\",\"userName\":\"小1\"" +
 //                ",\"orderMoney\":25235.2,\"payMoney\":\"0.0\",\"payMethod\":\"deposit\",\"goodsDTOList\":[{" +
 //                "\"goodsId\":\"352\",\"goodsName\":\"梨子\",\"goodsNorms\":\"大\",\"goodsPrice\":120.0" +
 //                ",\"goodsNum\":200,\"goodsType\":\"水果\",\"goodsUnit\":\"一筐\"},{" +
@@ -183,8 +185,14 @@ public class GoodsCountController {
         Map<String,Object> map=new HashMap<>();
         int pageNumber=(page-1)*rows;
         List<OrderEntity> tagOrderList= orderService.findByTag(pageNumber,rows,tag);
-        for (OrderEntity o:tagOrderList
-             ) {o.setOrderGoods(null);
+        for (OrderEntity o:tagOrderList) {
+            o.setOrderGoods(null);
+
+            if(tag==1){
+                o.setTagStr("支付成功");
+            }else{
+                o.setTagStr("支付失败");
+            }
         }
         map.put("rows",tagOrderList);
         map.put("page",page);
