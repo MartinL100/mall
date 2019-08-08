@@ -1,11 +1,13 @@
 package com.lovo.sscafter.goodsStock.controller;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.lovo.sscafter.goodsStock.dto.LookBuyInfoDTO;
 import com.lovo.sscafter.goodsStock.dto.OrderGoodsDTO;
 import com.lovo.sscafter.goodsStock.dto.ReturnGoodsDto;
 import com.lovo.sscafter.goodsStock.entity.*;
 import com.lovo.sscafter.goodsStock.service.*;
+import org.apache.activemq.command.ActiveMQTopic;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jms.core.JmsMessagingTemplate;
 import org.springframework.stereotype.Controller;
@@ -15,10 +17,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.io.IOException;
 import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Controller
 public class GoodsStockController {
@@ -92,6 +91,8 @@ return "yes";
     public String  buySomthing( String  goodsIdJson,Long supplyNum) throws IOException {
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
         String nyr = dateFormat.format(new Date());
+           //要发送Mq的集合
+        List<LookBuyInfoDTO> listMq=new ArrayList<>();
 
         IndentEntity ie=new  IndentEntity();
         ie.setIndentDate(nyr);
@@ -100,6 +101,18 @@ return "yes";
         ObjectMapper mapper = new ObjectMapper();
        List<String> list = (List<String>) mapper.readValue(goodsIdJson, Object.class);
         for ( String goodsId: list ) {
+            //要放入listMq的dto对象
+            GoodsStockEntity g=goodsStockService.findGoodsStockEntityByGoodsId(goodsId);
+           LookBuyInfoDTO lookBuyInfoDTO=new LookBuyInfoDTO();
+            lookBuyInfoDTO.setGoodsName(g.getGoodsName());
+            lookBuyInfoDTO.setGoodsNorms(g.getGoodsNorms());
+            lookBuyInfoDTO.setGoodsType(g.getGoodsType());
+            lookBuyInfoDTO.setGoodsUnit(g.getGoodsUnit());
+            lookBuyInfoDTO.setIndentDate(ie.getIndentDate());
+            lookBuyInfoDTO.setIndentId(ie.getIndentId());
+            lookBuyInfoDTO.setSupplyNum(supplyNum);
+            listMq.add(lookBuyInfoDTO);
+
             //更改该商品的状态
             goodsStockService.upDateGoodsTag("正在采购",goodsId);
             GoodsStockEntity goods= new GoodsStockEntity();
@@ -111,6 +124,11 @@ return "yes";
             sup.setSupplyNum(supplyNum);
             supplyService.saveSupply(sup);
         }
+        //放进buyMq
+        ObjectMapper mapper2= new ObjectMapper();
+      String MQStr=  mapper2.writeValueAsString(listMq);
+        ActiveMQTopic activeMQTopic= new ActiveMQTopic("buyMQ");
+        jmsMessagingTemplate.convertAndSend(activeMQTopic,MQStr);
     return "yes";
     }
 
@@ -148,7 +166,7 @@ return "yes";
     @ResponseBody
         public String goToReturnGoods(String supplierId,String goodsId,
         String goodsName,String goodsType,String goodsNorms,String goodsUnit,
-      String returnGoodsCause,Long returnGoodsNum,float goodsBid,String orderGoodsId){
+      String returnGoodsCause,Long returnGoodsNum,float goodsBid,String orderGoodsId) throws JsonProcessingException {
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
         String nyr = dateFormat.format(new Date());
         ReturnGoodsEntity returnGoodsEntity=new ReturnGoodsEntity();
@@ -163,8 +181,8 @@ return "yes";
         returnGoodsService.saveReturnGoodsEntity(returnGoodsEntity);
         //保存退货订单结束
         //更改到货单状态
-        orderGoodsService.updateIsReturnGoods("已退货",orderGoodsId);
-
+        orderGoodsService.updateIsReturnGoods("正在退货",orderGoodsId);
+          //发送到退货MQ
         ReturnGoodsDto reDTO= new ReturnGoodsDto();
         reDTO.setGoodsBid(goodsBid);
         reDTO.setGoodsId(goodsId);
@@ -177,6 +195,10 @@ return "yes";
         reDTO.setReturnGoodsDate(nyr);
         reDTO.setReturnGoodsNum(returnGoodsNum);
         reDTO.setReturnGoodsId(returnGoodsEntity.getReturnGoodsId());
+               ObjectMapper mapper = new ObjectMapper();
+           String str2=   mapper.writeValueAsString(reDTO);
+        ActiveMQTopic activeMQTopic= new ActiveMQTopic("returnGoodsMQ");
+        jmsMessagingTemplate.convertAndSend(activeMQTopic,str2);
 
       //减少库存
         goodsStockService.updateGoodsNum("1",returnGoodsNum,goodsId);

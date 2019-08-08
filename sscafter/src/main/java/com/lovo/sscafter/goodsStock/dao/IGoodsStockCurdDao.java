@@ -32,4 +32,9 @@ public interface IGoodsStockCurdDao extends CrudRepository<GoodsStockEntity,Stri
        public GoodsStockEntity findByNameTypeAnAndNorms(String name,String type,String norms);
 
        public GoodsStockEntity findGoodsStockEntityByGoodsId(String goodsId);
+
+       @Query("update GoodsStockEntity set tag1='已添加' where goodsId=?1")
+       @Modifying
+       @Transactional
+       public void updateGoodsTag1ById(String id);
 }

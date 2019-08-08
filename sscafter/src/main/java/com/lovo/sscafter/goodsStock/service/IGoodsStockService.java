@@ -22,4 +22,12 @@ public interface IGoodsStockService {
     public GoodsStockEntity findByNameTypeAnAndNorms(String name,String type,String norms);
 
     public GoodsStockEntity findGoodsStockEntityByGoodsId(String goodsId);
+
+    //动态查询总行数(远程调用)
+    public List<GoodsStockEntity> findAllGoodsStockCloud(String goodsName,String goodsType,int currentPage,int rows);
+    //动态查询总行数(远程调用)
+    public long findAllGoodsStockCountCloud(String goodsName,String goodsType);
+
+    public void updateGoodsTag1ById(String id);
+
 }

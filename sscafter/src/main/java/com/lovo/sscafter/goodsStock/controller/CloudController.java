@@ -27,7 +27,7 @@ public class CloudController {
     }if("null".equals(goodsName)){
         goodsName="";
     }
-    List<GoodsStockEntity> list= goodsStockService.findAllGoodsStock(goodsName,goodsType,page,rows);
+    List<GoodsStockEntity> list= goodsStockService.findAllGoodsStockCloud(goodsName,goodsType,page,rows);
     ObjectMapper mapper = new ObjectMapper();
     String str=mapper.writeValueAsString(list);
         return str;
@@ -41,7 +41,7 @@ public class CloudController {
     }if("null".equals(goodsName)){
         goodsName="";
     }
-         long a=goodsStockService.findAllGoodsStockCount(goodsName,goodsType);
+         long a=goodsStockService.findAllGoodsStockCountCloud(goodsName,goodsType);
     return a;
     }
 
@@ -53,5 +53,10 @@ public class CloudController {
    ObjectMapper mapper = new ObjectMapper();
      String str=   mapper.writeValueAsString(goods);
         return str;
+    }
+    @RequestMapping("/upDateTag1ById/{goodsId}")
+    public void upDateTag1ById(@PathVariable("goodsId")String goodsId){
+
+        goodsStockService.updateGoodsTag1ById(goodsId);
     }
 }
