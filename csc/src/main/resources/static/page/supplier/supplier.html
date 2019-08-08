@@ -88,6 +88,14 @@
         <div style="margin-bottom:10px">
             <input name="supplierAddress" class="easyui-textbox" disabled="true" required="true" label="公司地址:" style="width:100%">
         </div>
+            <div style="margin-bottom:10px">
+                <select name="supplierLevel" id="supplierLeve2" labelWidth="120" label="供应商等级:" class="easyui-combobox" name="state" style="width:100%" panelHeight="100">
+                    <option value="不限">不限</option>
+                    <option value="大型">大型</option>
+                    <option value="中型">中型</option>
+                    <option value="小型">小型</option>
+                </select>
+            </div>
         <div id="buttons1" align="center" style="margin-bottom:40px;margin-top: 40px;position: relative;right: -300px" >
             <a href="javascript:void(0)" id="audit"  class="easyui-linkbutton" onclick="audit()" style="left :-255px;width:150px"> 审核通过 </a>
             <a href="javascript:void(0)" id="auditFasle" class="easyui-linkbutton" onclick="auditFasle()" style="left :-255px;width:150px"> 问题反馈 </a>
