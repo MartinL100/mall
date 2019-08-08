@@ -1,4 +1,4 @@
-package com.lovo.psc.entity;
+package com.lovo.psc.orderGoodsZhou.entity;
 
 import org.hibernate.annotations.GenericGenerator;
 

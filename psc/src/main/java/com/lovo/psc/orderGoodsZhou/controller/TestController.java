@@ -1,4 +1,5 @@
-package com.lovo.psc.controller;
+package com.lovo.psc.orderGoodsZhou.controller;
+
 
 import com.lovo.common.entity.EntityTest;
 import org.apache.activemq.command.ActiveMQQueue;
