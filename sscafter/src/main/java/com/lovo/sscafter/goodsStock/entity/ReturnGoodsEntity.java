@@ -15,7 +15,34 @@ public class ReturnGoodsEntity {
     @Column(name="return_goods_date",length = 48)
     private String returnGoodsDate;
     private String returnGoodsCause;
-   @ManyToOne(fetch = FetchType.LAZY)
+    private String supplierId;//供应商编号
+    private Long returnGoodsNum;//退货数量
+
+    public Long getReturnGoodsNum() {
+        return returnGoodsNum;
+    }
+
+    public void setReturnGoodsNum(Long returnGoodsNum) {
+        this.returnGoodsNum = returnGoodsNum;
+    }
+
+    public String getSupplierId() {
+        return supplierId;
+    }
+
+    public void setSupplierId(String supplierId) {
+        this.supplierId = supplierId;
+    }
+
+    public String getReturnGoodsCause() {
+        return returnGoodsCause;
+    }
+
+    public void setReturnGoodsCause(String returnGoodsCause) {
+        this.returnGoodsCause = returnGoodsCause;
+    }
+
+    @ManyToOne(fetch = FetchType.LAZY)
    @JoinColumn
     private GoodsStockEntity goods;
 
