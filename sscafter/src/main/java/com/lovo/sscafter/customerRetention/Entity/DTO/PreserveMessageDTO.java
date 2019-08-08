@@ -29,9 +29,8 @@ public class PreserveMessageDTO {
         this.auditTime = auditTime;
     }
 
-
     public String getAuditOpinion() {
-        return auditOpinion;
+        return  auditOpinion;
     }
 
     public void setAuditOpinion(String auditOpinion) {
