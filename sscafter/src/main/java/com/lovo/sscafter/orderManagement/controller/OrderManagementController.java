@@ -25,7 +25,6 @@ public class OrderManagementController {
         boolean temp = orderManagementService.updateOrderDelType(orderNum);
         return "{'info':'"+temp+"'}";
     }
-
     @RequestMapping("findOrderInfo/{orderDate}/{orderType}/{currentPage}/{rows}/{userName}")
     @ResponseBody
     public List<OrderManagementEntity> findOrderInfo(@PathVariable("orderDate")String orderDate,@PathVariable("orderType")int orderType,

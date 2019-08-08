@@ -77,7 +77,7 @@ public class freezeController {
         }catch (Exception e){e.printStackTrace();}
         StringBuffer userNameStr = new StringBuffer();
         for (String user:list) {
-            userNameStr.append(user+",");
+            userNameStr.append(user +",");
         }
         PreserveMessageDTO predto = new PreserveMessageDTO();
         predto.setUserNameStr(userNameStr+"");

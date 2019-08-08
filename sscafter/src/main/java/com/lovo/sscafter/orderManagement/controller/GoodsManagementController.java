@@ -38,7 +38,6 @@ public class GoodsManagementController {
             else if("1".equals(list.get(i).getGoodsStatus())){list.get(i).setGoodsStatus("退货中");continue;}
             else if("2".equals(list.get(i).getGoodsStatus())){list.get(i).setGoodsStatus("已退货");continue;}
         }
-
         map.put("rows",list);
         return map;
     }

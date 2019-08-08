@@ -15,7 +15,7 @@ import java.util.logging.Logger;
 public class MQController {
     @Autowired
     private JmsMessagingTemplate jmsMessagingTemplate;
-    //    @Autowired
+    // @Autowired
 //    private  ActiveMQQueue frozenOrUnfrozenAccountsMessageMQ;
     Log log= LogFactory.getLog(this.getClass());
     //发送保审核请求到MQ
