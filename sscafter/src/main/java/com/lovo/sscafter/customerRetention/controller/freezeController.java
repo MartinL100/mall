@@ -68,7 +68,7 @@ public class freezeController {
 
     @RequestMapping("freezeUser")
     @ResponseBody
-    public void freezeUser(String jsonStr, HttpServletRequest request,String account) {
+    public void freezeUser(String jsonStr, HttpServletRequest request,String account) throws Exception{
         ObjectMapper om = new ObjectMapper();
         List<String> list = null;
         try {
@@ -77,7 +77,7 @@ public class freezeController {
         }catch (Exception e){e.printStackTrace();}
         StringBuffer userNameStr = new StringBuffer();
         for (String user:list) {
-            userNameStr.append(user+",");
+            userNameStr.append(user +",");
         }
         PreserveMessageDTO predto = new PreserveMessageDTO();
         predto.setUserNameStr(userNameStr+"");
@@ -90,6 +90,8 @@ public class freezeController {
         predto.setAuditOpinion(account);
         //放入mq
         ActiveMQQueue queue=new ActiveMQQueue("frozenOrUnfrozenAccountsMessageMQ");
-        jmsMessagingTemplate.convertAndSend(queue,predto);
+        ObjectMapper om1 = new ObjectMapper();
+        String predtoStr = om1.writeValueAsString(predto);
+        jmsMessagingTemplate.convertAndSend(queue,predtoStr);
     }
 }
