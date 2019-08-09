@@ -33,8 +33,8 @@ public class OrderForGoodsEntity {
     @Column(name="goods_unit",length = 48)
     private String goodsUnit;
     //商品状态  0就是正常,1就是退货中,2就是已退货
-    @Column(name="goods_status",length = 48)
-    private String goodsStatus;
+    @Column(name="goods_status")
+    private int goodsStatus;
     //订单对象
     @ManyToOne()
     @JoinColumn(name = "order_num")
@@ -101,11 +101,11 @@ public class OrderForGoodsEntity {
         this.goodsUnit = goodsUnit;
     }
 
-    public String getGoodsStatus() {
+    public int getGoodsStatus() {
         return goodsStatus;
     }
 
-    public void setGoodsStatus(String goodsStatus) {
+    public void setGoodsStatus(int goodsStatus) {
         this.goodsStatus = goodsStatus;
     }
 

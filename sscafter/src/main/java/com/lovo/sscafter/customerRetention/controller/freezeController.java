@@ -23,9 +23,9 @@ import java.util.Map;
 
 @Controller
 public class freezeController {
-    //远程调用的模板
-    @Autowired
-    private RestTemplate restTemplate;
+//    //远程调用的模板
+//    @Autowired
+//    private RestTemplate restTemplate;
 
     @Autowired
     private JmsMessagingTemplate jmsMessagingTemplate;
@@ -41,28 +41,28 @@ public class freezeController {
         if(null == userState ){
             userState = "0";
         }
-        //List<CustomerDTO> list = restTemplate.getForEntity("http://servicename/userList/{userName}/{userState}/{currentPage}/{rows}",List.class).getBody();
-        //----
-        List<CustomerDTO> list = new ArrayList<>();
-        for (int i =0;i<10;i++){
-            CustomerDTO customerDTO = new CustomerDTO();
-            customerDTO.setUserId("asdasd"+i);
-            customerDTO.setUserName("lw"+i);
-            customerDTO.setPassword("123456"+i);
-            customerDTO.setTrueName("廖文"+i);
-            customerDTO.setSex("男");
-            customerDTO.setTelephone("15184483910");
-            customerDTO.setUserState("正常");
-
-            list.add(customerDTO);
-        }
+        List<CustomerDTO> list = restTemplate.getForEntity("http://servicename/userList/{userName}/{userState}/{currentPage}/{rows}",List.class).getBody();
+//        //----
+//        List<CustomerDTO> list = new ArrayList<>();
+//        for (int i =0;i<10;i++){
+//            CustomerDTO customerDTO = new CustomerDTO();
+//            customerDTO.setUserId("asdasd"+i);
+//            customerDTO.setUserName("lw"+i);
+//            customerDTO.setPassword("123456"+i);
+//            customerDTO.setTrueName("廖文"+i);
+//            customerDTO.setSex("男");
+//            customerDTO.setTelephone("15184483910");
+//            customerDTO.setUserState("正常");
+//
+//            list.add(customerDTO);
+//        }
         //----
         Map map = new HashMap();
         map.put("rows",list);
         map.put("page",page);
         //假设总行数为 远程调用
-        //int userRows = restTemplate.getForEntity("http://servicename/userRows/{userName}/{userState}",Integer.class).getBody();
-        map.put("total",10);
+        int userRows = restTemplate.getForEntity("http://servicename/userRows/{userName}/{userState}",Integer.class).getBody();
+        map.put("total",userRows);
         return map;
     }
 

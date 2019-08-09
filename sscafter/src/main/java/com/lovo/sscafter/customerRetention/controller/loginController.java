@@ -20,7 +20,7 @@ public class loginController {
 
     public static String userName="";
     //注册方法
-    @RequestMapping("/addregister/{username}/{password}/{realUsername}")
+    @RequestMapping("addregister/{username}/{password}/{realUsername}")
     public void register(@PathVariable("username")String username,
                          @PathVariable("password")String password,@PathVariable("realUsername")String realUsername){
         UserEntity userEntity = new UserEntity();
@@ -31,6 +31,7 @@ public class loginController {
     }
 
     //登录方法
+
     @RequestMapping("addlogin/{username}/{password}")
     @ResponseBody
     public String login(@PathVariable("username")String username,
@@ -44,5 +45,14 @@ public class loginController {
         }
         return "{'info':'false'}";
     }
+    @RequestMapping("registerFindUser")
+    @ResponseBody
+    public String findUser(String userName){
 
+        UserEntity userEntity = userService.findByUser(userName);
+        if(null != userEntity){
+            return "false";
+        }
+        return "true";
+    }
 }
