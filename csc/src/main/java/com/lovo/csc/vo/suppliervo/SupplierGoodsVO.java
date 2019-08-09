@@ -1,23 +1,23 @@
 package com.lovo.csc.vo.suppliervo;
 
 public class SupplierGoodsVO {
-    private String supplierGoods;
+    private String codeId;
     private String supplierStatus;
 
-    public SupplierGoodsVO(String supplierGoods, String supplierStatus) {
-        this.supplierGoods = supplierGoods;
+    public SupplierGoodsVO(String codeId, String supplierStatus) {
+        this.codeId = codeId;
         this.supplierStatus = supplierStatus;
     }
 
     public SupplierGoodsVO() {
     }
 
-    public String getSupplierGoods() {
-        return supplierGoods;
+    public String getCodeId() {
+        return codeId;
     }
 
-    public void setSupplierGoods(String supplierGoods) {
-        this.supplierGoods = supplierGoods;
+    public void setCodeId(String codeId) {
+        this.codeId = codeId;
     }
 
     public String getSupplierStatus() {

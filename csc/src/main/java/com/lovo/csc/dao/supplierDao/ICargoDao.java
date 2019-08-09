@@ -1,11 +1,18 @@
 package com.lovo.csc.dao.supplierDao;
 
 import com.lovo.csc.entity.CargoEntity;
-import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.CrudRepository;
 
-public interface ICargoDao extends JpaRepository<CargoEntity,String> {
+import java.util.List;
 
-    //添加
-    //根据cargoId查询该对象
-    //
+public interface ICargoDao extends CrudRepository<CargoEntity,String> {
+    /**
+     * 保存修改
+     * @param cargo 供货订单中间表
+     */
+    public CargoEntity save(CargoEntity cargo);
+
+    public List<CargoEntity> findBySupplyId(String supplyId);
+    public CargoEntity findByCargoId(String cargoId);
 }

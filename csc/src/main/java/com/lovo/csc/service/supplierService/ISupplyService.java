@@ -9,7 +9,7 @@ public interface ISupplyService {
      * 保存修改
      * @param supply 供货订单中间表
      */
-    public void save(SupplyEntity supply);
+    public SupplyEntity save(SupplyEntity supply);
     /**
      *根据供货订单中间ID供货订单中间表
      * @return
