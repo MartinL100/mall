@@ -30,4 +30,21 @@ public interface IGoodsStockService {
 
     public void updateGoodsTag1ById(String id);
 
+    /**
+     * 到货时更改库存
+     * @param num
+     * @param name
+     * @param type
+     * @param norms
+     */
+    public void updateGoodsNumByNameAndTypeAndnorms(Long num,String name,String type,String norms);
+
+    /**
+     * 更改商品状态为已到货
+     * @param name
+     * @param type
+     * @param norms
+     */
+    public void  updateGoodsTagByNameAndTypeAndnorms(String name,String type,String norms);
+
 }

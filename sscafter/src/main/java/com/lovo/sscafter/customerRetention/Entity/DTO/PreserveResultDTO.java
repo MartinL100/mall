@@ -8,7 +8,7 @@ public class PreserveResultDTO {
     //用户账号状态 1、审核通过，3：已冻结
     private String userState;
     //审核意见
-    private String auditOpinion;
+    private String  auditOpinion;
     //批复时间
     private String auditReplyTime;
 

@@ -18,13 +18,6 @@ public class OrderEntity {
     @OneToMany(mappedBy = "order",fetch = FetchType.LAZY)
     private List<OrderGoodsEntity> orderGoodsEntityList;
 
-    public List<OrderGoodsEntity> getOrderGoodsEntityList() {
-        return orderGoodsEntityList;
-    }
-
-    public void setOrderGoodsEntityList(List<OrderGoodsEntity> orderGoodsEntityList) {
-        this.orderGoodsEntityList = orderGoodsEntityList;
-    }
 
     public String getOrderId() {
         return orderId;
