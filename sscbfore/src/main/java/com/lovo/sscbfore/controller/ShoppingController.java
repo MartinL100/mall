@@ -22,35 +22,34 @@ public class ShoppingController {
         String info2="{\"code\":0,\"msg\":\"\",\"count\":1000,\"data\":[";
         for (Map<String,GoodssDTO> m:map2.values()){
             for (GoodssDTO g:m.values()) {
-                info2+="{\"goodsName\":\""+g.getGoodsName()+"\",\"goodsNum\":\""+g.getGoodsNum()+"\",\"goodsPrice\":\""+g.getGoodsPrice()+"\",\"goodsDiscount\":\""+g.getGoodsType()+"\"}" ;
+                info2+="{\"goodsName\":\""+g.getGoodsName()+"\",\"goodsNum\":\""+g.getGoodsNum()+"\",\"goodsPrice\":\""+g.getGoodsPrice()+"\",\"goodsDiscount\":\""+g.getGoodsType()+"\"}," ;
             }
         }
-        info2.substring(info2.length()-1);
-        info2+="]}";
-
-        System.out.printf(info2);
-        String info="{\"code\":0,\"msg\":\"\",\"count\":1000,\"data\":" +
-                "[{\"goodsName\":\"Ak47-A\",\"goodsNum\":\"100支\",\"goodsPrice\":\"1000元/支\",\"goodsDiscount\":\"已退货\"}," +
-                "{\"goodsName\":\"Ak47\",\"goodsNum\":" + "\"100支\",\"goodsPrice\":\"1000元/支\",\"goodsDiscount\":\"正常\"}," +
-                "{\"goodsName\":\"火麒麟\",\"goodsNum\":\"100支\",\"goodsPrice\":" + "\"1000元/支\",\"goodsDiscount\":\"正常\"}," +
-                "{\"goodsName\":\"激光\",\"goodsNum\":" + "\"100支\",\"goodsPrice\":\"8888元/支\",\"goodsDiscount\":\"退货中\"}," +
-                "{\"goodsName\":\"毁灭\",\"goodsNum\":\"100支\",\"goodsPrice\":\"8880元/支\",\"goodsDiscount\":\"正常\"}]}";
-        return info2;
+        String str1 = info2.substring(0, info2.length()-1);
+        System.out.print(str1);
+        str1+="]}";
+        System.out.printf(str1);
+      return str1;
     }
     //加入Map集合
     @RequestMapping("shoppingJion")
     public void joinMap(GoodssDTO dto){
-        System.out.printf(dto.getGoodsName());
-        Map<String,GoodssDTO> mapMin = new HashMap<String,GoodssDTO>();
-        mapMin.put(dto.getGoodsName(),dto);
-        System.out.printf(mapMin.size()+"");
-        map2.put("集合1",mapMin);
-        System.out.printf(""+map2.get("集合1").size());
-        //集合1应该是Seeion里的用户名
+        System.out.printf(""+map2.size()+"*/*");
+        if (map2.size()==0) {
+            System.out.printf(dto.getGoodsName());
+            Map<String, GoodssDTO> mapMin = new HashMap<String, GoodssDTO>();
+            mapMin.put(dto.getGoodsName(), dto);
+            System.out.printf(mapMin.size() + "");
+            map2.put("集合1", mapMin);
+            System.out.printf("啦啦"+map2.get("集合1").size()+"啦啦啦");
+            //集合1应该是Seeion里的用户名
 //        spring mvc中session获取
 //        HttpSession session= ((ServletRequestAttributes)RequestContextHolder.getRequestAttributes()).getRequest().getSession();
 //        String openId = (String) session.getAttribute("openId");
-
+        }else {
+            map2.get("集合1").put(dto.getGoodsName(),dto);
+            System.out.printf("啦啦"+map2.get("集合1").size()+"啦啦啦");
+        }
 
     }
 
@@ -60,13 +59,15 @@ public class ShoppingController {
         System.out.printf(goodsName+"/////"+goodNum+"@1");
       //  从MAP中获取到要修改的对象
         System.out.printf(map2.get("集合1").get(goodsName).getGoodsId()+"@2");
+        //找到要修改的对象赋值给goodssDTO
         GoodssDTO goodssDTO=map2.get("集合1").get(goodsName);
-        //进行重新赋值修改
         System.out.printf(goodssDTO.getGoodsNum()+"@3");
-
+        //进行重新赋值修改
         goodssDTO.setGoodsNum(Long.parseLong(goodNum));
-
-        map2.get("集合1").put(goodssDTO.getGoodsId(),goodssDTO);
+        //删除MAP里的对象
+        map2.get("集合1").remove(goodsName);
+        //重新把修改过的对象加入到MAP中
+        map2.get("集合1").put(goodssDTO.getGoodsName(),goodssDTO);
         System.out.printf(map2.get("集合1").get(goodsName).getGoodsNum()+"");
 
     }
@@ -83,11 +84,14 @@ public class ShoppingController {
 //修改选中状态  ??????重写一个公共实体类
 @RequestMapping("setingChoose")
     public void setingChoose(String goodsName){
+    System.out.printf(""+goodsName);
     //  从MAP中获取到要修改的对象
     GoodssDTO goodssDTO=map2.get("集合1").get(goodsName);
     //进行重新赋值修改
     goodssDTO.setChoose(1);
-    //放进MApmin中z
+    //删除MAP里的对象
+    map2.get("集合1").remove(goodsName);
+    //放进MAp中z
     map2.get("集合1").put(goodssDTO.getGoodsId(),goodssDTO);
     System.out.printf(map2.get("集合1").get(goodsName).getChoose()+"");
 
