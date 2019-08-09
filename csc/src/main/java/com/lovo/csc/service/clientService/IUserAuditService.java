@@ -88,13 +88,7 @@ public interface IUserAuditService {
     public SysFrozenOrUnfrozenAccountsEntity findSysFrozenOrUnfrozenAccountsEntityById(String id);
 
 
-    //得到冻结与解冻初始化数据
-    //用户审核页面初始化数据
-    public List<SysFrozenOrUnfrozenAccountsEntity> frozenOrUnfrozenAccountsPageInitList(int page,int rows);
 
-    //用户审核页面初始化数据总数
-    public long getFrozenOrUnfrozenAccountsPageInitCount();
-    //得到解冻与解冻初始化数据总数
 
     //循环更新用户状态
     public String CycleUpdateUserAuditInformation(SysFrozenOrUnfrozenAccountsEntity obj,String auditPerson);

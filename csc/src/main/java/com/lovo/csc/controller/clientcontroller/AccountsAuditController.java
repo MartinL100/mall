@@ -1,16 +1,10 @@
 package com.lovo.csc.controller.clientcontroller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.lovo.csc.dao.clientdao.IUserAuditNormalDao;
-import com.lovo.csc.entity.AuditEntity;
 import com.lovo.csc.entity.SysFrozenOrUnfrozenAccountsEntity;
-import com.lovo.csc.entity.SysUserAuditInformationEntity;
 import com.lovo.csc.service.clientService.IUserAuditService;
-import com.lovo.csc.util.MyStringUtil;
-import com.lovo.csc.util.WebSocketServer;
 import com.lovo.csc.util.WebSocketServerTwo;
 import com.lovo.csc.vo.clientvo.PreserveMessageVo;
-import com.lovo.csc.vo.clientvo.ResgisterMessageVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.jms.annotation.JmsListener;
@@ -21,24 +15,21 @@ import org.springframework.web.bind.annotation.RestController;
 import javax.jms.JMSException;
 import javax.jms.TextMessage;
 import javax.servlet.http.HttpServletRequest;
-import java.awt.print.Pageable;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.concurrent.BlockingQueue;
-import java.util.concurrent.LinkedBlockingQueue;
+
 
 
 @RestController
-public class AccountsController {
+public class AccountsAuditController {
     @Autowired
     private JmsMessagingTemplate jmsMessagingTemplate;
-    private static int initNum=1;
     @Autowired
     private IUserAuditService userAuditService;
-    @Autowired
-    private WebSocketServer webSocketServer;
+    private static int initNum=1;
+
 
 
     //分页
@@ -47,15 +38,11 @@ public class AccountsController {
         Map<String, Object> map = new HashMap<>();
         List<SysFrozenOrUnfrozenAccountsEntity> list=null;
         long total=0;
-        if (null!=tag&&"".equals(tag)){
-           list= userAuditService.frozenOrUnfrozenAccountsPageInitList(page-1,rows);
-           total= userAuditService.getFrozenOrUnfrozenAccountsPageInitCount();
-        }
-        else{
-            PageRequest pageable= PageRequest.of(page-1,rows);
+
+            PageRequest pageable= PageRequest.of((page-1)*rows,rows);
             list =userAuditService.DynamicQuerySysFrozenOrUnfrozenAccountsEntity(auditState,auditType,startTime,endTime,pageable);
             total=userAuditService.DynamicQuerySysFrozenOrUnfrozenAccountsEntityCount(auditState,auditType,startTime,endTime);
-        }
+
         map.put("rows", list);
         map.put("page", page);
         map.put("total", total);
@@ -65,7 +52,7 @@ public class AccountsController {
 
     //保存
     @JmsListener(destination = "frozenOrUnfrozenAccountsMessageMQ ")
-    @RequestMapping("saveFrozenOrUnfrozenAccountsEntity.lovo")
+   // @RequestMapping("saveFrozenOrUnfrozenAccountsEntity.lovo")
     public String savaSysFrozenOrUnfrozenAccountsEntity(String message) {
         if (null==message||"".equals(message)){
             return "无新的请求";
@@ -90,14 +77,14 @@ public class AccountsController {
 
     //修改
     @RequestMapping("updateFrozenOrUnfrozenAccountsEntity.lovo")
-    public String updateFrozenOrUnfrozenAccountsEntity(String id, HttpServletRequest request){
+    public String updateFrozenOrUnfrozenAccountsEntity(String frozenOrUnfrozenAccountsMessageId,SysFrozenOrUnfrozenAccountsEntity infoBean, HttpServletRequest request){
+       // System.out.println((infoBean.getFrozenOrUnfrozenAccountsMessageId()));
         SysFrozenOrUnfrozenAccountsEntity info=
-                userAuditService.findSysFrozenOrUnfrozenAccountsEntityById(id);
-             // AuditEntity auditEntity= (AuditEntity) request.getSession()
-        // .getAttribute("auditObj");
+                userAuditService.findSysFrozenOrUnfrozenAccountsEntityById(frozenOrUnfrozenAccountsMessageId);
+             // AuditEntity auditEntity= (AuditEntity) request.getSession().getAttribute("auditObj");
              //String re=  userAuditService.
         // CycleUpdateUserAuditInformation(info,auditEntity.getAuditPeople());
-        String re=  userAuditService.CycleUpdateUserAuditInformation(info,"光");
+        String re=  userAuditService.CycleUpdateUserAuditInformation(infoBean,"光");
         // String Id= userAuditService.savaFrozenOrUnfrozenAccountsEntity(frozenOrUnfrozenAccountsEntity);
         if (null!=re&&"操作成功".equals(re)){
             return "{'successMsg':'操作成功'}";
@@ -155,6 +142,7 @@ public class AccountsController {
         frozenOrUnfrozenAccountsEntity.setAuditType(vo.getAuditType());
         frozenOrUnfrozenAccountsEntity.setAuditOpinion(vo.getAuditOpinion());
         frozenOrUnfrozenAccountsEntity.setUserNameStr(vo.getUserNameStr());
+        frozenOrUnfrozenAccountsEntity.setAuditTime(vo.getAuditTime());
         userAuditService.savaFrozenOrUnfrozenAccountsEntity(frozenOrUnfrozenAccountsEntity);
     }
 

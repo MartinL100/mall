@@ -56,10 +56,10 @@ public class UserAuditController {
         List<SysUserAuditInformationEntity> list = null;
         long total = 0;
         if (null != tag && "init".equals(tag)) {
-            list = userAuditService.PageInitList(page-1, rows);
+            list = userAuditService.PageInitList((page-1)*rows, rows);
             total = userAuditService.getPageInitCount();
         } else {
-            PageRequest pageable = PageRequest.of(page-1, rows);
+            PageRequest pageable = PageRequest.of((page-1)*rows, rows);
             list = userAuditService.DynamicQueryAuditInformation(userState, startTime, endTime, pageable);
             total = userAuditService.DynamicQueryAuditInformationCount(userState, startTime, endTime);
         }
@@ -105,7 +105,7 @@ public class UserAuditController {
     //监听MQ 如果有新数据则保存到数据库中
     //并实现服务器主推
     @JmsListener(destination = "accountsRegistrationAuditMessageMQ")
-    //@RequestMapping("saveUserAuditMessage.lovo")
+    @RequestMapping("saveUserAuditMessage.lovo")
     public String savaUserAuditMessage(String message){
         ResgisterMessageVo vo = null;
         try {
@@ -235,6 +235,7 @@ public class UserAuditController {
     //将vo转成审核信息实体并保存
     public void ToAuditInformation( ResgisterMessageVo vo){
         SysUserAuditInformationEntity AuditInformation= new SysUserAuditInformationEntity();
+        userAuditService.findSysUserAuditInformationEntityByName(vo.getUserName());
         AuditInformation.setUserName(vo.getUserName());
         AuditInformation.setTrueName(vo.getTrueName());
         AuditInformation.setTelphone(vo.getTelphone());
