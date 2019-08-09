@@ -30,7 +30,7 @@
 //String userName="zhaoyun";
 ////根据下单日期,订单类型,用户名模糊查询
 //    @RequestMapping("orderDel")
-//    public List<OrderManagementDTO> orderFindByDateAndTypeAndName(String orderDate, String orderType,int page ,int limit, String userName)throws JsonProcessingException {
+//    public List<OrderManagementDTO> orderFindByDateAndTypeAndName(String orderDate, String orderType,int pageTwo ,int limit, String userName)throws JsonProcessingException {
 //        //远程调用接口
 //        List<OrderManagementDTO> order= restTemplate.getForEntity("http://sscAfter/findOrderInfo/"+orderDate+"/"+orderType+"/"+currentPage+"/"+rows+"/"+userName+"/",List.class).getBody();
 //        return order;
@@ -44,7 +44,7 @@
 //    }
 ////根据订单号查询商品的集合 进行分页
 //    @RequestMapping("orderNum")
-//    public List<OrderForGoodsDTO> orderFindByOrderNum(String orderNum,int page ,int limit){
+//    public List<OrderForGoodsDTO> orderFindByOrderNum(String orderNum,int pageTwo ,int limit){
 //
 //      List<OrderForGoodsDTO> goosDto=  restTemplate.getForEntity("http://sscAfter/findGoodsRows/"+orderNum+"/"+currentPage+"/"+rows+"/",List.class).getBody();
 //        return goosDto;

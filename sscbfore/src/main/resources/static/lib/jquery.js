@@ -311,7 +311,7 @@
 
     jQuery.extend( {
 
-        // Unique for each copy of jQuery on the page
+        // Unique for each copy of jQuery on the pageTwo
         expando: "jQuery" + ( version + Math.random() ).replace( /\D/g, "" ),
 
         // Assume jQuery is ready without the ready module
@@ -1297,7 +1297,7 @@
 
                         // Support: Safari 8+, iOS 8+
                         // https://bugs.webkit.org/show_bug.cgi?id=136851
-                        // In-page `selector#id sibling-combinator selector` fails
+                        // In-pageTwo `selector#id sibling-combinator selector` fails
                         if ( !el.querySelectorAll( "a#" + expando + "+*" ).length ) {
                             rbuggyQSA.push(".#.+[+~]");
                         }
@@ -5039,7 +5039,7 @@
                 eventHandle = elemData.handle = function( e ) {
 
                     // Discard the second event of a jQuery.event.trigger() and
-                    // when an event is called after a page has unloaded
+                    // when an event is called after a pageTwo has unloaded
                     return typeof jQuery !== "undefined" && jQuery.event.triggered !== e.type ?
                         jQuery.event.dispatch.apply( elem, arguments ) : undefined;
                 };
@@ -10083,7 +10083,7 @@
 
 
     /**
-     * Load a url into a page
+     * Load a url into a pageTwo
      */
     jQuery.fn.load = function( url, params, callback ) {
         var selector, type, response,

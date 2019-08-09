@@ -99,7 +99,7 @@ public class GoodsCountController {
         }
         Map<String,Object> map=new HashMap<>();
         map.put("rows",dtoList);
-        map.put("page",page);
+        map.put("pageTwo",page);
         map.put("total",dtoList.size());
         return map;
 
@@ -123,7 +123,7 @@ public class GoodsCountController {
          }
         }
         map.put("rows",orderList);
-        map.put("page",page);
+        map.put("pageTwo",page);
         long total=orderService.count(userName,orderNum,startTime,endTime);
         map.put("total",total);
         return map;
@@ -138,7 +138,7 @@ public class GoodsCountController {
              ) {o.setOrderGoods(null);
         }
         map.put("rows",tagOrderList);
-        map.put("page",page);
+        map.put("pageTwo",page);
         long total=orderService.count(tag);
         map.put("total",total);
         return map;

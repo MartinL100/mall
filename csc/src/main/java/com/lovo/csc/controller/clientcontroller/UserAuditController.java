@@ -52,7 +52,7 @@ public class UserAuditController {
     @RequestMapping("registerAuditPage.lovo")
     public Map<String, Object> page(String tag, int page, int rows, String userState, String startTime, String endTime) {
         Map<String, Object> map = new HashMap<>();
-        // List<SysStudent> list= service.getPageListStudent(page,rows,studentId);
+        // List<SysStudent> list= service.getPageListStudent(pageTwo,rows,studentId);
         List<SysUserAuditInformationEntity> list = null;
         long total = 0;
         if (null != tag && "init".equals(tag)) {
@@ -64,7 +64,7 @@ public class UserAuditController {
             total = userAuditService.DynamicQueryAuditInformationCount(userState, startTime, endTime);
         }
         map.put("rows", list);
-        map.put("page", page);
+        map.put("pageTwo", page);
         map.put("total", total);
         return map;
     }
