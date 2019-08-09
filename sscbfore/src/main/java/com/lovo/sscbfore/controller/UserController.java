@@ -156,6 +156,7 @@ public class UserController {
         }
        return list1;
     }
+
     @RequestMapping("userRows/{userName}/{userState}")
     public int userRows(@PathVariable("userName")String userName,@PathVariable("userState")String userState){
         int i=serService.userRows(userName,userState);

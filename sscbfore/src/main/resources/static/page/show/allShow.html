@@ -104,7 +104,7 @@
     }).use(['index']);
 
 
-var countGoods=0;
+    var countGoods=0;
 
     $(document).ready(function () {
         //初始化下拉框
@@ -133,7 +133,7 @@ var countGoods=0;
                     var page = obj.curr;
                     var goodsType = $("#selectId").val();
                     var goodsName = $("#goodsName").val();
-                    $.post("/findGoodsPreSell",{"goodsType":goodsType,"goodsName":goodsName,"page":page,"limit":limit},function (r) {
+                    $.post("/findGoodsAll",{"goodsType":goodsType,"goodsName":goodsName,"page":page,"limit":limit},function (r) {
                         initGoodsList(r)
                     })
                 }
@@ -204,7 +204,7 @@ var countGoods=0;
                     '                            <div class="layui-input-block">\n' +
                     '                                <input type="text" name="goodsNum" value="" placeholder="请输入购买数量" autocomplete="off" class="layui-input" >\n' +
                     '                            </div>\n' +
-                        '    <div class="layui-form-item" style="margin-top: 1%">\n' +
+                    '    <div class="layui-form-item" style="margin-top: 1%">\n' +
                     '                            <div class="layui-input-block">\n' +
                     '                                <button class="layui-btn" lay-submit lay-filter="buy">直接购买</button>\n' +
                     '                                <button class="layui-btn"  lay-submit lay-filter="addToCar">加入购物车</button>\n' +
@@ -240,7 +240,7 @@ var countGoods=0;
         var goodsType = $("#selectId").val();
         var goodsName = $("#goodsName").val();
 
-        $.post("/findGoodsPreSell",{"goodsType":goodsType,"goodsName":goodsName,"page":"","limit":""},function (r) {
+        $.post("/findGoodsAll",{"goodsType":goodsType,"goodsName":goodsName,"page":"","limit":""},function (r) {
             initGoodsList(r)
         })
 
@@ -248,7 +248,7 @@ var countGoods=0;
 
 
 
-//根据返回结果初始化展示列表
+    //根据返回结果初始化展示列表
     function initGoodsList(r) {
         var goodsObj = eval("("+r+")");
         // countGoods=goodsObj.total;
@@ -286,7 +286,7 @@ var countGoods=0;
         $("#showGoods").html(htmlStr)
         countGoods = goodsObj.total;
     }
-//按钮事件
+    //按钮事件
     $("#cuxiaobt").click(function () {
         window.location.href ="../show/cuxiaoShow.html";
     })
