@@ -13,4 +13,10 @@ public interface IReturnOrderService {
      */
     public void savaReturnOrder(ReturnOrderEntity orderEntity);
 
+    /**
+     * 添加退货订单
+     * @param orderEntity
+     */
+    public void sava(ReturnOrderEntity orderEntity);
+
 }
