@@ -20,12 +20,12 @@ public class CargoEntity {
     //供货订单货物ID
     @Column(length = 48)
     private String supplyId;
+    //
+    private String cargoStatus;
     // 报价  数据库转decimal类型
     @Column()
     private BigDecimal supplyPrice;
-    //供应商供货状态
-    @Column(length = 48)
-    private String cargoStatus;
+
     //投标审核人
     @Column(length = 48)
     private String tenderPeople;
