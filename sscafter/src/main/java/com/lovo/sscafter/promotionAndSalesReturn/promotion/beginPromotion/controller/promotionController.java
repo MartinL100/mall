@@ -35,11 +35,11 @@ public class promotionController {
     @Autowired
     private IGoodsTypeService goodsTypeService;
 
-    //调用mq的模板
+    //调用atvicmq的模板
     @Autowired
     private JmsMessagingTemplate jmsMessagingTemplate;
 
-
+    //初始化页面
     @RequestMapping("/findAll")
     @ResponseBody//只返回数据
     public Map<String,Object> findAll(String goodsName, String goodsType, int page, int rows){
@@ -99,7 +99,7 @@ public class promotionController {
 
 
 
-    //接收请求转发传入的数据
+    //接收session中的数据
     @RequestMapping("/promotionAll")
     @ResponseBody
     public Map<String,Object> promotionAll(int page, int rows,HttpServletRequest request,HttpServletResponse response){
@@ -138,13 +138,18 @@ public class promotionController {
             e.printStackTrace();
         }
 
+        //将促销状态改为审核中
+        for (String f:list) {
+            service.updateGoodspromotionState(f,"审核中");
+        }
+
         //根据id集合查询对象
         List<GoodsEntity> goodsList= service.findByGoodsId(list);
        Map<String,Object> map=new HashMap<>();
        map.put("goodsList",goodsList);
        map.put("goodsDiscount",discount);
 //        map.put("userName",userName);
-        //创建队列并取名
+        //创建消息队列并取名
         ActiveMQQueue queue=new ActiveMQQueue("CuXiaoMQ");
         //将map转换为字符串
       String json=  mapper.writeValueAsString(map);
@@ -161,7 +166,7 @@ public class promotionController {
     @JmsListener(destination = "CuXiaoResultMQ")
     public String getCuXiaoMQ(String resultMq) throws IOException {
 
-    //将监听到的消息转换为map
+   // 将监听到的消息转换为map
     ObjectMapper mapper=new ObjectMapper();
     Map<String,Object> map= mapper.readValue(resultMq,Map.class);
        String goodsId= (String)map.get("goodId");
@@ -181,5 +186,10 @@ public class promotionController {
         return info;
     }
 
+    @RequestMapping("/ffff")
+    @ResponseBody
+    public String fndsss(){
 
+        return "yes";
+    }
 }

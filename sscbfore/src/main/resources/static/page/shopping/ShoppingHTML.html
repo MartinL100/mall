@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>购物车</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=0">
+    <link rel="stylesheet" href="../../layuiadmin/layui/css/layui.css" media="all">
+    <link rel="stylesheet" href="../../layuiadmin/style/admin.css" media="all">
+    <script type="text/javascript" src="../../lib/jquery.js"></script>
+</head>
+<body class="layui-layout-body">
+        <div class="layui-layout layui-layout-admin">
+            <div class="layui-header" style="background-color: #ffffff">
+                <!-- 头部区域 -->
+                <ul class="layui-nav layui-layout-left" style="background-color: #ffffff">
+                    <li class="layui-nav-item layui-hide-xs" lay-unselect >
+                        <input type="text" placeholder="搜索..." autocomplete="off" class="layui-input layui-input-search" id="textId" style="border:none ">
+                    </li>
+                    <!--下拉框-->
+                    <li class="layui-nav-item layui-hide-xs" lay-unselect >
+                        <select id="opId" class="layui-input layui-input-search"style="width: 200px;height: 45px;border:none ">
+                            <option value="">请选择一个城市</option>
+                            <option value="010">北京</option>
+                            <option value="021">上海</option>
+                            <option value="0571">杭州</option>
+                        </select>
+                    </li>
+
+                    <!--查询按键-->
+                    <li class="layui-nav-item layui-hide-xs" lay-unselect>
+                        <a onclick="findGoods()" layadmin-event="note"title="查询">
+                            <i class="layui-icon layui-icon-search"></i>
+                        </a>
+                    </li>
+                </ul>
+
+                <!--购物车和用户按钮-->
+                <ul class="layui-nav layui-layout-right" lay-filter="layadmin-layout-right" style="background-color: #ffffff">
+                    <li class="layui-nav-item layui-hide-xs" lay-unselect>
+                        <a href="javascript:;" layadmin-event="theme"title="用户">
+                            <i class="layui-icon layui-icon-user" style="border: black"></i>
+                        </a>
+                    </li>
+                    <li class="layui-nav-item layui-hide-xs" lay-unselect>
+                        <a href="javascript:;" layadmin-event="note"title="购物车">
+                            <i class="layui-icon layui-icon-cart"></i>
+                        </a>
+                    </li>
+                    <li class="layui-nav-item layui-hide-xs" lay-unselect>
+                        <a href="javascript:;" layadmin-event="fullscreen">
+                            <i class="layui-icon layui-icon-screen-full"></i>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+          <!-- 主体内容-->
+            <div  style="width: 100%;height:100%">
+                <div class="layui-col-md12" style="width: 100%;height:100%">
+                    <div class="layui-card" style="position:absolute;width: 100%;height:100%;left: 40%; margin: 60px 0 0 -600px;
+">
+                        <div class="layui-card-header"><h1>购物车信息</h1></div>
+                        <div class="layui-card-body" style="position:absolute;width: 100%;height:100%;" >
+                            <table class="layui-hide" id="test"  lay-filter="test1" ></table>
+                            <div style="margin-left: 500px;display: none" id="divID" >
+                                <span style="color: red">请输入要修改的商品数量:</span><br>
+                                <input type="text" id="spid">
+                                <button id="Bid" class="layui-btn layui-btn-xs">确定</button>
+                                <button id="BBid" class="layui-btn layui-btn-xs">取消</button>
+                            </div>
+                            <div style="margin-top: 20px;margin-left: 400px" >
+                            <button class="layui-btn">返回主界面</button>
+                            <button class="layui-btn" style="margin-left: 400px" id="buttonId">结算</button>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <script src="../../layuiadmin/layui/layui.js" charset="utf-8"></script>
+            <!----------------------- 工具条 -------------------------->
+            <script type="text/html" id="barDemo">
+                    <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
+                    <a class="layui-btn  layui-btn-xs layui-btn-danger" lay-event="del">删除</a>
+            </script>
+
+        <script >
+            var table;
+            layui.config({
+                base: '../../layuiadmin/' //静态资源所在路径
+            }).extend({
+                index: 'lib/index' //主入口模块
+            }).use(['index', 'table'], function(){
+                table = layui.table;
+
+                table.render({
+                    elem: '#test'
+                    ,url: '/shoppingAll'//数据接口
+                    ,cellMinWidth: 130 //全局定义常规单元格的最小宽度，layui 2.2.1 新增
+                    ,page: true //开启分页
+                    ,even : true
+                    ,cols: [[//表头\
+                         {type:'checkbox', width:211,LAY_CHECKED:true}
+                         ,{field:'goodsName', width:211, title: '商品名', sort: true,align:"center"}
+                        ,{field:'goodsNum', width:211, title: '商品数量',align:"center"}
+                        ,{field:'goodsPrice', width:211, title: '商品价格', sort: true,align:"center"}
+                        ,{field:'goodsDiscount', width:211, title: '商品折扣',align:"center"}
+                        ,{field:'sign', title: '商品现价', width: '211', minWidth: 211,align:"center"} //minWidth：局部定义当前单元格的最小宽度，layui 2.2.1 新增
+                        ,{fixed : 'right',title : '操作',width : 211,align : 'center',toolbar : '#barDemo'}
+                    ]]
+                });
+
+
+
+                //监听工具条
+                table.on('tool(test1)', function(obj) { //注：tool是工具条事件名，test是table原始容器的属性 lay-filter="对应的值"
+                    var data = obj.data; //获得当前行数据
+                    var Name= obj.goodsName;//获得当前数据的商品名
+                    var layEvent = obj.event; //获得 lay-event 对应的值（也可以是表头的 event 参数对应的值）
+                    var tr = obj.tr; //获得当前行 tr 的DOM对象
+
+                    console.log(obj);
+                    alert(layEvent)
+                    alert(data.goodsName)
+                    if (layEvent  === 'edit') {
+
+
+
+                        layui.use('layer', function(){
+                            var layer = layui.layer;
+
+                            layer.msg('hello');
+                        });
+
+
+
+
+
+
+
+                        //弹出弹窗让用户输入修改数量
+                     $("#divID").show();
+                        $("#Bid").click(function () {
+                            $("#divID").hide();
+                            var Num= $("#spid").val();
+                            $("#spid").value="";
+                            alert(Num);
+                            //修改MAP中的数量
+                            $.ajax({
+                                url: "/setingMap",    //换成自己的url
+                                type: "POST",
+                                dataType: "json",
+                                data: {
+                                    goodsName: data.goodsName,
+                                    goodNum:Num
+                                },
+                                success: function (e) {
+                                    if (e.code == 0) {
+                                        layer.msg(e.msg);
+                                    } else {
+                                        layer.msg(e.msg);
+                                    }
+                                },
+                                error: function (e) {
+                                    layer.msg(e);
+                                }
+                            })
+                        });
+                        $("#BBid").click(function () {
+                            $("#divID").hide();
+                            var Num= $("#spid").val();
+                            $("#spid").value="";
+                            alert(Num);
+                        });
+
+                        //引用接口判断输入的数量是否大于最大库存数
+
+
+
+                        //同步更新缓存对应的值
+                        obj.update({
+                            username: '123'
+                            ,title: 'xxx'
+                        });
+                    } else if (layEvent === 'del') {
+                        layer.confirm("确定要删除该条数据吗？",  function(index) {
+                            obj.del();//删除对应行（tr）的DOM结构，并更新缓存
+                            layer.close(index);//向服务端发送删除指令
+                            $.ajax({
+                                url: "/delMap",    //换成自己的url
+                                type: "POST",
+                                dataType: "json",
+                                data: {
+                                    goodsName: data.goodsName
+                                },
+                                success: function (e) {
+                                    if (e.code == 0) {
+                                        layer.msg(e.msg);
+                                    } else {
+                                        layer.msg(e.msg);
+                                    }
+                                },
+                                error: function (e) {
+                                    layer.msg(e);
+                                }
+                            })
+                        })
+                    }
+
+                });
+                $("#buttonId").click(function () {
+                    //获得复选框选中的所有内容
+                    var checkStatus = table.checkStatus('test');
+                    var ids = [];
+                    $(checkStatus.data).each(function (i, o) {//o即为表格中一行的数据
+                        ids.push(o.goodsName);
+                        var goodsName=ids[i];
+                        $.ajax({
+                            url: "/setingChoose",    //换成自己的url
+                            type: "POST",
+                            dataType: "json",
+                            data: {
+                                goodsName: goodsName
+                            },
+                            success: function (e) {
+                                if (e.code == 0) {
+                                    layer.msg(e.msg);
+                                } else {
+                                    layer.msg(e.msg);
+                                }
+                            },
+                            error: function (e) {
+                                layer.msg(e);
+                            }
+                        })
+                    });
+
+
+                })
+
+            });
+
+
+
+        </script>
+</body>
+</html>

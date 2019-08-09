@@ -1,4 +1,5 @@
-package com.lovo.psc.controller;
+package com.lovo.psc.orderGoodsZhou.controller;
+
 
 import com.lovo.common.entity.EntityTest;
 import org.apache.activemq.command.ActiveMQQueue;
@@ -20,6 +21,6 @@ public class TestController {
         ActiveMQQueue queue = new ActiveMQQueue("MqTest");
         jmsMessagingTemplate.convertAndSend(queue,"Hello Mq");
         System.out.println(entityTest.getUserName());
-        return "hello page";
+        return "hello pageTwo";
     }
 }

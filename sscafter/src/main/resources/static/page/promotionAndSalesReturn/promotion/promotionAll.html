@@ -38,7 +38,7 @@
         <th field="goodsPrice" style="width: 10%"  align="right">商品售价</th>
         <th field="goodsNum" style="width: 12%"  align="right">商品数量</th>
         <th field="goodsDiscount" style="width: 12%"  align="right">商品折扣率</th>
-        <th field="promotionState" style="width: 15%"  align="right">是否已经发送促销申请</th>
+        <th field="promotionState" style="width: 15%"  align="right">是否正在促销</th>
     </tr>
     </thead>
 </table>
@@ -71,36 +71,36 @@
 
 
 
-
-        var socket;
-        if(typeof(WebSocket) == "undefined") {
-            alert("您的浏览器不支持WebSocket");
-        }else {
-
-            //实现化WebSocket对象，指定要连接的服务器地址与端口  建立连接
-            socket = new WebSocket("ws://localhost:8002/promotion/getCuXiaoMQ");
-
-            //打开事件
-            socket.onopen = function () {
-                alert("Socket 已打开");
-                socket.send(location.href);
-                // socket.send("这是来自客户端的消息" + location.href + new Date());
-            };
-            //获得消息事件
-            socket.onmessage = function (info) {
-                var r = info.data;//获得socket服务器的信息
-                alert(r);
-            };
-            //关闭事件
-            socket.onclose = function () {
-                alert("Socket已关闭");
-            };
-            //发生了错误事件
-            socket.onerror = function () {
-                alert("Socket发生了错误");
-                //此时可以尝试刷新页面
-            }
-        }
+        //
+        // var socket;
+        // if(typeof(WebSocket) == "undefined") {
+        //     alert("您的浏览器不支持WebSocket");
+        // }else {
+        //
+        //     //实现化WebSocket对象，指定要连接的服务器地址与端口  建立连接
+        //     socket = new WebSocket("ws://localhost:8002/promotion//asdf");
+        //
+        //     //打开事件
+        //     socket.onopen = function () {
+        //         alert("Socket 已打开");
+        //         socket.send(location.href);
+        //         // socket.send("这是来自客户端的消息" + location.href + new Date());
+        //     };
+        //     //获得消息事件
+        //     socket.onmessage = function (info) {
+        //         var r = info.data;//获得socket服务器的信息
+        //         alert(r);
+        //     };
+        //     //关闭事件
+        //     socket.onclose = function () {
+        //         alert("Socket已关闭");
+        //     };
+        //     //发生了错误事件
+        //     socket.onerror = function () {
+        //         alert("Socket发生了错误");
+        //         //此时可以尝试刷新页面
+        //     }
+        // }
 
 
 
@@ -108,14 +108,17 @@
 
 
         //获取后台从mq中得到的数据
-        // $.post("/promotion/getCuXiaoMQ",function (mq) {
-        //     if ("yes"==mq){
-        //         //弹出模态框
-        //     }else {
-        //
-        //     }
-        //
-        // })
+        $.post("/promotion/ffff",function (mq) {
+            if ("yes"==mq){
+                //弹出模态框
+                $.messager.alert('通知窗口', '审核通过！', 'info', function () {
+                });
+            }else {
+                $.messager.alert('通知窗口', '审核不通过！', 'info', function () {
+                });
+            }
+
+        })
 
     });
 

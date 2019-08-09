@@ -46,5 +46,7 @@ public interface IUserService {
      * @param userName 用户名
      * @return 用户集合
      */
-    public List<UserEntity> userList(String userName);
+    public List<UserEntity> userList(String userName,String userState,int currentPage,int rows);
+
+    public int userRows(String userName,String userState);
 }

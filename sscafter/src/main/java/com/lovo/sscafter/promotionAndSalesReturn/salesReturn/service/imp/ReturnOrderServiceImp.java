@@ -19,4 +19,9 @@ public class ReturnOrderServiceImp implements IReturnOrderService {
     public void savaReturnOrder(ReturnOrderEntity orderEntity) {
         dao.save(orderEntity);
     }
+
+    @Override
+    public void sava(ReturnOrderEntity orderEntity) {
+        dao.save(orderEntity);
+    }
 }

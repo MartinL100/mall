@@ -30,6 +30,9 @@ public class SupplierEntity {
     /**供应商地址*/
     private String supplierAddress;
     @Column(length = 48)
+    /**供应商密码*/
+    private String supplierPwd;
+    @Column(length = 48)
     /**供应商类型*/
     private String supplierType;
     @Column(length = 48)
@@ -48,32 +51,9 @@ public class SupplierEntity {
     @OneToMany(mappedBy = "supplier")
     private List<SupplierGoodsEntity> supplierGoodsList;
     @OneToMany(mappedBy = "supplier")
-    private List<SupplyCenterEntity> supplyCenterList;
-    @OneToMany(mappedBy = "supplier")
     private List<BackGoods> backGoodsList;
-
-    public List<BackGoods> getBackGoodsList() {
-        return backGoodsList;
-    }
-    public void setBackGoodsList(List<BackGoods> backGoodsList) {
-        this.backGoodsList = backGoodsList;
-    }
-
-    public List<SupplyCenterEntity> getSupplyCenterList() {
-        return supplyCenterList;
-    }
-
-    public void setSupplyCenterList(List<SupplyCenterEntity> supplyCenterList) {
-        this.supplyCenterList = supplyCenterList;
-    }
-
-    public List<SupplierGoodsEntity> getSupplierGoodsList() {
-        return supplierGoodsList;
-    }
-
-    public void setSupplierGoodsList(List<SupplierGoodsEntity> supplierGoodsList) {
-        this.supplierGoodsList = supplierGoodsList;
-    }
+    @OneToMany(mappedBy = "supplier")
+    private List<IndentEntity> indentEntityList;
 
     public String getSupplierId() {
         return supplierId;
@@ -113,6 +93,14 @@ public class SupplierEntity {
 
     public void setSupplierAddress(String supplierAddress) {
         this.supplierAddress = supplierAddress;
+    }
+
+    public String getSupplierPwd() {
+        return supplierPwd;
+    }
+
+    public void setSupplierPwd(String supplierPwd) {
+        this.supplierPwd = supplierPwd;
     }
 
     public String getSupplierType() {
@@ -155,19 +143,44 @@ public class SupplierEntity {
         this.checkDate = checkDate;
     }
 
-    public SupplierEntity(String supplierName, String supplierPrincipal, String supplierTel, String supplierAddress, String supplierType, String supplierLevel, String supplierTag, String checkName, String checkDate, List<SupplierGoodsEntity> supplierGoodsList, List<SupplyCenterEntity> supplyCenterList, List<BackGoods> backGoodsList) {
+//    public List<SupplierGoodsEntity> getSupplierGoodsList() {
+//        return supplierGoodsList;
+//    }
+//
+//    public void setSupplierGoodsList(List<SupplierGoodsEntity> supplierGoodsList) {
+//        this.supplierGoodsList = supplierGoodsList;
+//    }
+//
+//    public List<BackGoods> getBackGoodsList() {
+//        return backGoodsList;
+//    }
+//
+//    public void setBackGoodsList(List<BackGoods> backGoodsList) {
+//        this.backGoodsList = backGoodsList;
+//    }
+//
+//    public List<IndentEntity> getIndentEntityList() {
+//        return indentEntityList;
+//    }
+//
+//    public void setIndentEntityList(List<IndentEntity> indentEntityList) {
+//        this.indentEntityList = indentEntityList;
+//    }
+
+    public SupplierEntity(String supplierName, String supplierPrincipal, String supplierTel, String supplierAddress, String supplierPwd, String supplierType, String supplierLevel, String supplierTag, String checkName, String checkDate, List<SupplierGoodsEntity> supplierGoodsList, List<BackGoods> backGoodsList, List<IndentEntity> indentEntityList) {
         this.supplierName = supplierName;
         this.supplierPrincipal = supplierPrincipal;
         this.supplierTel = supplierTel;
         this.supplierAddress = supplierAddress;
+        this.supplierPwd = supplierPwd;
         this.supplierType = supplierType;
         this.supplierLevel = supplierLevel;
         this.supplierTag = supplierTag;
         this.checkName = checkName;
         this.checkDate = checkDate;
         this.supplierGoodsList = supplierGoodsList;
-        this.supplyCenterList = supplyCenterList;
         this.backGoodsList = backGoodsList;
+        this.indentEntityList = indentEntityList;
     }
 
     public SupplierEntity() {

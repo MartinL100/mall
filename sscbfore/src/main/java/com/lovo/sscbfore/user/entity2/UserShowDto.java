@@ -1,6 +1,7 @@
 package com.lovo.sscbfore.user.entity2;
 
 public class UserShowDto {
+
     private String userId;
     private String userName;
     private String password;
