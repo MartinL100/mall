@@ -10,7 +10,7 @@ public class SupplierMQ {
 
     @LoadBalanced   //使用负载均衡机制
     @Bean
-    public ActiveMQQueue SHMQ(){
+    public ActiveMQQueue SHHMQ(){
         return new ActiveMQQueue("SHHMQ");
     }
 
