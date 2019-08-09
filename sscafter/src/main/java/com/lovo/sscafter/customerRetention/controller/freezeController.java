@@ -23,9 +23,9 @@ import java.util.Map;
 
 @Controller
 public class freezeController {
-    //远程调用的模板
-    @Autowired
-    private RestTemplate restTemplate;
+//    //远程调用的模板
+//    @Autowired
+//    private RestTemplate restTemplate;
 
     @Autowired
     private JmsMessagingTemplate jmsMessagingTemplate;
