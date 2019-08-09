@@ -2,7 +2,7 @@
 <html lang="zh">
 <head>
     <meta charset="utf-8">
-    <title>添加商品</title>
+    <title>商品上架</title>
     <meta name="renderer" content="webkit">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     <meta name="viewport"
@@ -23,7 +23,7 @@
         <div class="layui-col-md12">
             <div class="layui-card">
                 <div class="layui-card-header" style="text-align: center">
-                    <h1>请选择添加商品</h1>
+                    <h1>请选择上架商品</h1>
                 </div>
                 <div class="layui-card-body">
                     <div class="layui-row layui-col-space3">
@@ -49,9 +49,9 @@
                                     </div>
                                 </div>
                                 <div class="layui-form-item">
-                                    <label class="layui-form-label">商品类型</label>
+                                    <label class="layui-form-label" for="goodsType">商品类型</label>
                                     <div class="layui-input-block">
-                                        <select name="interest" lay-filter="aihao">
+                                        <select id="goodsType" name="interest" lay-filter="aihao">
                                             <option value="0">写作</option>
                                             <option value="1">阅读</option>
                                         </select>
@@ -75,7 +75,7 @@
 
 
 <script type="text/html" id="barDemo">
-    <a class="layui-btn layui-btn-xs" lay-event="add">添加</a>
+    <a class="layui-btn layui-btn-xs" lay-event="add">上架该商品</a>
 </script>
 <script src="../../layuiadmin/layui/layui.js"></script>
 <!--表格-->
@@ -84,9 +84,11 @@
         base: '../../layuiadmin/' //静态资源所在路径
     }).extend({
         index: 'lib/index' //主入口模块
-    }).use(['index', 'table', 'element', 'laytpl', 'layer', 'form'], function () {
+    }).use(['index', 'table', 'element', 'laytpl', 'layer', 'form', 'upload'], function () {
         let table = layui.table;
-        var form = layui.form;
+        let form = layui.form;
+        let layer = layui.layer;
+
         let $ = layui.$, active = {};
 
         form.render(null, 'layui-input-block');
@@ -102,7 +104,12 @@
         table.on('tool(goodsTable)', function (obj) {
             let data = obj.data;
             if (obj.event === 'add') {
-                alert(data.goodsNum);
+                layer.open({
+                    type: 2
+                    , title: '商品上架'
+                    , content: ['/addgoods/jump/' + '1']
+                    , area: ['1200px', '650px']
+                })
             }
         });
 

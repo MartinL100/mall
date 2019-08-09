@@ -10,18 +10,22 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
+import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.view.RedirectView;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 public class OrderDelController {
     @Autowired
     ObjectMapper objectMapper;
-
     @RequestMapping("orderDel")
     public String orderDel(){
-        List<OrderManagementDTO>orderManagementDTOlist=new ArrayList<>();
+
+        List<OrderManagementDTO> orderManagementDTOlist=new ArrayList<>();
         OrderManagementDTO orderDto=new OrderManagementDTO();
         orderDto.setOrderNum("J16820190801");
         orderDto.setOrderType("已完结");
@@ -86,13 +90,13 @@ public class OrderDelController {
     }
 
     @RequestMapping("goodsDel")
-    public String goodsDel(){
+    public String goodsDel(String goodsNum){
         List<OrderForGoodsDTO>orderForGoodsDTOlist=new ArrayList<>();
         OrderForGoodsDTO orderGoodsDto=new OrderForGoodsDTO();
         orderGoodsDto.setGoodsName("AK47-A");
         orderGoodsDto.setGoodsNum(100);
         orderGoodsDto.setGoodsPrice(1000);
-        orderGoodsDto.setGoodsStatus(0);
+        orderGoodsDto.setGoodsStatus("正常");
 
         orderForGoodsDTOlist.add(orderGoodsDto);
 

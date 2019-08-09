@@ -22,7 +22,7 @@ public interface IUserDao extends CrudRepository<UserEntity,String> {
     @Query("update UserEntity set userState=?2 where userName=?1 ")
     public void updateUserState(String userName,String userState);
 
-    @Query("from UserEntity as user where user.userName like %?1%")
+    @Query("from UserEntity as user where user.userName like %?1% and user.userState=null")
     public List<UserEntity> userList(String userName);
 
 }

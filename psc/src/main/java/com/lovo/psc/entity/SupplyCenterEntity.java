@@ -45,10 +45,10 @@ public class SupplyCenterEntity {
     @ManyToOne
     @JoinColumn(name = "indentId")
     private IndentEntity indentEntity;
-    /**供应商对象*/
+    /**供应商商品对象*/
     @ManyToOne
-    @JoinColumn(name = "supplierId")
-    private SupplierEntity supplier;
+    @JoinColumn(name = "codeId")
+    private SupplierGoodsEntity supplierGoodsEntity;
 
     public String getSupplyId() {
         return supplyId;
@@ -138,15 +138,15 @@ public class SupplyCenterEntity {
         this.indentEntity = indentEntity;
     }
 
-    public SupplierEntity getSupplier() {
-        return supplier;
+    public SupplierGoodsEntity getSupplierGoodsEntity() {
+        return supplierGoodsEntity;
     }
 
-    public void setSupplier(SupplierEntity supplier) {
-        this.supplier = supplier;
+    public void setSupplierGoodsEntity(SupplierGoodsEntity supplierGoodsEntity) {
+        this.supplierGoodsEntity = supplierGoodsEntity;
     }
 
-    public SupplyCenterEntity(String goodsName, String goodsNorms, String goodsType, String goodsUnit, Long supplyNum, float supplyPrice, String bjTag, String zbTag, String ghTag, IndentEntity indentEntity, SupplierEntity supplier) {
+    public SupplyCenterEntity(String goodsName, String goodsNorms, String goodsType, String goodsUnit, Long supplyNum, float supplyPrice, String bjTag, String zbTag, String ghTag, IndentEntity indentEntity, SupplierGoodsEntity supplierGoodsEntity) {
         this.goodsName = goodsName;
         this.goodsNorms = goodsNorms;
         this.goodsType = goodsType;
@@ -157,7 +157,7 @@ public class SupplyCenterEntity {
         this.zbTag = zbTag;
         this.ghTag = ghTag;
         this.indentEntity = indentEntity;
-        this.supplier = supplier;
+        this.supplierGoodsEntity = supplierGoodsEntity;
     }
 
     public SupplyCenterEntity() {

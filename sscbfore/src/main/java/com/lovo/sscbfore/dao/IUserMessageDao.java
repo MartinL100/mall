@@ -33,7 +33,6 @@ public interface IUserMessageDao extends PagingAndSortingRepository<UserInfoEnti
     @Query(value = "from UserInfoEntity  as i where i.userInfo = ?1 order by i.messageDate desc")
     List<UserInfoEntity> findByUserNameAndPage(UserEntity userName, @PageableDefault Pageable pageable);
 
-
     /**
      * 查询用户所有消息数量
      *

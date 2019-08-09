@@ -9,9 +9,14 @@ import com.lovo.common.entity.GoodsDTO;
 import com.lovo.common.entity.OrderDTO;
 import com.lovo.sscbfore.entity.OrderReturnMQEntity;
 import com.lovo.sscbfore.entity.ReturnEntity;
+import com.lovo.sscbfore.entity.ReturnFailedMQ;
 import com.lovo.sscbfore.entity.ReturnGoodsEntity;
 import com.lovo.sscbfore.entity.ReturnGoodsVo;
+import com.lovo.sscbfore.entity.ReturnSuccessMQEntity;
 import com.lovo.sscbfore.entity.TableDateEntity;
+import com.lovo.sscbfore.service.IUserMessageService;
+import com.lovo.sscbfore.user.entity2.UserEntity;
+import com.lovo.sscbfore.user.entity2.UserInfoEntity;
 import org.apache.activemq.command.ActiveMQQueue;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jms.annotation.JmsListener;
@@ -42,6 +47,9 @@ public class ReturnGoodsController {
     @Autowired
     private RestTemplate restTemplate;
 
+    @Autowired
+    private IUserMessageService messageService;
+
     /**
      * 根据订单号，查询订单信息
      *
@@ -52,36 +60,36 @@ public class ReturnGoodsController {
     @RequestMapping("returngoods/{userName}/jump/{orderNum}")
     public String jumpGoodsList(@PathVariable("userName") String userName, @PathVariable("orderNum") String orderNum) {
 //        根据订单号查询订单
-//        String orderStr = restTemplate.getForEntity("http://sscAfter/findGoodsInfo/" + orderNum + "/", String.class).getBody();
-//        JSONObject jsonObject = new JSONObject(orderStr);
-//        return jsonObject.toString();
+        String orderStr = restTemplate.getForEntity("http://sscAfter/findGoodsInfo/" + orderNum + "/", String.class).getBody();
+        JSONObject jsonObject = new JSONObject(orderStr);
+        return jsonObject.toString();
 
-        List<GoodsDTO> goodsDTOList = new ArrayList<>();
-
-        for (int i = 0; i < 5; i++) {
-            GoodsDTO goods = new GoodsDTO();
-            goods.setGoodsId(i + "");
-            goods.setGoodsName("水果" + i);
-            goods.setGoodsNorms("个");
-            goods.setGoodsPrice(123123f);
-            goods.setGoodsNum(Long.parseLong(i + ""));
-            goods.setGoodsType("123");
-            goods.setGoodsUnit("123123123");
-            goodsDTOList.add(goods);
-        }
-
-        OrderDTO order = new OrderDTO();
-        order.setAddressId("123123123");
-        order.setOrderNum("1ahsdkj123123");
-        order.setOrderDate(System.currentTimeMillis() + "");
-        order.setUserName("che");
-        order.setOrderMoney(123123f);
-        order.setPayMoney(123123 + "");
-        order.setPayMethod("allipay");
-        order.setGoodsDTOList(goodsDTOList);
-
-        JSON json = JSONUtil.parse(order);
-        return json.toString();
+//        List<GoodsDTO> goodsDTOList = new ArrayList<>();
+//
+//        for (int i = 0; i < 5; i++) {
+//            GoodsDTO goods = new GoodsDTO();
+//            goods.setGoodsId(i + "");
+//            goods.setGoodsName("水果" + i);
+//            goods.setGoodsNorms("个");
+//            goods.setGoodsPrice(123123f);
+//            goods.setGoodsNum(Long.parseLong(i + ""));
+//            goods.setGoodsType("123");
+//            goods.setGoodsUnit("123123123");
+//            goodsDTOList.add(goods);
+//        }
+//
+//        OrderDTO order = new OrderDTO();
+//        order.setAddressId("123123123");
+//        order.setOrderNum("1ahsdkj123123");
+//        order.setOrderDate(System.currentTimeMillis() + "");
+//        order.setUserName("che");
+//        order.setOrderMoney(123123f);
+//        order.setPayMoney(123123 + "");
+//        order.setPayMethod("allipay");
+//        order.setGoodsDTOList(goodsDTOList);
+//
+//        JSON json = JSONUtil.parse(order);
+//        return json.toString();
     }
 
     /**
@@ -107,13 +115,14 @@ public class ReturnGoodsController {
             goodsVoList.add(goodsVo);
         }
 
-        TableDateEntity<ReturnGoodsVo> tableDate = new TableDateEntity<ReturnGoodsVo>();
+        TableDateEntity tableDate = new TableDateEntity<ReturnGoodsVo>();
         tableDate.setCode(0);
         tableDate.setData(goodsVoList);
         tableDate.setCount(20);
         tableDate.setMsg("");
 
         JSON json = JSONUtil.parse(tableDate);
+        System.out.println(json.toString());
         return json.toString();
     }
 
@@ -122,9 +131,8 @@ public class ReturnGoodsController {
         Map<String, String[]> map = request.getParameterMap();
         String dataStr = map.get("data")[0];
 
-        //调试时放开
-//        sendToOrderReturnMQ(dataStr);
-//        sendToGoodsReturnMQ(dataStr);
+        sendToOrderReturnMQ(dataStr);
+        sendToGoodsReturnMQ(dataStr);
         return "{'info': 'Success'}";
     }
 
@@ -177,13 +185,57 @@ public class ReturnGoodsController {
         jmsMessagingTemplate.convertAndSend(queue, JSONUtil.toJsonStr(re));
     }
 
+    /**
+     * 1、生成消息实体类保存到数据库
+     * 2、用订单号远程调用，查询退货单中所有商品信息
+     * 3、以Jason格式发送到（orderReturnMQ）
+     *
+     * @param message 消息本体
+     */
     @JmsListener(destination = "returnSuccessMQ")
     public void getReturnSuccessMessage(String message) {
-        System.out.println(message);
+        JSONObject jsonObject = new JSONObject(message);
+        ReturnSuccessMQEntity successMQEntity = jsonObject.toBean(ReturnSuccessMQEntity.class);
+
+        String messageInfo = successMQEntity.getReturnId() + "在" + successMQEntity.getMessageTime() + "退货成功";
+        UserEntity user = new UserEntity();
+        user.setUserName(successMQEntity.getUserName());
+
+        UserInfoEntity userInfo = new UserInfoEntity();
+        userInfo.setMessageInfo(messageInfo);
+        userInfo.setMessageDate(successMQEntity.getMessageTime());
+        userInfo.setUserInfo(user);
+
+        messageService.addUserMessage(userInfo);
+
+
+        String returnId = successMQEntity.getReturnId();
+        String returnStr = restTemplate.getForEntity("http://sscAfter/findGoodsInfo/" + returnId + "/", String.class).getBody();
+        JSONObject returnJsonObject = new JSONObject(returnStr);
+
+
     }
 
+    /**
+     * 1、生成用户消息保存到用户消息列表
+     *
+     * @param message
+     */
     @JmsListener(destination = "returnFailedMQ")
     public void getReturnFailedMessage(String message) {
+        JSONObject jsonObject = new JSONObject(message);
+        ReturnFailedMQ failedMQ = jsonObject.toBean(ReturnFailedMQ.class);
+
+        String messageInfo = failedMQ.getReturnId() + "退货单在" + failedMQ.getMessageTime() + "退货失败,失败原因:" + failedMQ.getReturnInfo();
+        UserEntity user = new UserEntity();
+        user.setUserName(failedMQ.getUserName());
+
+        UserInfoEntity userInfo = new UserInfoEntity();
+        userInfo.setMessageInfo(messageInfo);
+        userInfo.setMessageDate(failedMQ.getMessageTime());
+        userInfo.setUserInfo(user);
+
+        messageService.addUserMessage(userInfo);
 
     }
 }
