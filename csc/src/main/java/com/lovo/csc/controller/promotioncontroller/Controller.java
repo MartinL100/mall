@@ -60,9 +60,9 @@ public class Controller {
         String auditResult = request.getParameter("auditResult");
         String goodsName = request.getParameter("goodsName");
         String startTime = request.getParameter("startTime");
-        String pagestr = request.getParameter("page");
+        String pagestr = request.getParameter("pageTwo");
         int page=1;
-        if (request.getParameter("page")!=null){
+        if (request.getParameter("pageTwo")!=null){
              page=Integer.parseInt(pagestr);
         }
         if (startTime!=null&&startTime.length()>0){
@@ -88,7 +88,7 @@ public class Controller {
         List<SuperSaleAudit> list = superSaleAuditService.findSuperSaleAudits
                 (startTime, endTime, auditResult, goodsName, firstResult+"", rows+"");
         map.put("rows",list);
-        map.put("page",page);
+        map.put("pageTwo",page);
         long total=lists.size();
         map.put("total",total);
         return  map;

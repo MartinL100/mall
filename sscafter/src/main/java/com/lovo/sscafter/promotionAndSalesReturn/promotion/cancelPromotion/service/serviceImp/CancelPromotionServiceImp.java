@@ -7,12 +7,14 @@ import com.lovo.sscafter.upperAndLowerGoods.entity.GoodsEntity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.List;
 
 /**
  * 取消促销service实现类
  */
 @Service
+@Transactional(rollbackOn = Exception.class)
 public class CancelPromotionServiceImp implements ICancelPromotionService {
 
     @Autowired

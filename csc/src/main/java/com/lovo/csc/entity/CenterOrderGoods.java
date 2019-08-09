@@ -7,7 +7,7 @@ import org.hibernate.annotations.GenericGenerator;
 import javax.persistence.*;
 
 @Entity
-@Table(name="center_order_goods")
+@Table(name="center_order_goods_review")
 @JsonIgnoreProperties(value = { "hibernateLazyInitializer", "handler" })//转化json时忽略实体为空的字段
 public class CenterOrderGoods {
     @Id
@@ -26,6 +26,14 @@ public class CenterOrderGoods {
     private String goodsNum;//订单数量
     @Column(length = 48)
     private String goodsPrice;//商品价格
+
+    public OrderEntity getOrder() {
+        return order;
+    }
+
+    public void setOrder(OrderEntity order) {
+        this.order = order;
+    }
 
     public String getCenterId() {
         return centerId;

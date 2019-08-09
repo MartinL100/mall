@@ -34,7 +34,7 @@ public interface IGoodsManagementDao extends CrudRepository<OrderForGoodsEntity,
      */
     @Query("update OrderForGoodsEntity set goodsStatus = ?3 where goodsId=?2 and orderObj.orderNum = ?1")
     @Modifying
-    public void updateOrderReturn(String orderNum,String goodsId,int goodsStatus);
+    public void updateOrderReturn(String orderNum, String goodsId, int goodsStatus);
 
     /**
      * 根据商品id查询商品利润

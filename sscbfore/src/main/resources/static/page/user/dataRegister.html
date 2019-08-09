@@ -53,10 +53,13 @@
                         "companyName":$("#tid").val()},function (re) {
             if(re=="ok"){
                layer.msg('申请成功，请等待审核', {icon: 6, anim: 6});
-                location.href="userShow.html";
+                setTimeout(" loc()", 2000);
             }
         });
     });
+    function loc(){
+        location.href="userShow.html";
+    }
 
     $("#aaaa").click(function () {
         location.href="userShow.html";

@@ -41,7 +41,7 @@ public class UserMessageController {
     @RequestMapping("/userMessage/{userName}")
     public String getUserMessages(@PathVariable("userName") String userName, HttpServletRequest request) {
 
-        int page = Integer.parseInt(request.getParameter("page"));
+        int page = Integer.parseInt(request.getParameter("pageTwo"));
         int limit = Integer.parseInt(request.getParameter("limit"));
 
 

@@ -6,12 +6,14 @@ import com.lovo.sscafter.promotionAndSalesReturn.salesReturn.service.IReturnGood
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.List;
 
 /**
  * 商品service实现类
  */
 @Service
+@Transactional(rollbackOn = Exception.class)
 public class ReturnGoodsServiceImp implements IReturnGoodsService {
 
     @Autowired
@@ -31,6 +33,18 @@ public class ReturnGoodsServiceImp implements IReturnGoodsService {
     @Override
     public List<ReturnGoodsEntity> findByReturnOderId(String returnOrderId) {
         return dao.findByReturnOderId(returnOrderId);
+    }
+
+
+
+    @Override
+    public void updat(String goodsId, String returnOredrState) {
+        dao.updat(goodsId, returnOredrState);
+    }
+
+    @Override
+    public void updatGoodsState(String orderId, int goodsState) {
+        dao.updatGoodsState(orderId, goodsState);
     }
 
 }

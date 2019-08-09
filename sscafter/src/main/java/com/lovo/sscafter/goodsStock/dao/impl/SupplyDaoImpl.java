@@ -36,6 +36,7 @@ public class SupplyDaoImpl implements ISupplyDao {
         }if(null!=endDate&&endDate.length()!=0){
             hql+=" and  ie.indentDate<=:endDate";
         }
+        hql+="order by ie.indentDate";
         Query query = getEntityManager().createQuery(hql);
         if(null!=goodsType&&goodsType.length()!=0){
             query.setParameter("goodsType1",goodsType);

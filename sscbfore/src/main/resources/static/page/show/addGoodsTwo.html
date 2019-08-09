@@ -35,7 +35,7 @@
 
                     <div class="layui-card-body addGoods" style="text-align: center; padding: 15px;">
                         <div id="view" class="layui-row"></div>
-                        <button class="layui-btn" lay-submit lay-filter="*">确认上架</button>
+                        <button class="layui-btn" lay-submit lay-filter="*">确认添加</button>
                     </div>
                 </form>
             </div>
@@ -89,7 +89,7 @@
             <div class="layui-form-item layui-inline">
                 <label class="layui-form-label" for="goodsPrice">商品价格:</label>
                 <div class="layui-input-inline">
-                    <input class="layui-input" id="goodsPrice" type="text" autocomplete="off"
+                    <input class="layui-input" id="goodsPrice" name="goodsPrice" type="text" autocomplete="off"
                            lay-verify="required|number">
                 </div>
             </div>
@@ -121,7 +121,7 @@
         });
 
         function laytplRender() {
-            $.get('/returngoods/123/jump/123', null, function (res) {
+            $.post('/returngoods/123/jump/123', null, function (res) {
                 let userOrder = eval("(" + res + ")");
                 let data = { //数据
                     "payMethod": userOrder.payMethod

@@ -2,7 +2,7 @@ package com.lovo.sscafter.promotionAndSalesReturn.promotion.beginPromotion.dao.d
 
         import com.lovo.sscafter.promotionAndSalesReturn.promotion.beginPromotion.dao.IPromotionGoodsDao;
         import com.lovo.sscafter.upperAndLowerGoods.entity.GoodsEntity;
-        import com.lovo.sscafter.util.StringUtil;
+        import com.lovo.sscafter.upperAndLowerGoods.util.StringUtil;
         import org.springframework.beans.factory.annotation.Autowired;
         import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
         import org.springframework.stereotype.Repository;
@@ -40,19 +40,19 @@ public class PromotionGoodsDaoImp implements IPromotionGoodsDao {
 
     @Override
     public List<GoodsEntity> findBygoodsNameAndgoodsState(String goodsName, String goodsType, int pageNumber, int pageLine) {
-        String hql="  from GoodsEntity  where    goodsState = '已上架' " ;
+        String hql="  from GoodsEntity  where   goodsState = '上架' and promotionState='否'  " ;
 
     //    商品名不为空，商品类型为空
         if (!StringUtil.blString(goodsName)&& StringUtil.blString(goodsType)){
-            hql+="and  goodsName like  '%"+goodsName+"%'  ";
+            hql+="and  goodsName= '%"+goodsName+"%'  ";
         }
         //商品名为空，商品类型不为空
         else if (!StringUtil.blString(goodsType)&& StringUtil.blString(goodsName)){
-            hql+=" and  goodsType like  '%"+goodsType+"%' ";
+            hql+=" and  goodsType = '"+goodsType+"' ";
         }
         //商品名，商品类型都不为空
         else if (!StringUtil.blString(goodsType)&& !StringUtil.blString(goodsName)){
-            hql+=" and  goodsName like '%"+goodsName+"%' and goodsType like  '%"+goodsType+"%' " ;
+            hql+=" and  goodsName like '%"+goodsName+"%' and goodsType = '"+goodsType+"' " ;
         }
 
         Query query=getEntityManager().createQuery(hql).setFirstResult(pageNumber).setMaxResults(pageLine);
@@ -70,7 +70,7 @@ public class PromotionGoodsDaoImp implements IPromotionGoodsDao {
      */
     @Override
     public long findCount(String goodsName, String goodsType) {
-        String hql="select  count(*) from GoodsEntity where   goodsState='已上架' ";
+        String hql="select  count(*) from GoodsEntity where   goodsState='上架' ";
         //商品名不为空，商品类型为空
         if (!StringUtil.blString(goodsName)&&StringUtil.blString(goodsType)){
             hql+="and goodsName like '%"+goodsName+"%'  ";

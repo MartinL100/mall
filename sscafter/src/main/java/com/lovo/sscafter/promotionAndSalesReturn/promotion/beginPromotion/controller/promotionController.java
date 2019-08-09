@@ -7,6 +7,7 @@ import com.lovo.sscafter.goodsStock.service.IGoodsTypeService;
 import com.lovo.sscafter.promotionAndSalesReturn.promotion.beginPromotion.service.IPromotionGoodsService;
 import com.lovo.sscafter.upperAndLowerGoods.entity.GoodsEntity;
 
+import com.lovo.sscafter.util.MqUtil5;
 import org.apache.activemq.command.ActiveMQQueue;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jms.annotation.JmsListener;
@@ -42,10 +43,12 @@ public class promotionController {
     //初始化页面
     @RequestMapping("/findAll")
     @ResponseBody//只返回数据
-    public Map<String,Object> findAll(String goodsName, String goodsType, int page, int rows){
+    public Map<String,Object> findAll(String goodsName, String goodsType, int page, int rows) throws InterruptedException {
         if ("不限".equals(goodsType)){
             goodsType=null;
         }
+        MqUtil5.queue5.put("yes");
+       // MqUtil5.queue5.put("on");
         //动态查询总行数
       int pageCount= (int)service.findCount(goodsName,goodsType);
 
@@ -55,7 +58,7 @@ public class promotionController {
        List<GoodsEntity> list= service.findBygoodsNameAndgoodsState(goodsName,goodsType,nowPage,rows);
         Map<String,Object> map=new HashMap<>();
         map.put("rows",list);
-        map.put("page",nowPage);
+        map.put("pageTwo",nowPage);
         map.put("total",pageCount);
         return map;
     }
@@ -99,7 +102,7 @@ public class promotionController {
 
 
 
-    //接收请求转发传入的数据
+    //接收session中的数据
     @RequestMapping("/promotionAll")
     @ResponseBody
     public Map<String,Object> promotionAll(int page, int rows,HttpServletRequest request,HttpServletResponse response){
@@ -113,7 +116,7 @@ public class promotionController {
 
     int nowPage=(page-1)*rows;
     map.put("rows",goodsList);
-    map.put("page",nowPage);
+    map.put("pageTwo",nowPage);
     map.put("total",goodsList.size());
     return map;
     }
@@ -138,13 +141,18 @@ public class promotionController {
             e.printStackTrace();
         }
 
+        //将促销状态改为审核中
+        for (String f:list) {
+            service.updateGoodspromotionState(f,"审核中");
+        }
+
         //根据id集合查询对象
         List<GoodsEntity> goodsList= service.findByGoodsId(list);
        Map<String,Object> map=new HashMap<>();
        map.put("goodsList",goodsList);
        map.put("goodsDiscount",discount);
 //        map.put("userName",userName);
-        //创建队列并取名
+        //创建消息队列并取名
         ActiveMQQueue queue=new ActiveMQQueue("CuXiaoMQ");
         //将map转换为字符串
       String json=  mapper.writeValueAsString(map);
@@ -156,11 +164,8 @@ public class promotionController {
 
 
     //监听促销审核返回的MQ
-    @RequestMapping("/getCuXiaoMQ")
-    @ResponseBody
     @JmsListener(destination = "CuXiaoResultMQ")
-    public String getCuXiaoMQ(String resultMq) throws IOException {
-
+    public void getCuXiaoMQ(String resultMq) throws IOException, InterruptedException {
    // 将监听到的消息转换为map
     ObjectMapper mapper=new ObjectMapper();
     Map<String,Object> map= mapper.readValue(resultMq,Map.class);
@@ -170,16 +175,20 @@ public class promotionController {
 
        //根据得到的id进行修改促销状态和修改审核状态
        String info="";
+
         System.out.printf(""+goodsId);
         if ("审核通过".equals(auditInfo)){
             service.updatPromotion(goodsId,"正在促销",goodsDiscount);
         info="yes";
+        //将数据放入到websocket的消息队列中
+            MqUtil5.queue5.put("你好吗");
         }else {
             service.updateGoodspromotionState(goodsId,"促销审核未通过");
             info="no";
+            //将数据放入到websocket的消息队列中
+            MqUtil5.queue5.put("你好");
         }
-        return info;
     }
 
-
+     //页面初始化 将MQ中所有未保存数据取出
 }
