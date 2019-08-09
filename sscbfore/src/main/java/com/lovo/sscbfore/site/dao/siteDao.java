@@ -1,6 +1,7 @@
 package com.lovo.sscbfore.site.dao;
 
 import com.lovo.sscbfore.user.entity2.SiteEntity;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 
@@ -21,7 +22,7 @@ public interface siteDao extends CrudRepository<SiteEntity, String> {
      *
      * @param siteEntity 新对象
      */
-    @Query("update SiteEntity set siteArea=siteArea,siteDetail=siteDetail,siteMan=siteMan,siteDefault=siteDefault,sitePhone=sitePhone,sitePostcode=sitePostcode where siteId=siteId")
+    @Query("update SiteEntity set siteArea=siteArea,siteDetail=siteDetail,siteMan=siteMan,siteDefault=siteDefault,sitePhone=sitePhone,sitePostcode=sitePostcode,userSite=userSite where siteId=siteId")
     int updateSite(SiteEntity siteEntity);
     /**
      * 根据用户名查询所有地址
@@ -29,10 +30,13 @@ public interface siteDao extends CrudRepository<SiteEntity, String> {
      * @param userSite 用户名
      * @return 地址对象
      */
-    @Query(" from SiteEntity where userSite.userName=?1")
+    @Query("from SiteEntity where userSite.userName=?1")
     public List<SiteEntity> findAllByUserSite(String userSite);
 
-
-    @Query("from SiteEntity where siteDefault=1")
-    SiteEntity findSiteISSiteDefault();
+    @Modifying
+    @Query("update SiteEntity set siteDefault=0  where siteDefault=1")
+    public void updateSiteDefault();
+    @Modifying
+    @Query("update SiteEntity set siteDefault=?2  where siteId=?1")
+    public void updateSiteDefaultById(String siteId,int siteDefault);
 }
