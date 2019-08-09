@@ -39,27 +39,27 @@ public class MQController {
     @RequestMapping("AJAXSupplier")
     public String AJAXSupplier(SupplierVO vo){
         supplierService.AJAXSupplier(vo);
-        return "{'errorMsg':true}";
+        return "{'errorMsg':fasle}";
     }
 
     @RequestMapping("AJAXSupplierGoods")
     @ResponseBody
     public String AJAXSupplierGoods(String codeArray, String supplierStatusArray){
         supplierGoodsService.AJAXSupplierGoods(codeArray,supplierStatusArray);
-        return "{'errorMsg':true}";
+        return "{'errorMsg':fasle}";
     }
 
     @RequestMapping("AJAXSupply")
     @ResponseBody
     public String AJAXSupply(String supplierArray, String supplyId){
         cargoService.AJAXSupply(supplierArray,supplyId);
-        return "{'errorMsg':true}";
+        return "{'errorMsg':fasle}";
     }
 
     @RequestMapping("AJAXCargo")
     public String AJAXCargo(String cargoId,int supplyNum){
         cargoService.AJAXCargo(cargoId,supplyNum);
-        return "{'errorMsg':true}";
+        return "{'errorMsg':fasle}";
     }
     //服务器重启 从MQ中取出数据并保存到数据库
     @RequestMapping("getZCMQ.lovo")
@@ -249,7 +249,7 @@ public class MQController {
                     e.printStackTrace();
                 }
                 CargoEntity cargo=cargoService.findByCargoId(vo.getCargoId());
-                cargo.setSupplyPrice(vo.getSupplyPrice());
+                cargo.setSupplyPrice(vo.getPrice());
                 cargo.getSupplyId().setIndentStatus("已采购");
                 cargoService.save(cargo);
             }
@@ -269,7 +269,7 @@ public class MQController {
         }
         if (null != vo) {
             CargoEntity cargo=cargoService.findByCargoId(vo.getCargoId());
-            cargo.setSupplyPrice(vo.getSupplyPrice());
+            cargo.setSupplyPrice(vo.getPrice());
             cargo.getSupplyId().setIndentStatus("已采购");
             cargoService.save(cargo);
         }
