@@ -12,11 +12,11 @@
     <script type="text/javascript" src="../../easyui/jquery.easyui.mobile.js"></script>
 </head>
 <body>
-<div align="center"><h1>登陆页面</h1></div>
+<div align="center"><h1>注册页面</h1></div>
 <hr/><br><br>
 <div align="center">
     <div style="margin-bottom:10px">
-        <input class="easyui-textbox" label="用户名:" id="username"  name="username" prompt="userName" style="width:30%">
+        <input class="easyui-textbox"  label="用户名:" id="username"  name="username" prompt="userName" style="width:30%">
     </div>
     <div style="margin-bottom:10px">
         <input class="easyui-textbox" label="真实姓名:" id="realUsername"  name="realUsername" prompt="userName" style="width:30%">
@@ -24,16 +24,44 @@
     <div style="margin-bottom:10px">
         <input class="easyui-passwordbox" label="密码:"id="password" prompt="password" name="password" style="width:30%">
     </div>
+    <div style="margin-bottom:10px">
+        <input class="easyui-passwordbox" label="确认密码:"id="ispassword" prompt="password" name="password" style="width:30%">
+    </div>
     <div align="center">
-        <a  href="javascript:void(0)" class="easyui-linkbutton" onclick="login()">注册</a>
+        <a href="javascript:void(0)" class="easyui-linkbutton" onclick="login()">注册</a>
         <a href="javascript:void(0)" style="font-size: 13px"  onclick="register()" target="_blank">登录</a>
     </div>
 </div>
 </body>
 <script>
-    function login(){
-        $.post("/addregister/"+$("#username").val()+"/"+$("#password").val()+"/"+$("#realUsername").val(),{},function (data) {
+var isuserName = false;
+    $('#username').textbox({
+        onChange:function(){
+            $.post("/registerFindUser",{"userName":$("#username").val()},function (re) {
+                userName = re;
 
+            });
+        }
+    });
+
+    function login(){
+        if( ""==$("#username").val()){
+            $.messager.alert('提示窗口','用户名不能为空','info');
+            return;
+        }else if( ""==$("#realUsername").val()){
+            $.messager.alert('提示窗口','真实用户不能为空','info');
+            return;
+        } else if( ""==$("#password").val()){
+            $.messager.alert('提示窗口','密码不能为空','info');
+            return;
+        }else if($("#password").val()!=$("#ispassword").val()){
+            $.messager.alert('提示窗口','两次输入密码不一致，请确认','info');
+            return;
+        }else if(userName=="false"){
+            $.messager.alert('提示窗口','该用户已存在，请登录或者更改用户名','info');
+            return
+        }
+        $.post("/addregister/"+$("#username").val()+"/"+$("#password").val()+"/"+$("#realUsername").val(),{},function (data) {
                 location.href="/page/stock/login.html";
         })
     }

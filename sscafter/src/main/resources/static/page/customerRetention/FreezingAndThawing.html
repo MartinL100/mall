@@ -11,15 +11,10 @@
     <script type="text/javascript" src="../../easyui/jquery.easyui.min.js"></script>
     <script type="text/javascript" src="../../easyui/jquery.easyui.mobile.js"></script>
 </head>
-<body>
+<body onload="websocket()">
 
-<!--<div id="toolbar">-->
-    <!--<a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-add" plain="true" onclick="newUser()">添加</a>-->
-    <!--<a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-edit" plain="true" onclick="editUser()">编辑</a>-->
-    <!--<a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-remove" plain="true" onclick="destroyUser()">删除</a>-->
-<!--</div>-->
 <div align="center">
-<h1>用户信息</h1>
+    <h1>用户信息</h1>
 </div>
 <div style="margin-bottom:10px">
     <select label="用户状态：" id="userState" class="easyui-combobox" name="state" style="width:160px" panelHeight="100">
@@ -50,9 +45,57 @@
 </table>
 <p/>
 
-            <a style="margin-left: 20%" href="#" class="easyui-linkbutton" onclick="confirm1();">冻结</a>
+        <a style="margin-left: 20%" href="#" class="easyui-linkbutton" onclick="confirm1();">冻结</a>
+<div id="dlg3" class="easyui-dialog" style="width:400px" data-options="closed:true,modal:true,border:'thin',buttons:'#dlg2-buttons'">
+
+
+    <div style="margin-bottom:10px">
+        <input name="returnGoodsCause" id="account" class="easyui-textbox" required="true" label="退货原因:" style="width:100%">
+    </div>
+</div>
+<div id="dlg2-buttons">
+    <a href="javascript:void(0)" class="easyui-linkbutton c6" iconCls="icon-ok" onclick="freezeUser()" style="width:90px">冻结</a>
+    <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-cancel" onclick="javascript:$('#dlg3').dialog('close')" style="width:90px">取消</a>
+</div>
 <script>
 
+
+    function websocket() {
+
+        var socket;
+        if(typeof(WebSocket) == "undefined") {
+            alert("您的浏览器不支持WebSocket");
+        }else{
+
+            //实现化WebSocket对象，指定要连接的服务器地址与端口  建立连接
+            socket = new WebSocket("ws://localhost:8002/orderWebsocket");
+
+            //打开事件
+            socket.onopen = function() {
+                // alert("Socket 已打开");
+                // socket.send("这是来自客户端的消息" + location.href + new Date());
+            };
+            //获得消息 事件
+            socket.onmessage = function(msg) {
+                var r=msg.data;//获得socket服务器的信息
+                $('#tt').datagrid('reload')
+                // alert(r);
+            };
+            //关闭事件
+            socket.onclose = function() {
+                // alert("Socket已关闭");
+            };
+            //发生了错误事件
+            socket.onerror = function() {
+                // alert("Socket发生了错误");
+                //此时可以尝试刷新页面
+            }
+
+        }
+    }
+
+
+    var jsonStr="";
     function confirm1(){
         var selectrow = $("#tt").datagrid("getSelections");//获取的是数组，多行数据
         var idArry = [];
@@ -63,15 +106,19 @@
             $.messager.alert('警告窗口', '请选择行！', 'info');
             return ;
         }
-        $.messager.confirm('My Title', '是否确定冻结?', function(r){
-            if (r){
-                var jsonStr = JSON.stringify(idArry);
-                $.post("/freezeUser",{"jsonStr":jsonStr},function () {
+        $('#dlg3').dialog('open').dialog('center').dialog('setTitle','冻结理由');
+        $('#account').val("");
+        jsonStr = JSON.stringify(idArry);
 
-                })
+    }
+    function freezeUser(){
 
-            }
-        });
+        $.post("/freezeUser",{"jsonStr":jsonStr,"account": $('#account').val()},function () {
+
+        })
+        $('#dlg3').dialog('close')
+        $('#account').val("");
+        $('#tt').datagrid('reload')
     }
     $("#bt1").click(function () {
         $('#tt').datagrid('load',{

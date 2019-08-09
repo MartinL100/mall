@@ -12,4 +12,10 @@ public interface IOrderGoodsDao{
                                               String goodsType, String startDate, String endDate, int currentPage, int rows);
 
     public long findOrderGoodsCount(String goodsName, String goodsType, String startDate, String endDate);
+
+    //根据商品id查找进货价格
+    public float findGoodsBidByGoodsId(String goodsId);
+
+
+
 }

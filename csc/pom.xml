@@ -86,6 +86,12 @@
             <classifier>jdk15</classifier>
         </dependency>
 
+        <!-- spring热部署 -->
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>springloaded</artifactId>
+            <version>1.2.6.RELEASE</version>
+        </dependency>
 
     </dependencies>
 

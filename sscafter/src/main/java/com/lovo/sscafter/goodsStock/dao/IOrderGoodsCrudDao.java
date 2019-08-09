@@ -12,6 +12,6 @@ public interface IOrderGoodsCrudDao  extends CrudRepository<OrderGoodsEntity,Str
     @Query("update OrderGoodsEntity og set og.isReturnGoods=?1 where og.id=?2")
    @Modifying
     @Transactional
-    public void updateIsReturnGoods(String status,String orderGoodsId);
+    public void updateIsReturnGoods(String status, String orderGoodsId);
 
 }

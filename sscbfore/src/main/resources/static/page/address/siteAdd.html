@@ -58,7 +58,7 @@
                 <div class="layui-form-item layui-layout-admin">
                     <div class="layui-input-block">
                         <div class="layui-footer" style="left: 0;">
-                            <button class="layui-btn" type="submit" >保存地址</button>
+                            <button class="layui-btn" type="submit" onclick="fanhui()" >保存地址</button>
                             <button class="layui-btn" onclick="fanhui()" >返回主页</button>
                         </div>
                     </div>
@@ -91,19 +91,6 @@
 
         laydate.render({
             elem: '#LAY-component-form-group-date'
-        });
-
-        /* 自定义验证规则 */
-        form.verify({
-            title: function(value){
-                if(value.length < 5){
-                    return '标题至少得5个字符啊';
-                }
-            }
-            ,pass: [/(.+){6,12}$/, '密码必须6到12位']
-            ,content: function(value){
-                layedit.sync(editIndex);
-            }
         });
     });
 </script>

@@ -99,7 +99,7 @@ public class promotionController {
 
 
 
-    //接收请求转发传入的数据
+    //接收session中的数据
     @RequestMapping("/promotionAll")
     @ResponseBody
     public Map<String,Object> promotionAll(int page, int rows,HttpServletRequest request,HttpServletResponse response){
@@ -138,13 +138,18 @@ public class promotionController {
             e.printStackTrace();
         }
 
+        //将促销状态改为审核中
+        for (String f:list) {
+            service.updateGoodspromotionState(f,"审核中");
+        }
+
         //根据id集合查询对象
         List<GoodsEntity> goodsList= service.findByGoodsId(list);
        Map<String,Object> map=new HashMap<>();
        map.put("goodsList",goodsList);
        map.put("goodsDiscount",discount);
 //        map.put("userName",userName);
-        //创建队列并取名
+        //创建消息队列并取名
         ActiveMQQueue queue=new ActiveMQQueue("CuXiaoMQ");
         //将map转换为字符串
       String json=  mapper.writeValueAsString(map);
@@ -181,5 +186,10 @@ public class promotionController {
         return info;
     }
 
+    @RequestMapping("/ffff")
+    @ResponseBody
+    public String fndsss(){
 
+        return "yes";
+    }
 }

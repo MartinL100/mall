@@ -21,6 +21,7 @@ public class TableDateEntity<T> {
      */
     private String msg;
 
+
     /**
      * 数据总数
      */

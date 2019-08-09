@@ -14,6 +14,7 @@ public class ReturnGoodsVo {
      */
     private int goodsId;
 
+
     /**
      * 商品名称
      */

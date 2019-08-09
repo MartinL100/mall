@@ -34,7 +34,7 @@ public interface IOrderManagementService {
      * @param userName 用户名
      * @return
      */
-    public int findOrderRows(String orderDate,int orderType,String userName);
+    public int findOrderRows(String orderDate, int orderType, String userName);
 
     /**
      * 接受订单对象,保存到数据库,返回商品集合

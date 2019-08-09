@@ -14,13 +14,14 @@ import java.util.Map;
 
 @Controller
 public class GoodsManagementController {
-    @Autowired 
+    @Autowired
     IGoodsManagementService goodsManagementService;
     @RequestMapping("findGoods/{orderNum}/{currentPage}/{rows}")
     @ResponseBody
     public List<OrderForGoodsEntity> findGoods(@PathVariable("orderNum")String orderNum,
                                                @PathVariable("currentPage")int currentPage, @PathVariable("rows")int rows){
         List<OrderForGoodsEntity> list = goodsManagementService.findGoods(orderNum,currentPage,rows);
+
         return  list;
     }
 
@@ -28,11 +29,17 @@ public class GoodsManagementController {
     @ResponseBody
     public Map<String,Object> findGoodsAfter(String orderNum, int page, int rows){
         List<OrderForGoodsEntity> list = goodsManagementService.findGoods(orderNum,page,rows);
+
         Map<String,Object> map=new HashMap<>();
-        map.put("rows",list);
         map.put("page",page);
         map.put("total",goodsManagementService.findGoodsRows(orderNum));
-        return  map;
+        for (int i=0;i<list.size();i++) {
+            if("0".equals(list.get(i).getGoodsStatus())){list.get(i).setGoodsStatus("正常"); continue;}
+            else if("1".equals(list.get(i).getGoodsStatus())){list.get(i).setGoodsStatus("退货中");continue;}
+            else if("2".equals(list.get(i).getGoodsStatus())){list.get(i).setGoodsStatus("已退货");continue;}
+        }
+        map.put("rows",list);
+        return map;
     }
     @RequestMapping("findGoodsRows/{orderNum}")
     @ResponseBody

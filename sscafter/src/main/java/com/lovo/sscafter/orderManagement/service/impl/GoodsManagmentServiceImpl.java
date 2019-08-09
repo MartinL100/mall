@@ -5,6 +5,7 @@ import com.lovo.sscafter.orderManagement.dao.IOrderManagementDao;
 import com.lovo.sscafter.orderManagement.entity.DTO.ReturnGoodsDTO;
 import com.lovo.sscafter.orderManagement.entity.OrderForGoodsEntity;
 import com.lovo.sscafter.orderManagement.service.IGoodsManagementService;
+import com.lovo.sscafter.orderManagement.util.MqUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -35,11 +36,13 @@ public class GoodsManagmentServiceImpl implements IGoodsManagementService {
     }
 
     @Override
-    public void updateOrderReturn(ReturnGoodsDTO goodsDTO) {
+    public void updateOrderReturn(ReturnGoodsDTO goodsDTO)  {
         if(goodsDTO.getGoodsStatus()==1){
+            //这里是退货中,修改商品状态和订单状态
             goodsManagementDao.updateOrderReturn(goodsDTO.getOrderNum(),goodsDTO.getGoodsId(),goodsDTO.getGoodsStatus());
             orderManagementDao.updateOrderType(goodsDTO.getOrderNum(),2+"");
         }else{
+            //这里是退货成功
             //修改商品退货状态
             goodsManagementDao.updateOrderReturn(goodsDTO.getOrderNum(),goodsDTO.getGoodsId(),goodsDTO.getGoodsStatus());
             //得到商品利润
@@ -47,6 +50,9 @@ public class GoodsManagmentServiceImpl implements IGoodsManagementService {
             //根据订单号修改利润
             orderManagementDao.updateOrderProfit(goodsDTO.getOrderNum(),orderProfit);
         }
+        try{
+            MqUtil.orderQueue.put("true");
+        }catch (Exception e){e.printStackTrace();}
     }
 }
 

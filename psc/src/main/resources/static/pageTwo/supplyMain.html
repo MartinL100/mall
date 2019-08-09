@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>未供货订单操作页面</title>
+    <link rel="stylesheet" type="text/css" href="../easyui/themes/metro/easyui.css">
+    <link rel="stylesheet" type="text/css" href="../easyui/themes/mobile.css">
+    <link rel="stylesheet" type="text/css" href="../easyui/themes/icon.css">
+    <script type="text/javascript" src="../easyui/jquery.min.js"></script>
+    <script type="text/javascript" src="../easyui/jquery.easyui.min.js"></script>
+    <script type="text/javascript" src="../easyui/jquery.easyui.mobile.js"></script>
+</head>
+<body>
+<div align="center">
+    <em style="font-size: 45px">未供货订单操作页面</em>
+</div>
+<p></p>
+<table id="tt" class="easyui-datagrid"
+       url="../../marking.lovo"
+        iconCls="icon-save"
+       rownumbers="false" pagination="true"  singleSelect="false">
+    <thead>
+    <tr>
+        <th field="ck" checkbox="true" align="center"></th>
+        <th field="indentId" width="49%" align="right">订单编号</th>
+        <th field="indentStatus" width="49%" align="right">订单状态</th>
+    </tr>
+    </thead>
+</table>
+<p></p>
+<p></p>
+<p></p>
+<p></p>
+<p></p>
+<p></p>
+<div style="width: 100%;height: 100%">
+    <div style="width: 50%;float: left;">
+        <div style="margin-top: 10px;margin-left: 200px">
+            <a href="#" class="easyui-linkbutton" data-options="iconCls:'icon-reload'" onclick="enterOne()">查看历史供货记录</a>
+        </div>
+
+
+        <div style="margin-top: 100px;margin-left: 200px">
+            <a href="#" class="easyui-linkbutton" data-options="iconCls:'icon-reload'" onclick="getGoodsList()">详情</a>
+        </div>
+    </div>
+    <div style="width: 50%;float: left;">
+        <div style="margin-top: 10px;margin-left: 200px">
+            <a href="#" class="easyui-linkbutton" data-options="iconCls:'icon-reload'" onclick="send()">发起供货</a>
+        </div>
+        <div style="margin-top: 100px;margin-left: 200px">
+            <a href="#" class="easyui-linkbutton" data-options="iconCls:'icon-reload'">返回</a>
+        </div>
+    </div>
+</div>
+<script>
+    //初始化加载
+    $(document).ready(function () {
+        $('#tt').datagrid('load',{
+            supplierId: "1",
+            indentStatus:"未支付"
+        });
+    });
+    function getGoodsList() {
+        var row = $('#tt').datagrid('getSelected');
+        location.href="http://127.0.0.1:8004/goodsDetails.lovo/"+row.indentId;
+    }
+    function enterOne() {
+        location.href="/pastSupplyMain.html"
+    }
+    //发送被选中的订单id给MQ
+    function send() {
+        var items = $('#tt').datagrid('getSelections');
+        var ids = [];
+        $(items).each(function(){
+            ids.push(this.indentId);
+        });
+        var JsonIndent=JSON.stringify(ids);
+        $.post("../../sendMQ.lovo",{"JsonIndent":JsonIndent},function (re) {
+            if("ok"==re){
+                show();
+            }
+        })
+    }
+    function show(){
+        $.messager.show({
+            title:'系统提示',
+            msg:'发起供货成功，等待响应',
+            showType:'show'
+        });
+    }
+</script>
+</body>
+</html>
