@@ -289,13 +289,17 @@ $("#bt4").click(function () {
             };
             //获得消息事件
             socket.onmessage = function(msg) {
-                $('#tt').datagrid('load',{
-                    goodsType:$("#indexType").combobox("getValue"),
-                    goodsName:$("#text1").val()
+                var r = msg.data;//获得socket服务器的信息
+                if ("yes"==r) {
+                    $('#tt').datagrid('load', {
+                        goodsType: $("#indexType").combobox("getValue"),
+                        goodsName: $("#text1").val()
 
-                });
+                    });
 
-            };
+                }
+                ;
+            }
             //关闭事件
             socket.onclose = function() {
 
