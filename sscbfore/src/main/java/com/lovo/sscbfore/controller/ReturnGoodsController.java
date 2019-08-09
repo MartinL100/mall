@@ -60,36 +60,36 @@ public class ReturnGoodsController {
     @RequestMapping("returngoods/{userName}/jump/{orderNum}")
     public String jumpGoodsList(@PathVariable("userName") String userName, @PathVariable("orderNum") String orderNum) {
 //        根据订单号查询订单
-//        String orderStr = restTemplate.getForEntity("http://sscAfter/findGoodsInfo/" + orderNum + "/", String.class).getBody();
-//        JSONObject jsonObject = new JSONObject(orderStr);
-//        return jsonObject.toString();
+        String orderStr = restTemplate.getForEntity("http://sscAfter/findGoodsInfo/" + orderNum + "/", String.class).getBody();
+        JSONObject jsonObject = new JSONObject(orderStr);
+        return jsonObject.toString();
 
-        List<GoodsDTO> goodsDTOList = new ArrayList<>();
-
-        for (int i = 0; i < 5; i++) {
-            GoodsDTO goods = new GoodsDTO();
-            goods.setGoodsId(i + "");
-            goods.setGoodsName("水果" + i);
-            goods.setGoodsNorms("个");
-            goods.setGoodsPrice(123123f);
-            goods.setGoodsNum(Long.parseLong(i + ""));
-            goods.setGoodsType("123");
-            goods.setGoodsUnit("123123123");
-            goodsDTOList.add(goods);
-        }
-
-        OrderDTO order = new OrderDTO();
-        order.setAddressId("123123123");
-        order.setOrderNum("1ahsdkj123123");
-        order.setOrderDate(System.currentTimeMillis() + "");
-        order.setUserName("che");
-        order.setOrderMoney(123123f);
-        order.setPayMoney(123123 + "");
-        order.setPayMethod("allipay");
-        order.setGoodsDTOList(goodsDTOList);
-
-        JSON json = JSONUtil.parse(order);
-        return json.toString();
+//        List<GoodsDTO> goodsDTOList = new ArrayList<>();
+//
+//        for (int i = 0; i < 5; i++) {
+//            GoodsDTO goods = new GoodsDTO();
+//            goods.setGoodsId(i + "");
+//            goods.setGoodsName("水果" + i);
+//            goods.setGoodsNorms("个");
+//            goods.setGoodsPrice(123123f);
+//            goods.setGoodsNum(Long.parseLong(i + ""));
+//            goods.setGoodsType("123");
+//            goods.setGoodsUnit("123123123");
+//            goodsDTOList.add(goods);
+//        }
+//
+//        OrderDTO order = new OrderDTO();
+//        order.setAddressId("123123123");
+//        order.setOrderNum("1ahsdkj123123");
+//        order.setOrderDate(System.currentTimeMillis() + "");
+//        order.setUserName("che");
+//        order.setOrderMoney(123123f);
+//        order.setPayMoney(123123 + "");
+//        order.setPayMethod("allipay");
+//        order.setGoodsDTOList(goodsDTOList);
+//
+//        JSON json = JSONUtil.parse(order);
+//        return json.toString();
     }
 
     /**
@@ -187,7 +187,7 @@ public class ReturnGoodsController {
 
     /**
      * 1、生成消息实体类保存到数据库
-     * 2、用订单号远程调用，查询退货单中所有商品信息
+     * 2、用退货单号远程调用，查询退货单中所有商品信息
      * 3、以Jason格式发送到（orderReturnMQ）
      *
      * @param message 消息本体
