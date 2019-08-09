@@ -32,6 +32,7 @@ public class OrderServiceImpl implements IOrderService {
 
     @Override
     public List<OrderEntity> findBySome(int pageNumber, int pageSize,String userName, String orderNum, String startTime, String endTime) {
+
         String hql="from OrderEntity where 1=1";
         if(!StringUtil.blString(userName)){
             hql+=" and userName like '%"+userName+"%'";
