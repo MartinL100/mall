@@ -42,7 +42,7 @@ public class freezeController {
             userState = "0";
         }
         //List<CustomerDTO> list = restTemplate.getForEntity("http://servicename/userList/{userName}/{userState}/{currentPage}/{rows}",List.class).getBody();
-        //----
+//        //----
         List<CustomerDTO> list = new ArrayList<>();
         for (int i =0;i<10;i++){
             CustomerDTO customerDTO = new CustomerDTO();

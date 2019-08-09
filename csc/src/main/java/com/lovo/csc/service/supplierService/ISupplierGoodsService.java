@@ -25,4 +25,6 @@ public interface ISupplierGoodsService {
      */
     public List<SupplierGoodsEntity> findBySuppliegrId(String supplierId);
     public List<SupplierGoodsEntity> findSupplierGoods(String goodsName,String goodsNorms);
+    public void AJAXSupplierGoods(String codeArray,String supplierStatusArray);
+    public SupplierGoodsEntity findByCodeId(String codeId);
 }

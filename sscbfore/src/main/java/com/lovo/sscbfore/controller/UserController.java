@@ -5,6 +5,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.lovo.sscbfore.service.IUserMessageService;
 import com.lovo.sscbfore.user.entity2.*;
 import com.lovo.sscbfore.user.service.IUserService;
+import com.lovo.sscbfore.util.verityCode;
 import org.apache.activemq.command.ActiveMQQueue;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jms.annotation.JmsListener;
@@ -14,11 +15,16 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 
+import javax.imageio.ImageIO;
+import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 public class UserController {
@@ -40,26 +46,51 @@ public class UserController {
     }
 
     @RequestMapping("find2")
-    public String find2(String userName, String password,HttpServletRequest request) {
+    public String find2(String userName, String password,String graphicCode,HttpServletRequest request) {
         UserEntity user2 = serService.findUserByName(userName);
         UserEntity user = serService.userLogin(userName, password);
-        String info="";
+        String str= (String) request.getSession().getAttribute("graphicCode");
         if (null != user2) {
             if (null == user) {
-                info="no";
-                return info;
+                return "no";
             } else if ("1".equals(user.getAdministrator())) {
                 request.getSession().setAttribute("userEntity",user2);
                 return "adm";
             }
-
-            request.getSession().setAttribute("userEntity",user2);
-            return "ok";
+            if(str.equals(graphicCode)){
+                request.getSession().setAttribute("userEntity",user2);
+                return "ok";
+            }else {
+                return "false";
+            }
        }
         else {
             return "yes";
         }
+    }
+    @RequestMapping("codeimg")
+    public void img(HttpServletRequest request, HttpServletResponse response) {
+        //接收结果集
+        Map<String, Object> map = null;
+        //创建输出流
+        ServletOutputStream out = null;
 
+        try {
+            map = verityCode.GraphicCode(130, 30, 4);
+            out = response.getOutputStream();
+            //获取图片存储对象
+            BufferedImage img = (BufferedImage) map.get("img");
+            //获得验证图片生成的验证码
+            String graphicCode = (String) map.get("graphicCode");
+            //将生成的验证码放入session
+            request.getSession().setAttribute("graphicCode", graphicCode);
+            //把图片写入到输出流
+            ImageIO.write(img, "jpg", out);
+            //关闭流
+            out.close();
+        } catch (Exception e) {
+
+        }
     }
 
     @RequestMapping("update2/{userName}/{userState}")
@@ -134,25 +165,24 @@ public class UserController {
     @JmsListener(destination = "accountsRegistrationAuditResultMQ")
     public void userInfo(String message) {
         System.out.printf(message);
-        System.out.printf(message);
-//        if(message!=null || "".equals(message)){
-//            ObjectMapper obj=new ObjectMapper();
-//            try {
-//                RegisterResultVo vo= obj.readValue(message,RegisterResultVo.class);
-//              UserEntity user=  serService.findUserByName(vo.getUserName());
-//              user.setUserGrade(vo.getUserGrade());
-//              user.setUserState(vo.getUserState());
-//              serService.rapidEnrollment(user);
-//               UserInfoEntity info=new UserInfoEntity();
-//               info.setUserInfo(user);
-//               info.setMessageInfo(vo.getAuditOpinion());
-//               info.setMessageDate(vo.getAuditReplyTime());
-//               service.addUserMessage(info);
-//            } catch (IOException e) {
-//                e.printStackTrace();
-//            }
-//
-//        }
+        if(message!=null || !"".equals(message)){
+            ObjectMapper obj=new ObjectMapper();
+            try {
+                RegisterResultVo vo= obj.readValue(message,RegisterResultVo.class);
+              UserEntity user=  serService.findUserByName(vo.getUserName());
+              user.setUserGrade(vo.getUserGrade());
+              user.setUserState(vo.getUserState());
+              serService.rapidEnrollment(user);
+               UserInfoEntity info=new UserInfoEntity();
+               info.setUserInfo(user);
+               info.setMessageInfo(vo.getAuditOpinion());
+               info.setMessageDate(vo.getAuditReplyTime());
+               service.addUserMessage(info);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+        }
     }
 
     @RequestMapping("requestUnfreezeMQ")

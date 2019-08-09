@@ -23,7 +23,7 @@ public class MQController {
     @RequestMapping(value = "sendMessageToMQ.lovo")
     public String sendMessageToMQ(){
 //    jmsMessagingTemplate.convertAndSend(frozenOrUnfrozenAccountsMessageMQ,"我送的信息");
-        log.info("+++++++++++++++++++++++++++++++++++++++++");
+//        log.info("+++++++++++++++++++++++++++++++++++++++++");
         return "提交成功";
 
     }

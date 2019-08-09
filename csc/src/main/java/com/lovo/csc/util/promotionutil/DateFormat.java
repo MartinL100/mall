@@ -5,7 +5,7 @@ import java.util.Date;
 
 public class DateFormat {
 
-    public    String getNow(){
+    public String getNow(){
         long now = System.currentTimeMillis();
         //new日期对象
         Date date = new Date(now);

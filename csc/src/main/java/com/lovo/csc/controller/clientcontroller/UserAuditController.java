@@ -50,7 +50,7 @@ public class UserAuditController {
      * @return
      */
     @RequestMapping("registerAuditPage.lovo")
-    public Map<String, Object> page(String tag, int page, int rows, String userState, String startTime, String endTime) {
+    public Map<String, Object> registerAuditPage(String tag, int page, int rows, String userState, String startTime, String endTime) {
         Map<String, Object> map = new HashMap<>();
         // List<SysStudent> list= service.getPageListStudent(pageTwo,rows,studentId);
         List<SysUserAuditInformationEntity> list = null;
