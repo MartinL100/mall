@@ -30,7 +30,7 @@ public interface IReturnGoodsDao extends CrudRepository<ReturnGoodsEntity,String
      */
     @Modifying
     @Query("update ReturnGoodsEntity set returnOredrState=?2 where goodsId=?1")
-    public void updat(String goodsId,String returnOredrState);
+    public void updat(String goodsId, String returnOredrState);
 
     /**
      * 根据退货订单号修改商品退货状态
@@ -39,5 +39,5 @@ public interface IReturnGoodsDao extends CrudRepository<ReturnGoodsEntity,String
      */
     @Modifying
     @Query("update ReturnGoodsEntity set returnOredrState=?2 where returnOderId=?1 ")
-    public void updatGoodsState(String orderId,int goodsState);
+    public void updatGoodsState(String orderId, int goodsState);
 }

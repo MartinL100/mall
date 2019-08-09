@@ -18,7 +18,7 @@ public interface IPromotionGoodsDao{
      * @param pageLine 每页显示的行数
      * @return 商品集合
      */
-    public List<GoodsEntity> findBygoodsNameAndgoodsState(String goodsName,String goodsType,int pageNumber,int pageLine);
+    public List<GoodsEntity> findBygoodsNameAndgoodsState(String goodsName, String goodsType, int pageNumber, int pageLine);
 
 
     /**
@@ -27,7 +27,7 @@ public interface IPromotionGoodsDao{
      * @param goodsType 商品类型
      * @return 总行数
      */
-    public long findCount(String goodsName,String goodsType);
+    public long findCount(String goodsName, String goodsType);
 
     /**
      * 根据id查询商品集合
