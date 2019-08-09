@@ -1,5 +1,4 @@
 package com.lovo.csc.util;
-
 import com.lovo.csc.vo.clientvo.ResgisterMessageVo;
 import org.springframework.stereotype.Component;
 import javax.jms.JMSException;

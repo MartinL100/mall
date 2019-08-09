@@ -4,9 +4,6 @@ import com.lovo.csc.vo.clientvo.PreserveMessageVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jms.core.JmsTemplate;
 import org.springframework.stereotype.Component;
-
-import javax.jms.JMSException;
-import javax.jms.TextMessage;
 import javax.websocket.*;
 import javax.websocket.server.ServerEndpoint;
 import java.io.IOException;
