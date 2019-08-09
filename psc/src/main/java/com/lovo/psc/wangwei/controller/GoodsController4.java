@@ -33,9 +33,9 @@ public class GoodsController4 {
     public Map<String,Object> page(int page, int rows, String goodsName, String supplierName, String goodsType, String codeId,HttpServletRequest request) {
 
 
-//        SupplierEntity   a  = (SupplierEntity) request.getSession().getAttribute("SupplierEntity");
-//        supplierName =a.getSupplierId();
-        supplierName="1";
+        SupplierEntity   a  = (SupplierEntity) request.getSession().getAttribute("SupplierEntity");
+        supplierName =a.getSupplierName();
+//        supplierName="1";
         List<SupplierGoodsEntity> list = supplierGoodsQueryService.getPageListGoods(goodsName, supplierName, goodsType, codeId,page, rows);
           for(int i=0;i<list.size();i++){
               list.get(i).setSupplier(null);
