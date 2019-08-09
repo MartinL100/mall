@@ -21,6 +21,7 @@ public class StaticInterceptor   implements HandlerInterceptor {
         if(url.indexOf("register") != -1){
             return true;
         }
+        //
         if(request.getSession().getAttribute("userName") == null){
             response.sendRedirect("/page/loginAndRegister/login.html");
             return false;
