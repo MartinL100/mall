@@ -23,9 +23,7 @@
             <div class="m-right">
                 <a href="javascript:void(0)" class="easyui-linkbutton" plain="true" outline="true" onclick="$('#ff').form('reset')" style="width:60px">刷新</a>
             </div>
-            <!--<div class="m-left">-->
-                <!--<a href="javascript:void(0)"onclick="submitForm()"  style="width:60px">submit</a>-->
-            <!--</div>-->
+
         </div>
     </header>
     <div align="center">
@@ -62,18 +60,17 @@
             <input class="easyui-passwordbox easyui-validatebox" required="true" label="登录密码:" prompt="登录密码" name="supplierPwd" style="width:50%">
         </div>
 
-
-
         <input id="id2" type="button" value="注册" onclick="saveInfo()"></input>
 
     </form>
     </div>
 </div>
+
 <script>
  function saveInfo() {
         if ($("#ff").form('validate')) {
             $("#ff").submit();
-            location.href="listSupplier.html"
+            location.href="listSupplier.html";
         } else {
             $.messager.alert('操作提示', '请确保字段不能为空！', "warning");
         }
@@ -84,7 +81,7 @@
     $(function() {
         $("input", $("#id1").next("span")).blur(function () {
            var rer= $("#id1").val()
-           // alert(rer);
+
             $.post("../../findSupplier",{"supplierName":rer},function(r) {
                 if(r=="2"){
                     alert("用户已注册")

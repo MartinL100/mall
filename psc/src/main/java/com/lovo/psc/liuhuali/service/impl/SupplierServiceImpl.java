@@ -12,7 +12,7 @@ import org.springframework.stereotype.Service;
 
 
 
-@Service(value = "supplierService")
+@Service(value = "supplierService3")
 public class SupplierServiceImpl implements ISupplierService {
     @Autowired
     private JmsMessagingTemplate jmsMessagingTemplate;

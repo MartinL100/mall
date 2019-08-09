@@ -12,6 +12,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import javax.servlet.http.HttpServletRequest;
+
 
 /**
  * 供应商Controller
@@ -19,17 +21,18 @@ import org.springframework.web.bind.annotation.ResponseBody;
 @Controller
 public class SupplierController3 {
     @Autowired
-    private ISupplierService supplierService;
+    private ISupplierService supplierService3;
 
     @Autowired
     private JmsMessagingTemplate jmsMessagingTemplate;
         @RequestMapping("savaSupplier")
         @ResponseBody
-    public String savaSupplier(SupplierEntity supplier) throws JsonProcessingException {
+    public String savaSupplier(SupplierEntity supplier, HttpServletRequest servletRequest) throws JsonProcessingException {
 
         //把注册用户保存到数据库0
             supplier.setSupplierTag("0");
-            supplierService.savaSupplier(supplier);
+            supplierService3.savaSupplier(supplier);
+
         ObjectMapper obj=new ObjectMapper();
         String result= obj.writeValueAsString(supplier);
         //发送到MQ进行审核
@@ -46,7 +49,7 @@ public class SupplierController3 {
     @ResponseBody
     public String findSupplier(String supplierName){
 
-        SupplierEntity supplier1= supplierService.getSupplierEntityByName(supplierName);
+        SupplierEntity supplier1= supplierService3.getSupplierEntityByName(supplierName);
             if(null==supplier1){
                 return "1";
             }
