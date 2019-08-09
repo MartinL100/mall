@@ -26,7 +26,9 @@ public class IUserServiceImpl implements IUserService {
         userDao.save(user);
 
     }
-
+    public UserEntity findByUser(String userName){
+        return  userDao.findByUserName1(userName);
+    }
     //
 
 }
