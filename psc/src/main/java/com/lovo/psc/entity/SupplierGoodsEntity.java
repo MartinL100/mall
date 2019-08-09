@@ -3,7 +3,6 @@ package com.lovo.psc.entity;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
-import java.util.List;
 
 /**
  * 供应商商品实体类

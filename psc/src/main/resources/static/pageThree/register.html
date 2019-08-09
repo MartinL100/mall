@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <div>
+        <h2 align="center">供应商注册</h2>
+        <hr/>
+    </div>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>表单提交</title>
+    <link rel="stylesheet" type="text/css" href="/static/easyui/themes/metro/easyui.css">
+    <link rel="stylesheet" type="text/css" href="/static/easyui/themes/mobile.css">
+    <link rel="stylesheet" type="text/css" href="/static/easyui/themes/icon.css">
+    <script type="text/javascript" src="/static/easyui/jquery.min.js"></script>
+    <script type="text/javascript" src="/static/easyui/jquery.easyui.min.js"></script>
+    <script type="text/javascript" src="/static/easyui/jquery.easyui.mobile.js"></script>
+</head>
+<body>
+<div class="easyui-navpanel" style="position:relative;padding:20px;">
+    <header>
+        <div class="m-toolbar">
+
+            <div class="m-right">
+                <a href="javascript:void(0)" class="easyui-linkbutton" plain="true" outline="true" onclick="$('#ff').form('reset')" style="width:60px">刷新</a>
+            </div>
+            <!--<div class="m-left">-->
+                <!--<a href="javascript:void(0)"onclick="submitForm()"  style="width:60px">submit</a>-->
+            <!--</div>-->
+        </div>
+    </header>
+    <div align="center">
+    <form id="ff" action="../../savaSupplier" method="post">
+        <div style="margin-bottom:10px">
+            <input id="id1" class="easyui-textbox easyui-validatebox"
+                   required="true" label="供应商名称:" prompt="供应商名称" name="supplierName"
+                   style="width:50%">
+        </div>
+
+
+        <div style="margin-bottom:10px">
+            <input class="easyui-textbox easyui-validatebox" required="true" label="负责人:" prompt="负责人"name="supplierPrincipal" style="width:50%">
+        </div>
+
+        <div style="margin-bottom:10px">
+            <input class="easyui-numberbox easyui-validatebox" required="true" label="负责人电话:" prompt="负责人电话"name="supplierTel" style="width:50%">
+        </div>
+
+        <div style="margin-bottom:10px">
+            <input class="easyui-textbox easyui-validatebox"  required="true" label="供应商地址:" prompt="供应商地址"name="supplierAddress" style="width:50%">
+        </div>
+        <div style="margin-bottom:10px">
+      <select  name="supplierType" style="width: 50%" required="true" label="供应商类型:" class="easyui-combobox easyui-validatebox">
+           <option value="">请选择类型</option>
+           <option value="休闲零食">休闲零食</option>
+           <option value="乳品酒水">乳品酒水</option>
+           <option value="个人护肤">个人护肤</option>
+       </select>
+
+        </div>
+
+        <div style="margin-bottom:10px">
+            <input class="easyui-passwordbox easyui-validatebox" required="true" label="登录密码:" prompt="登录密码" name="supplierPwd" style="width:50%">
+        </div>
+
+
+
+        <input id="id2" type="button" value="注册" onclick="saveInfo()"></input>
+
+    </form>
+    </div>
+</div>
+<script>
+ function saveInfo() {
+        if ($("#ff").form('validate')) {
+            $("#ff").submit();
+            location.href="listSupplier.html"
+        } else {
+            $.messager.alert('操作提示', '请确保字段不能为空！', "warning");
+        }
+
+    }
+
+
+    $(function() {
+        $("input", $("#id1").next("span")).blur(function () {
+           var rer= $("#id1").val()
+           // alert(rer);
+            $.post("../../findSupplier",{"supplierName":rer},function(r) {
+                if(r=="2"){
+                    alert("用户已注册")
+
+                    document.getElementById("id2").style.display='none'
+                }else {
+
+                    document.getElementById("id2").style.display = ''
+                }
+            });
+        });
+    });
+
+
+    $('#ff').form({
+        onSubmit:function(){
+            return $(this).form('validate');
+        },
+        success:function(data){
+            alert(data);
+        }
+    });
+
+
+</script>
+</body>
+</html>
