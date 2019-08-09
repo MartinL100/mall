@@ -37,11 +37,9 @@ public class GoodsManagmentServiceImpl implements IGoodsManagementService {
     @Override
     public void updateOrderReturn(ReturnGoodsDTO goodsDTO) {
         if(goodsDTO.getGoodsStatus()==1){
-            //这里是退货中,修改商品状态和订单状态
             goodsManagementDao.updateOrderReturn(goodsDTO.getOrderNum(),goodsDTO.getGoodsId(),goodsDTO.getGoodsStatus());
             orderManagementDao.updateOrderType(goodsDTO.getOrderNum(),2+"");
         }else{
-            //这里是退货成功
             //修改商品退货状态
             goodsManagementDao.updateOrderReturn(goodsDTO.getOrderNum(),goodsDTO.getGoodsId(),goodsDTO.getGoodsStatus());
             //得到商品利润
