@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.lovo.common.entity.OrderDTO;
 import com.lovo.sscafter.orderManagement.entity.OrderManagementEntity;
 import com.lovo.sscafter.orderManagement.service.IOrderManagementService;
+import com.lovo.sscafter.orderManagement.util.MqUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -25,7 +26,6 @@ public class OrderManagementController {
         boolean temp = orderManagementService.updateOrderDelType(orderNum);
         return "{'info':'"+temp+"'}";
     }
-
     @RequestMapping("findOrderInfo/{orderDate}/{orderType}/{currentPage}/{rows}/{userName}")
     @ResponseBody
     public List<OrderManagementEntity> findOrderInfo(@PathVariable("orderDate")String orderDate,@PathVariable("orderType")int orderType,
@@ -65,7 +65,7 @@ public class OrderManagementController {
         }
         Map<String,Object> map=new HashMap<>();
         map.put("rows",list);
-        map.put("page",page);
+        map.put("pageTwo",page);
 
         map.put("total",orderManagementService.findOrderRows(orderDate,orderType,userName));
         return map;
@@ -74,6 +74,9 @@ public class OrderManagementController {
     @ResponseBody
     public void receiveOrder(@RequestBody OrderDTO orderDTO){
         orderManagementService.receiveOrder2(orderManagementService.receiveOrder(orderDTO));
+        try{
+            MqUtil.orderQueue.put("true");
+        }catch (Exception e){e.printStackTrace();}
     }
 
     @RequestMapping("updateOrderType/{orderNum}")
@@ -84,7 +87,7 @@ public class OrderManagementController {
     @RequestMapping("findData/{mouth}")
     @ResponseBody
     public Map<String,String> findData(@PathVariable("mouth")String mouth){
- 
+
         return orderManagementService.findDate(mouth);
     }
 }

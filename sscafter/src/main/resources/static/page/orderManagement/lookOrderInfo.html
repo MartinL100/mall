@@ -14,7 +14,7 @@
 </head>
 
 
-
+<body onload="websocket()">
 <div align="center">
     <h1>订单信息</h1>
 </div>
@@ -23,18 +23,18 @@
 <div style="margin-bottom:10px">
     <select label="类型：" id="selectType" class="easyui-combobox" name="state" style="width:160px" panelHeight="100">
 
-    <option value="3">全部</option>
-    <option value="0">已付款</option>
-    <option value="2">退货</option>
-    <option value="1">未付款</option>
-</select>
+        <option value="3">全部</option>
+        <option value="0">正常</option>
+        <option value="2">退货</option>
+        <option value="1">未付款</option>
+    </select>
 
     下单时间:<input  type="text"  editable="false" id="selectOrderDate" class="easyui-datebox" >
 
     <input class="easyui-textbox" label="用户名:" prompt="用户名:" id="selectUserName" name="userName" prompt="userName" style="width:200px">
 
     <a  href="#" class="easyui-linkbutton"  id="bt3">清空</a>
-    <a  href="#" class="easyui-linkbutton" data-options="iconCls:'icon-search'" id="bt1">查询</a>
+    <a href="#" class="easyui-linkbutton" data-options="iconCls:'icon-search'" id="bt1">查询</a>
 </div>
 
 <table id="tt" class="easyui-datagrid"
@@ -82,6 +82,39 @@
     <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-cancel" onclick="javascript:$('#dlg').dialog('close')" style="width:90px">确定</a>
 </div>
 <script>
+    function websocket() {
+
+        var socket;
+        if(typeof(WebSocket) == "undefined") {
+            alert("您的浏览器不支持WebSocket");
+        }else{
+
+            //实现化WebSocket对象，指定要连接的服务器地址与端口  建立连接
+            socket = new WebSocket("ws://localhost:8002/orderWebsocket");
+
+            //打开事件
+            socket.onopen = function() {
+                // alert("Socket 已打开");
+                // socket.send("这是来自客户端的消息" + location.href + new Date());
+            };
+            //获得消息 事件
+            socket.onmessage = function(msg) {
+                var r=msg.data;//获得socket服务器的信息
+                $('#tt').datagrid('reload')
+                // alert(r);
+            };
+            //关闭事件
+            socket.onclose = function() {
+                // alert("Socket已关闭");
+            };
+            //发生了错误事件
+            socket.onerror = function() {
+                // alert("Socket发生了错误");
+                //此时可以尝试刷新页面
+            }
+
+        }
+    }
     $("#lookInfo").click(function () {
         $('#fm').form('clear');
         var row = $('#tt').datagrid('getSelected');

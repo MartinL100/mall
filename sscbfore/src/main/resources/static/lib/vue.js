@@ -4246,7 +4246,7 @@
 
   // Async edge case #6566 requires saving the timestamp when event listeners are
   // attached. However, calling performance.now() has a perf overhead especially
-  // if the page has thousands of event listeners. Instead, we take a timestamp
+  // if the pageTwo has thousands of event listeners. Instead, we take a timestamp
   // every time the scheduler flushes and use that for all event listeners
   // attached during that flush.
   var currentFlushTimestamp = 0;
@@ -4255,7 +4255,7 @@
   var getNow = Date.now;
 
   // Determine what event timestamp the browser is using. Annoyingly, the
-  // timestamp can either be hi-res (relative to page load) or low-res
+  // timestamp can either be hi-res (relative to pageTwo load) or low-res
   // (relative to UNIX epoch), so in order to compare time we have to use the
   // same timestamp type when saving the flush timestamp.
   // All IE versions use low-res event timestamps, and have problematic clock
@@ -7533,7 +7533,7 @@
           // #9462 iOS 9 bug: event.timeStamp is 0 after history.pushState
           // #9681 QtWebEngine event.timeStamp is negative value
           e.timeStamp <= 0 ||
-          // #9448 bail if event is fired in another document in a multi-page
+          // #9448 bail if event is fired in another document in a multi-pageTwo
           // electron/nw.js app, since event.timeStamp will be using a different
           // starting reference
           e.target.ownerDocument !== document
@@ -9248,7 +9248,7 @@
   var startTagClose = /^\s*(\/?)>/;
   var endTag = new RegExp(("^<\\/" + qnameCapture + "[^>]*>"));
   var doctype = /^<!DOCTYPE [^>]+>/i;
-  // #7298: escape - to avoid being pased as HTML comment when inlined in page
+  // #7298: escape - to avoid being pased as HTML comment when inlined in pageTwo
   var comment = /^<!\--/;
   var conditionalComment = /^<!\[/;
 

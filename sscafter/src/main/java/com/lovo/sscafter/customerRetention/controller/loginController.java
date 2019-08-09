@@ -18,18 +18,20 @@ public class loginController {
     @Autowired
     private IUserService userService;
 
+    public static String userName="";
     //注册方法
-    @RequestMapping("/addregister/{username}/{password}/{realUsername}")
+    @RequestMapping("addregister/{username}/{password}/{realUsername}")
     public void register(@PathVariable("username")String username,
-                           @PathVariable("password")String password,@PathVariable("realUsername")String realUsername){
-            UserEntity userEntity = new UserEntity();
-            userEntity.setUserName1(username);
-            userEntity.setPassword1(password);
-            userEntity.setTrueName1(realUsername);
-            userService.savaUser(userEntity);
+                         @PathVariable("password")String password,@PathVariable("realUsername")String realUsername){
+        UserEntity userEntity = new UserEntity();
+        userEntity.setUserName1(username);
+        userEntity.setPassword1(password);
+        userEntity.setTrueName1(realUsername);
+        userService.savaUser(userEntity);
     }
 
     //登录方法
+
     @RequestMapping("addlogin/{username}/{password}")
     @ResponseBody
     public String login(@PathVariable("username")String username,
@@ -38,9 +40,19 @@ public class loginController {
         UserEntity userEntity = userService.findByUserName1AndPassword1(username,password);
         if(null != userEntity){
             request.getSession().setAttribute("userName",userEntity);
+            userName=username;
             return "{'info':'true'}";
         }
         return "{'info':'false'}";
     }
+    @RequestMapping("registerFindUser")
+    @ResponseBody
+    public String findUser(String userName){
 
+        UserEntity userEntity = userService.findByUser(userName);
+        if(null != userEntity){
+            return "false";
+        }
+        return "true";
+    }
 }

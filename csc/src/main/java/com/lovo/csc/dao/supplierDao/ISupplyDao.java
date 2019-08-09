@@ -19,4 +19,5 @@ public interface ISupplyDao extends CrudRepository<SupplyEntity,String> {
      */
     @Query("from  SupplyEntity where indentId.indentId=?1")
     public List<SupplyEntity> findSupply(String indentId);
+    public SupplyEntity findBySupplyId(String supplyId);
 }

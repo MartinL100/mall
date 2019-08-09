@@ -45,7 +45,7 @@ public class SysFrozenOrUnfrozenAccountsEntity {
     }
 
     public void setFrozenOrUnfrozenAccountsMessageId(String frozenOrUnfrozenAccountsMessageId) {
-        frozenOrUnfrozenAccountsMessageId = frozenOrUnfrozenAccountsMessageId;
+        this.frozenOrUnfrozenAccountsMessageId = frozenOrUnfrozenAccountsMessageId;
     }
 
     public String getMaintenanceManager() {
@@ -108,7 +108,7 @@ public class SysFrozenOrUnfrozenAccountsEntity {
     @Override
     public String toString() {
         return "SysFrozenOrUnfrozenAccountsEntity{" +
-                "FrozenOrUnfrozenAccountsMessageId='" + frozenOrUnfrozenAccountsMessageId + '\'' +
+                "frozenOrUnfrozenAccountsMessageId='" + frozenOrUnfrozenAccountsMessageId + '\'' +
                 ", maintenanceManager='" + maintenanceManager + '\'' +
                 ", auditType='" + auditType + '\'' +
                 ", auditOpinion='" + auditOpinion + '\'' +

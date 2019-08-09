@@ -115,4 +115,6 @@ public class GoodsStockDaoImpl implements IGoodsStockDao {
         return (long)query.getSingleResult();
     }
 
+
+
 }

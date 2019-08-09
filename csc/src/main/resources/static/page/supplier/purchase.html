@@ -93,7 +93,7 @@
 <div id="dlg2" class="easyui-dialog" style="width:800px;height: 600px" data-options="closed:true,modal:true,border:'thin',buttons:'#dlg-buttons'">
     <form id="fm2" method="post" novalidate style="margin:0;padding:20px 50px">
         <div style="margin-bottom:20px" hidden="hidden">
-        <input name="supplyId" class="easyui-textbox" disabled="true" label="商品编号:" style="width:45%">
+        <input id="supplyId2" name="supplyId" class="easyui-textbox" disabled="true" label="商品编号:" style="width:45%">
         </div>
         <div style="margin-bottom:20px">
             <input name="goodsName" class="easyui-textbox" disabled="true"label="商品名:" style="width:45%">
@@ -109,7 +109,7 @@
                rownumbers="false" pagination="true"  singleSelect="false">
             <thead>
             <tr>
-                <th field="supplyId" width="34%" hidden="hidden">ID</th>
+                <th field="supplierId" width="34%" hidden="hidden">ID</th>
                 <th field="supplierName" width="26%">供应商名称</th>
                 <th field="supplierLevel"width="26%">供应商等级</th>
                 <th field="supplierType" width="26%">供应类型</th>
@@ -118,36 +118,118 @@
             </thead>
         </table>
         <div id="buttons2" align="center" style="margin-bottom:40px;margin-top: 40px;position: relative;right: -300px" >
-            <a href="javascript:void(0)" id="tender2" class="easyui-linkbutton" onclick="tender2()" style="left :-255px;width:90px"> 确 认 </a>
+            <a href="javascript:void(0)" id="tender2" name="supplier" class="easyui-linkbutton" onclick="tender2()" style="left :-255px;width:90px"> 确 认 </a>
             <a href="javascript:void(0)" id="back2" class="easyui-linkbutton" onclick="back2()" style="left :-255px;width:90px"> 返 回 </a>
         </div>
     </form>
 </div>
+<!-- 模态框3 -->
+<div id="dlg3" class="easyui-dialog" style="width:800px;height: 600px" data-options="closed:true,modal:true,border:'thin',buttons:'#dlg-buttons'">
+    <form id="fm3" method="post" novalidate style="margin:0;padding:20px 50px">
+        <div style="margin-bottom:20px" hidden="hidden">
+            <input id="supplyId3" name="supplyId" class="easyui-textbox" disabled="true" label="商品编号:" style="width:45%">
+        </div>
+        <div style="margin-bottom:20px">
+            <input name="goodsName" class="easyui-textbox" disabled="true"label="商品名:" style="width:45%">
+            <input name="goodsNorms" class="easyui-textbox"disabled="true" label="商品规格:" style="width:45%">
+        </div>
+        <div style="margin-bottom:20px">
+            <input name="goodsType" class="easyui-textbox"disabled="true" label="商品类型:" style="width:45%">
+            <input id="supplyNum" name="supplyNum" class="easyui-numberbox" min="1" label="采购数量:" style="width:45%">
+        </div>
+        <table id="tt3" class="easyui-datagrid"
+               url="/findCargo.lovo"
+               iconCls="icon-save"
+               rownumbers="false" pagination="true"  singleSelect="true">
+            <thead>
+            <tr>
+                <th field="supplierId" width="34%" hidden="hidden">ID</th>
+                <th field="supplierName" width="26%">供应商名称</th>
+                <th field="supplierLevel"width="26%">供应商等级</th>
+                <th field="supplierType" width="26%">供应类型</th>
+                <th field="goodsNorms"width="26%">报价</th>
+            </tr>
+            </thead>
+        </table>
+        <div id="buttons3" align="center" style="margin-bottom:40px;margin-top: 40px;position: relative;right: -300px" >
+            <a href="javascript:void(0)" id="buyer3" name="supplier" class="easyui-linkbutton" onclick="buyer3()" style="left :-255px;width:90px"> 确 认 </a>
+            <a href="javascript:void(0)" id="back3" class="easyui-linkbutton" onclick="back3()" style="left :-255px;width:90px"> 返 回 </a>
+        </div>
+    </form>
+</div>
 <script>
+    function tender2() {
+        var row = $('#tt2').datagrid('getSelections');
+        if(row) {
+            var supplierArray="";
+            var supplyId=$("#supplyId2").val();
+            for (var i = 0; i <row.length ; i++) {
+                supplierArray+=row[i].supplierId+",";
+            }
+            $.post('/AJAXSupply', {
+                'supplierArray': supplierArray,
+                'supplyId':supplyId
+            }, function (resultHtml) {
+                var JSonobj = eval("(" + resultHtml + ")")
+                if (JSonobj.errorMsg) {
+                    $.messager.show({
+                        title: 'Error',
+                        msg: result.errorMsg
+                    });
+                } else {
+                    $('#dlg3').dialog('close');
+                }
+            });
+        }
+    }
+    function buyer3() {
+        var row = $('#tt3').datagrid('getSelected');
+        if(row) {
+            var supplyNum=$("#supplyNum").val()
+            if(""!=supplyNum&&supplyNum>=1) {
+                $.post('/AJAXCargo', {
+                    'cargoId': row.cargoId,
+                    'supplyNum':supplyNum
+                }, function (resultHtml) {
+                    var JSonobj = eval("(" + resultHtml + ")")
+                    if (JSonobj.errorMsg) {
+                        $.messager.show({
+                            title: 'Error',
+                            msg: result.errorMsg
+                        });
+                    } else {
+                        $('#dlg3').dialog('close');
+                    }
+                });
+            }else{
+                $.messager.alert('温馨提示','采购数量需大于1!')
+            }
+        }
+    }
     function buyer() {
         var row = $('#tt1').datagrid('getSelected');
         var status=$('#indentStatus1').val();
         if('已完成'==status){
-            $("#tender2").hide();
+            $("#buyer3").hide();
         }else if('已采购'==row.indentStatus){
             $.messager.confirm('提示！','已采购，你确定要重新采购吗?',function(r) {
                 if (r) {
-                    $("#tender2").show();
+                    $("#buyer3").show();
                 }else{
                     return;
                 }
             });
         }else if('待采购'==row.indentStatus){
-            $("#tender2").show();
+            $("#buyer3").show();
 
         }else{
             $.messager.alert('温馨提示','未投标或供应商未报价!')
             return;
         }
-        $('#dlg2').dialog('open').dialog('center').dialog('setTitle','采购');
-        $('#fm2').form('load',row);
+        $('#dlg3').dialog('open').dialog('center').dialog('setTitle','采购');
+        $('#fm3').form('load',row);
         url = '/findCargo.lovo?supplyId='+row.supplyId;
-        $('#tt2').datagrid('load',{
+        $('#tt3').datagrid('load',{
             supplyId: row.supplyId,
             page:1,
         });
@@ -182,6 +264,9 @@
             page:1,
         });
     }
+    function back3() {
+        $('#dlg3').dialog('close');
+    }
     function back2() {
         $('#dlg2').dialog('close');
     }
@@ -208,8 +293,40 @@
     }
     //初始化加载
     $(document).ready(function () {
+        $.post("/getBuyMQ.lovo",function () {
+        })
+        $.post("/getOrderMQ.lovo",function () {
+        })
+        post1();
+        post2();
         doSearch();
     });
+    function post2() {
+        $.post("/orderMQ",function (r) {
+            var re=  eval("("+r+")")
+            if(re.errorMsg) {
+                $.messager.show({
+                    title:'My Title',
+                    msg:'你有新的报价信息',
+                    showType:'show'
+                });
+            }
+            post1();
+        })
+    }
+    function post1() {
+        $.post("/buyMQ",function (r) {
+            var re=  eval("("+r+")")
+            if(re.errorMsg) {
+                $.messager.show({
+                    title:'My Title',
+                    msg:'你有新的供应商订单需要投标',
+                    showType:'show'
+                });
+            }
+            post1();
+        })
+    }
     //查询
     function doSearch(){
         $('#tt').datagrid('load',{

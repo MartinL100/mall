@@ -14,6 +14,13 @@ public class CenterOrderServiceImpl implements ICenterOrderService {
     @Autowired
     private ICenterOrderDao centerOrderDao;
     @Override
+    public void addCenterOrderService(CenterOrderGoods centerOrderGoods) {
+        centerOrderDao.save(centerOrderGoods);
+    }
+
+
+
+    @Override
     public double countMoney(String userName, Double allPrice) {
         return 0;
     }

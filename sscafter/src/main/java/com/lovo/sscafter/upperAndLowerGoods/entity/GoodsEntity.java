@@ -57,6 +57,7 @@ public  class GoodsEntity {
     @Column(name="lowerTime",length = 48)
     private  String lowerTime;
 
+
     public String getGoodsId() {
         return goodsId;
     }
