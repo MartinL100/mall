@@ -1,0 +1,161 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>表单提交</title>
+    <link rel="stylesheet" type="text/css" href="/static/easyui/themes/metro/easyui.css">
+    <link rel="stylesheet" type="text/css" href="/static/easyui/themes/mobile.css">
+    <link rel="stylesheet" type="text/css" href="/static/easyui/themes/icon.css">
+    <script type="text/javascript" src="/static/easyui/jquery.min.js"></script>
+    <script type="text/javascript" src="/static/easyui/jquery.easyui.min.js"></script>
+    <script type="text/javascript" src="/static/easyui/jquery.easyui.mobile.js"></script>
+</head>
+<body>
+<h2 align="center">商品信息列表</h2>
+
+<div id="toolbar">
+    <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-add" plain="true" onclick="newUser()">添加</a>
+    <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-edit" plain="true" onclick="editUser()">编辑</a>
+    <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-remove" plain="true" onclick="destroyUser()">删除</a>
+</div>
+
+
+<table id="tt" class="easyui-datagrid"
+       url="/pageGoods"
+       iconCls="icon-save"
+       rownumbers="true" pagination="true"  singleSelect="true">
+    <thead>
+    <tr>
+        <th field="codeId" width="23%">商品编号</th>
+        <th field="goodsName" width="11%">商品名称</th>
+        <th field="goodsNoms" width="11%" align="right">商品规格</th>
+        <th field="goodsType" width="11%" align="right">商品类型</th>
+        <th field="goodsUnit" width="11%" align="right">商品单位</th>
+        <th field="goodsNum" width="11%" align="right">商品库存</th>
+        <th field="supplierStatus" width="11%" align="right">商品状态</th>
+        <th field="supplierType" width="11%" align="right">商品审核类型</th>
+    </tr>
+    </thead>
+</table>
+
+
+<div id="tb" style="padding:3px">
+    <span>商品名称:</span>
+    <input id="goodsName" style="line-height:26px;border:1px solid #ccc">
+    <span>商品编号:</span>
+    <input id="codeId" style="line-height:26px;border:1px solid #ccc">
+    <a href="#" class="easyui-linkbutton" plain="true" onclick="doSearch()">搜索</a>
+
+</div>
+
+<!--添加修改模态框 -->
+<div id="dlg" class="easyui-dialog" style="width:400px" data-options="closed:true,modal:true,border:'thin',buttons:'#dlg-buttons'">
+    <form id="fm" method="post" novalidate style="margin:0;padding:20px 50px">
+        <h3>学生信息</h3>
+        <div style="margin-bottom:10px">
+            <input name="goodsName" class="easyui-textbox" required="true" label="商品名称:" style="width:100%">
+        </div>
+        <div style="margin-bottom:10px">
+            <input name="goodsNoms" class="easyui-textbox" required="true" label="商品规格:" style="width:100%">
+        </div>
+        <div style="margin-bottom:10px">
+            <input name="goodsType" class="easyui-textbox" required="true" label="商品类型:" style="width:100%">
+        </div>
+        <div style="margin-bottom:10px">
+            <input name="goodsUnit" class="easyui-textbox" required="true" label="商品单位:" style="width:100%">
+        </div>
+        <div style="margin-bottom:10px">
+            <input name="goodsNum" class="easyui-textbox" required="true" label="商品库存:" style="width:100%">
+        </div>
+    </form>
+</div>
+
+
+
+
+<div id="dlg-buttons">
+    <a href="javascript:void(0)" class="easyui-linkbutton c6" iconCls="icon-ok" onclick="saveUser()" style="width:90px">保存</a>
+    <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-cancel" onclick="javascript:$('#dlg').dialog('close')" style="width:90px">取消</a>
+</div>
+
+<script>
+    //查询
+    function doSearch(){
+        $('#tt').datagrid('load',{
+            codeId: $('#codeId').val(),
+            goodsName: $('#goodsName').val()
+        });
+    }
+    //初始化加载
+    // $(document).ready(function () {
+    //     $('#tt').datagrid('load',{
+    //         codeId: $('#codeId').val(),
+    //         goodsName: $('#goodsName').val()
+    //
+    //     });
+    // });
+
+
+    var url;
+    //添加窗口
+    function newUser(){
+        $('#dlg').dialog('open').dialog('center').dialog('setTitle','添加商品');
+        $('#fm').form('clear');
+        url = '/savaGoods'; //动态修改为添加url
+    }
+    //编辑用户
+    function editUser(){
+        var row = $('#tt').datagrid('getSelected');
+        if (row){
+            $('#dlg').dialog('open').dialog('center').dialog('setTitle','编辑商品');
+            $('#fm').form('load',row);
+            url = '/updateGoods?codeId='+row.codeId;
+        }
+    }
+    //保持用户
+    function saveUser(){
+        $('#fm').form('submit',{
+            url: url,
+            onSubmit: function(){
+                return $(this).form('validate');
+            },
+            success: function(result){
+
+                var result = eval('('+result+')');
+
+                if (result.errorMsg){
+                    $.messager.show({
+                        title: 'Error',
+                        msg: result.errorMsg
+                    });
+                } else {
+                    $('#dlg').dialog('close');		// close the dialog
+                    $('#tt').datagrid('reload');	// reload the user data
+                }
+            }
+        });
+    }
+
+    //删除
+    function destroyUser(){
+        var row = $('#tt').datagrid('getSelected');
+        if (row){
+            $.messager.confirm('提示！','你确定要删除吗?',function(r){
+                if (r){
+                    $.post("/delGoods",{codeId:row.codeId},function(result){
+
+                        $('#tt').datagrid('load',{
+                            codeId: $('#codeId').val()
+                        });
+                    });
+
+                }
+            });
+        }
+    }
+
+</script>
+</body>
+</html>
