@@ -34,7 +34,7 @@ public class AccountsAuditController {
 
     //分页
     @RequestMapping("frozenOrUnfrozenAccountsPage.lovo")
-    public Map<String, Object> page2(String tag,int page,int rows,String auditState,String auditType, String startTime, String endTime) {
+    public Map<String, Object> frozenOrUnfrozenAccountsPage(String tag,int page,int rows,String auditState,String auditType, String startTime, String endTime) {
         Map<String, Object> map = new HashMap<>();
         List<SysFrozenOrUnfrozenAccountsEntity> list=null;
         long total=0;

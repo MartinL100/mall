@@ -8,6 +8,7 @@ import com.lovo.sscafter.goodsStock.entity.OrderGoodsEntity;
 import com.lovo.sscafter.goodsStock.service.IGoodsStockService;
 import com.lovo.sscafter.goodsStock.service.IOrderGoodsService;
 import com.lovo.sscafter.goodsStock.service.IOrderServicr;
+import com.lovo.sscafter.util.MqUtil2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jms.annotation.JmsListener;
 import org.springframework.stereotype.Component;
@@ -27,9 +28,10 @@ public class MqController {
     private IOrderServicr orderServicr;
 
     @JmsListener(destination = "goodsMQ")
-public void orderGoodsMq(String sendGoods){
+public void orderGoodsMq(String sendGoods) throws InterruptedException {
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
         String nyr = dateFormat.format(new Date());
+        MqUtil2.queue2.put("yes");
 
         ObjectMapper mapper=new ObjectMapper();
         try {

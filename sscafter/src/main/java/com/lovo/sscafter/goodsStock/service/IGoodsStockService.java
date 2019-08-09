@@ -47,4 +47,6 @@ public interface IGoodsStockService {
      */
     public void  updateGoodsTagByNameAndTypeAndnorms(String name,String type,String norms);
 
+
+
 }

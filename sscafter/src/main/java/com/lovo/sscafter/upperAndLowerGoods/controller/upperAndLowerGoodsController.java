@@ -8,12 +8,13 @@ import com.lovo.sscafter.upperAndLowerGoods.entity.GoodsEntity;
 import com.lovo.sscafter.upperAndLowerGoods.serivce.IGoodsService;
 import com.lovo.sscafter.upperAndLowerGoods.util.StringUtil;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.jms.annotation.JmsListener;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -26,13 +27,24 @@ public class upperAndLowerGoodsController {
 
     @Autowired
     private IGoodsService goodsService;
+    @Scheduled(cron = "0 0 1 * * ?")
+     public void findAllGoodsEntity(){
+         SimpleDateFormat date=new SimpleDateFormat("yyyy-MM-dd");
+         String lowerTime= date.format(new Date());
+         List<GoodsEntity> goodsEntityList=goodsService.findAllGoods();
+         for (GoodsEntity  goodsEntity:goodsEntityList) {
+             if(goodsEntity.getLowerTime().equals(lowerTime)){
+                 updateStateLower(goodsEntity.getGoodsId());
+             }
+
+         }
+
+     }
 
 
     @RequestMapping("/findAllgoodsType")
-
     public List<GoodsTypeEntity> goodsTypeFind(){
         List<GoodsTypeEntity> list=  goodsTypeService.findAll();
-
         return  list;
     }
 
@@ -63,7 +75,6 @@ public class upperAndLowerGoodsController {
 
 
     @RequestMapping("/updateGoodsStateLower")
-
     public void updateStateLower(String list){
         List<String> listString =jsonString(list);
         for (String goodsId: listString ) {

@@ -23,14 +23,14 @@ public class WebSocketServer {
     @OnOpen
     public void onOpen(Session session) throws InterruptedException, IOException {
         this.session = session;
-       System.out.println("dahfkjFBkajfbakjfh");
 
-        //去队列中去数据，并推送到前端
-//        while(true){
-//            String message=   MqUtil2.queue2.take();
-//
-//            this.sendMessage(message);
-//        }
+
+       // 去队列中去数据，并推送到前端
+        while(true){
+            String message=   MqUtil2.queue2.take();
+
+            this.sendMessage("aa");
+        }
     }
     @OnClose
     public void onClose() {
@@ -63,6 +63,7 @@ public class WebSocketServer {
      * 实现服务器主动推送
      */
     public void sendMessage(String message) throws IOException {
+
         this.session.getBasicRemote().sendText(message);
     }
 

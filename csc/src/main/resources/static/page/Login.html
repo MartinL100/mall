@@ -90,8 +90,6 @@
         }, function (r) {
             //r是用户对象和session中验证码的Json对象
             var xxxxx = eval("(" + r + ")")
-            alert(xxxxx.auditObj)
-            alert(xxxxx.graphicCode)
             if (xxxxx.auditObj == null) {
                 sendErroInfo("用户名或密码错误")
                 return;
@@ -101,11 +99,20 @@
                 return;
             }
             //都正确，跳转到主界面
-            location.href = "main.html"
+
+            layui.use('layer', function(){
+                var layer = layui.layer;
+
+                layer.msg("登录成功", {icon: 6, anim: 6});
+            });
+alert(2222)
+            setTimeout("locationMain()", 1000 * 2);
         });
     });
 
-
+    function locationMain() {
+        location.href = "main.html"
+    }
 </script>
 </body>
 </html>
