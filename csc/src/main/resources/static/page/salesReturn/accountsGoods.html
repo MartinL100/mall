@@ -1,0 +1,379 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>用户退货审核页面Test</title>
+    <link rel="stylesheet" type="text/css" href="../../easyui/themes/metro/easyui.css">
+    <link rel="stylesheet" type="text/css" href="../../easyui/themes/mobile.css">
+    <link rel="stylesheet" type="text/css" href="../../easyui/themes/icon.css">
+    <script type="text/javascript" src="../../easyui/jquery.min.js"></script>
+    <script type="text/javascript" src="../../easyui/jquery.easyui.min.js"></script>
+    <script type="text/javascript" src="../../easyui/jquery.easyui.mobile.js"></script>
+    <!--<script type="text/javascript" src="../../easyui/jquery.js"></script>-->
+</head>
+<body>
+
+<div id="tb" style="padding:3px">
+    <div style="margin-bottom:20px">
+        <!--<input class="easyui-datebox"  id="startTime" name="startTime" label="开始时间:" prompt="搜索请求审核开始时间" data-options="editable:false,panelWidth:220,panelHeight:240,iconWidth:30" style="width:45%">-->
+        <!--<input class="easyui-datebox"  id="endTime" name="endTime" label="结束时间:" prompt="搜索请求审核结束时间" data-options="editable:false,panelWidth:220,panelHeight:240,iconWidth:30" style="width:45%">-->
+        <input id="orderId1" class="easyui-textbox" name="orderId" label="订单号" labelWidth="100px" style="width: 45%">
+        <input id="orderNameId" class="easyui-textbox" name="orderName" label="退货用户" labelWidth="70px" style="width: 45%">
+    </div>
+
+    <div style="margin-bottom:20px">
+
+        <div style="margin-bottom:10px">
+            <select name="goodsState" id="goodsState" label="订单状态:" class="easyui-combobox" labelWidth="100px" name="state" style="width:45%" panelHeight="100">
+                <option value="" >                       请选择状态</option>
+                <option value="未审核" >                       未审核</option>
+                <option value="审核通过">                      审核通过</option>
+                <option value="审核未通过">                    审核未通过</option>
+            </select>
+            <input id="auditTypeTag" name="auditTypeTag" type="hidden">
+            <a href="javascript:void(0)" class="easyui-linkbutton"  onclick="doSearch()" style="right :0px;width:90px;left: 336px">搜索</a>
+        </div>
+    </div>
+
+
+</div>
+
+<table id="tt" class="easyui-datagrid"
+       url="/page1.lovo"
+       iconCls="icon-save"
+       rownumbers="false" pagination="true"  singleSelect="true">
+    <thead>
+    <tr>
+        <th field="orderId" width="15%" >订单号id</th>
+        <th field="orderName" width="15%" >退货用户</th>
+        <th field="goodsState"width="20%" align="right">审核状态</th>
+        <th field="goodsDate" width="20%" align="right">审核时间</th>
+
+
+    </tr>
+    </thead>
+</table>
+
+
+<div id="buttons" align="center" style="margin-bottom:40px;margin-top: 40px;position: relative;right: -300px" >
+<a href="javascript:void(0)"  class="easyui-linkbutton" onclick="openMyWind()" style="left :-255px;width:90px"> 审 核 </a>
+</div>
+<!-- 模态框 -->
+<div id="dlg" class="easyui-dialog" style="width:800px;height: 600px" data-options="closed:true,modal:true,border:'thin',buttons:'#dlg-buttons'">
+    <form id="fm" method="post" novalidate style="margin:0;padding:20px 50px">
+       <input type="hidden" name="auditType" id="auditType">
+       <input type="hidden" name="userAuditInformationId" id="userAuditInformationId">
+
+
+        <table id="tt1" class="easyui-datagrid"
+               url="/pageGoods.lovo"
+               iconCls="icon-save"
+               rownumbers="false" pagination="true"  singleSelect="true">
+            <thead>
+            <tr>
+                <th field="goodsId" width="15%" >商品id</th>
+                <th field="goodssId" width="15%" >退货id</th>
+                <th field="goodsName" width="15%" >商品名</th>
+                <th field="goodsId"width="20%" align="right">商品编号</th>
+                <th field="goodsNum"width="20%" align="right">商品数量</th>
+                <th field="goodsBid" width="20%" align="right">商品价格</th>
+
+
+            </tr>
+            </thead>
+        </table>
+
+
+        <!-- 订单号-->
+        <div style="margin-bottom:10px;position: relative;right: -42px;left: 33px">
+            <label> 订单号： </label>
+            <input id="orderId"  name="orderId" class="textbox-text validatebox-text validatebox-readonly textbox-prompt"
+                   autocomplete="off" tabindex="" readonly="" placeholder=""
+                   style="width: 224px; margin: 0px; padding-top: 0px; padding-bottom: 0px;
+            height: 30px; line-height: 30px;">
+            <!-- 退货用户-->
+            <label style="position: relative;left: 10px"> 退货用户:</label>
+            <input id="orderName"  name="orderName" class="textbox-text validatebox-text validatebox-readonly textbox-prompt"
+                   autocomplete="off" tabindex="" readonly="" placeholder=""
+                   style="width: 224px; margin: 0px; padding-top: 0px; padding-bottom: 0px;position: relative;left: 34px;
+            height: 30px; line-height: 30px;">
+        </div>
+
+
+        <!--<div style="margin-bottom:10px;position: relative;right: -32px">-->
+            <!--&lt;!&ndash; 商品名&ndash;&gt;-->
+            <!--<span>商品名：</span>-->
+            <!--<input id="goodsName"  name="goodsName"-->
+                   <!--class="textbox-text validatebox-text validatebox-readonly textbox-prompt"-->
+                   <!--autocomplete="off" tabindex="" readonly="" placeholder=""-->
+                   <!--style="width: 224px; margin: 0px; padding-top: 0px; padding-bottom: 0px;-->
+            <!--height: 30px; line-height: 30px;">-->
+
+            <!--&lt;!&ndash; 商品数量&ndash;&gt;-->
+            <!--<span style="position: relative;left: 1.6%">商品数量：</span>-->
+            <!--<input id="goodsNum"  name="goodsNum" class="textbox-text validatebox-text validatebox-readonly textbox-prompt"-->
+                   <!--autocomplete="off" tabindex="" readonly="" placeholder=""-->
+                   <!--style="width: 224px; margin: 0px; padding-top: 0px; padding-bottom: 0px;-->
+            <!--height: 30px; line-height: 30px;position: relative;left: 3.5%">-->
+
+        <!--</div>-->
+
+
+        <!--<div style="margin-bottom:10px;position: relative;right: -32px;left: 18px">-->
+            <!--&lt;!&ndash; 商品价格&ndash;&gt;-->
+            <!--<span>商品价格：</span>-->
+            <!--<input id="goodsPrice"  name="goodsPrice"-->
+                   <!--class="textbox-text validatebox-text validatebox-readonly textbox-prompt"-->
+                   <!--autocomplete="off" tabindex="" readonly="" placeholder=""-->
+                   <!--style="width: 224px; margin: 0px; padding-top: 0px; padding-bottom: 0px;-->
+            <!--height: 30px; line-height: 30px;">-->
+        <!--</div>-->
+
+
+
+
+        <div style="margin-bottom:10px">
+
+
+           <div style="margin-bottom:10px">
+               <label style="position: relative;left: 18px">审核意见：</label>
+            <textarea   id="auditOpinion" fixed="false"   rows="10" cols="50" readonly="readonly" name="auditOpinion"   style="position: relative;left:18px;width:51.5%;height: 200px;resize:none">
+            </textarea >
+           </div>
+        </div>
+
+
+
+        <div style="margin-bottom:10px;position: relative;right: 10px;left: 20px" >
+            <span>审核时间：</span>
+            <input  id="goodsDate"   name="goodsDate" class="textbox-text validatebox-text validatebox-readonly textbox-prompt"
+                    autocomplete="off" tabindex="" readonly="" placeholder=""
+                    style="width: 224px; margin: 0px; padding-top: 0px; padding-bottom: 0px;
+            height: 30px; line-height: 30px;"   style="width:45%" style="width:45%">
+        </div>
+
+        <div style="margin-bottom:10px;position: relative;left: 10px">
+            <span style="position: relative;left: 15px"> 审核人：</span>
+            <input id="goodsAudit"  name="goodsAudit"class="textbox-text validatebox-text validatebox-readonly textbox-prompt"
+                   autocomplete="off" tabindex="" readonly="" placeholder=""
+                   style="width: 224px; margin: 0px; padding-top: 0px; padding-bottom: 0px;
+            height: 30px; line-height: 30px;position: relative;left: 25px"   style="width:45%">
+        </div>
+
+
+
+        <div id="dlg-buttons" align="center" style="margin-bottom:10px">
+            <a href="javascript:void(0)" class="easyui-linkbutton c6" iconCls="icon-ok" onclick="auditPass()" style="left :-255px;width:90px">审核通过</a>
+            <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-cancel" onclick="auditFail()" style="left :-255px;width:90px">拒绝通过</a>
+           <!-- <a href="javascript:void(0)" class="easyui-linkbutton"  onclick="ChangeTx()" style="left :-255px;width:90px">change</a>  -->
+            <a href="javascript:void(0)" class="easyui-linkbutton"  onclick="javascript:$('#dlg').dialog('close')" style="left :-255px;width:90px">取消操作</a>
+        </div>
+
+    </form>
+</div>
+
+
+
+
+
+<script>
+
+    //弹出模态框
+    function openMyWind(){
+
+        var row = $('#tt').datagrid('getSelected');
+        //alert(row)
+       if (row!=goodsState) {
+           $("#tender").show();
+           $("#buyer").show();
+       }else{
+           $("#tender").hide();
+           $("#buyer").hide();
+       }
+        //根据用户名查找出审核数据
+        //并将审核数据赋值给模态框
+        // PostToControllerFindUserMessageByUserName(row);
+        if (row){
+            $('#dlg').dialog('open').dialog('center').dialog('setTitle', '用户退货详情');
+            $('#fm').form('load',row);
+            // url="/findByOrderGoods.lovo?orderId="+row.orderId;
+        }
+        $('#tt1').datagrid('load',{
+            orderId: row.orderId,
+            page:1,
+        });
+
+       // else {
+       //
+       //     $.messager.alert('错误!','请先选中你要审核的数据!','error');
+       // }
+    }
+
+
+    // var initNum=1;
+    //初始化加载
+
+    $(document).ready(function () {
+        // alert(2222222)
+        // doSearch();
+        // getWebSocketMessage();
+        // if (initNum==1) {
+        //     return;
+        // }
+
+        doSearch()
+    });
+
+
+    //查询
+    function doSearch(){
+        // $('#tt').attr("url","/findByOrder.lovo")
+        $('#tt').datagrid('load',{
+
+            goodsState: $('#goodsState').val(),
+            orderId:$("#orderId1").val(),
+            orderName:$("#orderNameId").val(),
+
+        });
+       //alert(  $('#tt').attr("url"))
+    }
+
+    var url;
+    //审核通过
+    function auditPass() {
+        $("#auditOpinion").val("审核通过")
+        $("#goodsState").val("审核通过")
+
+        url="/updateOrderGoods.lovo"
+        $('#fm').form('submit',{
+            url: url,
+            onSubmit: function(){
+                return $(this).form('validate');
+            },
+            success: function(result){
+
+                var result = eval('('+result+')');
+
+                if (result.errorMsg){
+                    $.messager.show({
+                        title: 'Error',
+                        msg: result.errorMsg
+                    });
+                } else {
+                    $('#dlg').dialog('close');		// close the dialog
+                    $('#tt').datagrid('reload');	// reload the user data
+                }
+            }
+        });
+    }
+
+
+    //审核不通过
+    function auditFail() {
+            $.messager.prompt('请输入拒绝理由', '请输入拒绝通过理由', function (r) {
+                if (r != "") {
+                    $("#auditOpinion").val(r);
+                    // $("#auditReplyTime").val(timeFormat())
+                    $("#goodsState").val("审核未通过")
+                    return;
+                }
+                if (r == "") {
+                    $("#auditOpinion").val("其他");
+                    $("#goodsState").val("审核未通过")
+
+                }
+                // $('#dlg').dialog('close');		// close the dialog
+                // $('#tt').datagrid('reload');	// reload the user data
+                url="/updateOrderGoods.lovo"
+                $('#fm').form('submit',{
+                    url: url,
+                    onSubmit: function(){
+                        return $(this).form('validate');
+                    },
+                    success: function(result){
+
+                        var result = eval('('+result+')');
+
+                        if (result.errorMsg){
+                            $.messager.show({
+                                title: 'Error',
+                                msg: result.errorMsg
+                            });
+                        } else {
+                            $('#dlg').dialog('close');		// close the dialog
+                            $('#tt').datagrid('reload');	// reload the user data
+                        }
+                    }
+                });
+            });
+
+    }
+
+
+
+
+   // 提交到后台查找用户信息
+    function PostToControllerFindUserMessageByUserName(row) {
+       // alert()
+        var orderId= row.orderId
+        $.post('/findByOrderGoods.lovo',{'orderId':orderId},
+            function(result){
+            // var result = eval('('+result+')');
+            if (result!=null){
+
+                $("#goodssId").val(result.goodssId)
+                $("#auditType").val(result.auditType)
+                $("#goodsId").val(result.goodsId)
+                $("#goodsName").val(result.goodsName)
+                $("#goodsNum").val(result.goodsNum)
+                $("#goodsPrice").val(result.goodsPrice)
+                $("#orderId").val(result.orderId)
+                $("#goodsAudit").val(result.goodsAudit)
+                $("#goodsDate").val(result.goodsDate)
+                // $("#goodsAuditState").val(result.goodsAuditState)
+                $("#goodsState").val(result.goodsState)
+                $("#auditOpinion").val(result.auditOpinion)
+                $("#orderName").val(result.orderName)
+            } else {
+                $.messager.show({	// show error message
+                    title: 'Error',
+                    msg: result.errorMsg
+                });
+            }
+        },'json');
+    }
+
+
+
+    //提交审核结果到后台
+    function PostToControllerUpdateUserMessageByUserName() {
+            $.post('../../updateOrderGoods.lovo',
+                {orderName:$("#orderName").val(),
+                    auditType:$("#auditType").val(),
+                    auditOpinion:$("#auditOpinion").val()},
+                function(result){
+                var result = eval('('+result+')');
+
+                if (result.success){
+                    $('#tt').datagrid('load',{
+                       // userId: $('#userId').val()
+                    });
+                } else {
+                    $.messager.show({	// show error message
+                        title: 'Error',
+                        msg: result.errorMsg
+                    });
+                }
+            },'json');
+
+        $('#fm').form('clear');
+
+    }
+
+
+
+
+</script>
+</body>
+</html>
