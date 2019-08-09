@@ -76,7 +76,8 @@ public class UserAuditServiceImpl implements IUserAuditService {
 
         String userState=userAuditInformationEntity.getUserState();
         infoBean.setAuditPerson(auditPerson);
-        infoBean.setAuditTime(MyStringUtil.getFormMatTime());
+        infoBean.setAuditReplyTime(MyStringUtil.getFormMatTime());
+        infoBean.setMaintenanceManager(auditPerson);
         infoBean.setUserState(userState);
         infoBean.setAuditOpinion(userAuditInformationEntity.getAuditOpinion());
         String state="";

@@ -57,4 +57,10 @@ public interface  IGoodsService {
      */
     public void updateGoodsLowerTime(String goodsId,String lowerTime);
 
+    /**
+     * 查询所有商品对象
+     * @return
+     */
+    public  List<GoodsEntity> findAllGoods();
+
 }

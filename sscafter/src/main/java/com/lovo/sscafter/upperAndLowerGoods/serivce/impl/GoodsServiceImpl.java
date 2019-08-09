@@ -7,6 +7,8 @@ import com.lovo.sscafter.upperAndLowerGoods.serivce.IGoodsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 
@@ -35,14 +37,17 @@ public class  GoodsServiceImpl implements IGoodsService {
 
     @Override
     public void updateStateUpper(String  goodsId) {
-
-        goodsDao.updateStateUpper(goodsId,"上架");
+        SimpleDateFormat date=new SimpleDateFormat("yyyy-MM-dd");
+        String shelfTime= date.format(new Date());
+        goodsDao.updateStateUpper(goodsId,"上架", shelfTime);
 
     }
 
 
     public void updateStateLower(String goodsId) {
-        goodsDao.updateStateLower(goodsId,"下架");
+        SimpleDateFormat date=new SimpleDateFormat("yyyy-MM-dd");
+        String lowerfTime= date.format(new Date());
+        goodsDao.updateStateLower(goodsId,"下架",lowerfTime);
     }
 
 
@@ -58,5 +63,11 @@ public class  GoodsServiceImpl implements IGoodsService {
     @Override
     public void updateGoodsLowerTime(String goodsId, String lowerTime) {
         goodsDao.updateGoodsLowerTime(goodsId,lowerTime);
+    }
+
+    @Override
+    public List<GoodsEntity> findAllGoods() {
+        List<GoodsEntity> list= (List<GoodsEntity>) goodsDao.findAll();
+        return list ;
     }
 }

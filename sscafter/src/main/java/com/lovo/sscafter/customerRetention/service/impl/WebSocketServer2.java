@@ -9,7 +9,7 @@ import java.io.IOException;
 
 @ServerEndpoint("/websocket")
 @Component
-public class WebSocketServer {
+public class WebSocketServer2 {
     //与某个客户端的连接会话，需要通过它来给客户端发送数据
     private Session session;
     /**

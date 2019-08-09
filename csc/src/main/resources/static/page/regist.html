@@ -100,10 +100,16 @@
             "nickname": nickname
         }, function (r) {
             if (r == "ok") {
-                location.href = "Login.html"
+                layer.msg("注册成功，请登录",{icon:6,anim:6});
+                setTimeout("loc()",1000*2);
+
             }
         });
     });
+
+    function loc() {
+        location.href = "Login.html"
+    }
 </script>
 </body>
 </html>

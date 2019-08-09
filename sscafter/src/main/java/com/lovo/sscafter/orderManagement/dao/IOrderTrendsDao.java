@@ -15,8 +15,8 @@ public interface IOrderTrendsDao {
      * @param userName 用户名
      * @return
      */
-    public List<OrderManagementEntity> findTrendsOrderInfo(String orderDate,int orderType,
-                                                           int currentPage,int rows,String userName);
+    public List<OrderManagementEntity> findTrendsOrderInfo(String orderDate, int orderType,
+                                                           int currentPage, int rows, String userName);
 
     /**
      * 根据信息动态查询
@@ -25,7 +25,7 @@ public interface IOrderTrendsDao {
      * @param userName 用户名
      * @return
      */
-    public int findOrderRows(String orderDate,int orderType,String userName);
+    public int findOrderRows(String orderDate, int orderType, String userName);
 
     /**
      * 根据日期查询需要的日期

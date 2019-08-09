@@ -24,7 +24,7 @@ public interface IOrderManagementDao extends CrudRepository<OrderManagementEntit
     @Query("update OrderManagementEntity set orderType = ?2 " +
             "where orderNum = ?1")
     @Modifying
-    public void updateOrderType(String orderNum,String orderType);
+    public void updateOrderType(String orderNum, String orderType);
 
     /**
      * 根据订单号修改订单利润
@@ -33,7 +33,7 @@ public interface IOrderManagementDao extends CrudRepository<OrderManagementEntit
      */
     @Query("update OrderManagementEntity  set goodsProfit = goodsProfit - ?2 where orderNum=?1")
     @Modifying
-    public void updateOrderProfit(String orderNum,float goodsProfit);
+    public void updateOrderProfit(String orderNum, float goodsProfit);
 
 
 
