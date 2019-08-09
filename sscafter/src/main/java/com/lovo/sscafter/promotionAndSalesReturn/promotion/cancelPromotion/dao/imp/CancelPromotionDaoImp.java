@@ -2,7 +2,7 @@ package com.lovo.sscafter.promotionAndSalesReturn.promotion.cancelPromotion.dao.
 
 import com.lovo.sscafter.promotionAndSalesReturn.promotion.cancelPromotion.dao.ICancelPromotionDao;
 import com.lovo.sscafter.upperAndLowerGoods.entity.GoodsEntity;
-import com.lovo.sscafter.util.StringUtil;
+import com.lovo.sscafter.upperAndLowerGoods.util.StringUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
 import org.springframework.stereotype.Repository;

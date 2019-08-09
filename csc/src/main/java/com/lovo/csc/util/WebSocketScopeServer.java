@@ -1,36 +1,26 @@
 package com.lovo.csc.util;
 
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.lovo.csc.controller.clientcontroller.UserAuditController;
-import com.lovo.csc.entity.SysFrozenOrUnfrozenAccountsEntity;
-import com.lovo.csc.entity.SysUserAuditInformationEntity;
-import com.lovo.csc.service.clientService.IUserAuditService;
-import com.lovo.csc.vo.clientvo.PreserveMessageVo;
+import com.lovo.csc.dto.salesReturndto.ReturnGoodsDto;
+import com.lovo.csc.dto.salesReturndto.ScopeOrderDto;
 import com.lovo.csc.vo.clientvo.ResgisterMessageVo;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.jms.core.JmsTemplate;
 import org.springframework.stereotype.Component;
 
 import javax.jms.JMSException;
-import javax.jms.TextMessage;
 import javax.websocket.*;
 import javax.websocket.server.ServerEndpoint;
 import java.io.IOException;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
 
-@ServerEndpoint(value = "/websocketTwo")
+@ServerEndpoint(value = "/websocket")
 @Component
-public class WebSocketServerTwo {
+public class WebSocketScopeServer {
 
     //与某个客户端的连接会话，需要通过它来给客户端发送数据
     private Session session;
-    @Autowired
-    private JmsTemplate JmsTemplate;
-    @Autowired
-    private IUserAuditService userAuditService;
-    public  static BlockingQueue<PreserveMessageVo> blockingQueue =new LinkedBlockingQueue(100);
+
+    public  static BlockingQueue<ReturnGoodsDto> blockingQueue =new LinkedBlockingQueue(100);
 
     public Session getSession() {
         return session;
@@ -41,15 +31,11 @@ public class WebSocketServerTwo {
     }
 
     /**
-     * 连接建立成功调用的方法
-     */
+     * 连接建立成功调用的方法*/
     @OnOpen
     public void onOpen(Session session) {
         this.session = session;
-          //  getMQMessage();
-
     }
-
     @OnClose
     public void onClose() {
 
@@ -57,16 +43,16 @@ public class WebSocketServerTwo {
 
     /**
      * 收到客户端消息后调用的方法
-     *
      * @param message
      * @param session
      */
-    @OnMessage
+   @OnMessage
     public void onMessage(String message, Session session) throws IOException {
-        this.sendMessage(message);
+       this.sendMessage(message);
     }
 
     /**
+     *
      * @param session
      * @param error
      */
@@ -84,21 +70,17 @@ public class WebSocketServerTwo {
     }
 
 
-    public void getMQMessage()  {
+    public void getMQMessage() throws JMSException, IOException {
         boolean bl = true;
-        PreserveMessageVo vo = null;
-        while (bl) {
+        ScopeOrderDto dto=null;
+        while(bl) {
             try {
-             blockingQueue.take();
+               blockingQueue.take();
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
-            if (null != vo) {
-                try {
-                    sendMessage("您有新的账号"+vo.getAuditType()+"审核信息");
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
+            if (null!=dto){
+                sendMessage("您有新审核信息");
             }
         }
     }
