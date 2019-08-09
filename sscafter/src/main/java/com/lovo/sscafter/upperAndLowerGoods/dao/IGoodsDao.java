@@ -16,7 +16,7 @@ public interface IGoodsDao extends CrudRepository<GoodsEntity,String> {
     @Query("update GoodsEntity g set g.goodsState=?2 , g.shelfTime=?3 where g.goodsId=?1")
     @Modifying
     @Transactional
-    public void updateStateUpper(String goodsId , String goodsUpper,String shelfTime);
+    public void updateStateUpper(String goodsId, String goodsUpper, String shelfTime);
 
     /**
      * 下架
@@ -25,7 +25,7 @@ public interface IGoodsDao extends CrudRepository<GoodsEntity,String> {
     @Query("update GoodsEntity g set g.goodsState=?2 , g.lowerTime=?3 where g.goodsId=?1")
     @Modifying
     @Transactional
-    public void updateStateLower(String goodsId ,String goodsLower,String lowerTime );
+    public void updateStateLower(String goodsId, String goodsLower, String lowerTime);
 
     /**
      * 预售
@@ -34,7 +34,7 @@ public interface IGoodsDao extends CrudRepository<GoodsEntity,String> {
     @Query("update GoodsEntity g set g.goodsBooking=?2 where g.goodsId=?1")
     @Modifying
     @Transactional
-    public void updateStateBooking(String goodsId , String Booking);
+    public void updateStateBooking(String goodsId, String Booking);
 
     /**
      * 未预售
@@ -43,7 +43,7 @@ public interface IGoodsDao extends CrudRepository<GoodsEntity,String> {
     @Query("update GoodsEntity g set g.goodsBooking=?2 where g.goodsId=?1")
     @Modifying
     @Transactional
-    public void updateStateBooking1(String goodsId , String Booking1);
+    public void updateStateBooking1(String goodsId, String Booking1);
 
 
     /**
@@ -54,6 +54,6 @@ public interface IGoodsDao extends CrudRepository<GoodsEntity,String> {
     @Query("update GoodsEntity g set g.lowerTime=?2 where g.goodsId=?1")
     @Modifying
     @Transactional
-    public void updateGoodsLowerTime(String goodsId,String lowerTime);
+    public void updateGoodsLowerTime(String goodsId, String lowerTime);
 
 }

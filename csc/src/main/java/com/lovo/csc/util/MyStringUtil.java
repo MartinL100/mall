@@ -47,6 +47,7 @@ public class MyStringUtil {
     }
     //将字符串转换成数组
     public static  String[] getUserNameArray(String userNameStr){
+
         return userNameStr.split(",");
     }
     //将对象装换成json

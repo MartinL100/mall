@@ -48,7 +48,7 @@ public class salesRerurnController {
      * @param oderNum 退货单单号
      * @return 商品集合json
      */
-    @RequestMapping("findGoodsByreturnOderNum/{returnOderNum}")
+    @RequestMapping("/findGoodsByreturnOderNum/{returnOderNum}")
     public String findGoodsByreturnOderNum(@PathVariable("returnOderNum")String oderNum) throws JsonProcessingException {
     List<ReturnGoodsEntity> list=goodsService.findByReturnOderId(oderNum);
     ObjectMapper mapper=new ObjectMapper();

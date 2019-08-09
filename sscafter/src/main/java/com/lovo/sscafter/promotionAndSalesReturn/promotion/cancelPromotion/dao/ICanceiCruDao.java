@@ -20,7 +20,7 @@ public interface ICanceiCruDao extends CrudRepository<GoodsEntity,String> {
      */
     @Modifying
     @Query("update GoodsEntity set promotionState=?2 ,goodsDiscount=?3 where goodsId=?1")
-    public void updatPromotion(String goodsId,String promotionState,int goodsDiscount);
+    public void updatPromotion(String goodsId, String promotionState, int goodsDiscount);
 
     /**
      * 根据id修改商品促销状态（改为未促销）
@@ -29,7 +29,7 @@ public interface ICanceiCruDao extends CrudRepository<GoodsEntity,String> {
      */
     @Modifying
     @Query("update GoodsEntity set promotionState=?2 where goodsId=?1")
-    public void updateGoodspromotionState(String goodsId,String promotionState);
+    public void updateGoodspromotionState(String goodsId, String promotionState);
 
 
 }

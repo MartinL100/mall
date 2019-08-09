@@ -311,7 +311,7 @@
 
     jQuery.extend( {
 
-        // Unique for each copy of jQuery on the pageTwo
+        // Unique for each copy of jQuery on the page
         expando: "jQuery" + ( version + Math.random() ).replace( /\D/g, "" ),
 
         // Assume jQuery is ready without the ready module
@@ -1297,7 +1297,7 @@
 
                         // Support: Safari 8+, iOS 8+
                         // https://bugs.webkit.org/show_bug.cgi?id=136851
-                        // In-pageTwo `selector#id sibling-combinator selector` fails
+                        // In-page `selector#id sibling-combinator selector` fails
                         if ( !el.querySelectorAll( "a#" + expando + "+*" ).length ) {
                             rbuggyQSA.push(".#.+[+~]");
                         }
@@ -2046,7 +2046,7 @@
                     // Contents
                     "empty": function( elem ) {
                         // http://www.w3.org/TR/selectors/#empty-pseudo
-                        // :empty is negated by element (1) or content nodes (text: 3; cdata: 4; entity2 ref: 5),
+                        // :empty is negated by element (1) or content nodes (text: 3; cdata: 4; dto ref: 5),
                         //   but not by others (comment: 8; processing instruction: 7; etc.)
                         // nodeType < 6 works because attributes (2) do not appear as children
                         for ( elem = elem.firstChild; elem; elem = elem.nextSibling ) {
@@ -5039,7 +5039,7 @@
                 eventHandle = elemData.handle = function( e ) {
 
                     // Discard the second event of a jQuery.event.trigger() and
-                    // when an event is called after a pageTwo has unloaded
+                    // when an event is called after a page has unloaded
                     return typeof jQuery !== "undefined" && jQuery.event.triggered !== e.type ?
                         jQuery.event.dispatch.apply( elem, arguments ) : undefined;
                 };
@@ -10083,7 +10083,7 @@
 
 
     /**
-     * Load a url into a pageTwo
+     * Load a url into a page
      */
     jQuery.fn.load = function( url, params, callback ) {
         var selector, type, response,

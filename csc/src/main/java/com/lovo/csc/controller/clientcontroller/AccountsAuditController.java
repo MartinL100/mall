@@ -1,6 +1,7 @@
 package com.lovo.csc.controller.clientcontroller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.lovo.csc.entity.AuditEntity;
 import com.lovo.csc.entity.SysFrozenOrUnfrozenAccountsEntity;
 import com.lovo.csc.service.clientService.IUserAuditService;
 import com.lovo.csc.util.WebSocketServerTwo;
@@ -52,10 +53,10 @@ public class AccountsAuditController {
 
     //保存
     @JmsListener(destination = "frozenOrUnfrozenAccountsMessageMQ ")
-   // @RequestMapping("saveFrozenOrUnfrozenAccountsEntity.lovo")
-    public String savaSysFrozenOrUnfrozenAccountsEntity(String message) {
+    @RequestMapping("saveFrozenOrUnfrozenAccountsEntity.lovo")
+    public void saveSysFrozenOrUnfrozenAccountsEntity(String message) {
         if (null==message||"".equals(message)){
-            return "无新的请求";
+            return;
         }
         PreserveMessageVo vo=null;
         try {
@@ -71,7 +72,6 @@ public class AccountsAuditController {
                 e.printStackTrace();
             }
         }
-        return "您新的审核请求，请及时处理";
     }
 
 
@@ -81,11 +81,9 @@ public class AccountsAuditController {
        // System.out.println((infoBean.getFrozenOrUnfrozenAccountsMessageId()));
         SysFrozenOrUnfrozenAccountsEntity info=
                 userAuditService.findSysFrozenOrUnfrozenAccountsEntityById(frozenOrUnfrozenAccountsMessageId);
-             // AuditEntity auditEntity= (AuditEntity) request.getSession().getAttribute("auditObj");
-             //String re=  userAuditService.
-        // CycleUpdateUserAuditInformation(info,auditEntity.getAuditPeople());
-        String re=  userAuditService.CycleUpdateUserAuditInformation(infoBean,"光");
-        // String Id= userAuditService.savaFrozenOrUnfrozenAccountsEntity(frozenOrUnfrozenAccountsEntity);
+              AuditEntity auditEntity= (AuditEntity) request.getSession().getAttribute("auditObj");
+             String re=  userAuditService.CycleUpdateUserAuditInformation(info,auditEntity.getAuditPeople());
+       // String re=  userAuditService.CycleUpdateUserAuditInformation(infoBean,"光");
         if (null!=re&&"操作成功".equals(re)){
             return "{'successMsg':'操作成功'}";
         }

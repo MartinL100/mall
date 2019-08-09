@@ -8,7 +8,7 @@ import java.util.List;
 public interface  IGoodsService {
 
     // 动态查询商品信息
-    public List<GoodsEntity> getGoodsList(int page,int rows,String goodsState, String goodsType, String goodsBooking, String goodsName);
+    public List<GoodsEntity> getGoodsList(int page, int rows, String goodsState, String goodsType, String goodsBooking, String goodsName);
 
     /**
      * 保存商品
@@ -24,8 +24,8 @@ public interface  IGoodsService {
      * @param goodsName
      * @return
      */
-    public long  getGoodsCount( String goodsState, String goodsType,
-                                String goodsBooking,String goodsName);
+    public long  getGoodsCount(String goodsState, String goodsType,
+                               String goodsBooking, String goodsName);
 
     /**
      * 上架
@@ -55,7 +55,7 @@ public interface  IGoodsService {
      * @param goodsId
      * @param lowerTime
      */
-    public void updateGoodsLowerTime(String goodsId,String lowerTime);
+    public void updateGoodsLowerTime(String goodsId, String lowerTime);
 
     /**
      * 查询所有商品对象

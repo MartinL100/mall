@@ -7,6 +7,7 @@ import com.lovo.sscafter.goodsStock.service.IGoodsTypeService;
 import com.lovo.sscafter.promotionAndSalesReturn.promotion.beginPromotion.service.IPromotionGoodsService;
 import com.lovo.sscafter.upperAndLowerGoods.entity.GoodsEntity;
 
+import com.lovo.sscafter.util.MqUtil5;
 import org.apache.activemq.command.ActiveMQQueue;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jms.annotation.JmsListener;
@@ -42,10 +43,12 @@ public class promotionController {
     //初始化页面
     @RequestMapping("/findAll")
     @ResponseBody//只返回数据
-    public Map<String,Object> findAll(String goodsName, String goodsType, int page, int rows){
+    public Map<String,Object> findAll(String goodsName, String goodsType, int page, int rows) throws InterruptedException {
         if ("不限".equals(goodsType)){
             goodsType=null;
         }
+        MqUtil5.queue5.put("yes");
+       // MqUtil5.queue5.put("on");
         //动态查询总行数
       int pageCount= (int)service.findCount(goodsName,goodsType);
 
@@ -161,11 +164,8 @@ public class promotionController {
 
 
     //监听促销审核返回的MQ
-    @RequestMapping("/getCuXiaoMQ")
-    @ResponseBody
     @JmsListener(destination = "CuXiaoResultMQ")
-    public String getCuXiaoMQ(String resultMq) throws IOException {
-
+    public void getCuXiaoMQ(String resultMq) throws IOException, InterruptedException {
    // 将监听到的消息转换为map
     ObjectMapper mapper=new ObjectMapper();
     Map<String,Object> map= mapper.readValue(resultMq,Map.class);
@@ -175,21 +175,20 @@ public class promotionController {
 
        //根据得到的id进行修改促销状态和修改审核状态
        String info="";
+
         System.out.printf(""+goodsId);
         if ("审核通过".equals(auditInfo)){
             service.updatPromotion(goodsId,"正在促销",goodsDiscount);
         info="yes";
+        //将数据放入到websocket的消息队列中
+            MqUtil5.queue5.put("你好吗");
         }else {
             service.updateGoodspromotionState(goodsId,"促销审核未通过");
             info="no";
+            //将数据放入到websocket的消息队列中
+            MqUtil5.queue5.put("你好");
         }
-        return info;
     }
 
-    @RequestMapping("/ffff")
-    @ResponseBody
-    public String fndsss(){
-
-        return "yes";
-    }
+     //页面初始化 将MQ中所有未保存数据取出
 }

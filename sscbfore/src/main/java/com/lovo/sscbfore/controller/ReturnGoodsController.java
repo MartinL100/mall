@@ -187,7 +187,7 @@ public class ReturnGoodsController {
 
     /**
      * 1、生成消息实体类保存到数据库
-     * 2、用订单号远程调用，查询退货单中所有商品信息
+     * 2、用退货单号远程调用，查询退货单中所有商品信息
      * 3、以Jason格式发送到（orderReturnMQ）
      *
      * @param message 消息本体

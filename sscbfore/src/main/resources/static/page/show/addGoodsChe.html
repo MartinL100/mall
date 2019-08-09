@@ -2,7 +2,7 @@
 <html lang="zh">
 <head>
     <meta charset="utf-8">
-    <title>商品上架</title>
+    <title>添加商品</title>
     <meta name="renderer" content="webkit">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     <meta name="viewport"
@@ -19,11 +19,10 @@
 
 <div class="layui-fluid">
     <div class="layui-row layui-col-space15" style="height: 720px">
-
         <div class="layui-col-md12">
             <div class="layui-card">
                 <div class="layui-card-header" style="text-align: center">
-                    <h1>请选择上架商品</h1>
+                    <h1>请选择添加商品</h1>
                 </div>
                 <div class="layui-card-body">
                     <div class="layui-row layui-col-space3">
@@ -44,7 +43,8 @@
                                 <div class="layui-form-item">
                                     <label class="layui-form-label">商品名称</label>
                                     <div class="layui-input-block">
-                                        <input type="text" name="" placeholder="请输入商品名称" autocomplete="off"
+                                        <input type="text" id="goodsName" name="goodsName" placeholder="请输入商品名称"
+                                               autocomplete="off"
                                                class="layui-input">
                                     </div>
                                 </div>
@@ -75,7 +75,7 @@
 
 
 <script type="text/html" id="barDemo">
-    <a class="layui-btn layui-btn-xs" lay-event="add">上架该商品</a>
+    <a class="layui-btn layui-btn-xs" lay-event="add">添加商品</a>
 </script>
 <script src="../../layuiadmin/layui/layui.js"></script>
 <!--表格-->
@@ -90,6 +90,9 @@
         let layer = layui.layer;
 
         let $ = layui.$, active = {};
+
+        let goodsName = $('#goodsName').val();
+        let goodsType = $('#goodsType').val();
 
         form.render(null, 'layui-input-block');
 
@@ -106,7 +109,7 @@
             if (obj.event === 'add') {
                 layer.open({
                     type: 2
-                    , title: '商品上架'
+                    , title: '添加商品'
                     , content: ['/addgoods/jump/' + '1']
                     , area: ['1200px', '650px']
                 })
@@ -117,7 +120,7 @@
         function table1() {
             table.render({
                 elem: '#goodsTable'
-                , url: '/returngoods/req'
+                , url: '/addgoods/req/allgoods/' + goodsName + '/' + goodsType
                 , id: 'goodsTable'
                 , page: true
                 , cols: [[
@@ -133,6 +136,8 @@
                 ]]
             });
         }
+
+
     });
 
 </script>

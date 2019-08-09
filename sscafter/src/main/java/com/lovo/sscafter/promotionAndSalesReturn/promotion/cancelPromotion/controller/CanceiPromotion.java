@@ -6,6 +6,8 @@ import com.lovo.sscafter.goodsStock.entity.GoodsTypeEntity;
 import com.lovo.sscafter.goodsStock.service.IGoodsTypeService;
 import com.lovo.sscafter.promotionAndSalesReturn.promotion.cancelPromotion.service.ICancelPromotionService;
 import com.lovo.sscafter.upperAndLowerGoods.entity.GoodsEntity;
+import com.lovo.sscafter.util.MqUtil5;
+import com.lovo.sscafter.util.OutMqUtil;
 import org.apache.activemq.command.ActiveMQQueue;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jms.annotation.JmsListener;
@@ -43,11 +45,12 @@ public class CanceiPromotion {
 
     //初始化页面
     @RequestMapping("/outFindAll")
-    public Map<String,Object> findAll(String goodsName, String goodsType, int page, int rows){
+    public Map<String,Object> findAll(String goodsName, String goodsType, int page, int rows) throws InterruptedException {
         //设置不限
         if ("不限".equals(goodsType)){
             goodsType=null;
         }
+        OutMqUtil.outQueue.put("yes");
         //动态查询总行数
         int pageCount= (int)service.findCount(goodsName,goodsType);
 
@@ -76,7 +79,7 @@ public class CanceiPromotion {
     //根据页面传入的id集合，返回到设置促销页面
     @RequestMapping("/showGoods")
     @ResponseBody
-    public String findRestList(String list, HttpServletRequest request, HttpServletResponse response) {
+    public String findRestList(String list, HttpServletRequest request, HttpServletResponse response) throws InterruptedException {
         List<String> listString=null;
         ObjectMapper mapper=new ObjectMapper();
         try {
@@ -90,9 +93,13 @@ public class CanceiPromotion {
         if ( !"".equals(listString) && null!=listString){
             //查询数据为空则返回no
             info="yes";
+            //将数据放入到消息队列中
+            OutMqUtil.outQueue.put(info);
         }else {
             //不为空则返回yes
             info="no";
+            //将数据放入到消息队列中
+            OutMqUtil.outQueue.put(info);
         }
         //将id集合放入到session中,传入到跳转的controller
         request.setAttribute("listId",listString);

@@ -51,8 +51,8 @@ public class AddGoodsServiceImpl implements IAddGoodsService {
      * @param goodsId 商品id
      */
     private void updateGoodsState(String goodsId) {
-//        restTemplate.
-
+        final String updateGoodsStatusUrl = "http://sscAfter/upDateTag1ById/";
+        restTemplate.getForEntity(updateGoodsStatusUrl + goodsId, String.class);
     }
 
 
@@ -73,8 +73,8 @@ public class AddGoodsServiceImpl implements IAddGoodsService {
      * @return 商品实体类
      */
     private GoodsEntity getGoodsEntity(String goodsId) {
-        final String findGoodsUrl = "" + goodsId;
-        GoodsEntity goodsEntity = restTemplate.getForEntity(findGoodsUrl, GoodsEntity.class).getBody();
+        final String findGoodsUrl = "http://sscAfter/findGoodsByGoodsId/";
+        GoodsEntity goodsEntity = restTemplate.getForEntity(findGoodsUrl + goodsId, GoodsEntity.class).getBody();
         return goodsEntity;
     }
 
@@ -86,9 +86,9 @@ public class AddGoodsServiceImpl implements IAddGoodsService {
      * @throws IOException IO异常
      */
     private String fileTrans(MultipartFile file) throws IOException {
-        final String picPath = "C://img";
+        final String picPath = "C:/img";
 
-        File tarFile = new File(picPath);
+        File tarFile = new File(picPath + System.currentTimeMillis() + file.getName());
         file.transferTo(tarFile);
         return tarFile.getPath();
     }

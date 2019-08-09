@@ -27,7 +27,7 @@ public interface ICancelPromotionDao {
          * @param goodsType 商品类型
          * @return 总行数
          */
-        public long findCount(String goodsName,String goodsType);
+        public long findCount(String goodsName, String goodsType);
 
 
         /**

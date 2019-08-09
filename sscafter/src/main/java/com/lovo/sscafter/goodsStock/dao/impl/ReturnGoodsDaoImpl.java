@@ -39,7 +39,7 @@ String hql="select new com.lovo.sscafter.goodsStock.dto.ReturnGoodsDto(re.return
         }if(null!=endDate&&endDate.length()!=0){
             hql+=" and  re.returnGoodsDate<=:endDate";
         }
-
+  hql+="order by re.returnGoodsDate";
 
         Query query = getEntityManager().createQuery(hql);
 

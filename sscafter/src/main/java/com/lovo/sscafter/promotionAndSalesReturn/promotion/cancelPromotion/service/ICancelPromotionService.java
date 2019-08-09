@@ -25,7 +25,7 @@ public interface ICancelPromotionService {
      * @param goodsType 商品类型
      * @return 总行数
      */
-    public long findCount(String goodsName,String goodsType);
+    public long findCount(String goodsName, String goodsType);
 
     /**
      * 根据id查询商品集合
@@ -39,7 +39,7 @@ public interface ICancelPromotionService {
      * @param goodsId 商品id
      * @param promotionState 促销状态
      */
-    public void updateGoodspromotionState(String goodsId,String promotionState);
+    public void updateGoodspromotionState(String goodsId, String promotionState);
 
     /**
      * 根据商品id修改促销状态(审核中，正在促销，未促销,促销审核未通过)，和折扣率（改为100）
@@ -47,5 +47,5 @@ public interface ICancelPromotionService {
      * @param goodsDiscount 商品折扣率
      * @param promotionState 促销状态
      */
-    public void updatPromotion(String goodsId,String promotionState,int goodsDiscount);
+    public void updatPromotion(String goodsId, String promotionState, int goodsDiscount);
 }
