@@ -44,7 +44,7 @@ public class promotionController {
     @ResponseBody//只返回数据
     public Map<String,Object> findAll(String goodsName, String goodsType, int page, int rows){
         if ("不限".equals(goodsType)){
-            goodsType="";
+            goodsType=null;
         }
         //动态查询总行数
       int pageCount= (int)service.findCount(goodsName,goodsType);
