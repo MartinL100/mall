@@ -76,6 +76,7 @@ public class MQ {
                 restTemplate.getForEntity("http://sscafter/update2/"+userName+"/"+preresult.getUserState(),String.class).getBody();
             }
         }
+            MqUtil.queue.put("true");
         }catch (Exception e){e.printStackTrace();}
     }
 

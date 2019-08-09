@@ -12,7 +12,7 @@ public interface IGoodsStockCurdDao extends CrudRepository<GoodsStockEntity,Stri
      @Query("update GoodsStockEntity g set g.goodsNum=g.goodsNum+?1 where g.goodsId=?2")
      @Modifying
      @Transactional
-    public void updateGoodsNum(long goodsNum,String goodsId);
+    public void updateGoodsNum(long goodsNum, String goodsId);
 
 
 @Query("select g.goodsNum from GoodsStockEntity g where g.goodsId=?1")
@@ -21,15 +21,15 @@ public interface IGoodsStockCurdDao extends CrudRepository<GoodsStockEntity,Stri
     @Query("update GoodsStockEntity g set g.goodsMinNum=?1 where g.goodsId=?2")
     @Modifying
     @Transactional
-    public void updateGoodsMinNum(long goodsMinNum,String goodsId);
+    public void updateGoodsMinNum(long goodsMinNum, String goodsId);
 
     @Query("update  GoodsStockEntity g set g.tag=?1 where g.goodsId=?2")
     @Modifying
     @Transactional
-    public void upDateGoodsTag(String tag,String goodsId);
+    public void upDateGoodsTag(String tag, String goodsId);
 
        @Query("from GoodsStockEntity where goodsName=?1 and goodsType=?2 and goodsNorms=?3")
-       public GoodsStockEntity findByNameTypeAnAndNorms(String name,String type,String norms);
+       public GoodsStockEntity findByNameTypeAnAndNorms(String name, String type, String norms);
 
        public GoodsStockEntity findGoodsStockEntityByGoodsId(String goodsId);
 
@@ -42,11 +42,11 @@ public interface IGoodsStockCurdDao extends CrudRepository<GoodsStockEntity,Stri
        @Query("update GoodsStockEntity g set g.goodsNum=g.goodsNum+?1 where g.goodsName=?2 and g.goodsType=?3 and g.goodsNorms=?4")
        @Modifying
        @Transactional
-       public void updateGoodsNumByNameAndTypeAndnorms(Long num,String name,String type,String norms);
+       public void updateGoodsNumByNameAndTypeAndnorms(Long num, String name, String type, String norms);
 
 
         @Query("update GoodsStockEntity g set g.tag='已到货' where  g.goodsName=?1 and g.goodsType=?2 and g.goodsNorms=?3")
         @Modifying
         @Transactional
-       public void  updateGoodsTagByNameAndTypeAndnorms(String name,String type,String norms);
+       public void  updateGoodsTagByNameAndTypeAndnorms(String name, String type, String norms);
 }

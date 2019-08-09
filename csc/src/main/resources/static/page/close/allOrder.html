@@ -4,12 +4,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>表单提交</title>
-    <link rel="stylesheet" type="text/css" href="/static/easyui/themes/metro/easyui.css">
-    <link rel="stylesheet" type="text/css" href="/static/easyui/themes/mobile.css">
-    <link rel="stylesheet" type="text/css" href="/static/easyui/themes/icon.css">
-    <script type="text/javascript" src="/static/easyui/jquery.min.js"></script>
-    <script type="text/javascript" src="/static/easyui/jquery.easyui.min.js"></script>
-    <script type="text/javascript" src="/static/easyui/jquery.easyui.mobile.js"></script>
+    <link rel="stylesheet" type="text/css" href="../../easyui/themes/metro/easyui.css">
+    <link rel="stylesheet" type="text/css" href="../../easyui/themes/mobile.css">
+    <link rel="stylesheet" type="text/css" href="../../easyui/themes/icon.css">
+    <script type="text/javascript" src="../../easyui/jquery.min.js"></script>
+    <script type="text/javascript" src="../../easyui/jquery.easyui.min.js"></script>
+    <script type="text/javascript" src="../../easyui/jquery.easyui.mobile.js"></script>
 </head>
 <body>
 
@@ -89,13 +89,13 @@
                rownumbers="true" pagination="true"  singleSelect="true">
             <thead>
             <tr>
-                <th field="goodsName" width="15%">商品名</th>
-                <th field="goodsNorms" width="14%">商品规格</th>
-                <th field="goodsType" width="14%" align="right">商品类型</th>
-                <th field="goodsPrice" width="14%" align="right">商品售价</th>
-                <th field="goodsNum" width="14%" align="right">商品数量</th>
-                <th field="goodsUnit" width="14%" align="right">商品单位</th>
-                <th field="payMoney" width="15%" align="right">商品金额</th>
+                <th field="goodsName" width="20%">商品名</th>
+                <th field="goodsNorms" width="15%">商品规格</th>
+                <th field="goodsType" width="15%" align="right">商品类型</th>
+                <th field="goodsPrice" width="15%" align="right">商品售价</th>
+                <th field="goodsNum" width="15%" align="right">商品数量</th>
+                <th field="goodsUnit" width="20%" align="right">商品单位</th>
+                <!--<th field="payMoney" width="15%" align="right">商品金额</th>-->
             </tr>
             </thead>
         </table>
@@ -110,7 +110,8 @@
 <script>
     //查询
     function doSearch(){
-
+        var op = $("#tt").datagrid("options");//获取 option设置对象
+        op.url = "/orderList";//设置url
         $('#tt').datagrid('load',{
             userName: $('#userName').val(),
             orderNum: $('#orderNum').val(),
@@ -127,6 +128,8 @@
     // });
     //所有订单
     function  allOrder() {
+        var op = $("#tt").datagrid("options");//获取 option设置对象
+        op.url = "/orderList";//设置url
         $('#tt').datagrid('load',{
             page:1
         });
@@ -135,7 +138,6 @@
     //支付失败
     function loseOrder() {
         var op = $("#tt").datagrid("options");//获取 option设置对象
-
         op.url = "/tagOrderList";//设置url
         $("#tt").datagrid("load",{
             tag:2,
@@ -143,11 +145,12 @@
     }
     //支付成功
     function successOrder(){
-        $("#tt").attr(url="/tagOrderList")
-        $('#tt').datagrid('load',{
+        var op = $("#tt").datagrid("options");//获取 option设置对象
+
+        op.url = "/tagOrderList";//设置url
+        $("#tt").datagrid("load",{
             tag:1,
-            page:1
-        });
+        });//重新加载
     }
 
 

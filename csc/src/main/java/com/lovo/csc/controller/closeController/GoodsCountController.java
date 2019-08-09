@@ -2,18 +2,24 @@ package com.lovo.csc.controller.closeController;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.lovo.common.entity.GoodsDTO;
+import com.lovo.common.entity.OrderDTO;
 import com.lovo.csc.entity.CenterOrderGoods;
+import com.lovo.csc.entity.GoodsEntity;
 import com.lovo.csc.entity.OrderEntity;
-import com.lovo.csc.entity.dto.GoodsDto;
-import com.lovo.csc.entity.dto.OrderDto;
 import com.lovo.csc.service.clientService.IUserAuditService;
+import com.lovo.csc.service.closeService.ICenterOrderService;
+import com.lovo.csc.service.closeService.IGoodsService;
 import com.lovo.csc.service.closeService.IOrderService;
+import com.lovo.csc.service.depositService.IDepositService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.jaxb.SpringDataJaxb;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.transaction.Transactional;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -21,39 +27,46 @@ import java.util.List;
 import java.util.Map;
 
 @RestController
+
 public class GoodsCountController {
     @Autowired
     private IOrderService orderService;
     @Autowired
     private IUserAuditService userAuditService;
+    @Autowired
+    private IDepositService depositService;
+    @Autowired
+    private ICenterOrderService centerOrderService;
+    @Autowired
+    private IGoodsService goodsService;
 
     //验证用户余额是否充足，计算实际支付金额,参数跟在地址后面
     @RequestMapping(value = "countMoney/{userName}/{allPrice}/{payMethod}",method = RequestMethod.GET)
     public double countMoney(@PathVariable("userName")String userName,
                              @PathVariable("allPrice")double allPrice,
-                             @PathVariable("payMethod")String payMethod){
-        System.out.println(userName+"/"+allPrice+"/"+payMethod);
-      double discount=   userAuditService.getUserDiscount(userName);//计算用户的折扣
-//    double   payMoney=allPrice*discount;
-//       if(payMethod.equals("deposit")){
-//            //用预付款支付
-//          payMoney= findDepositDiscount(userName,payMoney);
-//        return payMoney;
-        return 0;
+                             @PathVariable("payMethod")String payMethod) {
+//        System.out.println(userName + "/" + allPrice + "/" + payMethod);
+        double discount = userAuditService.getUserDiscount(userName);//计算用户的折扣
+        double payMoney = allPrice * discount;
+        if (payMethod.equals("deposit")) {
+            //用预付款支付
+            payMoney = depositService.findDepositDiscount(userName, payMoney);
+        }
+        return payMoney;
     }
     //结算订单，数据以json传输,添加订单信息
-    @RequestMapping("checkOrder")
-    public String addOrder(String jsonStr) throws JsonProcessingException {
+    @RequestMapping(value = "checkOrder/{str}")
+    public String addOrder(@PathVariable("str") String jsonStr) throws JsonProcessingException {
         //将json字符串转换为对象
-         jsonStr="{\"orderNum\":\"092019070823578\",\"orderDate\":\"07/03/2019\",\"userName\":\"小王\"" +
-                ",\"orderMoney\":25235.2,\"payMoney\":0.0,\"payMethod\":\"deposit\",\"goodsList\":[{" +
-                "\"goodsId\":\"352\",\"goodsName\":\"梨子\",\"goodsNorms\":\"大\",\"goodsPrice\":120.0" +
-                ",\"goodsNum\":200,\"goodsType\":\"水果\",\"goodsUnit\":\"一筐\"},{" +
-                " \"goodsId\":\"242\",\"goodsName\":\"桃子\",\"goodsNorms\":\"大\",\"goodsPrice\":89.0" +
-                ",\"goodsNum\":200,\"goodsType\":\"水果\",\"goodsUnit\":\"一筐\"}]}";
-        OrderDto orderDto=null;
+//         jsonStr="{\"orderNum\":\"092349070823569\",\"orderDate\":\"07/03/2019\",\"userName\":\"小1\"" +
+//                ",\"orderMoney\":25235.2,\"payMoney\":\"0.0\",\"payMethod\":\"deposit\",\"goodsDTOList\":[{" +
+//                "\"goodsId\":\"352\",\"goodsName\":\"梨子\",\"goodsNorms\":\"大\",\"goodsPrice\":120.0" +
+//                ",\"goodsNum\":200,\"goodsType\":\"水果\",\"goodsUnit\":\"一筐\"},{" +
+//                " \"goodsId\":\"242\",\"goodsName\":\"桃子\",\"goodsNorms\":\"大\",\"goodsPrice\":89.0" +
+//                ",\"goodsNum\":200,\"goodsType\":\"水果\",\"goodsUnit\":\"一筐\"}]}";
+        OrderDTO orderDto=null;
         try {
-            orderDto=new ObjectMapper().readValue(jsonStr, OrderDto.class);
+            orderDto=new ObjectMapper().readValue(jsonStr, OrderDTO.class);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -64,13 +77,51 @@ public class GoodsCountController {
 
         if("deposit".equals(orderDto.getPayMethod())){
             //用预付款
-            //         payMoney= deductionDeposit(userName,payMoney);
+                     payMoney= depositService.deductionDeposit(userName,payMoney);
         }
         if(payMoney==-1){
+            this.full(orderDto,2);
             return  "{'payMoney':0,'errorInfo':'预付款余额不足，支付失败'}";
         }else{
+            orderDto.setPayMoney(payMoney+"");
+            //保存
+            this.full(orderDto,1);
             return  "{'payMoney':"+payMoney+",'errorInfo':'null'}";
         }
+
+    }
+    //保存数据
+    public void full(OrderDTO orderDto,int tag){
+        OrderEntity orderEntity=new OrderEntity();
+        orderEntity.setOrderNum(orderDto.getOrderNum());
+        orderEntity.setOrderDate(orderDto.getOrderDate());
+        orderEntity.setUserName(orderDto.getUserName());
+        orderEntity.setOrderMoney(orderDto.getOrderMoney());
+        orderEntity.setPayMoney(Double.parseDouble(orderDto.getPayMoney()));
+        orderEntity.setPayMethod(orderDto.getPayMethod());
+        orderEntity.setTag(tag);
+        orderService.saveOrder(orderEntity);
+
+        List<GoodsDTO> goodsDTOList= orderDto.getGoodsDTOList();
+        for (GoodsDTO goods:goodsDTOList) {
+            //保存商品
+            GoodsEntity goodsEntity=new GoodsEntity();
+            goodsEntity.setGoodsId( goods.getGoodsId());
+            goodsEntity.setGoodsName(goods.getGoodsName());
+            goodsEntity.setGoodsNorms(goods.getGoodsNorms());
+            goodsEntity.setGoodsType(goods.getGoodsType());
+            goodsEntity.setGoodsUnit(goods.getGoodsUnit());
+            goodsService.saveGoodsCount(goodsEntity);
+            //保存中间表
+            CenterOrderGoods centerOrderGoods=new CenterOrderGoods();
+            centerOrderGoods.setOrder(orderEntity);
+            centerOrderGoods.setGoods(goodsEntity);
+            centerOrderGoods.setGoodsNum(goods.getGoodsNum()+"");
+            centerOrderGoods.setGoodsPrice(goods.getGoodsPrice()+"");
+            centerOrderService.saveGoodsCount(centerOrderGoods);
+        }
+
+
 
     }
     //根据id查询订单详细信息
@@ -82,19 +133,19 @@ public class GoodsCountController {
         OrderEntity orderEntity= orderService.findbyId(orderNum);
         //得到商品dto数据
         List<CenterOrderGoods> centerOrderGoodsList= orderEntity.getOrderGoods();
-        List<GoodsDto> dtoList=new ArrayList<>();
+        List<GoodsDTO> dtoList=new ArrayList<>();
         for (CenterOrderGoods center:centerOrderGoodsList) {
-            GoodsDto goodsDto=new GoodsDto();
+            GoodsDTO goodsDto=new GoodsDTO();
              goodsDto.setGoodsId(center.getGoods().getGoodsId());
              goodsDto.setGoodsName(center.getGoods().getGoodsName());
              goodsDto.setGoodsNorms(center.getGoods().getGoodsNorms());
              int goodsNum= Integer.parseInt(center.getGoodsNum());
-             goodsDto.setGoodsNum(center.getGoodsNum());
+             goodsDto.setGoodsNum(Long.parseLong(center.getGoodsNum()));
              double goodsPrice=Double.parseDouble(center.getGoodsPrice());
-             goodsDto.setGoodsPrice(Double.parseDouble(center.getGoodsPrice()));
+             goodsDto.setGoodsPrice(Float.parseFloat(center.getGoodsPrice()));
              goodsDto.setGoodsType(center.getGoods().getGoodsType());
              goodsDto.setGoodsUnit(center.getGoods().getGoodsUnit());
-             goodsDto.setPayMoney(goodsNum*goodsPrice);
+//             goodsDto.setPayMoney(goodsNum*goodsPrice);
             dtoList.add(goodsDto);
         }
         Map<String,Object> map=new HashMap<>();
@@ -134,8 +185,14 @@ public class GoodsCountController {
         Map<String,Object> map=new HashMap<>();
         int pageNumber=(page-1)*rows;
         List<OrderEntity> tagOrderList= orderService.findByTag(pageNumber,rows,tag);
-        for (OrderEntity o:tagOrderList
-             ) {o.setOrderGoods(null);
+        for (OrderEntity o:tagOrderList) {
+            o.setOrderGoods(null);
+
+            if(tag==1){
+                o.setTagStr("支付成功");
+            }else{
+                o.setTagStr("支付失败");
+            }
         }
         map.put("rows",tagOrderList);
         map.put("page",page);

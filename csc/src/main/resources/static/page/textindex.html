@@ -67,14 +67,16 @@
               </a>
               <dl class="layui-nav-child">
                 <dd data-name="console" class="layui-this">
-                  <a  lay-href="../page/close/allOrder.html">客户订单一览</a>
+                  <a name="" lay-href="../page/close/allOrder.html">客户订单一览</a>
                 </dd>
                 <dd data-name="console">
-                  <a  lay-href="../page/salesReturn/accountsGoods.html">客户退货审核</a>
+                  <a name="" lay-href="">客户退货审核</a>
                 </dd>
-
                 <dd data-name="console">
-                  <a  lay-href="../page/salesReturn/accountsGoods.html">供应商退货审核</a>
+                  <a name="" lay-href="">供应商订单审核</a>
+                </dd>
+                <dd data-name="console">
+                  <a name="" lay-href="">供应商退货审核</a>
                 </dd>
               </dl>
             </li>
@@ -114,7 +116,7 @@
 
 
             <li class="layui-nav-item ">
-              <a lay-href="" lay-tips="主页" lay-direction="3">
+              <a lay-href="" lay-tips="主页" lay-direction="2">
                 <i class="layui-icon layui-icon-rmb"></i>
                 供货结算
               </a>
@@ -180,8 +182,7 @@
       if (null==res||""==res){
         layer.msg('登录失效！请重新返回登录页面进行登录', {
           time: 20000, //20s后自动关闭
-          btn: ['知道了'],
-          title: '温馨提示'
+          btn: ['知道了']
         });
         location.href="../page/Login.html";
       }
@@ -196,8 +197,7 @@
 
   function activeUserLogOut() {
    layer.confirm('您确定退出登录？', {
-     btn: ['确定','取消'],//按钮
-     title: '温馨提示',
+     btn: ['确定','取消'] //按钮
    }, function(){
      location.href="../page/Login.html";
    }, function(){

@@ -10,7 +10,7 @@ public interface IOrderGoodsService {
                                               String goodsType, String startDate, String endDate, int currentPage, int rows);
     public long findOrderGoodsCount(String goodsName, String goodsType, String startDate, String endDate);
 
-    public void updateIsReturnGoods(String status,String orderGoodsId);
+    public void updateIsReturnGoods(String status, String orderGoodsId);
 
    public void saveOrderGoods(OrderGoodsEntity orderGoodsEntity);
 
