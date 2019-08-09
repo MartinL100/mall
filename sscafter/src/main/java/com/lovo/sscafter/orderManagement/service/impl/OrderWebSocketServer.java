@@ -1,19 +1,15 @@
-package com.lovo.sscafter.customerRetention.service.impl;
+package com.lovo.sscafter.orderManagement.service.impl;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-
-import com.lovo.sscafter.customerRetention.util.MqUtil;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.jms.annotation.JmsListener;
+import com.lovo.sscafter.orderManagement.util.MqUtil;
 import org.springframework.stereotype.Component;
 
 import javax.websocket.*;
 import javax.websocket.server.ServerEndpoint;
 import java.io.IOException;
 
-@ServerEndpoint("/websocket")
+@ServerEndpoint("/orderWebsocket")
 @Component
-public class WebSocketServer2 {
+public class OrderWebSocketServer {
     //与某个客户端的连接会话，需要通过它来给客户端发送数据
     private Session session;
     /**
@@ -24,9 +20,9 @@ public class WebSocketServer2 {
 
 //        System.out.println("链接成功");
         //去队列中去数据，并推送到前端
-//        MqUtil.queue.put("true");
+//        MqUtil.orderQueue.put("true");
         while(true){
-            String message=   MqUtil.queue.take();
+            String message= MqUtil.orderQueue.take();
             this.sendMessage(message);
         }
     }
