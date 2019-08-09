@@ -12,7 +12,7 @@ public interface IGoodsTypeCrudDao extends CrudRepository<GoodsTypeEntity,String
     @Query("update GoodsTypeEntity set typeName=?1 where typeId=?2")
     @Modifying
     @Transactional
-    public void updateGoodstype(String typeName,String typeId);
+    public void updateGoodstype(String typeName, String typeId);
 
 
     @Query("from GoodsTypeEntity where typeKey=?1")

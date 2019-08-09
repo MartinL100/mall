@@ -10,9 +10,11 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.List;
 
 @Service(value="orderService")
+@Transactional
 public class OrderServiceImpl implements IOrderService {
     @Autowired
     private IOrderDao orderDao;
@@ -30,6 +32,7 @@ public class OrderServiceImpl implements IOrderService {
 
     @Override
     public List<OrderEntity> findBySome(int pageNumber, int pageSize,String userName, String orderNum, String startTime, String endTime) {
+
         String hql="from OrderEntity where 1=1";
         if(!StringUtil.blString(userName)){
             hql+=" and userName like '%"+userName+"%'";

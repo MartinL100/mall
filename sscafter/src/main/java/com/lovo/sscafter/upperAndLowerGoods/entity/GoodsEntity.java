@@ -41,7 +41,7 @@ public  class GoodsEntity {
    //商品数量
     @Column(name="goodsNum")
     private  int goodsNum;
-   //商品状态
+   //商品状态（上架，下架）
     @Column(name="goodsState",length = 48)
     private  String goodsState;
     //预售状态
@@ -56,6 +56,7 @@ public  class GoodsEntity {
    //下架时间
     @Column(name="lowerTime",length = 48)
     private  String lowerTime;
+
 
     public String getGoodsId() {
         return goodsId;

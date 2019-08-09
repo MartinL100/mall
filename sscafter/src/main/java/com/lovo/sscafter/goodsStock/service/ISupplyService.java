@@ -7,7 +7,7 @@ import java.util.List;
 
 public interface ISupplyService {
     public List<LookBuyInfoDTO> findOrderGoods(String goodsName,
-        String goodsType, String startDate, String endDate, int currentPage, int rows);
+                                               String goodsType, String startDate, String endDate, int currentPage, int rows);
 
     public void saveSupply(SupplyEntity supplyEntity);
 

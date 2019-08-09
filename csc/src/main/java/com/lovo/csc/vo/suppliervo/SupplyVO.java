@@ -8,13 +8,13 @@ public class SupplyVO {
     private String goodsNorms;
     private String goodsType;
     private String goodsUnit;
-    private String goodsNum;
+    private int supplyNum;
     private String supplierId;
 
     public SupplyVO() {
     }
 
-    public SupplyVO(String indentId, String indentDate, String cargoId, String goodsName, String goodsNorms, String goodsType, String goodsUnit, String goodsNum, String supplierId) {
+    public SupplyVO(String indentId, String indentDate, String cargoId, String goodsName, String goodsNorms, String goodsType, String goodsUnit, int supplyNum, String supplierId) {
         this.indentId = indentId;
         this.indentDate = indentDate;
         this.cargoId = cargoId;
@@ -22,7 +22,7 @@ public class SupplyVO {
         this.goodsNorms = goodsNorms;
         this.goodsType = goodsType;
         this.goodsUnit = goodsUnit;
-        this.goodsNum = goodsNum;
+        this.supplyNum = supplyNum;
         this.supplierId = supplierId;
     }
 
@@ -82,14 +82,13 @@ public class SupplyVO {
         this.goodsUnit = goodsUnit;
     }
 
-    public String getGoodsNum() {
-        return goodsNum;
+    public int getSupplyNum() {
+        return supplyNum;
     }
 
-    public void setGoodsNum(String goodsNum) {
-        this.goodsNum = goodsNum;
+    public void setSupplyNum(int supplyNum) {
+        this.supplyNum = supplyNum;
     }
-
     public String getSupplierId() {
         return supplierId;
     }

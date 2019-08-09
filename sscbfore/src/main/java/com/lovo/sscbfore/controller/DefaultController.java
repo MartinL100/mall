@@ -15,6 +15,6 @@ public class DefaultController {
 
     @RequestMapping("/")
     String home() {
-        return "redirect:/page/user/userLogin.html";
+        return "redirect:/pageTwo/user/userLogin.html";
     }
 }

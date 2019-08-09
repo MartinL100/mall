@@ -9,6 +9,7 @@
           content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=0">
     <link rel="stylesheet" href="../../layuiadmin/layui/css/layui.css" media="all">
     <link rel="stylesheet" href="../../layuiadmin/style/admin.css" media="all">
+    <link rel="stylesheet" href="../../layuiadmin/style/login.css" media="all">
     <script type="text/javascript" src="../../lib/jquery.js"></script>
 </head>
 <body>
@@ -36,7 +37,7 @@
         <div class="layui-card-body" style="margin-top: 30px">
             <div class="layui-btn-container">
                 <button class="layui-btn" id="ddd">修改用户资料</button>
-                <button class="layui-btn" style="width: 120px">返回</button>
+                <button class="layui-btn" style="width: 120px" id="aaa">返回</button>
             </div>
         </div>
     </div>
@@ -52,8 +53,8 @@
     });
 
     $("#ddd").click(function () {
-        if($("#tid2").val() != $("#tid3").val()){
-            layer.msg('两次输入密码不一致，请从新输入', {icon: 5, anim: 6});
+        if($("#tid2").val()!=$("#tid3").val()){
+          layer.msg('两次输入密码不一致，请从新输入', {icon: 5, anim: 6});
         }else if(!(/^1[3456789]\d{9}$/.test($("#tid").val()))){
             layer.msg('输入手机号有误，请重新输入', {icon: 5, anim: 6});
         }else if( ""==$("#tid2").val()){
@@ -61,13 +62,20 @@
         }
         else {
             $.post("../../../update3",{"telphone":$("#tid").val(),"password":$("#tid2").val()},function (re) {
-                    if(re=="ok"){
-                        layer.msg('修改成功,请重新登录', {icon: 6, anim: 6});
-                        location.href="userLogin.html";
-                    }
+                if(re=="ok"){
+                    layer.msg('修改成功,请重新登录', {icon: 6, anim: 6});
+                    setTimeout(" loc()", 2000);
+                }
             });
         }
 
+    });
+    function loc(){
+        location.href="userLogin.html";
+    }
+
+    $("#aaa").click(function () {
+        location.href="userShow.html";
     });
 </script>
 
