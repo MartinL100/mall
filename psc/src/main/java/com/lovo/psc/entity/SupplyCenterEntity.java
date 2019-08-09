@@ -41,6 +41,9 @@ public class SupplyCenterEntity {
     @Column(length = 48)
     /**供货标志*/
     private String ghTag;
+
+    @Column(length = 48)
+    private String cargoId;
     /**订单对象*/
     @ManyToOne
     @JoinColumn(name = "indentId")
@@ -49,6 +52,10 @@ public class SupplyCenterEntity {
     @ManyToOne
     @JoinColumn(name = "codeId")
     private SupplierGoodsEntity supplierGoodsEntity;
+
+    @ManyToOne
+    @JoinColumn(name="supplierId")
+    private SupplierEntity supplier;
 
     public String getSupplyId() {
         return supplyId;
@@ -138,11 +145,21 @@ public class SupplyCenterEntity {
         this.indentEntity = indentEntity;
     }
 
+    public String getCargoId() {
+        return cargoId;
+    }
+
+    public void setCargoId(String cargoId) {
+        cargoId = cargoId;
+    }
+
     public SupplierGoodsEntity getSupplierGoodsEntity() {
         return supplierGoodsEntity;
     }
 
-    public void setSupplierGoodsEntity(SupplierGoodsEntity supplierGoodsEntity) {
+
+
+        public void setSupplierGoodsEntity(SupplierGoodsEntity supplierGoodsEntity) {
         this.supplierGoodsEntity = supplierGoodsEntity;
     }
 
@@ -161,5 +178,13 @@ public class SupplyCenterEntity {
     }
 
     public SupplyCenterEntity() {
+    }
+
+    public SupplierEntity getSupplier() {
+        return supplier;
+    }
+
+    public void setSupplier(SupplierEntity supplier) {
+        this.supplier = supplier;
     }
 }

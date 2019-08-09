@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>历史供货订单查询页面</title>
+    <link rel="stylesheet" type="text/css" href="../easyui/themes/metro/easyui.css">
+    <link rel="stylesheet" type="text/css" href="../easyui/themes/mobile.css">
+    <link rel="stylesheet" type="text/css" href="../easyui/themes/icon.css">
+    <script type="text/javascript" src="../easyui/jquery.min.js"></script>
+    <script type="text/javascript" src="../easyui/jquery.easyui.min.js"></script>
+    <script type="text/javascript" src="../easyui/jquery.easyui.mobile.js"></script>
+</head>
+<body>
+<div align="center">
+    <em style="font-size: 45px">历史供货订单查询页面</em>
+</div>
+<p></p>
+<table id="tt" class="easyui-datagrid"
+       url="../../pastSupplyMain.lovo"
+        iconCls="icon-save"
+       rownumbers="false" pagination="true"  singleSelect="false">
+    <thead>
+    <tr>
+        <th field="indentId" width="33%" align="right">订单编号</th>
+        <th field="indentStatus" width="33%" align="right">订单状态</th>
+        <th field="indentDate" width="33%" align="right">结算时间</th>
+    </tr>
+    </thead>
+</table>
+<p></p>
+<p></p>
+<p></p>
+<p></p>
+<p></p>
+<p></p>
+
+    <div style="width: 100%;height: 100%">
+<div style="width: 50%;float: left;">
+    <div style="margin-top: 10px;margin-left: 200px">
+        <a href="#" class="easyui-linkbutton" data-options="iconCls:'icon-reload'" onclick="getGoodsList()">详情</a>
+</div>
+
+
+   <div style="margin-top: 100px;margin-left: 200px">
+    <a href="../pageTwo/supplyMain.html" class="easyui-linkbutton" data-options="iconCls:'icon-reload'" onclick="returnOne()">返回</a>
+</div>
+    </div>
+        <div style="width: 50%;float: left;border: 1px solid black">
+            <div style="margin-left: 200px">
+            <span>按结算时间查询</span>
+            </div>
+            <div style="margin-top: 10px;margin-left: 200px">
+            起始时间：<input type="date" id="startDate" >
+            </div>
+
+            <div style="margin-top: 30px;margin-left: 200px">
+                结束时间：<input type="date" id="endDate">
+            </div>
+            <div style="margin-top: 60px;margin-left: 315px">
+                <a href="#" class="easyui-linkbutton" data-options="iconCls:'icon-reload'" onclick="findByDate()" >查询</a>
+            </div>
+        </div>
+</div>
+
+<script>
+    //初始化加载
+    $(document).ready(function () {
+        $('#tt').datagrid('load',{
+            indentStatus:"已支付",
+            startDate:"",
+            endDate:""
+        });
+    });
+    //把选中行的id存入session
+    function getGoodsList() {
+        var row = $('#tt').datagrid('getSelected');
+        location.href="http://127.0.0.1:8004/goodsDetails.lovo/"+row.indentId;
+    }
+    //动态查询
+    function findByDate() {
+        var startDate=$("#startDate").val()+"";
+        var endDate=$("#endDate").val()+"";
+        $('#tt').datagrid('load',{
+            supplierId: "1",
+            indentStatus:"已支付",
+            startDate:startDate,
+            endDate:endDate
+        });
+    }
+</script>
+</body>
+</html>

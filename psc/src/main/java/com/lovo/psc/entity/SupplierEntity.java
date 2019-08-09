@@ -54,6 +54,8 @@ public class SupplierEntity {
     private List<BackGoods> backGoodsList;
     @OneToMany(mappedBy = "supplier")
     private List<IndentEntity> indentEntityList;
+    @OneToMany(mappedBy = "supplier")
+    private List<SupplyCenterEntity> supplyCenterEntityList;
 
     public String getSupplierId() {
         return supplierId;

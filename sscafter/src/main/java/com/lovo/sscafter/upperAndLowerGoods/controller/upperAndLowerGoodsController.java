@@ -102,7 +102,7 @@ public class upperAndLowerGoodsController {
         Map<String,Object> map=new HashMap<>();
         List<GoodsEntity> list =goodsService.getGoodsList((page-1)*rows,rows,goodsState,goodsType,goodsBooking,goodsName);
         map.put("rows",list);
-        map.put("page",page);
+        map.put("pageTwo",page);
        long total=goodsService.getGoodsCount(goodsState,goodsType,goodsBooking,goodsName);
         map.put("total",total);
 //

@@ -21,6 +21,6 @@ public class TestController {
         jmsMessagingTemplate.convertAndSend(queue,"Hello Mq");
 
         System.out.println(entityTest.getUserName());
-        return "hello page";
+        return "hello pageTwo";
     }
 }

@@ -59,7 +59,7 @@ public class freezeController {
         //----
         Map map = new HashMap();
         map.put("rows",list);
-        map.put("page",page);
+        map.put("pageTwo",page);
         //假设总行数为 远程调用
         //int userRows = restTemplate.getForEntity("http://servicename/userRows/{userName}/{userState}",Integer.class).getBody();
         map.put("total",10);

@@ -44,7 +44,7 @@ public class AccountsAuditController {
             total=userAuditService.DynamicQuerySysFrozenOrUnfrozenAccountsEntityCount(auditState,auditType,startTime,endTime);
 
         map.put("rows", list);
-        map.put("page", page);
+        map.put("pageTwo", page);
         map.put("total", total);
         return map;
     }
