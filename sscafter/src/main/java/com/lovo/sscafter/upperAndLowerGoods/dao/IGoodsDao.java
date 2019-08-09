@@ -13,19 +13,19 @@ public interface IGoodsDao extends CrudRepository<GoodsEntity,String> {
     /**
      * 上架
      */
-    @Query("update GoodsEntity g set g.goodsState=?2 where g.goodsId=?1")
+    @Query("update GoodsEntity g set g.goodsState=?2 , g.shelfTime=?3 where g.goodsId=?1")
     @Modifying
     @Transactional
-    public void updateStateUpper(String goodsId , String goodsUpper);
+    public void updateStateUpper(String goodsId , String goodsUpper,String shelfTime);
 
     /**
      * 下架
      * @param goodsId
      */
-    @Query("update GoodsEntity g set g.goodsState=?2 where g.goodsId=?1")
+    @Query("update GoodsEntity g set g.goodsState=?2 , g.lowerTime=?3 where g.goodsId=?1")
     @Modifying
     @Transactional
-    public void updateStateLower(String goodsId ,String goodsLower );
+    public void updateStateLower(String goodsId ,String goodsLower,String lowerTime );
 
     /**
      * 预售

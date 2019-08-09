@@ -127,9 +127,9 @@
         else{
             var Booking1Json=JSON.stringify(ids);
             $.post("/upperAndLower/updateGoodsStateBooking1",{"list":Booking1Json},function (list) {
-            })
-            $('#tt').datagrid('reload')
+            });
         }
+        $('#tt').datagrid('reload');
     });
     //预售
     $("#bt11").click(function () {
@@ -147,8 +147,8 @@
             var BookingJson=JSON.stringify(ids);
             $.post("/upperAndLower/updateGoodsStateBooking",{"list":BookingJson},function (list) {
             })
-            $('#tt').datagrid('reload')
         }
+        $('#tt').datagrid('reload');
     });
 
 
@@ -168,8 +168,8 @@
             var LowerJson=JSON.stringify(ids);
             $.post("/upperAndLower/updateGoodsStateLower",{"list":LowerJson},function (list) {
             });
-            $('#tt').datagrid('reload')
         }
+        $('#tt').datagrid('reload');
 
     });
 
@@ -190,8 +190,8 @@
             var upperJson=JSON.stringify(ids);
             $.post("/upperAndLower/updateGoodsStateUpper",{"list":upperJson},function (list) {
             });
-            $('#tt').datagrid('reload')
         }
+        $('#tt').datagrid('reload');
 
     });
 
@@ -249,7 +249,7 @@
         var goodsType=row.goodsType;
         var goodsNorms=row.goodsNorms;
         var goodsUnit=row.goodsUnit;
-        var lowerTime=$("#selectOrderDate").datebox('setValue', '');
+        // var lowerTime=$("#selectOrderDate").datebox('setValue', '');
         url="/upperAndLower/updateGoodsLowerTime?goodsId="+goodsId;
         $("#l1").html(goodsName);
         $("#l2").html(goodsType);
