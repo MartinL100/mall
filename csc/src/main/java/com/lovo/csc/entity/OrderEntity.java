@@ -6,7 +6,7 @@ import javax.persistence.*;
 import java.util.List;
 
 @Entity
-@Table(name="sys_order")
+@Table(name="sys_order_review")
 public class OrderEntity {
     @Id
     @Column(name="order_num",length = 48)

@@ -16,8 +16,8 @@ public class SupplyServiceImpl implements ISupplyService {
     @Autowired
     private IBaseDao baseDao;
     @Override
-    public void save(SupplyEntity supply) {
-        supplyDao.save(supply);
+    public SupplyEntity save(SupplyEntity supply) {
+        return supplyDao.save(supply);
     }
 
     @Override

@@ -181,7 +181,7 @@ return "yes";
         returnGoodsService.saveReturnGoodsEntity(returnGoodsEntity);
         //保存退货订单结束
         //更改到货单状态
-        orderGoodsService.updateIsReturnGoods("正在退货",orderGoodsId);
+        orderGoodsService.updateIsReturnGoods("已退货",orderGoodsId);
           //发送到退货MQ
         ReturnGoodsDto reDTO= new ReturnGoodsDto();
         reDTO.setGoodsBid(goodsBid);
@@ -197,7 +197,7 @@ return "yes";
         reDTO.setReturnGoodsId(returnGoodsEntity.getReturnGoodsId());
                ObjectMapper mapper = new ObjectMapper();
            String str2=   mapper.writeValueAsString(reDTO);
-        ActiveMQTopic activeMQTopic= new ActiveMQTopic("returnGoodsMQ");
+        ActiveMQTopic activeMQTopic= new ActiveMQTopic("returnGoodsMQTwo");
         jmsMessagingTemplate.convertAndSend(activeMQTopic,str2);
 
       //减少库存

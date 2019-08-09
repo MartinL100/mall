@@ -39,7 +39,7 @@ public class OrderManagementEntity {
     @Column(name="order_delType")
     private int orderDelType;
     //商品集合
-    @OneToMany(mappedBy = "orderObj",fetch = javax.persistence.FetchType.LAZY,cascade= {CascadeType.ALL})
+    @OneToMany(mappedBy = "orderObj",fetch = FetchType.LAZY,cascade= {CascadeType.ALL})
     private List<OrderForGoodsEntity> goodsNum;
     //商品数量
     @Column(name="goods_size")
