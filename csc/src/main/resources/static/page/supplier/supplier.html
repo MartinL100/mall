@@ -275,12 +275,12 @@
     //初始化加载
     $(document).ready(function () {
         $.post("/getZCMQ.lovo",function () {
-        })
-        $.post("/getSupplierGoodsAudit.lovo",function () {
-        })
-        post1();
-        post2();
-        doSearch();
+    })
+    $.post("/getSupplierGoodsAudit.lovo",function () {
+    })
+    post1();
+    post2();
+    doSearch();
     });
     function post2() {
         $.post("/supplierGoodsAudit",function (r) {

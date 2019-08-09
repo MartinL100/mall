@@ -26,12 +26,12 @@ public interface IReturnGoodsService {
      * @param goodsId
      * @param returnOredrState
      */
-    public void updat(String goodsId,String returnOredrState);
+    public void updat(String goodsId, String returnOredrState);
 
     /**
      * 根据退货订单号修改商品退货状态
      * @param orderId 退货订单编号
      * @param goodsState 商品退货状态
      */
-    public void updatGoodsState(String orderId,int goodsState);
+    public void updatGoodsState(String orderId, int goodsState);
 }

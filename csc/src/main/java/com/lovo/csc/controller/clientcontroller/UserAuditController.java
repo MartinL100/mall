@@ -2,6 +2,7 @@ package com.lovo.csc.controller.clientcontroller;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.lovo.csc.entity.AuditEntity;
 import com.lovo.csc.entity.SysUserAuditInformationEntity;
 import com.lovo.csc.service.clientService.IUserAuditService;
 import com.lovo.csc.util.MyStringUtil;
@@ -52,7 +53,7 @@ public class UserAuditController {
     @RequestMapping("registerAuditPage.lovo")
     public Map<String, Object> registerAuditPage(String tag, int page, int rows, String userState, String startTime, String endTime) {
         Map<String, Object> map = new HashMap<>();
-        // List<SysStudent> list= service.getPageListStudent(page,rows,studentId);
+        // List<SysStudent> list= service.getPageListStudent(pageTwo,rows,studentId);
         List<SysUserAuditInformationEntity> list = null;
         long total = 0;
         if (null != tag && "init".equals(tag)) {
@@ -64,7 +65,7 @@ public class UserAuditController {
             total = userAuditService.DynamicQueryAuditInformationCount(userState, startTime, endTime);
         }
         map.put("rows", list);
-        map.put("page", page);
+        map.put("pageTwo", page);
         map.put("total", total);
         return map;
     }
@@ -89,9 +90,9 @@ public class UserAuditController {
         //String auditPerson="";
         String id= null;
         try {
-            // AuditEntity auditEntity= (AuditEntity) request.getSession().getAttribute("auditObj");
-           // userAuditService.updateUserAuditMessage(UserAuditInformation,auditEntity.getAuditPeople());
-            id = userAuditService.updateUserAuditMessage(UserAuditInformation,"光");
+             AuditEntity auditEntity= (AuditEntity) request.getSession().getAttribute("auditObj");
+            userAuditService.updateUserAuditMessage(UserAuditInformation,auditEntity.getAuditPeople());
+            //id = userAuditService.updateUserAuditMessage(UserAuditInformation,"光");
             //从队列中移除相应数据
         } catch (JsonProcessingException e) {
             e.printStackTrace();
@@ -106,11 +107,11 @@ public class UserAuditController {
     //并实现服务器主推
     @JmsListener(destination = "accountsRegistrationAuditMessageMQ")
     @RequestMapping("saveUserAuditMessage.lovo")
-    public String savaUserAuditMessage(String message){
+    public void saveUserAuditMessage(String message){
         ResgisterMessageVo vo = null;
         try {
             if (null==message||"".equals(message)){
-                return "{'message':'没有信息'}";
+                return ;
             }
           vo= new ObjectMapper().readValue(message,ResgisterMessageVo.class);
             System.out.println(vo);
@@ -118,7 +119,7 @@ public class UserAuditController {
             e.printStackTrace();
         }
         if (null==vo){
-            return "{'message':'没有信息'}";
+            return ;
           }
         try {
            WebSocketServer.blockingQueue.put(vo);
@@ -148,7 +149,6 @@ public class UserAuditController {
 //                e.printStackTrace();
 //            }
 //        }
-          return "{'message':'您新的审核请求，请及时处理'}";
     }
 
 //    /**

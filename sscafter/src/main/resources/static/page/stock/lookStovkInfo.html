@@ -161,7 +161,7 @@
         $('#fm2').form('submit',{
             url: "/saveGoods2",
             success: function(re) {
-                alert(re)
+
               if("no"==re){
                   $('#dlg2').dialog('close');
                   $.messager.alert('警告窗口', '该商品已存在！请重新输入!', 'info', function () {

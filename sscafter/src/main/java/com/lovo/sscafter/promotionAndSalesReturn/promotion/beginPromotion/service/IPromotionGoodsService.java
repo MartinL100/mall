@@ -26,7 +26,7 @@ public interface IPromotionGoodsService {
      * @param goodsType 商品类型
      * @return 总行数
      */
-    public long findCount(String goodsName,String goodsType);
+    public long findCount(String goodsName, String goodsType);
 
 
     /**
@@ -43,7 +43,7 @@ public interface IPromotionGoodsService {
      * @param goodsDiscount 商品折扣率
      * @param promotionState 促销状态
      */
-    public void updatPromotion(String goodsId,String promotionState,int goodsDiscount);
+    public void updatPromotion(String goodsId, String promotionState, int goodsDiscount);
 
 
     /**
@@ -51,5 +51,5 @@ public interface IPromotionGoodsService {
      * @param goodsId 商品id
      * @param promotionState 促销状态
      */
-    public void updateGoodspromotionState(String goodsId,String promotionState);
+    public void updateGoodspromotionState(String goodsId, String promotionState);
 }
