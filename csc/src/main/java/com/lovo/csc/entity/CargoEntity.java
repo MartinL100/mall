@@ -17,15 +17,12 @@ public class CargoEntity {
     @GenericGenerator(name = "myuuid", strategy = "uuid")
     @GeneratedValue(generator = "myuuid")
     private String cargoId;
-    //供货订单货物ID
-    @Column(length = 48)
-    private String supplyId;
-    //
-    private String cargoStatus;
     // 报价  数据库转decimal类型
     @Column()
     private BigDecimal supplyPrice;
-
+    //供应商供货状态(供应商返回)
+    @Column(length = 48)
+    private String cargoStatus;
     //投标审核人
     @Column(length = 48)
     private String tenderPeople;
@@ -39,9 +36,13 @@ public class CargoEntity {
     @Column(length = 48)
     private String purchaseDate;
     //供货商ID
-    @OneToOne
+    @ManyToOne
     @JoinColumn(name = "supplier_id")
     private SupplierEntity supplierId;
+    //供货订单货物ID
+    @ManyToOne
+    @JoinColumn(name = "supply_id")
+    private SupplyEntity supplyId;
 
     public String getCargoStatus() {
         return cargoStatus;
@@ -59,11 +60,11 @@ public class CargoEntity {
         this.cargoId = cargoId;
     }
 
-    public String getSupplyId() {
+    public SupplyEntity getSupplyId() {
         return supplyId;
     }
 
-    public void setSupplyId(String supplyId) {
+    public void setSupplyId(SupplyEntity supplyId) {
         this.supplyId = supplyId;
     }
 
