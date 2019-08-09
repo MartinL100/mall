@@ -142,6 +142,7 @@ public class AccountsAuditController {
         frozenOrUnfrozenAccountsEntity.setAuditType(vo.getAuditType());
         frozenOrUnfrozenAccountsEntity.setAuditOpinion(vo.getAuditOpinion());
         frozenOrUnfrozenAccountsEntity.setUserNameStr(vo.getUserNameStr());
+        frozenOrUnfrozenAccountsEntity.setAuditTime(vo.getAuditTime());
         userAuditService.savaFrozenOrUnfrozenAccountsEntity(frozenOrUnfrozenAccountsEntity);
     }
 
