@@ -93,6 +93,7 @@ public class PageController {
 
     @RequestMapping("pageGoods.lovo")
     public Map<String,Object> pageGoods(int page,int rows,String goodsId){
+        System.out.println(goodsId);
         Map<String,Object> map=new HashMap<>();
         List<GoodsEntity> lists=orderGoodsService.findByGoods(goodsId,page,rows);
         for(int i=0;i<lists.size();i++){
