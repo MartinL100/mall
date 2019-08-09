@@ -280,7 +280,7 @@ $("#bt4").click(function () {
         }else{
 
             //实现化WebSocket对象，指定要连接的服务器地址与端口  建立连接
-            socket = new WebSocket("ws://localhost:8002/websocket2");
+            socket = new WebSocket("ws://localhost:8002/goodsStockwebsocket");
 
             //打开事件
             socket.onopen = function() {
