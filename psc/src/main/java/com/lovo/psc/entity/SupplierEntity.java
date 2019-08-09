@@ -144,29 +144,29 @@ public class SupplierEntity {
         this.supplierPwd = supplierPwd;
     }
 
-    public List<SupplierGoodsEntity> getSupplierGoodsList() {
-        return supplierGoodsList;
-    }
-
-    public void setSupplierGoodsList(List<SupplierGoodsEntity> supplierGoodsList) {
-        this.supplierGoodsList = supplierGoodsList;
-    }
-
-    public List<SupplyCenterEntity> getSupplyCenterList() {
-        return supplyCenterList;
-    }
-
-    public void setSupplyCenterList(List<SupplyCenterEntity> supplyCenterList) {
-        this.supplyCenterList = supplyCenterList;
-    }
-
-    public List<BackGoods> getBackGoodsList() {
-        return backGoodsList;
-    }
-
-    public void setBackGoodsList(List<BackGoods> backGoodsList) {
-        this.backGoodsList = backGoodsList;
-    }
+//    public List<SupplierGoodsEntity> getSupplierGoodsList() {
+//        return supplierGoodsList;
+//    }
+//
+//    public void setSupplierGoodsList(List<SupplierGoodsEntity> supplierGoodsList) {
+//        this.supplierGoodsList = supplierGoodsList;
+//    }
+//
+//    public List<SupplyCenterEntity> getSupplyCenterList() {
+//        return supplyCenterList;
+//    }
+//
+//    public void setSupplyCenterList(List<SupplyCenterEntity> supplyCenterList) {
+//        this.supplyCenterList = supplyCenterList;
+//    }
+//
+//    public List<BackGoods> getBackGoodsList() {
+//        return backGoodsList;
+//    }
+//
+//    public void setBackGoodsList(List<BackGoods> backGoodsList) {
+//        this.backGoodsList = backGoodsList;
+//    }
 
     public SupplierEntity(String supplierName,
                           String supplierPrincipal,
