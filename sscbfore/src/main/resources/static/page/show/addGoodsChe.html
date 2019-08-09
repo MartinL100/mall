@@ -104,12 +104,10 @@
         table.on('tool(goodsTable)', function (obj) {
             let data = obj.data;
             if (obj.event === 'add') {
-                // alert(data.goodsNum);
-
                 layer.open({
                     type: 2
                     , title: '商品上架'
-                    , content: ['/showgoods/jump/' + '1']
+                    , content: ['/addgoods/jump/' + '1']
                     , area: ['1200px', '650px']
                 })
             }
