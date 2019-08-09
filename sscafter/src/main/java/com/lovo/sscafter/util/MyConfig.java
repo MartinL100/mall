@@ -12,7 +12,7 @@ public class MyConfig {
 
 
     // 开启websocket
-//    @Bean
+  @Bean
     public ServerEndpointExporter serverEndpointExporter() {
         return new ServerEndpointExporter();
     }
