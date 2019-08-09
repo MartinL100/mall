@@ -5,11 +5,10 @@
     <title>解冻界面</title>
     <meta name="renderer" content="webkit">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-    <meta name="viewport"
-          content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=0">
     <link rel="stylesheet" href="../../layuiadmin/layui/css/layui.css" media="all">
     <link rel="stylesheet" href="../../layuiadmin/style/admin.css" media="all">
-    <script type="text/javascript" src="../../lib/jquery.js"></script>
+    <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
 </head>
 <body>
 <div align="center" style="margin-top: 50px">
@@ -27,18 +26,40 @@
     </div>
 </div>
 
+<script src="../../layuiadmin/layui/layui.js"></script>
 <script>
+
     $("#ddd").click(function () {
-      //  alert($("#aaa").val())
-        $.post("requestUnfreezeMQ",{"applyReason":$("#aaa").val()},function (re) {
+        alert("nbbbbbbbbbbbbb")
+        $.post("../../../requestUnfreezeMQ",{"applyReason":$("#aaa").val()},function (re) {
+            alert("aaaaaaaaaaaa")
             if(re=="ok"){
+                alert("cccccccccccccccccc")
                 layer.msg('申请成功，请等待审核', {icon: 6, anim: 6});
-                location.href="userShow.html";
+                setTimeout(" loc()", 2000);
             }
         });
     });
+    function loc(){
+        location.href="userShow.html";
+    }
     $("#aaaaaa").click(function () {
         location.href="userShow.html";
+    });
+
+    layui.config({
+        base: '../../layuiadmin/' //静态资源所在路径
+    }).extend({
+        index: 'lib/index' //主入口模块
+    }).use(['index', 'user'], function(){
+        var $ = layui.$
+            ,setter = layui.setter
+            ,admin = layui.admin
+            ,form = layui.form
+            ,router = layui.router();
+
+        form.render();
+
     });
 </script>
 </body>

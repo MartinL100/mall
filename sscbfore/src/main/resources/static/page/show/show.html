@@ -21,26 +21,24 @@
 
 <div id="LAY_app">
     <div class="layui-layout layui-layout-admin">
+        <!-- 头部区域-->
         <div class="layui-header">
             <!-- 头部区域 -->
             <ul class="layui-nav layui-layout-left">
                 <li class="layui-nav-item layui-hide-xs" lay-unselect>
-                    <input type="text" placeholder="搜索..." autocomplete="off" class="layui-input layui-input-search" id="textId">
+                    <input id="goodsName" type="text" placeholder="搜索..." autocomplete="off" class="layui-input layui-input-search" id="textId">
                 </li>
                 <!--下拉框-->
                 <li class="layui-nav-item layui-hide-xs" lay-unselect>
-                    <select id="opId" class="layui-input layui-input-search"style="width: 200px;height: 45px">
-                        <option value="">请选择一个城市</option>
-                        <option value="010">北京</option>
-                        <option value="021">上海</option>
-                        <option value="0571">杭州</option>
+                    <select id="selectId" class="layui-input layui-input-search"style="width: 200px;height: 45px">
+
                     </select>
 
                 </li>
 
                 <!--查询按键-->
                 <li class="layui-nav-item layui-hide-xs" lay-unselect>
-                    <a onclick="findGoods()" layadmin-event="note"title="查询">
+                    <a onclick="findGoods()" title="查询">
                         <i class="layui-icon layui-icon-search"></i>
                     </a>
                 </li>
@@ -70,61 +68,21 @@
         </div>
 
 
-
-
         <!-- 主体内容 -->
         <div class="layui-body" id="LAY_app_body"  >
 
-            <div class="layui-fluid" id="component-tabs">
-                <div class="layui-row">
-                    <div class="layui-col-md12">
-                        <div class="layui-card">
-                            <div class="layui-card-header">默认风格</div>
-                            <div class="layui-card-body">
-                                <div class="layui-tab">
-                                    <ul class="layui-tab-title">
-                                        <li class="layui-this">今日促销</li>
-                                        <li>火热预售</li>
-                                        <li>所有商品</li>
+            <button class="layui-btn" id="cuxiaobt">今日促销</button>
+            <button class="layui-btn" id="yushoubt">即将发售</button>
+            <button class="layui-btn"id="allbt">所有商品</button>
 
-                                    </ul>
-                                    <div class="layui-tab-content">
-                                        <div class="layui-tab-item layui-show">
-                                            <!--用于表单格式的-->
-                                            <div class="layui-fluid layadmin-cmdlist-fluid">
-                                                <div class="layui-row layui-col-space30" id="showGoodsPromotion">
+            <!--用于表单格式的-->
+            <div class="layui-fluid layadmin-cmdlist-fluid">
 
-                                                </div>
-                                            </div>
-                                            <!--用于表单格式的-->
-                                        </div>
-                                        <div class="layui-tab-item">
-                                            <!--用于表单格式的-->
-                                            <div class="layui-fluid layadmin-cmdlist-fluid">
-                                                <div class="layui-row layui-col-space30" id="showGoods">
-
-                                                </div>
-                                            </div>
-                                            <!--用于表单格式的-->
-                                        </div>
-                                        <div class="layui-tab-item">
-                                            <!--用于表单格式的-->
-                                            <div class="layui-fluid layadmin-cmdlist-fluid">
-                                                <div class="layui-row layui-col-space30" id="showGoodsPresell">
-
-                                                </div>
-                                            </div>
-                                            <!--用于表单格式的-->
-
-                                        </div>
-
-                                    </div>
-                                </div>
-                            </div>
-                        </div></div></div></div>
-
-
-
+                <div class="layui-row layui-col-space30" id="showGoods">
+                </div>
+                <div id="showGoodsPage"></div>
+            </div>
+            <!--用于表单格式的-->
 
 
         </div>
@@ -134,7 +92,7 @@
         <div class="layadmin-body-shade" layadmin-event="shade"></div>
     </div>
 </div>
-</div>
+
 
 <script src="../../layuiadmin/layui/layui.js"></script>
 <script>
@@ -147,66 +105,45 @@
 
 
 var countGoods=0;
- //初始化页面
+
     $(document).ready(function () {
-        $.post("/initGoods",function (r) {
-            var goodsObj = eval("("+r+")");
-            countGoods=goodsObj.total;
-            goodsList = goodsObj.rows;
-            console.log(goodsList);
-
-            var htmlStr = "";//记录添加的内容
-            $.each(goodsList,function () {
-
-                htmlStr+=" <div class=\"layui-col-md2 layui-col-sm4\">\n" +
-                    "                        <div class=\"cmdlist-container\">\n" +
-                    "                            <a href=\"javascript:;\">\n" +
-                    "                                <img src=\"\\img/"+this.goodsPath+"\" height=\"200\" width=\"200\"onclick=\"openModak($(this).next().val())\"/>\n" +
-                    "                           <input hidden='hidden' name='goodsId'  value='"+this.goodsId+"'>" +
-                    " </a>\n" +
-                    "                            <a href=\"javascript:;\">\n" +
-                    "                                <div class=\"cmdlist-text\">\n" +
-                    "                                    <p class=\"goodsName\">"+this.goodsName+"</p>\n" +
-                    "                                    <div class=\"price\">\n" +
-                    "                                        <b>"+this.goodsPrice+"</b>\n" +
-                    "                                        <p>\n" +
-                    "                                            ¥\n" +
-                    "                                            <del>130</del>\n" +
-                    "                                        </p>\n" +
-                    "                                        <span class=\"flow\">\n" +
-                    "                      <i class=\"layui-icon layui-icon-rate\"></i>\n" +
-                    "                      433\n" +
-                    "                    </span>\n" +
-                    "                                    </div>\n" +
-                    "                                </div>\n" +
-                    "                            </a>\n" +
-                    "                        </div>\n" +
-                    "                    </div>";
-
+        //初始化下拉框
+        $.post("/initSelect",function (r) {
+            var selectObj = eval("("+r+")");
+            var htmlStr="";
+            $.each(selectObj,function (r) {
+                htmlStr+="<option value=\""+selectObj[r]+"\">"+selectObj[r]+"</option>";
 
             })
-
-            $("#showGoods").html(htmlStr)
+            $("#selectId").html(htmlStr);
         })
-    })
-   //初始化页面
+        //分页初始化及分页搜索,初始化显示
+        layui.use(['laypage', 'layer'], function(){
+            var laypage = layui.laypage
+                ,layer = layui.layer;
 
-
-    //分页
-    layui.use(['laypage', 'layer'], function(){
-        var laypage = layui.laypage
-            ,layer = layui.layer;
-
-        laypage.render({
-            elem: 'test-laypage-demo1'
-            ,count: countGoods //数据总数
-            ,jump: function(obj){
-                console.log(obj)
-            }
+            laypage.render({
+                elem: 'showGoodsPage'
+                ,count: countGoods //数据总数
+                ,jump: function(obj){
+                    console.log(obj)
+                    // 分页查询
+                    countGoods=obj;
+                    var limit =obj.limit;
+                    var page = obj.curr;
+                    var goodsType = $("#selectId").val();
+                    var goodsName = $("#goodsName").val();
+                    $.post("/findGoodsPreSell",{"goodsType":goodsType,"goodsName":goodsName,"page":page,"limit":limit},function (r) {
+                        initGoodsList(r)
+                    })
+                }
+            });
         });
-    });
 
-    <!--模态框-->
+    })
+
+
+    //模态框和结账
     function openModak(obj){
         var goodsObjTemp;
         $.each(goodsList,function () {
@@ -219,7 +156,7 @@ var countGoods=0;
             var layer = layui.layer
                 ,$=layui.$
                 , form = layui.form;
-
+            //模态框
             layer.open({
 
                 type: 1,
@@ -277,21 +214,20 @@ var countGoods=0;
             });
 
             form.render(null, 'component-form-element');
+            //直接购买和加入购物车
             form.on('submit(buy)', function(data){
                 var Info = JSON.stringify(data.field) ;
                 //直接购买
-                console.log(Info);
                 $.post("/buyRight",{"goodsInfo":Info},function (r) {
-                    console.log(r)
+
                     window.location.href ="../deal/presellMakeDeal.html";
                 })
-
             });
             form.on('submit(addToCar)', function(data){
                 var Info = data.field ;
                 //加入购物车
-                console.log(Info);
-                console.log("addToCar");
+                // console.log(Info);
+                // console.log("addToCar");
 
             });
 
@@ -299,11 +235,67 @@ var countGoods=0;
     }
 
 
+    //搜索事件
+    function findGoods() {
+        var goodsType = $("#selectId").val();
+        var goodsName = $("#goodsName").val();
+
+        $.post("/findGoodsPreSell",{"goodsType":goodsType,"goodsName":goodsName,"page":"","limit":""},function (r) {
+            initGoodsList(r)
+        })
+
+    }
 
 
 
+//根据返回结果初始化展示列表
+    function initGoodsList(r) {
+        var goodsObj = eval("("+r+")");
+        // countGoods=goodsObj.total;
+        goodsList = goodsObj.rows;
+        // console.log(goodsList);
+
+        var htmlStr = "";//记录添加的内容
+        $.each(goodsList,function () {
+
+            htmlStr+=" <div class=\"layui-col-md2 layui-col-sm4\" id=\"test-laypage-demo1>\n" +
+                "                        <div class=\"cmdlist-container\">\n" +
+                "                            <a href=\"javascript:;\">\n" +
+                "                                <img src=\"\\img/"+this.goodsPath+"\" height=\"200\" width=\"200\"onclick=\"openModak($(this).next().val())\"/>\n" +
+                "                           <input hidden='hidden' name='goodsId'  value='"+this.goodsId+"'>" +
+                " </a>\n" +
+                "                            <a href=\"javascript:;\">\n" +
+                "                                <div class=\"cmdlist-text\">\n" +
+                "                                    <p class=\"goodsName\">"+this.goodsName+"</p>\n" +
+                "                                    <div class=\"price\">\n" +
+                "                                        <b>￥"+this.goodsPrice+"</b>\n" +
+                "                                        <p>\n" +
+
+                "                                        </p>\n" +
+                "                                        <span class=\"flow\">\n" +
+                "                    </span>\n" +
+                "                                    </div>\n" +
+                "                                </div>\n" +
+                "                            </a>\n" +
+                "                        </div>\n" +
+                "                    </div>";
 
 
+        })
+
+        $("#showGoods").html(htmlStr)
+        countGoods = goodsObj.total;
+    }
+//按钮事件
+    $("#cuxiaobt").click(function () {
+        window.location.href ="../show/cuxiaoShow.html";
+    })
+    $("#yushoubt").click(function () {
+        window.location.href ="../show/show.html";
+    })
+    $("#allbt").click(function () {
+        window.location.href ="../show/allShow.html";
+    })
 </script>
 
 

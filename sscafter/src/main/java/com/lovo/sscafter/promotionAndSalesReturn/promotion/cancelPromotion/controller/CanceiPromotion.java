@@ -60,7 +60,7 @@ public class CanceiPromotion {
         List<GoodsEntity> list= service.findBygoodsNameAndgoodsState(goodsName,goodsType,nowPage,rows);
         Map<String,Object> map=new HashMap<>();
         map.put("rows",list);
-        map.put("page",nowPage);
+        map.put("pageTwo",nowPage);
         map.put("total",pageCount);
         return map;
     }
@@ -122,7 +122,7 @@ public class CanceiPromotion {
 
         int nowPage=(page-1)*rows;
         map.put("rows",goodsList);
-        map.put("page",nowPage);
+        map.put("pageTwo",nowPage);
         map.put("total",goodsList.size());
         return map;
     }

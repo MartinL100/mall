@@ -102,7 +102,7 @@ public class ReturnGoodsController {
     public String orderGoodsList(HttpServletRequest request) {
 
         Map<String, String[]> map = request.getParameterMap();
-        int page = Integer.parseInt(map.get("page")[0]);
+        int page = Integer.parseInt(map.get("pageTwo")[0]);
         int limit = Integer.parseInt(map.get("limit")[0]);
 
         List<ReturnGoodsVo> goodsVoList = new ArrayList<>();

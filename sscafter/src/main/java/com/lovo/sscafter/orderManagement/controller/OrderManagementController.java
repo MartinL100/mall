@@ -65,7 +65,7 @@ public class OrderManagementController {
         }
         Map<String,Object> map=new HashMap<>();
         map.put("rows",list);
-        map.put("page",page);
+        map.put("pageTwo",page);
 
         map.put("total",orderManagementService.findOrderRows(orderDate,orderType,userName));
         return map;

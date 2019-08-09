@@ -20,4 +20,9 @@ public class UrlUtil {
     public static final String FIND_DEPOSIT_INFO="http://csc/findDeposit/";
     /**验证用户存款是否充足  {userName}/{allPrice}/{ payMethod}   用户名/总价/支付方式，restfull*/
     public static final String MONEY_IS_ENOUGH = "http://csc/countMoney/";
+    /**初始化下拉框*/
+    public static final String INIT_SELECT="";
+    /**动态查询预售商品 商品类型、商品名、当前页、每页显示行数*/
+    public static final String FIND_GOODS_PRESELL="Http://sscAfter/dynamicPresell/";
+
 }
