@@ -16,7 +16,7 @@ public class SupplierServiceImpl implements ISupplierService {
     @Autowired
     private JmsMessagingTemplate jmsMessagingTemplate;
     @Autowired
-    private ActiveMQQueue SHMQ;
+    private ActiveMQQueue SHHMQ;
     @Autowired
     private ISupplierDao supplierDao;
     @Autowired
@@ -47,6 +47,6 @@ public class SupplierServiceImpl implements ISupplierService {
         s.setSupplierLevel(vo.getSupplierLevel());
         s.setSupplierTag(vo.getSupplierTag());
         supplierDao.save(s);
-        jmsMessagingTemplate.convertAndSend(SHMQ,vo);
+        jmsMessagingTemplate.convertAndSend(SHHMQ,vo);
     }
 }

@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
 
 
+import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 import java.sql.Timestamp;
 import java.util.ArrayList;
@@ -90,7 +91,7 @@ public class MakeDelController {
 
         if(!StringUtils.isEmpty(errorInfo)){
             String errorInfoTemp="";
-            String [] goodsErrorInfos=objectMapper.readValue(errorInfo,new TypeReference<String[]>() {});
+            List<String> goodsErrorInfos=objectMapper.readValue(errorInfo,new TypeReference<String[]>() {});
             for (GoodsDTO goodsDTO:goodsDTOS) {
                 for (String info:goodsErrorInfos) {
                         if (goodsDTO.getGoodsId().equals(info)){
@@ -128,6 +129,7 @@ public class MakeDelController {
         //修改订单状态
 //        restTemplate.getForEntity(UrlUtil.UPDATE_ORDER_STATUE_URL+orderDTO.getOrderNum(),null);
         errorInfo="实际扣款:"+errorInfoMap.get("payMoney")+"（元）\n"+DealErroInfos.DEAL_SUCCEED;
+
         return  errorInfo;
 
     }
@@ -153,12 +155,38 @@ public class MakeDelController {
     }
 
     @RequestMapping("buyRight")
-    public String buyRight(String goodsInfo){
+    public String buyRight(HttpServletRequest request, String goodsInfo) throws IOException {
 
         String info = "";
+        GoodsDTO goodsDTO=objectMapper.readValue(goodsInfo,GoodsDTO.class);
+        List<GoodsDTO>goodsDTOList = new ArrayList<>();
+        goodsDTOList.add(goodsDTO);
+        request.getSession().setAttribute("buyRight",goodsDTOList);
         System.out.println(goodsInfo);
+
         return  goodsInfo;
     }
 
 
+    @RequestMapping("presellMakeDealInit")
+    public String presellMakeDealInit(HttpServletRequest request) throws IOException {
+        String goodInfo="";
+        List<GoodsDTO>goodsDTOList= (List<GoodsDTO>) request.getSession().getAttribute("buyRight");
+        goodInfo = objectMapper.writeValueAsString(goodsDTOList);
+        goodInfo= "{\"code\":0,\"msg\":\"\",\"count\":1000,\"data\":"+goodInfo+"}";
+        return goodInfo;
+    }
+
+    /**
+     * 预购商品结算
+     * @param request
+     * @return
+     */
+    @RequestMapping("presellMakeDeal")
+    public String presellMakeDeal(HttpServletRequest request,String OrderInfo,String GoodsInfo){
+        String info ="失败";
+
+        return  info;
+
+    }
 }

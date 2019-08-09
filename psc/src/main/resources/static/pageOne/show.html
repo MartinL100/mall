@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>供应商信息</title>
+    <link rel="stylesheet" type="text/css" href="/static/easyui/themes/metro/easyui.css">
+    <link rel="stylesheet" type="text/css" href="/static/easyui/themes/mobile.css">
+    <link rel="stylesheet" type="text/css" href="/static/easyui/themes/icon.css">
+    <script type="text/javascript" src="/static/easyui/jquery.min.js"></script>
+    <script type="text/javascript" src="/static/easyui/jquery.easyui.min.js"></script>
+    <script type="text/javascript" src="/static/easyui/jquery.easyui.mobile.js"></script>
+    <script type="text/javascript" src="../lib/jquery.js"></script>
+</head>
+<body onload="findInfo()">
+<div align="center">
+    <h1>供应商信息</h1>
+</div>
+</p>
+</p>
+</p>
+
+<div id="infoId" style="margin-left: 40%">
+
+</div>
+</p>
+</p>
+</p>
+<div id="toolbar" style="margin-left: 35%">
+    <a style="text-align: left" href="curd.html" class="easyui-linkbutton" data-options="iconCls:'icon-reload'">查看商品发布</a>
+    <a style="margin-left: 30px" href="../pageTwo/supplyMain.html" class="easyui-linkbutton" data-options="iconCls:'icon-reload'">供货</a>
+    <a style="margin-left: 30px" href=" " class="easyui-linkbutton" data-options="iconCls:'icon-reload'">查看库存</a></p></p></p>
+    <a href="text-align: left" class="easyui-linkbutton" data-options="iconCls:'icon-reload'">查看报价订单</a>
+    <a  style="margin-left: 30px" href=" " class="easyui-linkbutton" data-options="iconCls:'icon-reload'">查看退货信息</a>
+    <a  style="margin-left: 30px" href=" " class="easyui-linkbutton" data-options="iconCls:'icon-reload'">查看供货订单</a>
+    <!--<a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-add" plain="true" onclick="newUser()">添加</a>-->
+    <!--<a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-edit" plain="true" onclick="editUser()">编辑</a>-->
+    <!--<a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-remove" plain="true" onclick="destroyUser()">删除</a>-->
+</div>
+</body>
+
+<script>
+
+    // 添加供应商信息
+    function findInfo() {
+        $.post("../../getSupplierInfo.psc","",function (result) {
+
+            var str = "<div><span style='text-align: left'>供应商名称：</span><span>"+result.supplierName+"</span></div>"
+             str += "<div><span style='text-align: left'>供应商类型：</span><span>"+result.supplierType+"</span></div>"
+             str += "<div><span style='text-align: left'>供应负责人：</span><span>"+result.supplierPrincipal+"</span></div>"
+             str += "<div><span style='text-align: left'>供应商负责人电话：</span><span>"+result.supplierTel+"</span></div>"
+             str += "<div><span style='text-align: left'>供应商等级：</span><span>"+result.supplierLevel+"</span></div>"
+             str += "<div><span style='text-align: left'>供应商审核状态：</span><span>"+result.supplierTag+"</span></div>"
+            $("#infoId").html(str);
+        })
+    }
+    
+</script>
+
+
+</html>

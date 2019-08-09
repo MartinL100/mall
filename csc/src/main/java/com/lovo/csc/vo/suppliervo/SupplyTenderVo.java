@@ -4,11 +4,11 @@ import java.math.BigDecimal;
 
 public class SupplyTenderVo {
     private String cargoId;
-    private BigDecimal supplyPrice;
+    private BigDecimal price;
 
-    public SupplyTenderVo(String cargoId, BigDecimal supplyPrice) {
+    public SupplyTenderVo(String cargoId, BigDecimal price) {
         this.cargoId = cargoId;
-        this.supplyPrice = supplyPrice;
+        this.price = price;
     }
 
     public SupplyTenderVo() {
@@ -22,11 +22,11 @@ public class SupplyTenderVo {
         this.cargoId = cargoId;
     }
 
-    public BigDecimal getSupplyPrice() {
-        return supplyPrice;
+    public BigDecimal getPrice() {
+        return price;
     }
 
-    public void setSupplyPrice(BigDecimal supplyPrice) {
-        this.supplyPrice = supplyPrice;
+    public void setPrice(BigDecimal price) {
+        this.price = price;
     }
 }

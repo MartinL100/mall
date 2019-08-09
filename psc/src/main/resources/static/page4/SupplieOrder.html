@@ -1,0 +1,145 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>表单提交</title>
+    <link rel="stylesheet" type="text/css" href="/static/easyui/themes/metro/easyui.css">
+    <link rel="stylesheet" type="text/css" href="/static/easyui/themes/mobile.css">
+    <link rel="stylesheet" type="text/css" href="/static/easyui/themes/icon.css">
+    <script type="text/javascript" src="/static/easyui/jquery.min.js"></script>
+    <script type="text/javascript" src="/static/easyui/jquery.easyui.min.js"></script>
+    <script type="text/javascript" src="/static/easyui/jquery.easyui.mobile.js"></script>
+</head>
+<body>
+
+
+<table id="tt" class="easyui-datagrid"
+       url="/findIndent"
+       title="订货单列表" iconCls="icon-save"
+       rownumbers="true" pagination="true">
+
+    <thead>
+    <tr>
+        <th field="indentId" width="20%">订单号</th>
+        <th field="indentDate" width="20%" align="right">订单时间</th>
+        <th field="indentStatus" width="20%">订单状态</th>
+        <th field="closeTime" width="20%" align="right">结算时间</th>
+        <th field="orderMoney" width="20%">订单金额</th>
+
+    </tr>
+    </thead>
+</table>
+<div id="buttons" align="center" style="margin-bottom:40px;margin-top: 40px;position: relative;right: -300px" >
+    <a href="javascript:void(0)"  class="easyui-linkbutton" onclick="openMyWind()" style="left :-255px;width:90px"> 查 看 </a>
+</div>
+<div id="tb" style="padding:6px;padding-left: 600px">
+    <span>订单状态:</span>
+    <input id="indentStatus" style="line-height:26px;border:1px solid #ccc;"  >
+    <span>订单单号:</span>
+    <input id="indentId" style="line-height:26px;border:1px solid #ccc" ><p/>
+
+
+    <span>起始日期:</span>
+    <input  type="date"   id="startDate" style="line-height:26px;border:1px solid #ccc;height: 30px;width: 157px"  >
+    <span>结算日期:</span>
+    <input type="date"   id="endDate" style="line-height:26px;border:1px solid #ccc;height: 30px;width: 157px" ><p/>
+
+
+
+
+    <a href="#" class="easyui-linkbutton" plain="true" onclick="doSearch()">&nbsp;&nbsp&nbsp;&nbsp搜索</a>
+</div>
+<input type="hidden" value="${supplierId}" name="currentPage" id="supplierId">
+<div id="dlg2" class="easyui-dialog" style="width:800px;height: 600px" data-options="closed:true,modal:true,border:'thin',buttons:'#dlg-buttons'">
+    <form id="fm2" method="post" novalidate style="margin:0;padding:20px 50px">
+        <input name="indentId"  class="easyui-textbox" disabled="true" label="订单号:" style="width:45%">
+        <div style="margin-bottom:20px">
+            <input name="indentDate" class="easyui-textbox" disabled="true"label="订单日期:" style="width:45%">
+            <input name="indentStatus" class="easyui-textbox"disabled="true" label="订单状态:" style="width:45%">
+        </div>
+        <div style="margin-bottom:20px">
+            <input name="closeTime" class="easyui-textbox"disabled="true" label="结算时间:" style="width:45%">
+            <input name="orderMoney" class="easyui-textbox" required="true" label="采购总额:" style="width:45%">
+        </div>
+        <table id="tt2" class="easyui-datagrid"
+               url="/pageInden"
+               iconCls="icon-save"
+               rownumbers="false" pagination="true"  singleSelect="false">
+            <thead>
+            <tr>
+
+                <th field="goodsName" width="20%">商品名称</th>
+                <th field="goodsNorms" width="20%" align="right">商品规格</th>
+                <th field="goodsType" width="20%" align="right">商品类型</th>
+                <th field="goodsUnit" width="20%" align="right">商品单位</th>
+                <th field="supplyNum" width="20%">商品数量</th>
+
+            </tr>
+            </thead>
+        </table>
+        <div id="buttons2" align="center" style="margin-bottom:40px;margin-top: 40px;position: relative;right: -300px" >
+
+            <a href="javascript:void(0)" id="back2" class="easyui-linkbutton" onclick="back2()" style="left :-255px;width:90px"> 返 回 </a>
+        </div>
+    </form>
+</div>
+
+<script>
+    function back2() {
+        $('#dlg2').dialog('close');
+    }
+    function doSearch(){
+
+
+        $('#tt').datagrid('load',{
+
+            indentId: $('#indentId').val(),
+            indentStatus: $('#indentStatus').val(),
+
+            startDate: $('#startDate').val(),
+            endDate: $('#endDate').val()
+
+        });
+
+
+    }
+    $(document).ready(function () {
+        $('#tt').datagrid('load',{
+
+        });
+    });
+
+    function openMyWind(){
+        var row = $('#tt').datagrid('getSelected');
+
+        if (row) {
+            $('#dlg2').dialog('open').dialog('center').dialog('setTitle','订单信息查看');
+            $('#dlg2').form('load',row);
+        }
+        $('#tt2').datagrid('load',{
+            indentId: row.indentId,
+            page:1,
+        });
+
+    }
+    //初始化加载
+    $(document).ready(function () {
+        doSearch();
+    });
+    //查询
+    function doSearch(){
+        $('#tt').datagrid('load',{
+            startTime: $('#startTime').val(),
+            endTime:$("#endTime").val(),
+            indentId:$("#indentId").val(),
+            indentStatus:$("#indentStatus").val(),
+            page:1,
+        });
+    }
+
+
+</script>
+</body>
+</html>

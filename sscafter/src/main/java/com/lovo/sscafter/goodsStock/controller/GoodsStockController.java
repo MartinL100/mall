@@ -46,7 +46,7 @@ public class GoodsStockController {
 
         Map<String,Object> map = new HashMap<>();
         map.put("rows",list);
-        map.put("page",page);
+        map.put("pageTwo",page);
         map.put("total",ro);
         return map;
     }
@@ -143,7 +143,7 @@ return "yes";
 
         Map<String,Object> map = new HashMap<>();
         map.put("rows",list);
-        map.put("page",page);
+        map.put("pageTwo",page);
       map.put("total",ro);
         return map;
     }
@@ -158,7 +158,7 @@ return "yes";
          List<OrderGoodsDTO> list2 = orderGoodsService.findOrderGoods(goodsName,goodsType,startDate,endDate,page,rows);
         long ro=orderGoodsService.findOrderGoodsCount(goodsName,goodsType,startDate,endDate);
     map.put("rows",list2);
-    map.put("page",page);
+    map.put("pageTwo",page);
     map.put("total",ro);
         return map;
     }
@@ -215,7 +215,7 @@ return "yes";
          List<ReturnGoodsDto> list=  returnGoodsService.findOrderGoods(goodsName,goodsType,startDate,endDate,page,rows);
        Long ro=returnGoodsService.findOrderGoodsCount(goodsName,goodsType,startDate,endDate);
     map.put("rows",list);
-    map.put("page",page);
+    map.put("pageTwo",page);
     map.put("total",ro);
 
             return map;
@@ -226,7 +226,7 @@ return "yes";
             Map<String,Object> map=new HashMap<>();
            List<GoodsTypeEntity> list= goodsTypeService.findGoodsTypeByNmae(typeName,page,rows);
              map.put("rows",list);
-             map.put("page",page);
+             map.put("pageTwo",page);
              Long ro = goodsTypeService.findGoodsTypeByNmaeCpunt(typeName);
             map.put("total",ro);
 
