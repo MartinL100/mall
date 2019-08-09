@@ -11,6 +11,20 @@ import javax.servlet.http.HttpServletResponse;
 public class StaticInterceptor   implements HandlerInterceptor {
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
+        String url = request.getRequestURI();
+        if(url.indexOf("login") != -1){
+            return true;
+        }
+        if(url.indexOf("easy") != -1){
+            return true;
+        }
+        if(url.indexOf("register") != -1){
+            return true;
+        }
+        if(request.getSession().getAttribute("userName") == null){
+            response.sendRedirect("/page/loginAndRegister/login.html");
+            return false;
+        }
         return true;
     }
 
