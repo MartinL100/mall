@@ -178,11 +178,10 @@
   function getAuditName() {
     $.post("/getAuditName",function (res) {
       if (null==res||""==res){
-        layer.msg('登录失效！请重新返回登录页面进行登录', {
-          time: 20000, //20s后自动关闭
-          btn: ['知道了'],
-          title: '温馨提示'
-        });
+          layer.msg('登录失效！请重新返回登录页面进行登录',{
+              time: 20000, //20s后自动关闭
+              btn: ['知道了']
+          })
         location.href="../page/Login.html";
       }
       $("#activeUser").text(res)
@@ -192,6 +191,7 @@
   $(document).ready(function () {
     getAuditName();
   })
+
 
 
   function activeUserLogOut() {

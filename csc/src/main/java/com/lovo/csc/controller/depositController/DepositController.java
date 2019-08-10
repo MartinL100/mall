@@ -52,6 +52,14 @@ public class DepositController {
 @RequestMapping("findDeposit/{userName}")
     public String findDeposit(@PathVariable(name = "userName")String userName) throws JsonProcessingException {
         DepositEntity depositEntity=  depositService.findDepositByUserName(userName);
+    String lv= depositEntity.getDepositMoneyLevel();
+    if ("0".equals(lv)){
+        depositEntity.setDepositMoneyLevel("大众会员");
+    } else if ("1".equals(lv)){
+        depositEntity.setDepositMoneyLevel("黄金会员");
+    }else {
+        depositEntity.setDepositMoneyLevel("砖石会员");
+    }
         ObjectMapper objectMapper=new ObjectMapper();
         String  str=  objectMapper.writeValueAsString(depositEntity);
         return  str;
