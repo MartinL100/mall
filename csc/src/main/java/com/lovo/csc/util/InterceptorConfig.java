@@ -10,8 +10,12 @@ public class InterceptorConfig  implements WebMvcConfigurer {
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
         registry.addInterceptor(new StaticInterceptor())
-                .addPathPatterns("/**")//添加拦截路径
-                .excludePathPatterns("/static/**")  ;//排除拦截路径
+                .addPathPatterns("/static/**");//添加拦截路径
+//                .excludePathPatterns("/static/**");  //排除拦截路径
+//                .excludePathPatterns("../page/regist.html")
+//                .excludePathPatterns("../easyui/**")
+//                .excludePathPatterns("../layuiadmin/**")
+//                 .excludePathPatterns("../lib/**");//排除拦截路径
 
 
     }

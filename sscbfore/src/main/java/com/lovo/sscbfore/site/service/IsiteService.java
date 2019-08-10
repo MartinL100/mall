@@ -11,13 +11,13 @@ public interface IsiteService {
    //按用户名查找所以地址
     public List<SiteEntity> findAllByUserSite(String userSite);
     //
-    SiteEntity findSiteBySid(String sid);
-
-    int updateSite(SiteEntity siteEntity);
+   public SiteEntity findSiteBySid(String sid);
+       //修改
+       public  int updateSite(SiteEntity siteEntity);
      //删除
-    int deleteSite(String sid);
-
-    SiteEntity findSiteISSiteDefault();
+     public int deleteSite(String sid);
+//默认地址
+    public void updateSiteDefaultById(String siteid);
 
 
 }

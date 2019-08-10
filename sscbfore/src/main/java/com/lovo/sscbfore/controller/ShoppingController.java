@@ -22,7 +22,7 @@ public class ShoppingController {
         String info2="{\"code\":0,\"msg\":\"\",\"count\":1000,\"data\":[";
         for (Map<String,GoodssDTO> m:map2.values()){
             for (GoodssDTO g:m.values()) {
-                info2+="{\"goodsName\":\""+g.getGoodsName()+"\",\"goodsNum\":\""+g.getGoodsNum()+"\",\"goodsPrice\":\""+g.getGoodsPrice()+"\",\"goodsDiscount\":\""+g.getGoodsType()+"\"}," ;
+                info2+="{\"choose\":\""+g.getChoose()+"\",\"goodsId\":\""+g.getGoodsId()+"\",\"goodsName\":\""+g.getGoodsName()+"\",\"goodsNum\":\""+g.getGoodsNum()+"\",\"goodsPrice\":\""+g.getGoodsPrice()+"\",\"goodsDiscount\":\""+g.getGoodsType()+"\"}," ;
             }
         }
         String str1 = info2.substring(0, info2.length()-1);
@@ -76,8 +76,6 @@ public class ShoppingController {
     @RequestMapping("delMap")
     public void delMap(String goodsName){
         map2.get("集合1").remove(goodsName);
-        int i=map.get("集合1").size();
-        System.out.printf(""+i+"");
 
     }
 
@@ -85,7 +83,7 @@ public class ShoppingController {
 @RequestMapping("setingChoose")
     public void setingChoose(String goodsName){
     System.out.printf(""+goodsName);
-    //  从MAP中获取到要修改的对象
+    //找到要修改的对象赋值给goodssDTO
     GoodssDTO goodssDTO=map2.get("集合1").get(goodsName);
     //进行重新赋值修改
     goodssDTO.setChoose(1);
@@ -93,7 +91,7 @@ public class ShoppingController {
     map2.get("集合1").remove(goodsName);
     //放进MAp中z
     map2.get("集合1").put(goodssDTO.getGoodsId(),goodssDTO);
-    System.out.printf(map2.get("集合1").get(goodsName).getChoose()+"");
+//    System.out.printf(map2.get("集合1").get(goodsName).getChoose()+"");
 
     //通过传过来的商品名修改其判定属性是否已经选中
 
