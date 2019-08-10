@@ -35,7 +35,9 @@ public class ShoppingController {
     @RequestMapping("shoppingJion")
     public void joinMap(GoodssDTO dto){
         System.out.printf(""+map2.size()+"*/*");
+        //判断公用MAP是否为空
         if (map2.size()==0) {
+            //如果为空新建一个 用户名为KEY 商品信息为VLUE的对象（MAP）
             System.out.printf(dto.getGoodsName());
             Map<String, GoodssDTO> mapMin = new HashMap<String, GoodssDTO>();
             mapMin.put(dto.getGoodsName(), dto);
@@ -46,6 +48,7 @@ public class ShoppingController {
 //        spring mvc中session获取
 //        HttpSession session= ((ServletRequestAttributes)RequestContextHolder.getRequestAttributes()).getRequest().getSession();
 //        String openId = (String) session.getAttribute("openId");
+            //如果不为空 加入一个以用户名为key 的对象(商品信息的MAP)
         }else {
             map2.get("集合1").put(dto.getGoodsName(),dto);
             System.out.printf("啦啦"+map2.get("集合1").size()+"啦啦啦");

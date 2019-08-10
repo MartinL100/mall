@@ -135,7 +135,7 @@
                                 '<input type="text" id="spid"><button id="Bid" class="layui-btn layui-btn-xs">确定</button>' +
                                 '<button id="BBid" class="layui-btn layui-btn-xs">取消</button></div>'
                         });
-                        //弹出弹窗让用户输入修改数量
+
                      // $("#divID").show();
                         $("#Bid").click(function () {
                             var Num= $("#spid").val();
@@ -161,6 +161,7 @@
                                     layer.msg(e);
                                 }
                             })
+                            window.location.href ="ShoppingHTML.html";
                         });
                         // $("#BBid").click(function () {
                         //     $("#divID").hide();
