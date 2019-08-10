@@ -13,7 +13,7 @@ import java.util.Map;
 @RestController
 public class ShoppingController {
     //加入购物车的MAP
-   public static Map<String ,Map<String,GoodsDTO>> map = new HashMap<String, Map<String,GoodsDTO>>();
+
    public static Map<String ,Map<String,GoodssDTO>>map2 = new HashMap<String, Map<String,GoodssDTO>>();
 
     @RequestMapping("shoppingAll")
@@ -34,25 +34,49 @@ public class ShoppingController {
     //加入Map集合
     @RequestMapping("shoppingJion")
     public void joinMap(GoodssDTO dto){
-        System.out.printf(""+map2.size()+"*/*");
-        //判断公用MAP是否为空
-        if (map2.size()==0) {
-            //如果为空新建一个 用户名为KEY 商品信息为VLUE的对象（MAP）
-            System.out.printf(dto.getGoodsName());
-            Map<String, GoodssDTO> mapMin = new HashMap<String, GoodssDTO>();
-            mapMin.put(dto.getGoodsName(), dto);
-            System.out.printf(mapMin.size() + "");
-            map2.put("集合1", mapMin);
-            System.out.printf("啦啦"+map2.get("集合1").size()+"啦啦啦");
-            //集合1应该是Seeion里的用户名
-//        spring mvc中session获取
-//        HttpSession session= ((ServletRequestAttributes)RequestContextHolder.getRequestAttributes()).getRequest().getSession();
-//        String openId = (String) session.getAttribute("openId");
-            //如果不为空 加入一个以用户名为key 的对象(商品信息的MAP)
-        }else {
-            map2.get("集合1").put(dto.getGoodsName(),dto);
-            System.out.printf("啦啦"+map2.get("集合1").size()+"啦啦啦");
+        //判断有没有当前用户
+        String userName = "zhaoyun";
+        Map<String,GoodssDTO> map=map2.get(userName);
+        //如果没有当前用户
+        if(map==null){
+            Map map1 = new HashMap();
+            map.put(dto.getGoodsName(),dto);
+            map2.put(userName,map1);
+        }else{
+            //将商品信息放入当前用户的map中
+            map.put(dto.getGoodsName(),dto);
         }
+
+
+
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//        System.out.printf(""+map2.size()+"*/*");
+//        //判断公用MAP是否为空
+//        if (map2.size()==0) {
+//            //如果为空新建一个 用户名为KEY 商品信息为VLUE的对象（MAP）
+//            System.out.printf(dto.getGoodsName());
+//            Map<String, GoodssDTO> mapMin = new HashMap<String, GoodssDTO>();
+//            mapMin.put(dto.getGoodsName(), dto);
+//            map2.put("集合1", mapMin);
+//            System.out.printf("啦啦"+map2.get("集合1").size()+"啦啦啦");
+//            //集合1应该是Seeion里的用户名
+////        spring mvc中session获取
+////        HttpSession session= ((ServletRequestAttributes)RequestContextHolder.getRequestAttributes()).getRequest().getSession();
+////        String openId = (String) session.getAttribute("openId");
+//            //如果不为空 加入一个以用户名为key 的对象(商品信息的MAP)
+//        }else {
+//            map2.get("集合1").put(dto.getGoodsName(),dto);
+//            System.out.printf("啦啦"+map2.get("集合1").size()+"啦啦啦");
+//        }
 
     }
 
