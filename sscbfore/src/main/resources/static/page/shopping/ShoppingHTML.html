@@ -107,8 +107,8 @@
                          ,{field:'goodsName', width:211, title: '商品名', sort: true,align:"center"}
                         ,{field:'goodsNum', width:211, title: '商品数量',align:"center"}
                         ,{field:'goodsPrice', width:211, title: '商品价格', sort: true,align:"center"}
-                        ,{field:'goodsId', width:211, title: '商品ID',align:"center"}
-                        ,{field:'goodsType', title: '商品类型', width: '211', minWidth: 211,align:"center"} //minWidth：局部定义当前单元格的最小宽度，layui 2.2.1 新增
+                        ,{field:'choose', width:211, title: '商品ID',align:"center"}
+                        ,{field:'goodsDiscount', title: '商品类型', width: '211', minWidth: 211,align:"center"} //minWidth：局部定义当前单元格的最小宽度，layui 2.2.1 新增
                         ,{fixed : 'right',title : '操作',width : 211,align : 'center',toolbar : '#barDemo'}
                     ]]
                 });
@@ -136,7 +136,7 @@
                                 '<button id="BBid" class="layui-btn layui-btn-xs">取消</button></div>'
                         });
                         //弹出弹窗让用户输入修改数量
-                     $("#divID").show();
+                     // $("#divID").show();
                         $("#Bid").click(function () {
                             var Num= $("#spid").val();
                             $("#spid").value="";
@@ -162,12 +162,12 @@
                                 }
                             })
                         });
-                        $("#BBid").click(function () {
-                            $("#divID").hide();
-                            var Num= $("#spid").val();
-                            $("#spid").value="";
-                            alert(Num);
-                        });
+                        // $("#BBid").click(function () {
+                        //     $("#divID").hide();
+                        //     var Num= $("#spid").val();
+                        //     $("#spid").value="";
+                        //     alert(Num);
+                        // });
 
                         //引用接口判断输入的数量是否大于最大库存数
 
@@ -211,6 +211,9 @@
                     $(checkStatus.data).each(function (i, o) {//o即为表格中一行的数据
                         ids.push(o.goodsName);
                         var goodsName=ids[i];
+                        alert(ids.length);
+                        alert(ids.valueOf());
+                        alert(goodsName);
                         $.ajax({
                             url: "/setingChoose",    //换成自己的url
                             type: "POST",
