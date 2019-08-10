@@ -16,6 +16,7 @@ import org.springframework.web.client.RestTemplate;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
+import java.net.URLEncoder;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -76,22 +77,18 @@ public class MakeDelController {
         OrderDTO orderDTO= objectMapper.readValue(OrderInfo, OrderDTO.class);
         List<GoodsDTO> goodsDTOS= objectMapper.readValue(GoodsInfo, new TypeReference<List<GoodsDTO>>() {});
         //获取商品集合中所有的商品，封装为map，进行库存验证
-        Map<String,Long>map = new HashMap<String,Long>();
+        Map<String,String>map = new HashMap<String,String>();
         for (GoodsDTO goods:goodsDTOS) {
-            map.put(goods.getGoodsId(),goods.getGoodsNum());
+            map.put(goods.getGoodsId(),goods.getGoodsNum().toString());
         }
           //Cloud请求进行第一次库存验证
-       String mapInfo= objectMapper.writeValueAsString(map);
-        String url = UrlUtil.IS_ENOUGH_URL+mapInfo;
-//        errorInfo= restTemplate.getForEntity(url,String.class).getBody();
-        //如果存在商品库存不足
-
+       String goodsMap= objectMapper.writeValueAsString(map);
+        errorInfo= restTemplate.postForEntity(UrlUtil.IS_ENOUGH_URL,goodsMap,String.class).getBody();
+        List<String> goodsErrorInfos = objectMapper.readValue(errorInfo,new TypeReference<List<String>>() {});
 //        errorInfo="[\"aaaaa\",\"zzzzz\"]";//此处为为模拟库存不足的情况
-
-
-        if(!StringUtils.isEmpty(errorInfo)){
+        //如果存在商品库存不足
+        if(goodsErrorInfos.size()>0){
             String errorInfoTemp="";
-            List<String> goodsErrorInfos=objectMapper.readValue(errorInfo,new TypeReference<String[]>() {});
             for (GoodsDTO goodsDTO:goodsDTOS) {
                 for (String info:goodsErrorInfos) {
                         if (goodsDTO.getGoodsId().equals(info)){
@@ -114,9 +111,9 @@ public class MakeDelController {
         //商品信息json
         String orderInfo = objectMapper.writeValueAsString(orderDTO);
         //保存订单
-//        restTemplate.postForEntity(UrlUtil.SAVE_ORDER_URL,orderInfo,null);
+        String str = restTemplate.postForEntity(UrlUtil.SAVE_ORDER_URL,URLEncoder.encode(orderInfo, "UTF-8"),String.class).getBody();
         //post提交审核商品
-//        errorInfo=  restTemplate.postForEntity(UrlUtil.CHECK_ORDER_URL,orderInfo,String.class).getBody();
+        errorInfo=  restTemplate.postForEntity(UrlUtil.CHECK_ORDER_URL,orderInfo,String.class).getBody();
         //根据返回信息判定是否审核成功
         errorInfo="{\"payMoney\":\"800\",\"errorInfo\":\"\"}";//模拟审核系统返回消息
         Map<String,String>errorInfoMap = objectMapper.readValue(errorInfo,new TypeReference<Map<String,String>>() {});
@@ -125,9 +122,9 @@ public class MakeDelController {
             return errorInfoMap.get("errorInfo");
         }
         //审核成功，减少库存
-//       restTemplate.getForEntity(UrlUtil.UPDATE_GOODS_NUM_URL+mapInfo,String.class).getBody();
+       restTemplate.getForEntity(UrlUtil.UPDATE_GOODS_NUM_URL+goodsMap,String.class).getBody();
         //修改订单状态
-//        restTemplate.getForEntity(UrlUtil.UPDATE_ORDER_STATUE_URL+orderDTO.getOrderNum(),null);
+        restTemplate.getForEntity(UrlUtil.UPDATE_ORDER_STATUE_URL+orderDTO.getOrderNum(),null);
         errorInfo="实际扣款:"+errorInfoMap.get("payMoney")+"（元）\n"+DealErroInfos.DEAL_SUCCEED;
 
         return  errorInfo;

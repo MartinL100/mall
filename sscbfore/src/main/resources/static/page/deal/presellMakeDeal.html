@@ -275,7 +275,7 @@
             tableData=JSON.stringify(tableData) //temp为所有表格数据
             layer.load(0);
 
-            $.post("/presellMakeDeal",{"OrderInfo":formData,"GoodsInfo":tableData},function (r) {
+            $.post("/makeDel",{"OrderInfo":formData,"GoodsInfo":tableData},function (r) {
 
                 //关闭所有加载动画
                 layer.closeAll('loading');

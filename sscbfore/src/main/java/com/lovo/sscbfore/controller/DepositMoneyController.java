@@ -24,12 +24,12 @@ public class DepositMoneyController {
      */
     @RequestMapping("getDepositInfo")
     public  String getDepositInfo(){
-        String info ="{\"userName\":\"zhaoyun\",\"countDepositMoney\":\"80000\",\"leftDepositMoney\":\"5000\",\"depositMoneyLevel\":\"钻石五\"}";
+//        String info ="{\"userName\":\"zhaoyun\",\"countDepositMoney\":\"80000\",\"leftDepositMoney\":\"5000\",\"depositMoneyLevel\":\"钻石五\"}";
         String userName="zhaoyun";
-//        String info="";
-//        info=restTemplate
-//                .getForEntity(UrlUtil.FIND_DEPOSIT_INFO+userName,String.class)
-//                .getBody();
+        String info="";
+        info=restTemplate
+                .getForEntity(UrlUtil.FIND_DEPOSIT_INFO+userName,String.class)
+                .getBody();
         return info ;
     }
 
@@ -40,13 +40,13 @@ public class DepositMoneyController {
      */
     @RequestMapping("addDepositMoney")
     public String addDepositMoney(String payInfo) throws IOException {
-        String info ="{\"userName\":\"zhaoyun\",\"countDepositMoney\":\"80000\",\"leftDepositMoney\":\"5000\",\"depositMoneyLevel\":\"钻石五\"}";;
-//        String info = "";
+//        String info ="{\"userName\":\"zhaoyun\",\"countDepositMoney\":\"80000\",\"leftDepositMoney\":\"5000\",\"depositMoneyLevel\":\"钻石五\"}";;
+        String info = "";
         String userName = "zhaoyun";
         Map map = objectMapper.readValue(payInfo,new TypeReference<Map<String,String>>(){});
-//        info= restTemplate
-//                .getForEntity(UrlUtil.SAVE_DEPOSIT_MONEY_URL+userName+"/"+map.get("addDepositMoney"),String.class)
-//                .getBody();
+        info= restTemplate
+                .getForEntity(UrlUtil.SAVE_DEPOSIT_MONEY_URL+userName+"/"+map.get("addDepositMoney"),String.class)
+                .getBody();
         return  info;
     }
 }

@@ -47,7 +47,7 @@
             <!--购物车和用户按钮-->
             <ul class="layui-nav layui-layout-right" lay-filter="layadmin-layout-right">
                 <li class="layui-nav-item layui-hide-xs" lay-unselect>
-                    <a href="javascript:;" layadmin-event="theme"title="用户">
+                    <a href="../user/userShow.html" title="用户">
                         <i class="layui-icon layui-icon-user"></i>
                     </a>
                 </li>
@@ -109,6 +109,7 @@ var countGoods=0;
     $(document).ready(function () {
         //初始化下拉框
         $.post("/initSelect",function (r) {
+
             var selectObj = eval("("+r+")");
             var htmlStr="";
             $.each(selectObj,function (r) {
@@ -206,8 +207,7 @@ var countGoods=0;
                     '                            </div>\n' +
                         '    <div class="layui-form-item" style="margin-top: 1%">\n' +
                     '                            <div class="layui-input-block">\n' +
-                    '                                <button class="layui-btn" lay-submit lay-filter="buy">直接购买</button>\n' +
-                    '                                <button class="layui-btn"  lay-submit lay-filter="addToCar">加入购物车</button>\n' +
+                    '                                <button class="layui-btn" lay-submit lay-filter="buy">点击购买</button>\n' +
                     '                            </div>'+
                     '                        </div></div></div>'
 
@@ -223,13 +223,7 @@ var countGoods=0;
                     window.location.href ="../deal/presellMakeDeal.html";
                 })
             });
-            form.on('submit(addToCar)', function(data){
-                var Info = data.field ;
-                //加入购物车
-                // console.log(Info);
-                // console.log("addToCar");
 
-            });
 
         })
     }

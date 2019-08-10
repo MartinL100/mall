@@ -1,10 +1,15 @@
 package com.lovo.sscbfore.controller;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.lovo.common.entity.GoodsDTO;
 import com.lovo.common.entity.GoodssDTO;
+import com.lovo.sscbfore.user.entity2.UserEntity;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.servlet.http.HttpServletRequest;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -13,7 +18,8 @@ import java.util.Map;
 @RestController
 public class ShoppingController {
     //加入购物车的MAP
-
+    @Autowired
+    ObjectMapper objectMapper;
    public static Map<String ,Map<String,GoodssDTO>>map2 = new HashMap<String, Map<String,GoodssDTO>>();
 
     @RequestMapping("shoppingAll")
@@ -33,14 +39,16 @@ public class ShoppingController {
     }
     //加入Map集合
     @RequestMapping("shoppingJion")
-    public void joinMap(GoodssDTO dto){
+    public void joinMap(String info, HttpServletRequest request) throws IOException {
+        System.out.println(info);
+        GoodssDTO  dto=objectMapper.readValue(info,GoodssDTO.class);
         //判断有没有当前用户
-        String userName = "zhaoyun";
+        String userName =((UserEntity)request.getSession().getAttribute("userEntity")).getUserName() ;
         Map<String,GoodssDTO> map=map2.get(userName);
         //如果没有当前用户
         if(map==null){
             Map map1 = new HashMap();
-            map.put(dto.getGoodsName(),dto);
+            map1.put(dto.getGoodsName(),dto);
             map2.put(userName,map1);
         }else{
             //将商品信息放入当前用户的map中
