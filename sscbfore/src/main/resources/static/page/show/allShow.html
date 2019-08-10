@@ -47,7 +47,7 @@
             <!--购物车和用户按钮-->
             <ul class="layui-nav layui-layout-right" lay-filter="layadmin-layout-right">
                 <li class="layui-nav-item layui-hide-xs" lay-unselect>
-                    <a href="javascript:;" layadmin-event="theme"title="用户">
+                    <a href="../user/userShow.html" title="用户">
                         <i class="layui-icon layui-icon-user"></i>
                     </a>
                 </li>
@@ -225,9 +225,13 @@
             });
             form.on('submit(addToCar)', function(data){
                 var Info = data.field ;
+                var infoTem=JSON.stringify(Info)
                 //加入购物车
-                // console.log(Info);
+                console.log(infoTem);
                 // console.log("addToCar");
+                $.post("/shoppingJion",{"info":infoTem},function () {
+
+                })
 
             });
 
