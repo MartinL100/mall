@@ -35,7 +35,7 @@
 <div class="layui-form-item layui-layout-admin">
     <div class="layui-input-block">
         <div class="layui-footer" style="left: 0;">
-            <button class="layui-btn" onclick="fun()">添加地址</button>
+            <a href="siteAdd.html"><button class="layui-btn" onclick="tianjia()">添加地址</button></a>
             <button class="layui-btn">返回商城</button>
         </div>
     </div>
@@ -48,13 +48,35 @@
 <script src="../../lib/jquery.js"></script>
 <script type="text/html" id="component-form-time">
     <a  class="layui-btn layui-btn-xs" lay-event='edit'  >修改</a>
-    <a  class="layui-btn layui-btn-xs" lay-event="detail" onclick="shanchu()">删除</a>
-    <a  class="layui-btn layui-btn-xs" lay-event="detail">设置默认</a>
+    <a  class="layui-btn layui-btn-xs" lay-event="shanchu" onclick="shanchu()">删除</a>
+    <a  class="djsA layui-btn layui-btn-xs" lay-event="detail" style="" onclick="djA(this)">设置默认</a>
+
 
 </script>
 <script src="../../layuiadmin/layui/layui.js"></script>
+<style>
+    .start{
+        cursor:pointer;
+    }
+    .end{
+        cursor:pointer;
+        color: #fff9ec;
+        background: #cc0000;
+        border: none;
+    }
+</style>
 
 <script>
+    function djA(dom){
+      var  Collection=$(".djsA")
+        $.each(Collection,function () {
+            $(this).removeClass("end")
+            $(this).addClass("start")
+        })
+     $(dom).removeClass("start")
+        $(dom).addClass("end")
+
+    }
 
     layui.config({
         base: '../../layuiadmin/' //静态资源所在路径
@@ -93,10 +115,29 @@
             var Name = obj.goodsName;//获得当前数据的商品名
             var layEvent = obj.event; //获得 lay-event 对应的值（也可以是表头的 event 参数对应的值）
             var tr = obj.tr; //获得当前行 tr 的DOM对象
+
+
+            if (layEvent==='shanchu') {
+             var s=  data.siteId;
+                $.post("/delete/sid",{"sid":s},function (h) {
+                });
+                obj.del(s)
+            }
+            if (layEvent==='detail') {
+               var v=data.siteId
+
+                alert(v)
+             $.post("/update/execute",{"wid":v},function (w) {
+
+             })
+            }
+
+
+
              // console.log(obj);
             if (layEvent === 'edit') {
                 layer.open({
-                    area: ['500px', '300px'],
+                    area: ['800px', '500px'],
                     title: "修改商品信息",
                     type: 1,
                     content: '<div align="center" class="layui-card layui-form" lay-filter="component-form-element">' +
@@ -104,11 +145,14 @@
                         '                            <label class="layui-form-label">地址信息</label>\n' +
                         '                            <div class="layui-input-block">\n' +
                         '                                <input type="text" name="siteArea" value='+data.siteArea+'  placeholder="" autocomplete="off" class="layui-input" >\n' +
+                        '                                <input type="hidden" name="siteId" value='+data.siteId+'>\n' +
+
                         '                            </div>\n' +
                         '                        </div>\n' +
-                        '                        <div class="layui-form-item" hidden="hidden">\n' +
+                        '                        <div class="layui-form-item">\n' +
                         '                            <label class="layui-form-label">详细地址</label>\n' +
                         '                            <div class="layui-input-block">\n' +
+
                         '                                <input type="text" name="siteDetail" value='+data.siteDetail+'  placeholder="" autocomplete="off" class="layui-input" >\n' +
                         '                            </div>\n' +
                         '                        </div>\n' + '                        <div class="layui-form-item">\n' +
@@ -129,26 +173,29 @@
                         '                                <input type="text" name="sitePhone" value='+data.sitePhone+' placeholder="" autocomplete="off" class="layui-input" >\n' +
                         '                            </div>\n' +
                         '                        </div>\n' +
-                        '                                <button class="layui-btn" lay-submit lay-filter="buy">保存</button>\n' +
-                        '                                <button class="layui-btn"  lay-submit lay-filter="addToCar">返回</button>\n' +
+                        '                               <a href="siteIndex.html"><button class="layui-btn" lay-submit lay-filter="buy">保存</button></a> \n' +
+                        '                                <a href="siteIndex.html"><button class="layui-btn"  lay-submit lay-filter=""  >返回</button></a>\n' +
                         '                            </div>'+
                         '                        </div></div></div>'
 
 
                 })};
             form.on('submit(buy)', function(data){
-                var Info = JSON.stringify(data.field) ;
-                //直接购买
+                var Info = JSON.stringify(data.field);
                 console.log(Info);
-                $.post("/buyRight",{"goodsInfo":Info},function (r) {
-                    console.log(r)
-                    window.location.href ="static/page/address/siteIndex.html";
+                $.ajax({
+                    url: '/update',
+                    type: 'POST',
+                    dataType: 'json',
+                    contentType: 'application/json',
+                    data: Info,
+                    success: function() {
+
+                    }
                 })
 
             });
-            function fun() {
-                location.href = "siteAdd.html"
-            }
+
         });
     })
 

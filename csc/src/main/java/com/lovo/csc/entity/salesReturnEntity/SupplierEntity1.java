@@ -1,4 +1,4 @@
-package com.lovo.psc.entity;
+package com.lovo.csc.entity.salesReturnEntity;
 
 import org.hibernate.annotations.GenericGenerator;
 
@@ -10,12 +10,12 @@ import java.util.List;
  */
 @Entity
 @Table(name = "sys_supplier")
-public class SupplierEntity {
+public class SupplierEntity1 {
     @Id
     @GenericGenerator(name = "suuid",strategy = "uuid")
     @GeneratedValue(generator = "suuid")
-    /**供应商编号*/
     @Column(length = 32)
+    /**供应商编号*/
     private String supplierId;
     @Column(length = 48)
     /**供应商名称*/
@@ -44,17 +44,36 @@ public class SupplierEntity {
     @Column(length = 48)
     /**审核时间*/
     private String checkDate;
-    @Column(length = 48)
-    /**供应商登录密码*/
-    private String supplierPwd;
-    @Column(length = 48)
     /**商品对象集合 */
-    @OneToMany(mappedBy = "supplier")
-    private List<SupplierGoodsEntity> supplierGoodsList;
-    @OneToMany(mappedBy = "supplier")
-    private List<SupplyCenterEntity> supplyCenterList;
-    @OneToMany(mappedBy = "supplier")
-    private List<BackGoods> backGoodsList;
+   // @OneToMany(mappedBy = "supplier")
+   // private List<SupplierGoodsEntity> supplierGoodsList;
+  //  @OneToMany(mappedBy = "supplier")
+ //   private List<SupplyCenterEntity> supplyCenterList;
+   // @OneToMany(mappedBy = "supplier")
+  //  private List<BackGoods> backGoodsList;
+
+//    public List<BackGoods> getBackGoodsList() {
+//        return backGoodsList;
+//    }
+//    public void setBackGoodsList(List<BackGoods> backGoodsList) {
+//        this.backGoodsList = backGoodsList;
+//    }
+//
+//    public List<SupplyCenterEntity> getSupplyCenterList() {
+//        return supplyCenterList;
+//    }
+//
+//    public void setSupplyCenterList(List<SupplyCenterEntity> supplyCenterList) {
+//        this.supplyCenterList = supplyCenterList;
+//    }
+//
+//    public List<SupplierGoodsEntity> getSupplierGoodsList() {
+//        return supplierGoodsList;
+//    }
+//
+//    public void setSupplierGoodsList(List<SupplierGoodsEntity> supplierGoodsList) {
+//        this.supplierGoodsList = supplierGoodsList;
+//    }
 
     public String getSupplierId() {
         return supplierId;
@@ -136,68 +155,7 @@ public class SupplierEntity {
         this.checkDate = checkDate;
     }
 
-    public String getSupplierPwd() {
-        return supplierPwd;
+
+    public SupplierEntity1() {
     }
-
-    public void setSupplierPwd(String supplierPwd) {
-        this.supplierPwd = supplierPwd;
-    }
-
-//    public List<SupplierGoodsEntity> getSupplierGoodsList() {
-//        return supplierGoodsList;
-//    }
-//
-//    public void setSupplierGoodsList(List<SupplierGoodsEntity> supplierGoodsList) {
-//        this.supplierGoodsList = supplierGoodsList;
-//    }
-//
-//    public List<SupplyCenterEntity> getSupplyCenterList() {
-//        return supplyCenterList;
-//    }
-//
-//    public void setSupplyCenterList(List<SupplyCenterEntity> supplyCenterList) {
-//        this.supplyCenterList = supplyCenterList;
-//    }
-//
-//    public List<BackGoods> getBackGoodsList() {
-//        return backGoodsList;
-//    }
-//
-//    public void setBackGoodsList(List<BackGoods> backGoodsList) {
-//        this.backGoodsList = backGoodsList;
-//    }
-
-    public SupplierEntity(String supplierName,
-                          String supplierPrincipal,
-                          String supplierTel,
-                          String supplierAddress,
-                          String supplierType,
-                          String supplierLevel,
-                          String supplierTag,
-                          String checkName,
-                          String checkDate,
-                          String supplierPwd,
-                          List<SupplierGoodsEntity> supplierGoodsList,
-                          List<SupplyCenterEntity> supplyCenterList,
-                          List<BackGoods> backGoodsList) {
-        this.supplierName = supplierName;
-        this.supplierPrincipal = supplierPrincipal;
-        this.supplierTel = supplierTel;
-        this.supplierAddress = supplierAddress;
-        this.supplierType = supplierType;
-        this.supplierLevel = supplierLevel;
-        this.supplierTag = supplierTag;
-        this.checkName = checkName;
-        this.checkDate = checkDate;
-        this.supplierGoodsList = supplierGoodsList;
-        this.supplyCenterList = supplyCenterList;
-        this.backGoodsList = backGoodsList;
-        this.supplierPwd=supplierPwd;
-    }
-
-    public SupplierEntity() {
-    }
-
-
 }

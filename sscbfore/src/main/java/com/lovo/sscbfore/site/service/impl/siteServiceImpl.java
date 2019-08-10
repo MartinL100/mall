@@ -5,10 +5,12 @@ import com.lovo.sscbfore.site.service.IsiteService;
 import com.lovo.sscbfore.user.entity2.SiteEntity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
 @Service(value = "siteService")
+@Transactional
 public class siteServiceImpl implements IsiteService {
 
     @Autowired
@@ -41,7 +43,12 @@ public class siteServiceImpl implements IsiteService {
     }
 
     @Override
-    public SiteEntity findSiteISSiteDefault() {
-        return siteDao.findSiteISSiteDefault();
+    public void updateSiteDefaultById(String siteid) {
+        //将状态为1改为0
+        siteDao.updateSiteDefault();
+        siteDao.updateSiteDefaultById(siteid,1);
+
     }
+
+
 }

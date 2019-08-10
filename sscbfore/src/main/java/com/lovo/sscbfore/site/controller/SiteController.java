@@ -3,10 +3,13 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.lovo.sscbfore.site.service.IsiteService;
 import com.lovo.sscbfore.user.entity2.SiteEntity;
+import com.lovo.sscbfore.user.entity2.UserEntity;
+import org.eclipse.jgit.transport.CredentialItem;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.client.RestTemplate;
@@ -29,7 +32,7 @@ public class SiteController {
     @ResponseBody
     public String IndexData(@PathVariable("uname") String name) throws JsonProcessingException {
         List<SiteEntity> siteEntityList = isiteService.findAllByUserSite(name);
-        siteEntityList.forEach(System.out::println);
+
          String str=  new ObjectMapper().writeValueAsString(siteEntityList);
          return str;
     }
@@ -43,6 +46,7 @@ public class SiteController {
         Object user = request.getSession().getAttribute("user");
         String username="1";
         List<SiteEntity> siteEntityList = isiteService.findAllByUserSite(username);
+        siteEntityList.forEach(System.out::println);
 //       String str=new ObjectMapper().writeValueAsString(siteEntityList);
 //       System.out.println(str);
         String goodInfo="";
@@ -68,44 +72,40 @@ public class SiteController {
 
 
       //TODO 修改地址信息
-    @RequestMapping("/update/sid/{sid}")
-    public String updateSite(@PathVariable("sid") String sid, Model model){
-//        int result=isiteService.updateSite(sid);
-        SiteEntity siteEntit=isiteService.findSiteBySid(sid);
-        model.addAttribute("site",siteEntit);
-        System.out.println(siteEntit);
-        return "forward:/static/page/siteUpdate.html";
+    @RequestMapping("/update")
+    @ResponseBody
+    public String updateSite(@RequestBody SiteEntity siteEntity){
+        UserEntity userEntity=new UserEntity();
+        userEntity.setUserName("1");
+        userEntity.setUserId("1");
+        siteEntity.setUserSite(userEntity);
+        int result = isiteService.updateSite(siteEntity);
+        return "OK";
     }
-
-
 
 
         //TODO 修改默认地址
     @RequestMapping("/update/execute")
-    public String updateExecuteSite(SiteEntity siteEntity){
-        SiteEntity site=isiteService.findSiteISSiteDefault();
-        siteEntity.setSiteDefault(1);
-        System.out.println(siteEntity);
-        if (1==site.getSiteDefault()){
-            site.setSiteDefault(0);
-            isiteService.updateSite(site);
-        }
-        int result=isiteService.updateSite(siteEntity);
+    public String updateExecuteSite(String wid){
+     isiteService.updateSiteDefaultById(wid);
         return "";
     }
            //TODO 删除地址
-    @RequestMapping("/delete/sid/{sid}")
-    public String deleteSite(@PathVariable("sid") String sid){
+    @RequestMapping("/delete/sid")
+    public String deleteSite( String sid){
 
-        int result=isiteService.deleteSite(sid);
+       isiteService.deleteSite(sid);
 
         return "";
+
     }
-          //TODO 保存
+    //TODO 保存
     @RequestMapping("/save")
     public String saveSite(SiteEntity siteEntity){
-       isiteService.saveSite(siteEntity);
-
+        UserEntity userEntity=new UserEntity();
+        userEntity.setUserName("1");
+        siteEntity.setUserSite(userEntity);
+        isiteService.saveSite(siteEntity);
 
         return "";
     }

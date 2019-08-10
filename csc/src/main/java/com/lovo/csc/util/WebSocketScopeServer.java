@@ -1,6 +1,11 @@
 package com.lovo.csc.util;
+
+
+import com.lovo.csc.dto.salesReturndto.ReturnGoodsDto;
+import com.lovo.csc.dto.salesReturndto.ScopeOrderDto;
 import com.lovo.csc.vo.clientvo.ResgisterMessageVo;
 import org.springframework.stereotype.Component;
+
 import javax.jms.JMSException;
 import javax.websocket.*;
 import javax.websocket.server.ServerEndpoint;
@@ -8,13 +13,14 @@ import java.io.IOException;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
 
-@ServerEndpoint(value = "/websocket")
+@ServerEndpoint(value = "/websocketScope")
 @Component
-public class WebSocketServer {
+public class WebSocketScopeServer {
+
     //与某个客户端的连接会话，需要通过它来给客户端发送数据
     private Session session;
 
-    public  static BlockingQueue<ResgisterMessageVo> blockingQueue =new LinkedBlockingQueue(100);
+    public  static BlockingQueue<ReturnGoodsDto> blockingQueue =new LinkedBlockingQueue(100);
 
     public Session getSession() {
         return session;
@@ -29,14 +35,6 @@ public class WebSocketServer {
     @OnOpen
     public void onOpen(Session session) {
         this.session = session;
-        //从队列中取出数据
-//        try {
-//          getMQMessage();
-//        } catch (JMSException e) {
-//            e.printStackTrace();
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
     }
     @OnClose
     public void onClose() {
@@ -74,15 +72,15 @@ public class WebSocketServer {
 
     public void getMQMessage() throws JMSException, IOException {
         boolean bl = true;
-        ResgisterMessageVo vo=null;
+        ScopeOrderDto dto=null;
         while(bl) {
             try {
                blockingQueue.take();
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
-            if (null!=vo){
-                sendMessage("您有新的注册审核信息");
+            if (null!=dto){
+                sendMessage("您有新审核信息");
             }
         }
     }

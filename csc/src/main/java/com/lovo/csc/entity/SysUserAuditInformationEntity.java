@@ -37,7 +37,6 @@ public class SysUserAuditInformationEntity {
     //用户公司名字
     @Column(name = "audit_companyName",length = 48)
     private String companyName;
-
     //请求审核的类型，0代表用户注册审核,1请求冻结账户，2，请求解冻
     @Column(name = "audit_auditType",length = 48)
     private String auditType;
