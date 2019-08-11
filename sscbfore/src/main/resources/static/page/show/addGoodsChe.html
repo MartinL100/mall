@@ -91,8 +91,8 @@
 
         let $ = layui.$, active = {};
 
-        let goodsName = $('#goodsName').val();
-        let goodsType = $('#goodsType').val();
+        let goodsName = null;
+        let goodsType = null;
 
         form.render(null, 'layui-input-block');
 
@@ -110,7 +110,7 @@
                 layer.open({
                     type: 2
                     , title: '添加商品'
-                    , content: ['/addgoods/jump/' + '1']
+                    , content: ['/addgoods/jump/' + data.goodsId]
                     , area: ['1200px', '650px']
                 })
             }
@@ -118,20 +118,29 @@
 
         //加载表格1
         function table1() {
+            if (goodsName == null) {
+                goodsName = "null";
+            } else {
+                goodsName = $('#goodsName').val();
+            }
+            if (goodsType == null) {
+                goodsType = "null";
+            } else {
+                goodsType = $('#goodsType').val();
+            }
+
             table.render({
                 elem: '#goodsTable'
                 , url: '/addgoods/req/allgoods/' + goodsName + '/' + goodsType
                 , id: 'goodsTable'
                 , page: true
                 , cols: [[
-                    {field: 'ch', title: '选择', type: 'checkbox'}
-                    , {field: 'goodsId', title: '商品编号', sort: true}
+                    {field: 'goodsId', title: '商品编号', sort: true}
                     , {field: 'goodsName', title: '商品名称'}
-                    , {field: 'goodsName', title: '商品类型'}
-                    , {field: 'goodsName', title: '规格'}
-                    , {field: 'goodsName', title: '计量单位'}
-                    , {field: 'goodsName', title: '库存'}
-                    , {field: 'goodsName', title: '商品折扣'}
+                    , {field: 'goodsType', title: '商品类型'}
+                    , {field: 'goodsNorms', title: '规格'}
+                    , {field: 'goodsUnit', title: '计量单位'}
+                    , {field: 'goodsNum', title: '库存'}
                     , {align: 'center', toolbar: '#barDemo', title: '操作'}
                 ]]
             });

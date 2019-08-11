@@ -48,9 +48,9 @@
     <div class="layui-row">
         <div class="layui-col-md6">
             <div class="layui-form-item layui-inline">
-                <input type="hidden" name="goodsId" value="{{= d.goodsName }}">
+                <input type="hidden" name="goodsId" value="{{= d.goodsId }}">
                 <label class="layui-form-label" for="goodsPrice">商品名称:</label>
-                <div class="layui-input-inline">
+                <div class="layui-form-label">
                     <p>{{= d.goodsName }}</p>
                 </div>
             </div>
@@ -58,8 +58,8 @@
         <div class="layui-col-md6">
             <div class="layui-form-item layui-inline">
                 <label class="layui-form-label" for="goodsPrice">商品类型:</label>
-                <div class="layui-input-inline">
-                    <p>{{= d.goodsName }}</p>
+                <div class="layui-form-label">
+                    <p>{{= d.goodsType }}</p>
                 </div>
             </div>
         </div>
@@ -69,16 +69,16 @@
         <div class="layui-col-md6">
             <div class="layui-form-item layui-inline">
                 <label class="layui-form-label" for="goodsPrice">商品规格:</label>
-                <div class="layui-input-inline">
-                    <p>{{= d.goodsName }}</p>
+                <div class="layui-form-label">
+                    <p>{{= d.goodsNorms }}</p>
                 </div>
             </div>
         </div>
         <div class="layui-col-md6">
             <div class="layui-form-item layui-inline">
                 <label class="layui-form-label" for="goodsPrice">计量单位:</label>
-                <div class="layui-input-inline">
-                    <p>{{= d.goodsName }}</p>
+                <div class="layui-form-label">
+                    <p>{{= d.goodsUnit }}</p>
                 </div>
             </div>
         </div>
@@ -88,7 +88,7 @@
         <div class="layui-col-md6">
             <div class="layui-form-item layui-inline">
                 <label class="layui-form-label" for="goodsPrice">商品价格:</label>
-                <div class="layui-input-inline">
+                <div class="layui-form-label">
                     <input class="layui-input" id="goodsPrice" name="goodsPrice" type="text" autocomplete="off"
                            lay-verify="required|number">
                 </div>
@@ -121,11 +121,14 @@
         });
 
         function laytplRender() {
-            $.post('/returngoods/123/jump/123', null, function (res) {
-                let userOrder = eval("(" + res + ")");
+            $.post('/addGoods/findgoods/371', null, function (res) {
+                let goods = eval("(" + res + ")");
                 let data = { //数据
-                    "payMethod": userOrder.payMethod
-                    , "orderNum": userOrder.orderNum
+                    "goodsId": goods.goodsId
+                    , "goodsName": goods.goodsName
+                    , "goodsType": goods.goodsType
+                    , "goodsNorms": goods.goodsNorms
+                    , "goodsUnit": goods.goodsUnit
                 };
                 let getTpl = demo.innerHTML
                     , view = document.getElementById('view');

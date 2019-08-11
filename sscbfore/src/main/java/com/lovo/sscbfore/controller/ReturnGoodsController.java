@@ -1,19 +1,16 @@
 package com.lovo.sscbfore.controller;
 
 import cn.hutool.core.util.IdUtil;
-import cn.hutool.json.JSON;
 import cn.hutool.json.JSONArray;
 import cn.hutool.json.JSONObject;
 import cn.hutool.json.JSONUtil;
-import com.lovo.common.entity.GoodsDTO;
 import com.lovo.common.entity.OrderDTO;
+import com.lovo.common.entity.OrderForGoodsDTO;
 import com.lovo.sscbfore.entity.OrderReturnMQEntity;
 import com.lovo.sscbfore.entity.ReturnEntity;
 import com.lovo.sscbfore.entity.ReturnFailedMQ;
 import com.lovo.sscbfore.entity.ReturnGoodsEntity;
-import com.lovo.sscbfore.entity.ReturnGoodsVo;
 import com.lovo.sscbfore.entity.ReturnSuccessMQEntity;
-import com.lovo.sscbfore.entity.TableDateEntity;
 import com.lovo.sscbfore.service.IUserMessageService;
 import com.lovo.sscbfore.user.entity2.UserEntity;
 import com.lovo.sscbfore.user.entity2.UserInfoEntity;
@@ -60,7 +57,7 @@ public class ReturnGoodsController {
     @RequestMapping("returngoods/{userName}/jump/{orderNum}")
     public String jumpGoodsList(@PathVariable("userName") String userName, @PathVariable("orderNum") String orderNum) {
 //        根据订单号查询订单
-        String orderStr = restTemplate.getForEntity("http://sscAfter/findGoodsInfo/" + orderNum + "/", String.class).getBody();
+        OrderDTO orderStr = restTemplate.getForEntity("http://sscAfter/findGoodsInfo/" + orderNum + "/", OrderDTO.class).getBody();
         JSONObject jsonObject = new JSONObject(orderStr);
         return jsonObject.toString();
 
@@ -98,32 +95,38 @@ public class ReturnGoodsController {
      * @param request 请求
      * @return 订单的商品集合Json
      */
-    @RequestMapping("returngoods/req")
-    public String orderGoodsList(HttpServletRequest request) {
+    @RequestMapping("returngoods/req/{orderNum}")
+    public String orderGoodsList(@PathVariable String orderNum, HttpServletRequest request) {
+
 
         Map<String, String[]> map = request.getParameterMap();
-        int page = Integer.parseInt(map.get("pageTwo")[0]);
+        int page = Integer.parseInt(map.get("page")[0]);
         int limit = Integer.parseInt(map.get("limit")[0]);
+//
+//
+        List<OrderForGoodsDTO> goosDto = restTemplate.getForEntity("http://sscAfter/findGoodsRows/" + orderNum + "/" + page + "/" + limit, List.class).getBody();
+        return JSONUtil.toJsonStr(goosDto);
 
-        List<ReturnGoodsVo> goodsVoList = new ArrayList<>();
-        for (int i = (page - 1) * limit; i < page * limit; i++) {
-            ReturnGoodsVo goodsVo = new ReturnGoodsVo();
-            goodsVo.setGoodsId(i);
-            goodsVo.setGoodsName("水果" + i);
-            goodsVo.setGoodsNum(100);
-            goodsVo.setGoodsPrice("1");
-            goodsVoList.add(goodsVo);
-        }
 
-        TableDateEntity tableDate = new TableDateEntity<ReturnGoodsVo>();
-        tableDate.setCode(0);
-        tableDate.setData(goodsVoList);
-        tableDate.setCount(20);
-        tableDate.setMsg("");
-
-        JSON json = JSONUtil.parse(tableDate);
-        System.out.println(json.toString());
-        return json.toString();
+//        List<ReturnGoodsVo> goodsVoList = new ArrayList<>();
+//        for (int i = (page - 1) * limit; i < page * limit; i++) {
+//            ReturnGoodsVo goodsVo = new ReturnGoodsVo();
+//            goodsVo.setGoodsId(i);
+//            goodsVo.setGoodsName("水果" + i);
+//            goodsVo.setGoodsNum(100);
+//            goodsVo.setGoodsPrice("1");
+//            goodsVoList.add(goodsVo);
+//        }
+//
+//        TableDateEntity tableDate = new TableDateEntity<ReturnGoodsVo>();
+//        tableDate.setCode(0);
+//        tableDate.setData(goodsVoList);
+//        tableDate.setCount(120);
+//        tableDate.setMsg("");
+//
+//        JSON json = JSONUtil.parse(tableDate);
+//        System.out.println(json.toString());
+//        return json.toString();
     }
 
     @RequestMapping("returngoods/creat")
