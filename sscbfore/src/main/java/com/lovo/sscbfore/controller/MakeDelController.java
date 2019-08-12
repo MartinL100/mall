@@ -5,6 +5,7 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.lovo.common.entity.GoodsDTO;
 import com.lovo.common.entity.OrderDTO;
+import com.lovo.sscbfore.user.entity2.UserEntity;
 import com.lovo.sscbfore.util.DealErroInfos;
 import com.lovo.sscbfore.util.UrlUtil;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -133,16 +134,16 @@ public class MakeDelController {
 
 
     @RequestMapping("depositMoneyIsEnough")
-    public String depositMoneyIsEnough(float allPrice,String payMethod){
+    public String depositMoneyIsEnough(float allPrice,String payMethod,HttpServletRequest request){
             String errorInfo = "";
             //模拟从session中获取用户名
-            String userName="zhaoyun";
+            String userName=((UserEntity)request.getSession().getAttribute("userEntity")).getUserName();
             //获取折后价
-//           Float discountPrice= restTemplate
-//                   .getForEntity(UrlUtil.MONEY_IS_ENOUGH+userName+"/"+allPrice+"/"+payMethod,Float.class)
-//                   .getBody();
-        //模拟返回
-        Float discountPrice=1f;
+           Float discountPrice= restTemplate
+                   .getForEntity(UrlUtil.MONEY_IS_ENOUGH+userName+"/"+allPrice+"/"+payMethod,Float.class)
+                   .getBody();
+
+
            if(discountPrice<0){
                errorInfo=DealErroInfos.MONEY_NOT_ENOUGH;
            }else {
