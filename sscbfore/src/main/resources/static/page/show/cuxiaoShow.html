@@ -26,7 +26,7 @@
             <!-- 头部区域 -->
             <ul class="layui-nav layui-layout-left">
                 <li class="layui-nav-item layui-hide-xs" lay-unselect>
-                    <input id="goodsName" type="text" placeholder="搜索..." autocomplete="off" class="layui-input layui-input-search" id="textId">
+                    <input id="goodsName" type="text" placeholder="请输入你想要的商品" autocomplete="off" class="layui-input layui-input-search" id="textId">
                 </li>
                 <!--下拉框-->
                 <li class="layui-nav-item layui-hide-xs" lay-unselect>
@@ -47,20 +47,16 @@
             <!--购物车和用户按钮-->
             <ul class="layui-nav layui-layout-right" lay-filter="layadmin-layout-right">
                 <li class="layui-nav-item layui-hide-xs" lay-unselect>
-                    <a href="javascript:;" layadmin-event="theme"title="用户">
+                    <a href="../user/userShow.html" title="个人中心">
                         <i class="layui-icon layui-icon-user"></i>
                     </a>
                 </li>
                 <li class="layui-nav-item layui-hide-xs" lay-unselect>
-                    <a href="javascript:;" layadmin-event="note"title="购物车">
+                    <a href="../shopping/ShoppingHTML.html" title="购物车">
                         <i class="layui-icon layui-icon-cart"></i>
                     </a>
                 </li>
-                <li class="layui-nav-item layui-hide-xs" lay-unselect>
-                    <a href="javascript:;" layadmin-event="fullscreen">
-                        <i class="layui-icon layui-icon-screen-full"></i>
-                    </a>
-                </li>
+
             </ul>
 
 
@@ -117,28 +113,17 @@
             })
             $("#selectId").html(htmlStr);
         })
-        //分页初始化及分页搜索,初始化显示
-        layui.use(['laypage', 'layer'], function(){
-            var laypage = layui.laypage
-                ,layer = layui.layer;
 
-            laypage.render({
-                elem: 'showGoodsPage'
-                ,count: countGoods //数据总数
-                ,jump: function(obj){
-                    console.log(obj)
-                    // 分页查询
-                    countGoods=obj;
-                    var limit =obj.limit;
-                    var page = obj.curr;
-                    var goodsType = $("#selectId").val();
-                    var goodsName = $("#goodsName").val();
-                    $.post("/findGoodsCuXiao",{"goodsType":goodsType,"goodsName":goodsName,"page":page,"limit":limit},function (r) {
-                        initGoodsList(r)
-                    })
-                }
-            });
-        });
+
+        //分页初始化及分页搜索,初始化显示
+        $.post("/findGoodsCuXiao",{"goodsType":"","goodsName":"","page":1,"limit":10},function (r) {
+            if(r.indexOf("密码错误")>-1){
+                location.href="../user/userLogin.html";
+            }else {
+                initGoodsList(r)
+            }
+
+        })
 
     })
 
@@ -202,34 +187,27 @@
                     '                        <div class="layui-form-item">\n' +
                     '                            <label class="layui-form-label">购买数量</label>\n' +
                     '                            <div class="layui-input-block">\n' +
-                    '                                <input type="text" name="goodsNum" value="" placeholder="请输入购买数量" autocomplete="off" class="layui-input" >\n' +
+                    '                                <input type="text" name="goodsNum" value="" placeholder="请输入购买数量" lay-verify="required|number" autocomplete="off" class="layui-input" >\n' +
                     '                            </div>\n' +
                     '    <div class="layui-form-item" style="margin-top: 1%">\n' +
                     '                            <div class="layui-input-block">\n' +
-                    '                                <button class="layui-btn" lay-submit lay-filter="buy">直接购买</button>\n' +
-                    '                                <button class="layui-btn"  lay-submit lay-filter="addToCar">加入购物车</button>\n' +
+                    '                                <button class="layui-btn" lay-submit lay-filter="buy">点击购买</button>\n' +
                     '                            </div>'+
                     '                        </div></div></div>'
 
             });
 
             form.render(null, 'component-form-element');
-            //直接购买和加入购物车
+            //直接购买
             form.on('submit(buy)', function(data){
                 var Info = JSON.stringify(data.field) ;
                 //直接购买
                 $.post("/buyRight",{"goodsInfo":Info},function (r) {
 
-                    window.location.href ="../deal/presellMakeDeal.html";
+                    window.location.href ="../deal/makeDeal.html";
                 })
             });
-            form.on('submit(addToCar)', function(data){
-                var Info = data.field ;
-                //加入购物车
-                // console.log(Info);
-                // console.log("addToCar");
 
-            });
 
         })
     }
@@ -240,7 +218,7 @@
         var goodsType = $("#selectId").val();
         var goodsName = $("#goodsName").val();
 
-        $.post("/findGoodsCuXiao",{"goodsType":goodsType,"goodsName":goodsName,"page":"","limit":""},function (r) {
+        $.post("/findGoodsCuXiao",{"goodsType":goodsType,"goodsName":goodsName,"page":"1","limit":"10"},function (r) {
             initGoodsList(r)
         })
 
@@ -250,10 +228,45 @@
 
     //根据返回结果初始化展示列表
     function initGoodsList(r) {
+        fullData(r);
+
+//分页
+        layui.use(['laypage', 'layer'], function() {
+            var laypage = layui.laypage
+                , layer = layui.layer;
+            laypage.render({
+                elem: 'showGoodsPage'
+                , count: countGoods //数据总数
+                , jump: function (obj, first) {
+                    // 分页查询
+                    var limit = obj.limit;
+                    var page = obj.curr;
+                    var goodsType = $("#selectId").val();
+                    var goodsName = $("#goodsName").val();
+                    $.post("/findGoodsCuXiao", {
+                        "goodsType": goodsType,
+                        "goodsName": goodsName,
+                        "page": page,
+                        "limit": limit
+                    }, function (r) {
+                        if (r.indexOf("密码错误") > -1) {
+                            location.href = "../user/userLogin.html";
+                        }else {
+                            fullData(r);
+                        }
+
+                    })
+
+                }
+            });
+        })
+
+    }
+
+    function fullData(r){
         var goodsObj = eval("("+r+")");
-        // countGoods=goodsObj.total;
+        countGoods=goodsObj.total;
         goodsList = goodsObj.rows;
-        // console.log(goodsList);
 
         var htmlStr = "";//记录添加的内容
         $.each(goodsList,function () {
@@ -279,12 +292,8 @@
                 "                            </a>\n" +
                 "                        </div>\n" +
                 "                    </div>";
-
-
         })
-
-        $("#showGoods").html(htmlStr)
-        countGoods = goodsObj.total;
+        $("#showGoods").html(htmlStr);
     }
     //按钮事件
     $("#cuxiaobt").click(function () {

@@ -1,4 +1,4 @@
-package com.lovo.psc.groupOne.controller;
+package com.lovo.psc.groupOne.controller1;
 
 import com.lovo.psc.entity.SupplierEntity;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,9 +12,9 @@ import javax.servlet.http.HttpServletRequest;
 
 
 @Controller
-public class SupplierController {
+public class SupplierController1 {
     @Autowired
-    private ISupplierService supplierService;
+    private ISupplierService supplierService1;
 
     @RequestMapping("getSupplierInfo.psc")
     @ResponseBody
@@ -26,7 +26,7 @@ public class SupplierController {
     @RequestMapping("login.psc")
     @ResponseBody
     public String login(String supplierName, String supplierPwd, HttpServletRequest request) {
-        SupplierEntity supplier = supplierService.login(supplierName,supplierPwd);
+        SupplierEntity supplier = supplierService1.login(supplierName,supplierPwd);
         String result = "no";
         if(null!=supplier){
 //            supplier.setSupplyCenterList(null);
@@ -41,6 +41,6 @@ public class SupplierController {
     @RequestMapping("findSupplierNameBySupplierId/{supplierId}")
     @ResponseBody
     public String findBySupplierId(@PathVariable(name = "supplierId") String supplierId){
-        return supplierService.findBySupplierId(supplierId).getSupplierName();
+        return supplierService1.findBySupplierId(supplierId).getSupplierName();
     }
 }

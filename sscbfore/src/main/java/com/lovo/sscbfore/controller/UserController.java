@@ -21,6 +21,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
@@ -49,7 +51,7 @@ public class UserController {
     public String find2(String userName, String password,String graphicCode,HttpServletRequest request) {
         UserEntity user2 = serService.findUserByName(userName);
         UserEntity user = serService.userLogin(userName, password);
-        String str= (String) request.getSession().getAttribute("graphicCode");
+        String str= (String) request.getSession().getAttribute("graphicCode2");
         if (null != user2) {
             if (null == user) {
                 return "no";
@@ -83,7 +85,7 @@ public class UserController {
             //获得验证图片生成的验证码
             String graphicCode = (String) map.get("graphicCode");
             //将生成的验证码放入session
-            request.getSession().setAttribute("graphicCode", graphicCode);
+            request.getSession().setAttribute("graphicCode2", graphicCode);
             //把图片写入到输出流
             ImageIO.write(img, "jpg", out);
             //关闭流
@@ -140,7 +142,7 @@ public class UserController {
       return user;
     }
     @RequestMapping("userList/{userName}/{userState}/{currentPage}/{rows}")
-    public List<UserShowDto> userEntityList(@PathVariable("userName")String userName,@PathVariable("userState")String userState,@PathVariable("currentPage")String currentPage,@PathVariable("rows")String rows){
+    public String userEntityList(@PathVariable("userName")String userName,@PathVariable("userState")String userState,@PathVariable("currentPage")String currentPage,@PathVariable("rows")String rows){
        List<UserEntity> list= serService.userList(userName,userState,Integer.parseInt(currentPage),Integer.parseInt(rows));
        List<UserShowDto> list1=new ArrayList<>();
        UserShowDto user=new UserShowDto();
@@ -154,7 +156,18 @@ public class UserController {
             user.setUserState(u.getUserState());
             list1.add(user);
         }
-       return list1;
+        ObjectMapper obj=new ObjectMapper();
+        try {
+            String json= obj.writeValueAsString(list1);
+            try {
+                return URLEncoder.encode(json,"UTF-8");
+            } catch (UnsupportedEncodingException e) {
+                e.printStackTrace();
+            }
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
+        }
+       return "";
     }
 
     @RequestMapping("userRows/{userName}/{userState}")

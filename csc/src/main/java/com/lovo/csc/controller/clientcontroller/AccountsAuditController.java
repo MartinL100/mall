@@ -109,7 +109,6 @@ public class AccountsAuditController {
         while (lock){
             TextMessage textMessage= (TextMessage)(jmsMessagingTemplate.getJmsTemplate()).
                     receive("frozenOrUnfrozenAccountsMessageMQ");
-
             try {
                 MQJson=textMessage.getText();
             } catch (JMSException e) {

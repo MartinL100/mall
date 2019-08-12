@@ -89,10 +89,13 @@ public class UserController {
         return "ok";
     }
 
-    @RequestMapping(value = "/getAuditName")
+    @RequestMapping(value = "getAuditName")
     @ResponseBody
     public String getAuditName(HttpServletRequest request) {
         AuditEntity auditEntity = (AuditEntity) request.getSession().getAttribute("auditObj");
+       if (null==auditEntity){
+           return "";
+       }
         return auditEntity.getAuditName();
 
     }

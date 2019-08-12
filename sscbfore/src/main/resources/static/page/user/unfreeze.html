@@ -30,15 +30,16 @@
 <script>
 
     $("#ddd").click(function () {
-        alert("nbbbbbbbbbbbbb")
-        $.post("../../../requestUnfreezeMQ",{"applyReason":$("#aaa").val()},function (re) {
-            alert("aaaaaaaaaaaa")
-            if(re=="ok"){
-                alert("cccccccccccccccccc")
-                layer.msg('申请成功，请等待审核', {icon: 6, anim: 6});
-                setTimeout(" loc()", 2000);
-            }
-        });
+        if(null==$("#aaa").val() || ""==$("#aaa").val()){
+            layer.msg('请输入解冻理由', {icon: 5, anim: 6});
+        }else {
+            $.post("../../../requestUnfreezeMQ",{"applyReason":$("#aaa").val()},function (re) {
+                if(re=="ok"){
+                    layer.msg('申请成功，请等待审核', {icon: 6, anim: 6});
+                    setTimeout(" loc()", 2000);
+                }
+            });
+        }
     });
     function loc(){
         location.href="userShow.html";

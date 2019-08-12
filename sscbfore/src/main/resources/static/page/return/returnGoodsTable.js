@@ -185,7 +185,7 @@ layui.config({
     function table1() {
         table.render({
             elem: '#orderTable'
-            , url: '/returngoods/req'
+            , url: '/returngoods/req/1'
             , id: 'orderTable'
             , page: true
             // , cellMinWidth: 80

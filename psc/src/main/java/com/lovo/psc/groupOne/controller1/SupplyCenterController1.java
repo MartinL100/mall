@@ -1,4 +1,4 @@
-package com.lovo.psc.groupOne.controller;
+package com.lovo.psc.groupOne.controller1;
 
 import com.lovo.psc.entity.SupplierEntity;
 import com.lovo.psc.entity.SupplyCenterEntity;
@@ -17,7 +17,7 @@ import java.util.List;
 import java.util.Map;
 
 @Controller
-public class SupplyCenterController {
+public class SupplyCenterController1 {
     @Autowired
     private ISupplyCenterService supplyCenterService;
     @Autowired

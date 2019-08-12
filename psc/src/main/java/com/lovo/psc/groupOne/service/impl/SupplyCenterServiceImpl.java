@@ -1,6 +1,6 @@
 package com.lovo.psc.groupOne.service.impl;
 
-import com.lovo.psc.groupOne.dao.ISupplyCenterDao;
+import com.lovo.psc.groupOne.dao1.ISupplyCenterDao1;
 import com.lovo.psc.entity.SupplyCenterEntity;
 import com.lovo.psc.groupOne.service.ISupplyCenterService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,24 +11,24 @@ import java.util.List;
 @Service(value="supplyCenterService")
 public class SupplyCenterServiceImpl implements ISupplyCenterService {
     @Autowired
-    private ISupplyCenterDao supplyCenterDao;
+    private ISupplyCenterDao1 supplyCenterDao1;
     @Override
     public void saveSupplyCenter(SupplyCenterEntity supplyCenter) {
-        supplyCenterDao.save(supplyCenter);
+        supplyCenterDao1.save(supplyCenter);
     }
 
     @Override
     public List<SupplyCenterEntity> findBySupplierIdAnAndBjTag(String supplierId, String bjTag) {
-        return supplyCenterDao.findBySupplierIdAndBjTag(supplierId,bjTag);
+        return supplyCenterDao1.findBySupplierIdAndBjTag(supplierId,bjTag);
     }
 
     @Override
     public void updatePrice(SupplyCenterEntity supplyCenter) {
-        supplyCenterDao.save(supplyCenter);
+        supplyCenterDao1.save(supplyCenter);
     }
 
     @Override
     public SupplyCenterEntity findBySupplyId(String supplyId) {
-        return supplyCenterDao.findBySupplyId(supplyId);
+        return supplyCenterDao1.findBySupplyId(supplyId);
     }
 }

@@ -1,9 +1,9 @@
-package com.lovo.psc.groupOne.dao;
+package com.lovo.psc.groupOne.dao1;
 
 import com.lovo.psc.entity.SupplierEntity;
 import org.springframework.data.repository.CrudRepository;
 
-public interface ISupplierDao extends CrudRepository<SupplierEntity,String> {
+public interface ISupplierDao1 extends CrudRepository<SupplierEntity,String> {
     /**
      * 按照商户名和密码查找商户
      * @param supplierName 商户名称

@@ -1,4 +1,4 @@
-package com.lovo.psc.groupOne.dao;
+package com.lovo.psc.groupOne.dao1;
 
 import com.lovo.psc.entity.SupplyCenterEntity;
 import org.springframework.data.jpa.repository.Modifying;
@@ -7,7 +7,7 @@ import org.springframework.data.repository.CrudRepository;
 
 import java.util.List;
 
-public interface ISupplyCenterDao extends CrudRepository<SupplyCenterEntity,String> {
+public interface ISupplyCenterDao1 extends CrudRepository<SupplyCenterEntity,String> {
 
     /**
      * 按商品采购订单编号查询
