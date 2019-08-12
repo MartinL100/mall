@@ -90,7 +90,7 @@
                 <label class="layui-form-label" for="goodsPrice">商品价格:</label>
                 <div class="layui-form-label">
                     <input class="layui-input" id="goodsPrice" name="goodsPrice" type="text" autocomplete="off"
-                           lay-verify="required|number">
+                           lay-verify="required|number">元
                 </div>
             </div>
         </div>
@@ -117,7 +117,9 @@
 
         /*监听提交*/
         form.on('submit(*)', function (data) {
-            alert(JSON.stringify(data));
+            let index = parent.layer.getFrameIndex(window.name); //获取窗口索引
+            parent.layer.close(index);//关闭弹出的子页面窗口
+            parent.location.reload();
         });
 
         function laytplRender() {

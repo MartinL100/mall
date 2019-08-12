@@ -88,7 +88,7 @@ public class SiteController {
     @RequestMapping("/update/execute")
     public String updateExecuteSite(String wid){
      isiteService.updateSiteDefaultById(wid);
-        return "";
+        return "/static/page/address/siteIndex.html";
     }
            //TODO 删除地址
     @RequestMapping("/delete/sid")
@@ -96,7 +96,7 @@ public class SiteController {
 
        isiteService.deleteSite(sid);
 
-        return "";
+        return "/static/page/address/siteIndex.html";
 
     }
     //TODO 保存
@@ -107,7 +107,7 @@ public class SiteController {
         siteEntity.setUserSite(userEntity);
         isiteService.saveSite(siteEntity);
 
-        return "";
+        return "/static/page/address/siteIndex.html";
     }
 
 

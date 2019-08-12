@@ -86,7 +86,7 @@ public class AddGoodsServiceImpl implements IAddGoodsService {
      * @throws IOException IO异常
      */
     private String fileTrans(MultipartFile file) throws IOException {
-        final String picPath = "C:/img";
+        final String picPath = "D:/virtualPath/goodsPic";
 
         File tarFile = new File(picPath + System.currentTimeMillis() + file.getName());
         file.transferTo(tarFile);
