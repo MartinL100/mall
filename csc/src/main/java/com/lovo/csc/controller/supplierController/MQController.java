@@ -19,6 +19,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.jms.JMSException;
 import javax.jms.TextMessage;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.util.List;
 
@@ -51,14 +53,15 @@ public class MQController {
 
     @RequestMapping("AJAXSupply")
     @ResponseBody
-    public String AJAXSupply(String supplierArray, String supplyId){
-        cargoService.AJAXSupply(supplierArray,supplyId);
+    public String AJAXSupply(String supplierArray, String supplyId, HttpServletRequest request){
+
+        cargoService.AJAXSupply(supplierArray,supplyId,request);
         return "{'errorMsg':fasle}";
     }
 
     @RequestMapping("AJAXCargo")
-    public String AJAXCargo(String cargoId,int supplyNum){
-        cargoService.AJAXCargo(cargoId,supplyNum);
+    public String AJAXCargo(String cargoId,int supplyNum, HttpServletRequest request){
+        cargoService.AJAXCargo(cargoId,supplyNum,request);
         return "{'errorMsg':fasle}";
     }
     //服务器重启 从MQ中取出数据并保存到数据库
