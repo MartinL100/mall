@@ -74,15 +74,15 @@
         var nickname = $("#LAY-user-login-nickname").val();
         //用户名正则，4到16位（字母，数字，下划线，减号）
         var uPattern = /^[a-zA-Z0-9_-]{4,16}$/;
-        //密码强度正则，最少6位，包括至少1个大写字母，1个小写字母，1个数字，1个特殊字符
-        var pPattern = /^.*(?=.{6,})(?=.*\d)(?=.*[A-Z])(?=.*[a-z])(?=.*[!@#$%^&*? ]).*$/;
+        //密码必须由6-16个英文字母和数字的字符串组成！
+        var pPattern = /^[A-Za-z]+[0-9]+[A-Za-z0-9]*|[0-9]+[A-Za-z]+[A-Za-z0-9]*$/g;
 
         if (!uPattern.test(userName)) {
             sendErroInfo("用户名4-16为数字、下划线、字母或减号")
             return;
         }
         if (!pPattern.test(passWord)) {
-            sendErroInfo("密码最少6位，包括至少1个大写字母，1个小写字母，1个数字，1个特殊字符")
+            sendErroInfo("密码必须由6-16个英文字母和数字的字符串组成")
             return;
         }
         if (repass != passWord) {
