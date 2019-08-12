@@ -133,7 +133,7 @@ $.ready(updateTable());
                     var orderNum = this.orderNum;
                     alert(orderNum)
 
-                    $.post("/goodsDel", {"orderNum": orderNum}, function (r) {
+                    $.post("/orderNumDel", {"orderNum": orderNum}, function (r) {
 
                     });
 
@@ -190,7 +190,10 @@ $.ready(updateTable());
             // var tr = obj.tr; //获得当前行 tr 的DOM对象
             var orderNum = data.orderNum; //订单号
             // alert(orderNum)
+            $.post("/orderNum", {"orderNum": orderNum}, function (r) {
+                alert(r);
 
+            });
             //
             // if (layEvent === 'sc') {
             //     layer.confirm('真的删除行么', function (index) {
@@ -199,7 +202,7 @@ $.ready(updateTable());
             //     });
             // }
             if (layEvent === 'cx') {
-                $.post("/goodsDel", {"orderNum": orderNum}, function (r) {
+                $.post("/orderNumlist", {"orderNum": orderNum}, function (r) {
                     // alert(r);
                     location.href = "goodsDeal.html";
                     // var  sss=eval("("+r+")")
@@ -221,7 +224,10 @@ $.ready(updateTable());
         var b = $('#opId').val();
         alert(b);
 
-        $.post("/orderDel", {"orderDate": a, "orderType": b}, function (r) {
+        $.post("/orderDellist", {"orderDate": a, "orderType": b}, function (r) {
+            alert(r)
+        })
+        $.post("/orderDelNum", {"orderDate": a, "orderType": b}, function (r) {
             alert(r)
         })
     }

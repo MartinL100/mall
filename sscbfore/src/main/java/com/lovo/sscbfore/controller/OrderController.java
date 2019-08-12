@@ -24,14 +24,14 @@ public class OrderController {
     @Autowired
     private RestTemplate restTemplate;
     //根据订单号删除
-    @RequestMapping("orderNum")
+    @RequestMapping("orderNumDel")
     public  String  orderDel(String orderNum){
 
         return restTemplate.getForEntity("http://sscAfter/delOrderInfo/"+orderNum+"/",String.class).getBody();
 
    }
 //根据下单日期,订单类型,用户名模糊查询
-    @RequestMapping("orderDel")
+    @RequestMapping("orderDellist")
     public List<OrderManagementDTO> orderFindByDateAndTypeAndName(HttpServletRequest request, String orderDate, String orderType, int pageTwo , int limit)throws JsonProcessingException {
        //从session中获取登录的用户名
         String userName =((UserEntity)request.getSession().getAttribute("userEntity")).getUserName() ;
@@ -42,14 +42,14 @@ public class OrderController {
 
     }
     //根据下单日期,订单类型,用户名 查询总行数
-    @RequestMapping("orderDel")
+    @RequestMapping("orderDelNum")
     public int orderDateAndTypeAndNameNum(HttpServletRequest request,String orderDate, String orderType){
         String userName =((UserEntity)request.getSession().getAttribute("userEntity")).getUserName() ;        //远程调用接口
 
         return restTemplate.getForEntity("http://sscAfter/findOrderRows/"+orderDate+"/"+orderType+"/"+userName+"/",int.class).getBody();
     }
 //根据订单号查询商品的集合 进行分页
-    @RequestMapping("orderNum")
+    @RequestMapping("orderNumlist")
     public List<OrderForGoodsDTO> orderFindByOrderNum(String orderNum,int pageTwo ,int limit){
 
       List<OrderForGoodsDTO> goosDto=  restTemplate.getForEntity("http://sscAfter/findGoodsRows/"+orderNum+"/"+pageTwo+"/"+limit+"/",List.class).getBody();
