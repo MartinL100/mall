@@ -171,8 +171,8 @@ public class UserController {
     }
 
     @RequestMapping("userRows/{userName}/{userState}")
-    public int userRows(@PathVariable("userName")String userName,@PathVariable("userState")String userState){
-        int i=serService.userRows(userName,userState);
+    public String userRows(@PathVariable("userName")String userName,@PathVariable("userState")String userState){
+        String i= String.valueOf(serService.userRows(userName,userState));
         return i;
     }
 
