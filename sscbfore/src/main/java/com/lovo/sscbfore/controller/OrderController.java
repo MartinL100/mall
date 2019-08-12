@@ -32,13 +32,15 @@ public class OrderController {
    }
 //根据下单日期,订单类型,用户名模糊查询
     @RequestMapping("orderDellist")
-
-    public String orderFindByDateAndTypeAndName(HttpServletRequest request, String orderDate, String orderType, int pageTwo , int limit)throws JsonProcessingException {
+    public String orderFindByDateAndTypeAndName(HttpServletRequest request, String orderDate, int orderType, int page , int limit)throws JsonProcessingException {
        //从session中获取登录的用户名
         String userName =((UserEntity)request.getSession().getAttribute("userEntity")).getUserName() ;
+        if("".equals(orderDate)||null==orderDate){
+            orderDate="no";
+        }
 
         //远程调用接口
-        String orderInfo= restTemplate.getForEntity("http://sscAfter/findOrderInfo/"+orderDate+"/"+orderType+"/"+pageTwo+"/"+limit+"/"+userName,String.class).getBody();
+        String orderInfo= restTemplate.getForEntity("http://sscAfter/findOrderInfo/"+orderDate+"/"+orderType+"/"+page+"/"+limit+"/"+userName,String.class).getBody();
 
 //        List<> orderInfo="";
 //        try {
@@ -53,9 +55,11 @@ public class OrderController {
     }
     //根据下单日期,订单类型,用户名 查询总行数
     @RequestMapping("orderDelNum")
-    public int orderDateAndTypeAndNameNum(HttpServletRequest request,String orderDate, String orderType){
+    public int orderDateAndTypeAndNameNum(HttpServletRequest request,String orderDate, int orderType){
         String userName =((UserEntity)request.getSession().getAttribute("userEntity")).getUserName() ;        //远程调用接口
-
+        if("".equals(orderDate)||null==orderDate){
+            orderDate="no";
+        }
         return Integer.parseInt(restTemplate.getForEntity("http://sscAfter/findOrderRows/"+orderDate+"/"+orderType+"/"+userName,String.class).getBody());
     }
 //根据订单号查询商品的集合 进行分页
