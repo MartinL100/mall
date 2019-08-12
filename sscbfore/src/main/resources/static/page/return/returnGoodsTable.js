@@ -159,10 +159,10 @@ layui.config({
     });
 
     //初始化加载
-    $.ready(table1(), table2(), getOrder());
+    $.ready(table2(), getOrder());
 
     function getOrder() {
-        $.get('/returngoods/123/jump/123', null, function (res) {
+        $.get('/returngoods/123/jump/1', null, function (res) {
             userOrder = eval("(" + res + ")");
             // let data = userOrder;
             let data = { //数据
@@ -185,7 +185,7 @@ layui.config({
     function table1() {
         table.render({
             elem: '#orderTable'
-            , url: '/returngoods/req'
+            , url: '/returngoods/req/1'
             , id: 'orderTable'
             , page: true
             // , cellMinWidth: 80

@@ -22,13 +22,13 @@
 
 
 <div style="margin-bottom:10px">
-    <select  id="goodsStateId1" label="商品状态：" class="easyui-combobox"  name="goodsState" style="width:160px" panelHeight="100">
+    <select  id="goodsStateId1" label="上下架：" class="easyui-combobox"  name="goodsState" style="width:160px" panelHeight="100">
         <option  value="上架">上架</option>
         <option  selected="selected" value="下架">下架</option>
     </select>
     <select  id="indexType" label="类型：" class="easyui-combobox" name="GoodsType" style="width:160px" panelHeight="100">
     </select>
-    <select id="goodsBookingId1" label="预售状态：" class="easyui-combobox" name="goodsBooking" style="width:160px" panelHeight="100">
+    <select id="goodsBookingId1" label="预售：" class="easyui-combobox" name="goodsBooking" style="width:160px" panelHeight="100">
         <option selected="selected" value="不限">不限</option>
         <option value="预售">预售</option>
         <option value="未预售">未预售</option>
@@ -56,8 +56,8 @@
         <th field="goodsState" width="6.4%" align="center">商品状态</th>
         <th field="goodsBooking" width="6.4%" align="center">预售状态</th>
         <th field="promotionState" width="6.4%" align="center">促销状态</th>
-        <th field="shelfTime" width="6.4%" align="center">上架时间</th>
-        <th field="lowerTime" width="6.4%" align="center">下架时间</th>
+        <th field="shelfTime" width="8%" align="center">上架时间</th>
+        <th field="lowerTime" width="8%" align="center">下架时间</th>
     </tr>
     </thead>
 </table></p>
@@ -127,9 +127,9 @@
         else{
             var Booking1Json=JSON.stringify(ids);
             $.post("/upperAndLower/updateGoodsStateBooking1",{"list":Booking1Json},function (list) {
-            })
-            $('#tt').datagrid('reload')
+            });
         }
+        $('#tt').datagrid('reload');
     });
     //预售
     $("#bt11").click(function () {
@@ -147,8 +147,8 @@
             var BookingJson=JSON.stringify(ids);
             $.post("/upperAndLower/updateGoodsStateBooking",{"list":BookingJson},function (list) {
             })
-            $('#tt').datagrid('reload')
         }
+        $('#tt').datagrid('reload');
     });
 
 
@@ -168,8 +168,8 @@
             var LowerJson=JSON.stringify(ids);
             $.post("/upperAndLower/updateGoodsStateLower",{"list":LowerJson},function (list) {
             });
-            $('#tt').datagrid('reload')
         }
+        $('#tt').datagrid('reload');
 
     });
 
@@ -190,8 +190,8 @@
             var upperJson=JSON.stringify(ids);
             $.post("/upperAndLower/updateGoodsStateUpper",{"list":upperJson},function (list) {
             });
-            $('#tt').datagrid('reload')
         }
+        $('#tt').datagrid('reload');
 
     });
 
@@ -249,7 +249,7 @@
         var goodsType=row.goodsType;
         var goodsNorms=row.goodsNorms;
         var goodsUnit=row.goodsUnit;
-        var lowerTime=$("#selectOrderDate").datebox('setValue', '');
+        // var lowerTime=$("#selectOrderDate").datebox('setValue', '');
         url="/upperAndLower/updateGoodsLowerTime?goodsId="+goodsId;
         $("#l1").html(goodsName);
         $("#l2").html(goodsType);

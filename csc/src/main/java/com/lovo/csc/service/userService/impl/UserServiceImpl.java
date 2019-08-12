@@ -16,4 +16,10 @@ public class UserServiceImpl implements IUserService {
 
         return userDao.findAuditEntityByAuditNameAndAuditPwd(auditName, auditPwd);
     }
+
+    @Override
+    public AuditEntity addAudit(AuditEntity audit) {
+
+        return userDao.save(audit);
+    }
 }

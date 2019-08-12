@@ -23,5 +23,6 @@ public class InterceptorConfig  implements WebMvcConfigurer {
                 .addResourceLocations("classpath:/static/");
         registry.addResourceHandler("/img/**")
                 .addResourceLocations("file:/C:/img/");
+
     }
 }

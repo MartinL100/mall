@@ -53,7 +53,7 @@ public class SupplierController {
         Map<String,Object> map=new HashMap<>();
         List<SupplierEntity> list= supplierService.findAll(page,rows,supplierName,supplierType,supplierLevel,supplierTag);
         map.put("rows",list);
-        map.put("page",page);
+        map.put("pageTwo",page);
         long total=supplierService.countAll(supplierName,supplierType,supplierLevel,supplierTag);
         map.put("total",total);
         return  map;

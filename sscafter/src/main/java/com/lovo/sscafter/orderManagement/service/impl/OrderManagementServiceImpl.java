@@ -2,6 +2,8 @@ package com.lovo.sscafter.orderManagement.service.impl;
 
 import com.lovo.common.entity.GoodsDTO;
 import com.lovo.common.entity.OrderDTO;
+import com.lovo.sscafter.goodsStock.service.IGoodsStockService;
+import com.lovo.sscafter.goodsStock.service.IOrderGoodsService;
 import com.lovo.sscafter.orderManagement.dao.IGoodsManagementDao;
 import com.lovo.sscafter.orderManagement.dao.IOrderManagementDao;
 import com.lovo.sscafter.orderManagement.dao.IOrderTrendsDao;
@@ -10,6 +12,7 @@ import com.lovo.sscafter.orderManagement.entity.OrderManagementEntity;
 import com.lovo.sscafter.orderManagement.service.IOrderManagementService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestTemplate;
 
 import javax.transaction.Transactional;
 import java.util.ArrayList;
@@ -21,7 +24,11 @@ import java.util.Map;
 public class OrderManagementServiceImpl implements IOrderManagementService {
     @Autowired
     IOrderManagementDao orderManagementDao;
-
+    //远程调用的模板
+    @Autowired
+    private RestTemplate restTemplate;
+    @Autowired
+    private IOrderGoodsService orderGoodsService;
 
     @Autowired
     IGoodsManagementDao goodsManagementDao;
@@ -72,11 +79,12 @@ public class OrderManagementServiceImpl implements IOrderManagementService {
             ofge.setGoodsNum(goodsDTO.getGoodsNum().intValue());
             ofge.setGoodsPrice(goodsDTO.getGoodsPrice());
             ofge.setGoodsUnit(goodsDTO.getGoodsUnit());
-            ofge.setGoodsStatus(1);
+            ofge.setGoodsStatus("1");
             ofge.setOrderObj(orderEntity);
             ofge.setStockGoodsId(goodsDTO.getGoodsId());
-            //假设得到了进价为20,设置利润
-            float profit = (goodsDTO.getGoodsPrice()-20)*goodsDTO.getGoodsNum();
+            //假设得到了进价为20,设置利润 restTemplate.getForEntity("http://sscafter/findGoodsBidById/"+goodsDTO.getGoodsId(),Float.class).getBody();
+            float tempPrice = orderGoodsService.findGoodsBidByGoodsId(goodsDTO.getGoodsId());
+            float profit = (goodsDTO.getGoodsPrice()-tempPrice)*goodsDTO.getGoodsNum();
             ofge.setOrderProfit(profit);
             tempOrderProfit+=profit;
 

@@ -12,7 +12,7 @@
     <script type="text/javascript" src="../../easyui/jquery.easyui.mobile.js"></script>
 </head>
 <body>
-<h1 align="center">供应商供应商品审核</h1>
+<h1 align="center">供应商账号及商品审核</h1>
 <div id="tb" style="padding:3px">
     <div style="margin-bottom:20px">
         <input id="supplierName" class="easyui-textbox" labelWidth="120" label="供应商名称:" style="width:45%">
@@ -77,9 +77,6 @@
             <input name="supplierType" class="easyui-textbox" disabled="true" required="true" label="供应商品类型:" style="width:100%">
         </div>
         <div style="margin-bottom:10px">
-            <input name="supplierLevel" class="easyui-textbox" disabled="true" required="true" label="供应商等级:" style="width:100%">
-        </div>
-        <div style="margin-bottom:10px">
             <input name="supplierPrincipal" class="easyui-textbox" disabled="true" required="true" label="负责人:" style="width:100%">
         </div>
         <div style="margin-bottom:10px">
@@ -90,7 +87,7 @@
         </div>
             <div style="margin-bottom:10px">
                 <select name="supplierLevel" id="supplierLeve2" labelWidth="120" label="供应商等级:" class="easyui-combobox" name="state" style="width:100%" panelHeight="100">
-                    <option value="不限">不限</option>
+                    <option value="">请选择供应商等级</option>
                     <option value="大型">大型</option>
                     <option value="中型">中型</option>
                     <option value="小型">小型</option>
@@ -138,8 +135,8 @@
             </thead>
         </table>
         <div id="buttons3" align="center" style="margin-bottom:40px;margin-top: 40px;position: relative;right: -300px" >
-            <a href="javascript:void(0)" id="audit3"  class="easyui-linkbutton" onclick="update(商品供应)" style="left :-255px;width:150px"> 商品供应 </a>
-            <a href="javascript:void(0)" id="audit4"  class="easyui-linkbutton" onclick="update(取消供应)" style="left :-255px;width:150px"> 取消供应 </a>
+            <a href="javascript:void(0)" id="audit3"  class="easyui-linkbutton" onclick="update('商品供应')" style="left :-255px;width:150px"> 商品供应 </a>
+            <a href="javascript:void(0)" id="audit4"  class="easyui-linkbutton" onclick="update2('取消供应')" style="left :-255px;width:150px"> 取消供应 </a>
             <a href="javascript:void(0)" class="easyui-linkbutton" onclick="back()" style="left :-255px;width:150px"> 取消 </a>
         </div>
     </form>
@@ -148,19 +145,76 @@
 <div id="dlg2" class="easyui-dialog" style="width:800px;height: 600px" data-options="closed:true,modal:true,border:'thin',buttons:'#dlg-buttons'">
     <form id="fm2" method="post" novalidate style="margin:0;padding:20px 50px">
         <h1 align="center">问题反馈</h1>
-        <div style="margin-bottom:10px" hidden="hidden">
-            <input id="supplierId2" name="supplierId" class="easyui-textbox" disabled="true" required="true" label="供应商编号:" style="width:100%">
-        </div>
+        <!--<div style="margin-bottom:10px" hidden="hidden">-->
+            <!--<input id="supplierId2" name="supplierId" class="easyui-textbox" disabled="true" required="true" label="供应商编号:" style="width:100%">-->
+        <!--</div>-->
         <div style="margin-bottom:10px">
             <input id="supplierTag2" name="supplierTag" data-options="multiline:true" class="easyui-textbox" required="true" label="审核意见:" style="width:100%;height:150px">
         </div>
         <div id="buttons2" align="center" style="margin-bottom:40px;margin-top: 40px;position: relative;right: -300px" >
-            <a href="javascript:void(0)"  class="easyui-linkbutton" onclick="audit()" style="left :-255px;width:150px"> 确认 </a>
+            <a href="javascript:void(0)"  class="easyui-linkbutton" onclick="audit2()" style="left :-255px;width:150px"> 确认 </a>
             <a href="javascript:void(0)"  class="easyui-linkbutton" onclick="back2()" style="left :-255px;width:150px"> 取消 </a>
         </div>
     </form>
 </div>
 <script>
+    function update(obj) {
+        var row = $('#tt3').datagrid('getSelections');
+        if(row) {
+            var codeArray="";
+            // var supplierStatusArray="";
+            for (var i = 0; i <row.length ; i++) {
+                codeArray+=row[i].codeId+",";
+                // supplierStatusArray+=row[i].supplierStatus+",";
+            }
+            $.post('/AJAXSupplierGoods', {
+                'codeArray': codeArray,
+                "supplierStatusArray": obj
+            }, function (resultHtml) {
+                var JSonobj = eval("(" + resultHtml + ")")
+                if (JSonobj.errorMsg) {
+                    $.messager.show({
+                        title: 'Error',
+                        msg: result.errorMsg
+                    });
+                } else {
+                    $('#dlg3').dialog('close');
+                }
+            });
+        }
+    }
+    function audit2() {
+        var supplierTag=$("#supplierTag2").val();
+        if(null==supplierTag||supplierTag==""){
+            $.messager.alert('温馨提示','请输入问题反馈!')
+            return;
+        }
+        ajax("",supplierTag)
+    }
+    //供应商审核通过
+    function audit() {
+        var level=$("#supplierLevel").val();
+        if(null==level||level==""){
+            $.messager.alert('温馨提示','请选择供应商等级!')
+            return;
+        }
+        ajax(level,"已审核")
+    }
+    function ajax(level,supplierTag) {
+        var supplierId=$("#supplierId").val();
+        $.post('/AJAXSupplier',{'supplierId':supplierId,"sipplierLevel":level,"supplierTag":supplierTag},function(resultHtml){
+            var JSonobj=  eval("("+resultHtml+")")
+            if(JSonobj.errorMsg) {
+                $.messager.show({
+                    title: 'Error',
+                    msg: result.errorMsg
+                });
+            } else {
+                $('#dlg2').dialog('close');
+                $('#dlg1').dialog('close');
+            }
+        });
+    }
     function SupplierGoods() {
         var row = $('#tt').datagrid('getSelected');
         if("供应商供应商品未审核"!=(row).supplierTag){
@@ -220,8 +274,40 @@
     }
     //初始化加载
     $(document).ready(function () {
-        doSearch();
+        $.post("/getZCMQ.lovo",function () {
+    })
+    $.post("/getSupplierGoodsAudit.lovo",function () {
+    })
+    post1();
+    post2();
+    doSearch();
     });
+    function post2() {
+        $.post("/supplierGoodsAudit",function (r) {
+            var re=  eval("("+r+")")
+            if(re.errorMsg) {
+                $.messager.show({
+                    title:'My Title',
+                    msg:'你有新的供应商供应商品信息',
+                    showType:'show'
+                });
+            }
+            post1();
+        })
+    }
+    function post1() {
+        $.post("/saveSupplierMQ",function (r) {
+            var re=  eval("("+r+")")
+            if(re.errorMsg) {
+                $.messager.show({
+                    title:'My Title',
+                    msg:'你有新的供应商注册信息',
+                    showType:'show'
+                });
+            }
+            post1();
+        })
+    }
     //查询
     function doSearch(){
         $('#tt').datagrid('load',{

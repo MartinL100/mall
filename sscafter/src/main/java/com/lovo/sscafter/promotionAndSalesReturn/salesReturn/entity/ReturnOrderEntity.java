@@ -26,7 +26,7 @@ public class ReturnOrderEntity {
 
     //商品集合
     @OneToMany(mappedBy = "returnOderId",fetch=FetchType.EAGER)
-    private List<ReturnGoodsEntity> listGoods;
+    private List<ReturnGoodsEntity2> listGoods;
 
     public String getReturnOrderId() {
         return returnOrderId;
@@ -52,11 +52,11 @@ public class ReturnOrderEntity {
         this.returnTime = returnTime;
     }
 
-    public List<ReturnGoodsEntity> getListGoods() {
+    public List<ReturnGoodsEntity2> getListGoods() {
         return listGoods;
     }
 
-    public void setListGoods(List<ReturnGoodsEntity> listGoods) {
+    public void setListGoods(List<ReturnGoodsEntity2> listGoods) {
         this.listGoods = listGoods;
     }
 

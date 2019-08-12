@@ -2,6 +2,7 @@ package com.lovo.csc.controller.clientcontroller;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.lovo.csc.entity.AuditEntity;
 import com.lovo.csc.entity.SysUserAuditInformationEntity;
 import com.lovo.csc.service.clientService.IUserAuditService;
 import com.lovo.csc.util.MyStringUtil;
@@ -50,21 +51,21 @@ public class UserAuditController {
      * @return
      */
     @RequestMapping("registerAuditPage.lovo")
-    public Map<String, Object> page(String tag, int page, int rows, String userState, String startTime, String endTime) {
+    public Map<String, Object> registerAuditPage(String tag, int page, int rows, String userState, String startTime, String endTime) {
         Map<String, Object> map = new HashMap<>();
-        // List<SysStudent> list= service.getPageListStudent(page,rows,studentId);
+        // List<SysStudent> list= service.getPageListStudent(pageTwo,rows,studentId);
         List<SysUserAuditInformationEntity> list = null;
         long total = 0;
         if (null != tag && "init".equals(tag)) {
-            list = userAuditService.PageInitList(page-1, rows);
+            list = userAuditService.PageInitList((page-1)*rows, rows);
             total = userAuditService.getPageInitCount();
         } else {
-            PageRequest pageable = PageRequest.of(page-1, rows);
+            PageRequest pageable = PageRequest.of((page-1)*rows, rows);
             list = userAuditService.DynamicQueryAuditInformation(userState, startTime, endTime, pageable);
             total = userAuditService.DynamicQueryAuditInformationCount(userState, startTime, endTime);
         }
         map.put("rows", list);
-        map.put("page", page);
+        map.put("pageTwo", page);
         map.put("total", total);
         return map;
     }
@@ -89,9 +90,9 @@ public class UserAuditController {
         //String auditPerson="";
         String id= null;
         try {
-            // AuditEntity auditEntity= (AuditEntity) request.getSession().getAttribute("auditObj");
-           // userAuditService.updateUserAuditMessage(UserAuditInformation,auditEntity.getAuditPeople());
-            id = userAuditService.updateUserAuditMessage(UserAuditInformation,"光");
+             AuditEntity auditEntity= (AuditEntity) request.getSession().getAttribute("auditObj");
+            userAuditService.updateUserAuditMessage(UserAuditInformation,auditEntity.getAuditPeople());
+            //id = userAuditService.updateUserAuditMessage(UserAuditInformation,"光");
             //从队列中移除相应数据
         } catch (JsonProcessingException e) {
             e.printStackTrace();
@@ -105,12 +106,12 @@ public class UserAuditController {
     //监听MQ 如果有新数据则保存到数据库中
     //并实现服务器主推
     @JmsListener(destination = "accountsRegistrationAuditMessageMQ")
-    //@RequestMapping("saveUserAuditMessage.lovo")
-    public String savaUserAuditMessage(String message){
+    @RequestMapping("saveUserAuditMessage.lovo")
+    public void saveUserAuditMessage(String message){
         ResgisterMessageVo vo = null;
         try {
             if (null==message||"".equals(message)){
-                return "{'message':'没有信息'}";
+                return ;
             }
           vo= new ObjectMapper().readValue(message,ResgisterMessageVo.class);
             System.out.println(vo);
@@ -118,7 +119,7 @@ public class UserAuditController {
             e.printStackTrace();
         }
         if (null==vo){
-            return "{'message':'没有信息'}";
+            return ;
           }
         try {
            WebSocketServer.blockingQueue.put(vo);
@@ -148,7 +149,6 @@ public class UserAuditController {
 //                e.printStackTrace();
 //            }
 //        }
-          return "{'message':'您新的审核请求，请及时处理'}";
     }
 
 //    /**
@@ -235,6 +235,7 @@ public class UserAuditController {
     //将vo转成审核信息实体并保存
     public void ToAuditInformation( ResgisterMessageVo vo){
         SysUserAuditInformationEntity AuditInformation= new SysUserAuditInformationEntity();
+        userAuditService.findSysUserAuditInformationEntityByName(vo.getUserName());
         AuditInformation.setUserName(vo.getUserName());
         AuditInformation.setTrueName(vo.getTrueName());
         AuditInformation.setTelphone(vo.getTelphone());

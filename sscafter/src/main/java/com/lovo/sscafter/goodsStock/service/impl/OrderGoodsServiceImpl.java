@@ -33,4 +33,17 @@ public class OrderGoodsServiceImpl implements IOrderGoodsService {
     public void updateIsReturnGoods(String status, String orderGoodsId) {
         orderGoodsCrudDao.updateIsReturnGoods(status,orderGoodsId);
     }
+
+    @Override
+    public void saveOrderGoods(OrderGoodsEntity orderGoodsEntity) {
+        orderGoodsCrudDao.save(orderGoodsEntity);
+    }
+
+    @Override
+    public float findGoodsBidByGoodsId(String goodsId) {
+
+
+        return  orderGoodsDao.findGoodsBidByGoodsId(goodsId);
+    }
+
 }

@@ -19,45 +19,21 @@
     <div class="layui-layout layui-layout-admin">
         <div class="layui-header">
             <!-- 头部区域 -->
-            <ul class="layui-nav layui-layout-left">
-                <li class="layui-nav-item layui-hide-xs" lay-unselect>
-                    <input type="text" placeholder="搜索..." autocomplete="off" class="layui-input layui-input-search" id="textId">
-                </li>
-                <!--下拉框-->
-                <li class="layui-nav-item layui-hide-xs" lay-unselect>
-                    <select id="opId" class="layui-input layui-input-search"style="width: 200px;height: 45px">
-                        <option value="">请选择一个城市</option>
-                        <option value="010">北京</option>
-                        <option value="021">上海</option>
-                        <option value="0571">杭州</option>
-                    </select>
-                </li>
 
-                <!--查询按键-->
-                <li class="layui-nav-item layui-hide-xs" lay-unselect>
-                    <a onclick="findGoods()" layadmin-event="note"title="查询">
-                        <i class="layui-icon layui-icon-search"></i>
-                    </a>
-                </li>
-            </ul>
 
             <!--购物车和用户按钮-->
             <ul class="layui-nav layui-layout-right" lay-filter="layadmin-layout-right">
                 <li class="layui-nav-item layui-hide-xs" lay-unselect>
-                    <a href="javascript:;" layadmin-event="theme"title="用户">
+                    <a href="../user/userShow.html" title="个人中心">
                         <i class="layui-icon layui-icon-user"></i>
                     </a>
                 </li>
                 <li class="layui-nav-item layui-hide-xs" lay-unselect>
-                    <a href="javascript:;" layadmin-event="note"title="购物车">
+                    <a href="../shopping/ShoppingHTML.html" title="购物车">
                         <i class="layui-icon layui-icon-cart"></i>
                     </a>
                 </li>
-                <li class="layui-nav-item layui-hide-xs" lay-unselect>
-                    <a href="javascript:;" layadmin-event="fullscreen">
-                        <i class="layui-icon layui-icon-screen-full"></i>
-                    </a>
-                </li>
+
             </ul>
         </div>
     </div>
@@ -92,8 +68,7 @@
                             <label class="layui-form-label">下拉选择框</label>
                             <div class="layui-input-block">
                                 <select name="addressId" lay-filter="aihao" id="addressSelect">
-                                    <option value="0">北京</option>
-                                    <option value="1">山西</option>
+
                                 </select>
                             </div>
                         </div>
@@ -199,10 +174,20 @@
                     "orderMoney": allPrice // "name": "value"
                 })
                 //初始化地址信息
-                var addressTemp = "玉双路3号";
-              var htmlStr="<option value=\"6\">"+addressTemp+"</option>";
-              $("#addressSelect").append(htmlStr);
-                form.render(null, 'component-form-element');
+                $.post("/index/get/username",function (r) {
+                    var addressObj = eval("("+r+")");
+                    var htmlStr="";
+                    $.each(addressObj.data,function () {
+
+                         htmlStr+="<option value=\""+this.siteId+"\">"+this.siteDetail+"</option>";
+
+                    })
+                    $("#addressSelect").append(htmlStr);
+                    form.render(null, 'component-form-element');
+                })
+                //初始化地址信息
+
+
 
 
             }
@@ -280,16 +265,26 @@
 
         });
         //监听下拉框
-        form.on('select()', function(data){
-            console.log(data.elem); //得到select原始DOM对象
-            console.log(data.value); //得到被选中的值
-            console.log(data.othis); //得到美化后的DOM对象
-        });
+        // form.on('select()', function(data){
+        //     console.log(data.elem); //得到select原始DOM对象
+        //     console.log(data.value); //得到被选中的值
+        //     console.log(data.othis); //得到美化后的DOM对象
+        // });
         //监听表单提交
         form.on('submit(*)', function(data){
             // console.log(data.elem) //被执行事件的元素DOM对象，一般为button对象
             // console.log(data.form) //被执行提交的form对象，一般在存在form标签时才会返回
             // console.log(data.field) //当前容器的全部表单字段，名值对形式：{name: value}
+            console.log(data.field.payMethod)
+            if(data.field.payMethod==null){
+                //验证消息弹出，r为你要弹出的内容
+                layer.msg("请选择支付方式", {
+                    icon: 7  //此数字可以改变图标，根据你弹出的信心性质选择不同的图标
+                    ,shade: 0.01
+                });
+                return false;
+            }
+
             //封装表单数据
             formData=JSON.stringify(data.field);
             var checkStatus = table.checkStatus('goodsCount'); //idTest 即为基础参数 id 对应的值
@@ -305,11 +300,19 @@
                 //关闭所有加载动画
                 layer.closeAll('loading');
 
-                //验证消息弹出，r为你要弹出的内容
-                layer.msg(r, {
-                    icon: 1  //此数字可以改变图标，根据你弹出的信心性质选择不同的图标
-                    ,shade: 0.01
-                });
+                if(r.indexOf("失败")>-1){
+                    layer.msg(r, {
+                        icon: 5  //此数字可以改变图标，根据你弹出的信心性质选择不同的图标
+                        ,shade: 0.01
+                    });
+                }else {
+                    //验证消息弹出，r为你要弹出的内容
+                    layer.msg(r, {
+                        icon: 1  //此数字可以改变图标，根据你弹出的信心性质选择不同的图标
+                        ,shade: 0.01
+                    });
+                }
+
 
             })
 

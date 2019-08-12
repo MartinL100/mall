@@ -8,6 +8,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=0">
     <link rel="stylesheet" href="../../layuiadmin/layui/css/layui.css" media="all">
     <link rel="stylesheet" href="../../layuiadmin/style/admin.css" media="all">
+    <script type="text/javascript" src="../../lib/jquery.js"></script>
 </head>
 <body>
 <div class="layui-fluid">
@@ -34,7 +35,7 @@
                     </div>
                 </div>
                 <div class="layui-form-item">
-                    <label class="layui-form-label">收货人姓名</label>
+                        <label class="layui-form-label">收货人姓名</label>
                     <div class="layui-input-block">
                         <input type="text" name="siteMan" lay-verify="required" placeholder="长度不能超过25个字符" autocomplete="off" class="layui-input">
                     </div>
@@ -52,14 +53,14 @@
                 <div class="layui-form-item" pane="">
                     <label class="layui-form-label"></label>
                     <div class="layui-input-block">
-                        <input type="checkbox" name="like1[write]" lay-skin="primary" title="设置为默认地址"  >
+
                     </div>
                 </div>
                 <div class="layui-form-item layui-layout-admin">
                     <div class="layui-input-block">
                         <div class="layui-footer" style="left: 0;">
-                            <button class="layui-btn" type="submit" >保存地址</button>
-                            <button class="layui-btn" onclick="fanhui()" >返回主页</button>
+                           <button class="layui-btn" type="submit">保存地址</button>
+                           <a href="siteIndex.html"><button class="layui-btn">返回主页</button></a>
                         </div>
                     </div>
                 </div>
@@ -72,10 +73,12 @@
 
 <script src="../../layuiadmin/layui/layui.js"></script>
 <script src="/static/lib/jquery.js"></script>
-<script >
+<script>
+
     function fanhui(){
-        location.href="static/page/address/siteIndex.html"
+        location.href="siteIndex.html";
     }
+
     layui.config({
         base: '../../layuiadmin/' //静态资源所在路径
     }).extend({
@@ -91,19 +94,6 @@
 
         laydate.render({
             elem: '#LAY-component-form-group-date'
-        });
-
-        /* 自定义验证规则 */
-        form.verify({
-            title: function(value){
-                if(value.length < 5){
-                    return '标题至少得5个字符啊';
-                }
-            }
-            ,pass: [/(.+){6,12}$/, '密码必须6到12位']
-            ,content: function(value){
-                layedit.sync(editIndex);
-            }
         });
     });
 </script>

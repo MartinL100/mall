@@ -5,6 +5,7 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.lovo.common.entity.GoodsDTO;
 import com.lovo.common.entity.OrderDTO;
+import com.lovo.sscbfore.user.entity2.UserEntity;
 import com.lovo.sscbfore.util.DealErroInfos;
 import com.lovo.sscbfore.util.UrlUtil;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,7 +15,9 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
 
 
+import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
+import java.net.URLEncoder;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -30,6 +33,7 @@ public class MakeDelController {
     private RestTemplate restTemplate;
     @RequestMapping("initDel")
     public String initDel(){
+        //模拟从map中读取数据
         List<GoodsDTO> goodsDTOList = new ArrayList<>();
         GoodsDTO goodsDTO = new GoodsDTO();
         goodsDTO.setGoodsId("aaaaa");
@@ -74,22 +78,18 @@ public class MakeDelController {
         OrderDTO orderDTO= objectMapper.readValue(OrderInfo, OrderDTO.class);
         List<GoodsDTO> goodsDTOS= objectMapper.readValue(GoodsInfo, new TypeReference<List<GoodsDTO>>() {});
         //获取商品集合中所有的商品，封装为map，进行库存验证
-        Map<String,Long>map = new HashMap<String,Long>();
+        Map<String,String>map = new HashMap<String,String>();
         for (GoodsDTO goods:goodsDTOS) {
-            map.put(goods.getGoodsId(),goods.getGoodsNum());
+            map.put(goods.getGoodsId(),goods.getGoodsNum().toString());
         }
           //Cloud请求进行第一次库存验证
-       String mapInfo= objectMapper.writeValueAsString(map);
-        String url = UrlUtil.IS_ENOUGH_URL+mapInfo;
-//        errorInfo= restTemplate.getForEntity(url,String.class).getBody();
-        //如果存在商品库存不足
-
+       String goodsMap= objectMapper.writeValueAsString(map);
+        errorInfo= restTemplate.postForEntity(UrlUtil.IS_ENOUGH_URL,goodsMap,String.class).getBody();
+        List<String> goodsErrorInfos = objectMapper.readValue(errorInfo,new TypeReference<List<String>>() {});
 //        errorInfo="[\"aaaaa\",\"zzzzz\"]";//此处为为模拟库存不足的情况
-
-
-        if(!StringUtils.isEmpty(errorInfo)){
+        //如果存在商品库存不足
+        if(goodsErrorInfos.size()>0){
             String errorInfoTemp="";
-            String [] goodsErrorInfos=objectMapper.readValue(errorInfo,new TypeReference<String[]>() {});
             for (GoodsDTO goodsDTO:goodsDTOS) {
                 for (String info:goodsErrorInfos) {
                         if (goodsDTO.getGoodsId().equals(info)){
@@ -112,9 +112,9 @@ public class MakeDelController {
         //商品信息json
         String orderInfo = objectMapper.writeValueAsString(orderDTO);
         //保存订单
-//        restTemplate.postForEntity(UrlUtil.SAVE_ORDER_URL,orderInfo,null);
+        String str = restTemplate.postForEntity(UrlUtil.SAVE_ORDER_URL,URLEncoder.encode(orderInfo, "UTF-8"),String.class).getBody();
         //post提交审核商品
-//        errorInfo=  restTemplate.postForEntity(UrlUtil.CHECK_ORDER_URL,orderInfo,String.class).getBody();
+        errorInfo=  restTemplate.postForEntity(UrlUtil.CHECK_ORDER_URL,orderInfo,String.class).getBody();
         //根据返回信息判定是否审核成功
         errorInfo="{\"payMoney\":\"800\",\"errorInfo\":\"\"}";//模拟审核系统返回消息
         Map<String,String>errorInfoMap = objectMapper.readValue(errorInfo,new TypeReference<Map<String,String>>() {});
@@ -123,26 +123,27 @@ public class MakeDelController {
             return errorInfoMap.get("errorInfo");
         }
         //审核成功，减少库存
-//       restTemplate.getForEntity(UrlUtil.UPDATE_GOODS_NUM_URL+mapInfo,String.class).getBody();
+       restTemplate.getForEntity(UrlUtil.UPDATE_GOODS_NUM_URL+goodsMap,String.class).getBody();
         //修改订单状态
-//        restTemplate.getForEntity(UrlUtil.UPDATE_ORDER_STATUE_URL+orderDTO.getOrderNum(),null);
+        restTemplate.getForEntity(UrlUtil.UPDATE_ORDER_STATUE_URL+orderDTO.getOrderNum(),null);
         errorInfo="实际扣款:"+errorInfoMap.get("payMoney")+"（元）\n"+DealErroInfos.DEAL_SUCCEED;
+
         return  errorInfo;
 
     }
 
 
     @RequestMapping("depositMoneyIsEnough")
-    public String depositMoneyIsEnough(float allPrice,String payMethod){
+    public String depositMoneyIsEnough(float allPrice,String payMethod,HttpServletRequest request){
             String errorInfo = "";
             //模拟从session中获取用户名
-            String userName="zhaoyun";
+            String userName=((UserEntity)request.getSession().getAttribute("userEntity")).getUserName();
             //获取折后价
-//           Float discountPrice= restTemplate
-//                   .getForEntity(UrlUtil.MONEY_IS_ENOUGH+userName+"/"+allPrice+"/"+payMethod,Float.class)
-//                   .getBody();
-        //模拟返回
-        Float discountPrice=1f;
+           Float discountPrice= restTemplate
+                   .getForEntity(UrlUtil.MONEY_IS_ENOUGH+userName+"/"+allPrice+"/"+payMethod,Float.class)
+                   .getBody();
+
+
            if(discountPrice<0){
                errorInfo=DealErroInfos.MONEY_NOT_ENOUGH;
            }else {
@@ -151,5 +152,39 @@ public class MakeDelController {
             return  errorInfo;
     }
 
+    @RequestMapping("buyRight")
+    public String buyRight(HttpServletRequest request, String goodsInfo) throws IOException {
 
+        String info = "";
+        GoodsDTO goodsDTO=objectMapper.readValue(goodsInfo,GoodsDTO.class);
+        List<GoodsDTO>goodsDTOList = new ArrayList<>();
+        goodsDTOList.add(goodsDTO);
+        request.getSession().setAttribute("buyRight",goodsDTOList);
+        System.out.println(goodsInfo);
+
+        return  goodsInfo;
+    }
+
+
+    @RequestMapping("presellMakeDealInit")
+    public String presellMakeDealInit(HttpServletRequest request) throws IOException {
+        String goodInfo="";
+        List<GoodsDTO>goodsDTOList= (List<GoodsDTO>) request.getSession().getAttribute("buyRight");
+        goodInfo = objectMapper.writeValueAsString(goodsDTOList);
+        goodInfo= "{\"code\":0,\"msg\":\"\",\"count\":1000,\"data\":"+goodInfo+"}";
+        return goodInfo;
+    }
+
+    /**
+     * 预购商品结算
+     * @param request
+     * @return
+     */
+    @RequestMapping("presellMakeDeal")
+    public String presellMakeDeal(HttpServletRequest request,String OrderInfo,String GoodsInfo){
+        String info ="失败";
+
+        return  info;
+
+    }
 }

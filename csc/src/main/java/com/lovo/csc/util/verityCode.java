@@ -4,7 +4,7 @@ import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.util.*;
-import java.util.List;
+
 
 /**
  * 生成动态验证码
@@ -43,7 +43,7 @@ public class verityCode {
         BasicStroke borderStrock=new BasicStroke(1,BasicStroke.JOIN_MITER,BasicStroke.JOIN_MITER);
         //创建画笔
         Graphics2D graphics2D=img.createGraphics();
-        //绑定线条处理对象
+        //        //绑定线条处理对象
         graphics2D.setStroke(borderStrock);
         //设置字体 (风格，字体大小)
         graphics2D.setFont(new Font(Font.DIALOG,Font.BOLD,height/2+5));
@@ -56,13 +56,13 @@ public class verityCode {
         for (int i=0;i<codeList.size();i++) {
             //让验证码倾斜
             graphics2D.rotate(1 * Math.PI / 180);
-            graphics2D.setColor(Color.red);
+            graphics2D.setColor(Color.CYAN);
             //绘制验证码
             graphics2D.drawString(codeList.get(i),(i+1)*(width/codeList.size()-(i==0?10:4)),height/2+(height/6));
         }
 
         Random random = new Random();
-        graphics2D.setColor(Color.black);
+        graphics2D.setColor(Color.PINK);
         //绘制线条
         for (int i = 0; i < height/2+5; i++) {
             int x = random.nextInt(width - 1);
@@ -87,8 +87,6 @@ public class verityCode {
         //验证码图片流
         graphicMap.put("img",img);
 
-        //用于生成图片 我们这里用不到
-        //ImageIO.write(img,"jpg",new File("/home/lazyer/Desktop/a.jpg"));
         return graphicMap;
 
     }

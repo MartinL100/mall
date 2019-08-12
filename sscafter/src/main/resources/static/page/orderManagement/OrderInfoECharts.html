@@ -31,7 +31,7 @@
     <option value="2019-12">2019-12</option>
 </select>
 
-<a href="#" class="easyui-linkbutton" data-options="iconCls:'icon-search'" id="bt1">查询</a>
+<a href="#" class="easyui-linkbutton"  data-options="iconCls:'icon-search'" id="bt1">查询</a>
 <script>
 
     var dateList="";
@@ -40,9 +40,9 @@
         a($("#selectData option:selected").val())
     })
     function a(mouth) {
-        $.post("/findData/"+mouth,{},function (data1) {
+        $.post("/findData/"+mouth,{ },function (data1) {
 
-            dateList  = JSON.stringify(data1.listMap).split(",");
+            dateList =  JSON.stringify(data1.listMap).split(",");
             valueList = JSON.stringify(data1.listMap2).split(",");
 
             b()

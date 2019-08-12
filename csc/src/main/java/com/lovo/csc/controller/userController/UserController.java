@@ -30,24 +30,20 @@ public class UserController {
         AuditEntity auditEntity = userService.findAuditEntityByAuditNameAndAuditPwd(userName, userPwd);
         //得到用户输入的验证码
         String verifyCode = request.getParameter("verifyCode");
-        System.out.println("输入的验证码：-------"+verifyCode);
         //得到session中的验证码
-       String graphicCode= (String) request.getSession().getAttribute("graphicCode");
-        System.out.println("session中的验证码：---------"+graphicCode);
-        if (auditEntity != null&&verifyCode.equals(graphicCode)) {
-            //将用户对象放入session
-            request.getSession().setAttribute("auditObj", auditEntity);
-            //将用户对象和验证码发送到页面
-            Map<String,Object> map=new HashMap<>();
-            map.put("auditObj",auditEntity);
-            map.put("graphicCode",graphicCode);
-            ObjectMapper objectMapper=new ObjectMapper();
-            //返回用户Json
-            return objectMapper.writeValueAsString(map);
-        } else {
-            return "false";
-        }
+        String graphicCode = (String) request.getSession().getAttribute("graphicCode");
+        Map<String, Object> map = new HashMap<>();
+        ObjectMapper objectMapper = new ObjectMapper();
+        //将用户对象和验证码发送到页面
+        map.put("auditObj", auditEntity);
+        map.put("graphicCode", graphicCode);
 
+        //将用户对象放入session
+        request.getSession().setAttribute("auditObj", auditEntity);
+
+
+        //返回用户Json
+        return objectMapper.writeValueAsString(map);
     }
 
 
@@ -57,7 +53,7 @@ public class UserController {
         Map<String, Object> map = null;
         //创建输出流
         ServletOutputStream out = null;
-        //这里我没有用到验证码的值 如果要用的话，创建HttpSession进行存储 这个看个人的使用方式了
+
         try {
             map = verityCode.GraphicCode(130, 30, 4);
             out = response.getOutputStream();
@@ -75,5 +71,34 @@ public class UserController {
 
         }
     }
+
+    @RequestMapping(value = "/regits")
+    @ResponseBody
+    public String regits(HttpServletRequest request) {
+        String auditName = request.getParameter("username");
+        String auditPwd = request.getParameter("password");
+        String auditPeople = request.getParameter("nickname");
+        //数据验证
+
+        AuditEntity auditEntity = new AuditEntity();
+        auditEntity.setAuditName(auditName);
+        auditEntity.setAuditPeople(auditPeople);
+        auditEntity.setAuditPwd(auditPwd);
+        System.out.println(auditName);
+        userService.addAudit(auditEntity);
+        return "ok";
+    }
+
+    @RequestMapping(value = "getAuditName")
+    @ResponseBody
+    public String getAuditName(HttpServletRequest request) {
+        AuditEntity auditEntity = (AuditEntity) request.getSession().getAttribute("auditObj");
+       if (null==auditEntity){
+           return "";
+       }
+        return auditEntity.getAuditName();
+
+    }
+
 
 }

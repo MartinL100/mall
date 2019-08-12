@@ -25,7 +25,7 @@
             <div class="layui-card">
                 <div class="layui-card-header" align="center"><h1>地址管理维护</h1></div>
                 <div class="layui-card-body">
-                    <table class="layui-hide" id="goodsCount"></table>
+                    <table class="layui-hide" id="goodsCount" layf lay-filter="test1"></table>
                 </div>
             </div>
         </div>
@@ -35,51 +35,171 @@
 <div class="layui-form-item layui-layout-admin">
     <div class="layui-input-block">
         <div class="layui-footer" style="left: 0;">
-            <button class="layui-btn" onclick="fun()">添加地址</button>
+            <a href="siteAdd.html"><button class="layui-btn" onclick="tianjia()">添加地址</button></a>
             <button class="layui-btn">返回商城</button>
         </div>
     </div>
+
 </div>
 
 
 
     <script src="../../layuiadmin/layui/layui.js"></script>
 <script src="../../lib/jquery.js"></script>
+<script type="text/html" id="component-form-time">
+    <a  class="layui-btn layui-btn-xs" lay-event='edit'  >修改</a>
+    <a  class="layui-btn layui-btn-xs" lay-event="shanchu" onclick="shanchu()">删除</a>
+    <a  class="djsA layui-btn layui-btn-xs" lay-event="detail" style="" onclick="djA(this)">设置默认</a>
+
+
+</script>
+<script src="../../layuiadmin/layui/layui.js"></script>
+<style>
+    .start{
+        cursor:pointer;
+    }
+    .end{
+        cursor:pointer;
+        color: #fff9ec;
+        background: #cc0000;
+        border: none;
+    }
+</style>
+
 <script>
+    function djA(dom){
+      var  Collection=$(".djsA")
+        $.each(Collection,function () {
+            $(this).removeClass("end")
+            $(this).addClass("start")
+        })
+     $(dom).removeClass("start")
+        $(dom).addClass("end")
+
+    }
+
     layui.config({
         base: '../../layuiadmin/' //静态资源所在路径
     }).extend({
         index: 'lib/index' //主入口模块
-    }).use(['index', 'table'], function(){
+    }).use(['index', 'table'], function() {
         var table = layui.table
-            ,form = layui.form
-            ,element = layui.element
-            ,layer = layui.layer;
+            , form = layui.form
+            , element = layui.element
+            , layer = layui.layer;
         element.render();
 
 
         form.render(null, 'component-form-element');
         table.render({
             elem: '#goodsCount'
-            ,url: '/index/get/username'
-            ,page:false
-            ,cellMinWidth: 80 //全局定义常规单元格的最小宽度，layui 2.2.1 新增
-            ,cols: [[
+            , url: '/index/get/username'
+            , page: false
+            , cellMinWidth: 80 //全局定义常规单元格的最小宽度，layui 2.2.1 新增
+            , cols: [[
                 {field: 'siteMan', title: '收货人'} //width 支持：数字、百分比和不填写。你还可以通过 minWidth 参数局部定义当前单元格的最小宽度，layui 2.2.1 新增
                 , {field: 'siteArea', title: '所在地区', sort: true}
                 , {field: 'siteDetail', title: '详细地址'}
                 , {field: 'sitePostcode', title: '邮政邮编'}
                 , {field: 'sitePhone', title: '手机/电话', align: 'center'} //单元格内容水平居中
-                , {field: '', title: '操作'}
+                , {fixed: 'right', title: '操作', align: 'center', toolbar: '#component-form-time'}
+
             ]]
-            ,done: function(res, curr, count){
 
 
-
-            }
         });
+        //监听工具条
+        table.on('tool(test1)', function (obj) { //注：tool是工具条事件名，test是table原始容器的属性 lay-filter="对应的值"
+            var data = obj.data; //获得当前行数据
+            console.log(data)
+            var Name = obj.goodsName;//获得当前数据的商品名
+            var layEvent = obj.event; //获得 lay-event 对应的值（也可以是表头的 event 参数对应的值）
+            var tr = obj.tr; //获得当前行 tr 的DOM对象
 
-    });
+
+            if (layEvent==='shanchu') {
+             var s=  data.siteId;
+                $.post("/delete/sid",{"sid":s},function (h) {
+                });
+                obj.del(s)
+            }
+            if (layEvent==='detail') {
+               var v=data.siteId
+
+                alert(v)
+             $.post("/update/execute",{"wid":v},function (w) {
+
+             })
+            }
+
+
+
+             // console.log(obj);
+            if (layEvent === 'edit') {
+                layer.open({
+                    area: ['800px', '500px'],
+                    title: "修改商品信息",
+                    type: 1,
+                    content: '<div align="center" class="layui-card layui-form" lay-filter="component-form-element">' +
+                        '<div style="padding: 10px;"> <div class="layui-form-item">\n' +
+                        '                            <label class="layui-form-label">地址信息</label>\n' +
+                        '                            <div class="layui-input-block">\n' +
+                        '                                <input type="text" name="siteArea" value='+data.siteArea+'  placeholder="" autocomplete="off" class="layui-input" >\n' +
+                        '                                <input type="hidden" name="siteId" value='+data.siteId+'>\n' +
+
+                        '                            </div>\n' +
+                        '                        </div>\n' +
+                        '                        <div class="layui-form-item">\n' +
+                        '                            <label class="layui-form-label">详细地址</label>\n' +
+                        '                            <div class="layui-input-block">\n' +
+
+                        '                                <input type="text" name="siteDetail" value='+data.siteDetail+'  placeholder="" autocomplete="off" class="layui-input" >\n' +
+                        '                            </div>\n' +
+                        '                        </div>\n' + '                        <div class="layui-form-item">\n' +
+                        '                            <label class="layui-form-label">邮政编码</label>\n' +
+                        '                            <div class="layui-input-block">\n' +
+                        '                                <input type="text" name="sitePostcode" value='+data.sitePostcode+'  placeholder="" autocomplete="off" class="layui-input" >\n' +
+                        '                            </div>\n' +
+                        '                        </div>\n'+
+                        '                        <div class="layui-form-item">\n' +
+                        '                            <label class="layui-form-label">收货人姓名</label>\n' +
+                        '                            <div class="layui-input-block">\n' +
+                        '                                <input type="text" name="siteMan" value='+data.siteMan+' placeholder="" autocomplete="off" class="layui-input" >\n' +
+                        '                            </div>\n' +
+                        '                        </div>\n' +
+                        '                        <div class="layui-form-item">\n' +
+                        '                            <label class="layui-form-label">手机/电话</label>\n' +
+                        '                            <div class="layui-input-block">\n' +
+                        '                                <input type="text" name="sitePhone" value='+data.sitePhone+' placeholder="" autocomplete="off" class="layui-input" >\n' +
+                        '                            </div>\n' +
+                        '                        </div>\n' +
+                        '                               <a href="siteIndex.html"><button class="layui-btn" lay-submit lay-filter="buy">保存</button></a> \n' +
+                        '                                <a href="siteIndex.html"><button class="layui-btn"  lay-submit lay-filter=""  >返回</button></a>\n' +
+                        '                            </div>'+
+                        '                        </div></div></div>'
+
+
+                })};
+            form.on('submit(buy)', function(data){
+                var Info = JSON.stringify(data.field);
+                console.log(Info);
+                $.ajax({
+                    url: '/update',
+                    type: 'POST',
+                    dataType: 'json',
+                    contentType: 'application/json',
+                    data: Info,
+                    success: function() {
+
+                    }
+                })
+
+            });
+
+        });
+    })
+
+
 
 </script>
 </body>

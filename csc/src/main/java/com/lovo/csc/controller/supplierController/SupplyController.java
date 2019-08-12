@@ -36,7 +36,7 @@ public class SupplyController {
         Map<String,Object> map=new HashMap<>();
         List<SupplyEntity> list= supplyService.findAll(page,rows,goodsName,indentStatus);
         map.put("rows",list);
-        map.put("page",page);
+        map.put("pageTwo",page);
         long total=supplyService.countAll(goodsName,indentStatus);
         map.put("total",total);
         return  map;

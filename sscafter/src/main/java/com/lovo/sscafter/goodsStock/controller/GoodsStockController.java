@@ -14,13 +14,15 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
-
+import org.springframework.web.client.RestTemplate;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
 @Controller
 public class GoodsStockController {
+    @Autowired
+    private RestTemplate restTemplate;
     @Autowired
     private JmsMessagingTemplate jmsMessagingTemplate;
     @Autowired
@@ -46,7 +48,7 @@ public class GoodsStockController {
 
         Map<String,Object> map = new HashMap<>();
         map.put("rows",list);
-        map.put("page",page);
+        map.put("pageTwo",page);
         map.put("total",ro);
         return map;
     }
@@ -143,7 +145,7 @@ return "yes";
 
         Map<String,Object> map = new HashMap<>();
         map.put("rows",list);
-        map.put("page",page);
+        map.put("pageTwo",page);
       map.put("total",ro);
         return map;
     }
@@ -158,7 +160,7 @@ return "yes";
          List<OrderGoodsDTO> list2 = orderGoodsService.findOrderGoods(goodsName,goodsType,startDate,endDate,page,rows);
         long ro=orderGoodsService.findOrderGoodsCount(goodsName,goodsType,startDate,endDate);
     map.put("rows",list2);
-    map.put("page",page);
+    map.put("pageTwo",page);
     map.put("total",ro);
         return map;
     }
@@ -181,7 +183,7 @@ return "yes";
         returnGoodsService.saveReturnGoodsEntity(returnGoodsEntity);
         //保存退货订单结束
         //更改到货单状态
-        orderGoodsService.updateIsReturnGoods("正在退货",orderGoodsId);
+        orderGoodsService.updateIsReturnGoods("已退货",orderGoodsId);
           //发送到退货MQ
         ReturnGoodsDto reDTO= new ReturnGoodsDto();
         reDTO.setGoodsBid(goodsBid);
@@ -197,7 +199,7 @@ return "yes";
         reDTO.setReturnGoodsId(returnGoodsEntity.getReturnGoodsId());
                ObjectMapper mapper = new ObjectMapper();
            String str2=   mapper.writeValueAsString(reDTO);
-        ActiveMQTopic activeMQTopic= new ActiveMQTopic("returnGoodsMQ");
+        ActiveMQTopic activeMQTopic= new ActiveMQTopic("returnGoodsMQTwo");
         jmsMessagingTemplate.convertAndSend(activeMQTopic,str2);
 
       //减少库存
@@ -214,8 +216,15 @@ return "yes";
             Map<String,Object> map = new HashMap<>();
          List<ReturnGoodsDto> list=  returnGoodsService.findOrderGoods(goodsName,goodsType,startDate,endDate,page,rows);
        Long ro=returnGoodsService.findOrderGoodsCount(goodsName,goodsType,startDate,endDate);
+//    for (ReturnGoodsDto rg:list
+//         ) {
+//        //远程调用,查询供应商名称
+//       String supplierName=restTemplate.getForEntity("http://psc/findSupplierNameBySupplierId/"+rg.getSupplierId(),String .class).getBody();
+//       rg.setSupplierName(supplierName);
+//    }
+
     map.put("rows",list);
-    map.put("page",page);
+    map.put("pageTwo",page);
     map.put("total",ro);
 
             return map;
@@ -226,7 +235,7 @@ return "yes";
             Map<String,Object> map=new HashMap<>();
            List<GoodsTypeEntity> list= goodsTypeService.findGoodsTypeByNmae(typeName,page,rows);
              map.put("rows",list);
-             map.put("page",page);
+             map.put("pageTwo",page);
              Long ro = goodsTypeService.findGoodsTypeByNmaeCpunt(typeName);
             map.put("total",ro);
 

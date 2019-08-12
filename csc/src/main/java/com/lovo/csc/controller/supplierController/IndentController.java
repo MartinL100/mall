@@ -37,7 +37,7 @@ public class IndentController {
         Map<String,Object> map=new HashMap<>();
         List<IndentEntity> list= indentService.findIndent(page,rows,indentId,startDate,endDate,indentStatus);
         map.put("rows",list);
-        map.put("page",page);
+        map.put("pageTwo",page);
         long total=indentService.countAll(indentId,startDate,endDate,indentStatus);
         map.put("total",total);
         return  map;

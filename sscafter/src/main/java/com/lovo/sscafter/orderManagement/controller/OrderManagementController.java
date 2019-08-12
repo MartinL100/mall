@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.lovo.common.entity.OrderDTO;
 import com.lovo.sscafter.orderManagement.entity.OrderManagementEntity;
 import com.lovo.sscafter.orderManagement.service.IOrderManagementService;
+import com.lovo.sscafter.orderManagement.util.MqUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -11,6 +12,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -25,7 +29,6 @@ public class OrderManagementController {
         boolean temp = orderManagementService.updateOrderDelType(orderNum);
         return "{'info':'"+temp+"'}";
     }
-
     @RequestMapping("findOrderInfo/{orderDate}/{orderType}/{currentPage}/{rows}/{userName}")
     @ResponseBody
     public List<OrderManagementEntity> findOrderInfo(@PathVariable("orderDate")String orderDate,@PathVariable("orderType")int orderType,
@@ -65,15 +68,22 @@ public class OrderManagementController {
         }
         Map<String,Object> map=new HashMap<>();
         map.put("rows",list);
-        map.put("page",page);
+        map.put("pageTwo",page);
 
         map.put("total",orderManagementService.findOrderRows(orderDate,orderType,userName));
         return map;
     }
     @RequestMapping("receiveOrder")
     @ResponseBody
-    public void receiveOrder(@RequestBody OrderDTO orderDTO){
-        orderManagementService.receiveOrder2(orderManagementService.receiveOrder(orderDTO));
+    public String receiveOrder(@RequestBody String orderDTO3) throws Exception {
+
+         String  orderDTO=  URLDecoder.decode(orderDTO3,"utf-8");
+        ObjectMapper om = new ObjectMapper();
+        OrderDTO orderDTO1 = null;
+        orderDTO1 = om.readValue(orderDTO, OrderDTO.class);
+        orderManagementService.receiveOrder2(orderManagementService.receiveOrder(orderDTO1));
+            MqUtil.orderQueue.put("true");
+        return "true";
     }
 
     @RequestMapping("updateOrderType/{orderNum}")
@@ -84,7 +94,7 @@ public class OrderManagementController {
     @RequestMapping("findData/{mouth}")
     @ResponseBody
     public Map<String,String> findData(@PathVariable("mouth")String mouth){
- 
+
         return orderManagementService.findDate(mouth);
     }
 }

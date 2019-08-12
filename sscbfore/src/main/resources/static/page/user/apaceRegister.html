@@ -12,7 +12,7 @@
     <link rel="stylesheet" href="../../layuiadmin/style/admin.css" media="all">
     <link rel="stylesheet" href="../../layuiadmin/style/login.css" media="all">
     <link rel="stylesheet" href="../../layuiadmin/layui/css/layui.css" media="all">
-    <script type="text/javascript" src="../../lib/jquery.js"></script>
+    <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
 </head>
 <body>
 
@@ -57,6 +57,9 @@
             <div class="layui-form-item">
                 <button class="layui-btn layui-btn-fluid" lay-submit lay-filter="LAY-user-reg-submit" id="bid">快 速 注 册</button>
             </div>
+            <div class="layui-trans layui-form-item layadmin-user-login-other">
+                <a href="userLogin.html" class="layadmin-user-jump-change layadmin-link">用已有账号登陆</a>
+            </div>
         </div>
     </div>
 </div>
@@ -92,12 +95,15 @@
                 function (re) {
                 if(re=="ok"){
                     layer.msg('注册成功，请登录', {icon: 6, anim: 6});
-                    location.href="userLogin.html";
+                    setTimeout(" loc()", 2000);
                 }
             });
         }
 
     });
+    function loc(){
+        location.href="userLogin.html";
+    }
     
     
     

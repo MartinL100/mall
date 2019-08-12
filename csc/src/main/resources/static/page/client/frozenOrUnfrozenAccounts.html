@@ -14,7 +14,7 @@
     <!--<script type="text/javascript" src="../../easyui/jquery.js"></script>-->
 </head>
 <body>
- <h1 align="center" style="margin-bottom: 50px">账号冻结与解冻</h1>
+<h1 align="center">客户账号冻结与解冻审核</h1>
 <div id="tb" style="padding:3px">
     <div style="margin-bottom:20px">
         <input class="easyui-datebox"  id="startTime" name="startTime" label="开始时间:" prompt="搜索请求审核开始时间" data-options="editable:false,panelWidth:220,panelHeight:240,iconWidth:30" style="width:45%">
@@ -27,15 +27,14 @@
                 <option value="冻结" >                       冻结</option>
                 <option value="解冻">                        解冻</option>
             </select>
-            <select name="auditStateSelected" id="auditStateSelected" label="状态:" class="easyui-combobox" name="state" style="width:45%" panelHeight="100">
-                <option value="" >                       不限</option>
-                <option value="已处理" >                       已处理</option>
-                <option value="未审核">                        未审核</option>
-            </select>
         </div>
-
     </div>
-    <div style="margin-bottom:20px" align="center">
+    <div style="margin-bottom:20px">
+        <select name="auditStateSelected" id="auditStateSelected" label="状态:" class="easyui-combobox" name="state" style="width:45%" panelHeight="100">
+            <option value="" >                       不限</option>
+            <option value="已处理" >                       已处理</option>
+            <option value="未审核">                        未审核</option>
+        </select>
     <input id="auditTypeTag" name="auditTypeTag" type="hidden">
     <a href="javascript:void(0)" class="easyui-linkbutton"  onclick="doSearch()" style="right :0px;width:90px;">搜索</a>
     </div>
@@ -47,12 +46,12 @@
        rownumbers="false" pagination="true"  singleSelect="true">
     <thead>
     <tr>
-        <th field="FrozenOrUnfrozenAccountsMessageId" width="20%" hidden="hidden">请求信息id</th>
+        <th field="frozenOrUnfrozenAccountsMessageId" width="20%" hidden="hidden">请求信息id</th>
         <th field="maintenanceManager" width="21%" align="center">维护管理员</th>
         <th field="auditType"width="21%" align="center">请求类型</th>
         <th field="auditState" width="21%" align="center">请求状态</th>
         <th field="auditTime" width="21%" align="center">请求审核时间</th>
-        --<th field="userNameStr" width="21%" align="center">用户列表</th>
+        <th field="userNameStr" width="21%" align="center">用户列表</th>
         <th field="auditOpinion" width="21%" align="center" hidden="hidden">请求理由</th>
         <th field="auditResult" width="21%" align="center" hidden="hidden">审核结果</th>
     </tr>
@@ -67,18 +66,19 @@
 <div id="dlg" class="easyui-dialog" style="width:800px;height: 600px" data-options="closed:true,modal:true,border:'thin',buttons:'#dlg-buttons'">
     <form id="fm" method="post" novalidate style="margin:0;padding:20px 50px">
         <!--<input type="hidden" name="auditType" id="auditType">-->
-        <input type="hidden" name="FrozenOrUnfrozenAccountsMessageId" id="FrozenOrUnfrozenAccountsMessageId">
+        <input type="hidden" name="frozenOrUnfrozenAccountsMessageId" id="frozenOrUnfrozenAccountsMessageId">
         <div style="margin-bottom:10px;position: relative;right: -6px">
             <!-- 用户名-->
             <span>维护管理员：</span>
             <input id="maintenanceManager" type="text" name="maintenanceManager"
-                   class="textbox-text validatebox-text validatebox-readonly textbox-prompt"
+
                    autocomplete="off" tabindex="" readonly="" placeholder=""
                    style="width: 224px; margin: 0px; padding-top: 0px; padding-bottom: 0px;
             height: 30px; line-height: 30px;">
             <!-- 真实姓名-->
             <span>请求类型：</span>
-            <input id="auditType"  name="auditType" class="textbox-text validatebox-text validatebox-readonly textbox-prompt"
+            <input id="auditType"  name="auditType"
+
                    autocomplete="off" tabindex="" readonly="" placeholder=""
                    style="width: 224px; margin: 0px; padding-top: 0px; padding-bottom: 0px;
             height: 30px; line-height: 30px;">
@@ -105,13 +105,15 @@
         <!-- 性别-->
         <div style="margin-bottom:10px;position: relative;right: -42px">
             <label style="position: relative;right: 28px"> 请求结果 ： </label>
-            <input id="auditResult"  name="auditResult" class="textbox-text validatebox-text validatebox-readonly textbox-prompt"
+            <input id="auditResult"  name="auditResult"
+
                    autocomplete="off" tabindex="" readonly="" placeholder=""
                    style="width: 224px; margin: 0px; padding-top: 0px; padding-bottom: 0px;
             height: 30px; line-height: 30px;position: relative;right: 28px">
             <!-- 电话-->
             <label style="position: relative;right: 20px">审核状态:</label>
-            <input id="auditState"  name="auditState" class="textbox-text validatebox-text validatebox-readonly textbox-prompt"
+            <input id="auditState"  name="auditState"
+
                    autocomplete="off" tabindex="" readonly="" placeholder=""
                    style="width: 224px; margin: 0px; padding-top: 0px; padding-bottom: 0px;position: relative;left: 10px;
             height: 30px; line-height: 30px;">
@@ -119,12 +121,14 @@
 
         <div style="margin-bottom:10px;position: relative;right: 10px" >
             <span>请求审核时间：</span>
-            <input  id="auditTime"   name="auditTime" class="textbox-text validatebox-text validatebox-readonly textbox-prompt"
+            <input  id="auditTime"   name="auditTime"
+
                     autocomplete="off" tabindex="" readonly="" placeholder=""
                     style="width: 224px; margin: 0px; padding-top: 0px; padding-bottom: 0px;
             height: 30px; line-height: 30px;"   style="width:45%" style="width:45%">
             <span>审核批复时间：</span>
-            <input id="auditReplyTime" name="auditReplyTime"   class="textbox-text validatebox-text validatebox-readonly textbox-prompt"
+            <input id="auditReplyTime" name="auditReplyTime"
+
                    autocomplete="off" tabindex="" readonly="" placeholder=""
                    style="width: 224px; margin: 0px; padding-top: 0px; padding-bottom: 0px;
             height: 30px; line-height: 30px;" style="width:45%">
@@ -160,8 +164,7 @@
         // PostToControllerFindById(row);
          changeBtnText(type)
          $('#dlg').dialog('open').dialog('center').dialog('setTitle', type+'审核详情');
-        $('#fm').form('load',row);
-
+         $('#fm').form('load',row);
          }
 
          else{
@@ -183,12 +186,12 @@ function changeBtnText(type) {
     //初始化加载
     var initNum=1;
     $(document).ready(function () {
-       doSearch();
+        doSearch();
         getWebSocketMessage()
         if (initNum!=1) {
             return;
         }
-        $.post("severUserAccountsMQInit.lovo",function (r) {
+        $.post("/severUserAccountsMQInit.lovo",function (r) {
             if (r!=null)
                 initNum= initNum+1;
         })
@@ -277,6 +280,7 @@ function changeBtnText(type) {
                 else{
                     $("#auditResult").val("已冻结")
                    // $("#auditOpinion").val("审核通过")
+                    $("#auditOpinion").val("审核通过")
                 }
 
             }
@@ -284,8 +288,6 @@ function changeBtnText(type) {
               return;
 
             }
-            // $('#dlg').dialog('close');		// close the dialog
-            // $('#tt').datagrid('reload');	// reload the user data
             url='/updateFrozenOrUnfrozenAccountsEntity.lovo'
             $('#fm').form('submit',{
                 url: url,
@@ -293,7 +295,7 @@ function changeBtnText(type) {
                     return $(this).form('validate');
                 },
                 success: function(result){
-                   // var result = eval('('+result+')');
+                    // var result = eval('('+result+')');
 
                     if (result.errorMsg){
                         $.messager.show({
@@ -304,8 +306,11 @@ function changeBtnText(type) {
                         $('#dlg').dialog('close');		// close the dialog
                         $('#tt').datagrid('reload');	// reload the user data
                     }
+                    $('#dlg').dialog('close');		// close the dialog
+                    $('#tt').datagrid('reload');	// reload the user data
                 }
             });
+
         });
 
     }

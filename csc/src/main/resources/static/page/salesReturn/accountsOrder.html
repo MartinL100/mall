@@ -1,0 +1,379 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>供货商退货审核页面Test</title>
+    <link rel="stylesheet" type="text/css" href="../../easyui/themes/metro/easyui.css">
+    <link rel="stylesheet" type="text/css" href="../../easyui/themes/mobile.css">
+    <link rel="stylesheet" type="text/css" href="../../easyui/themes/icon.css">
+    <script type="text/javascript" src="../../easyui/jquery.min.js"></script>
+    <script type="text/javascript" src="../../easyui/jquery.easyui.min.js"></script>
+    <script type="text/javascript" src="../../easyui/jquery.easyui.mobile.js"></script>
+    <!--<script type="text/javascript" src="../../easyui/jquery.js"></script>-->
+</head>
+<body>
+<h1 align="center">供应商退货审核</h1>
+<div id="tb" style="padding:3px">
+    <div style="margin-bottom:20px">
+        <input id="orderId1" class="easyui-textbox" name="orderId" label="订单号id" labelWidth="100px" style="width: 45%">
+        <input id="supplierNameId" class="easyui-textbox" name="supplierName" label="供应商名称" labelWidth="70px" style="width: 45%">
+
+    </div>
+    <div style="margin-bottom:20px">
+        <div style="margin-bottom:10px">
+            <select name="orderState" id="orderState" label="订单状态:" class="easyui-combobox" name="state" style="width:45%" panelHeight="100">
+                <option value="" >                       请选择状态</option>
+                <option value="未审核" >                       未审核</option>
+                <option value="审核通过">                      审核通过</option>
+                <option value="审核未通过">                    审核未通过</option>
+            </select>
+            <input id="auditTypeTag" name="auditTypeTag" type="hidden">
+            <a href="javascript:void(0)" class="easyui-linkbutton"  onclick="doSearch()" style="right :0px;width:90px;">搜索</a>
+        </div>
+    </div>
+
+
+</div>
+
+<table id="tt" class="easyui-datagrid"
+       url="/pageOrder.lovo"
+       iconCls="icon-save"
+       rownumbers="false" pagination="true"  singleSelect="true">
+    <thead>
+    <tr>
+        <th field="orderId" width="15%" >订单号id</th>
+        <!--<th field="goodsName" width="20%">商品名称</th>-->
+        <th field="supplierName"width="20%" align="right">供应商名称</th>
+        <th field="orderState"width="20%" align="right">审核状态</th>
+        <th field="closeTime" width="20%" align="right">审核时间</th>
+        <th field="goodsSales" width="20%" align="right">退回原因</th>
+
+    </tr>
+    </thead>
+</table>
+
+
+<div id="buttons" align="center" style="margin-bottom:40px;margin-top: 40px;position: relative;right: -300px" >
+<a href="javascript:void(0)"  class="easyui-linkbutton" onclick="openMyWind()" style="left :-255px;width:90px"> 审 核 </a>
+</div>
+<!-- 模态框 -->
+<div id="dlg" class="easyui-dialog" style="width:800px;height: 600px" data-options="closed:true,modal:true,border:'thin',buttons:'#dlg-buttons'">
+    <form id="fm" method="post" novalidate style="margin:0;padding:20px 50px">
+       <input type="hidden" name="auditType" id="auditType">
+       <input type="hidden" name="userAuditInformationId" id="userAuditInformationId">
+
+        <table id="tt1" class="easyui-datagrid"
+               url="/pageScopeOrder.lovo"
+               iconCls="icon-save"
+               rownumbers="false" pagination="true"  singleSelect="true">
+            <thead>
+            <tr>
+                <th field="goodsName"width="20%" align="right">商品名称</th>
+                <th field="goodsNum"width="20%" align="right">商品数量</th>
+                <th field="goodsBid" width="20%" align="right">商品价格</th>
+
+            </thead>
+        </table>
+
+            <!-- 订单号-->
+                <div style="margin-bottom:10px;position: relative;right: -42px;left: 33px">
+                    <label> 订单号： </label>
+                    <input id="orderId"  name="orderId" class="textbox-text validatebox-text validatebox-readonly textbox-prompt"
+                           autocomplete="off" tabindex="" readonly="" placeholder=""
+                           style="width: 224px; margin: 0px; padding-top: 0px; padding-bottom: 0px;
+            height: 30px; line-height: 30px;">
+                    <!-- 供货商名称-->
+                    <label style="position: relative;left: 10px"> 供货商名称:</label>
+                    <input id="supplierName"  name="supplierName" class="textbox-text validatebox-text validatebox-readonly textbox-prompt"
+                           autocomplete="off" tabindex="" readonly="" placeholder=""
+                           style="width: 224px; margin: 0px; padding-top: 0px; padding-bottom: 0px;position: relative;left: 34px;
+            height: 30px; line-height: 30px;">
+                </div>
+
+
+                <!--<div style="margin-bottom:10px;position: relative;right: -32px">-->
+                    <!--&lt;!&ndash; 商品名&ndash;&gt;-->
+                    <!--<span>商品名：</span>-->
+                    <!--<input id="goodsName"  name="goodsName"-->
+                           <!--class="textbox-text validatebox-text validatebox-readonly textbox-prompt"-->
+                           <!--autocomplete="off" tabindex="" readonly="" placeholder=""-->
+                           <!--style="width: 224px; margin: 0px; padding-top: 0px; padding-bottom: 0px;-->
+            <!--height: 30px; line-height: 30px;">-->
+
+                    <!--&lt;!&ndash; 商品数量&ndash;&gt;-->
+                    <!--<span style="position: relative;left: 1.6%">商品数量：</span>-->
+                    <!--<input id="goodsNum"  name="goodsNum" class="textbox-text validatebox-text validatebox-readonly textbox-prompt"-->
+                           <!--autocomplete="off" tabindex="" readonly="" placeholder=""-->
+                           <!--style="width: 224px; margin: 0px; padding-top: 0px; padding-bottom: 0px;-->
+            <!--height: 30px; line-height: 30px;position: relative;left: 3.5%">-->
+
+                <!--</div>-->
+        <!--<div style="margin-bottom:10px;position: relative;right: -32px;left: 18px">-->
+                    <!--&lt;!&ndash; 商品价格&ndash;&gt;-->
+                    <!--<span>商品价格：</span>-->
+                    <!--<input id="goodsBid"  name="goodsBid"-->
+                           <!--class="textbox-text validatebox-text validatebox-readonly textbox-prompt"-->
+                           <!--autocomplete="off" tabindex="" readonly="" placeholder=""-->
+                           <!--style="width: 224px; margin: 0px; padding-top: 0px; padding-bottom: 0px;-->
+            <!--height: 30px; line-height: 30px;">-->
+                <!--</div>-->
+
+
+        <!-- 退货原因-->
+        <div style="margin-bottom:10px;position: relative;right: -42px;left: 20px">
+            <label> 退货原因： </label>
+            <input id="goodsSales"  name="goodsSales" class="textbox-text validatebox-text validatebox-readonly textbox-prompt"
+                   autocomplete="off" tabindex="" readonly="" placeholder=""
+                   style="width: 224px; margin: 0px;left: -30px; padding-top: 0px; padding-bottom: 0px;
+            height: 30px; line-height: 30px;">
+        </div>
+
+
+        <div style="margin-bottom:10px">
+
+
+           <div style="margin-bottom:10px">
+               <label style="position: relative;left: 18px">审核意见：</label>
+            <textarea   id="orderOpinion" fixed="false"   rows="10" cols="50" readonly="readonly" name="orderOpinion"   style="position: relative;left:18px;width:51.5%;height: 200px;resize:none">
+            </textarea>
+           </div>
+        </div>
+
+        <div style="margin-bottom:10px;position: relative;right: 10px;left: 20px" >
+            <span>审核时间：</span>
+            <input  id="closeTime"   name="closeTime" class="textbox-text validatebox-text validatebox-readonly textbox-prompt"
+                    autocomplete="off" tabindex="" readonly="" placeholder=""
+                    style="width: 224px; margin: 0px; padding-top: 0px; padding-bottom: 0px;
+            height: 30px; line-height: 30px;"   style="width:45%" style="width:45%">
+        </div>
+
+        <div style="margin-bottom:10px;position: relative;left: -10px">
+            <span style="position: relative;left: 35px"> 审核人：</span>
+            <input id="orderAudit"  name="orderAudit"class="textbox-text validatebox-text validatebox-readonly textbox-prompt"
+                   autocomplete="off" tabindex="" readonly="" placeholder=""
+                   style="width: 224px; margin: 0px; padding-top: 0px; padding-bottom: 0px;
+            height: 30px; line-height: 30px;position: relative;left: 42px"   style="width:45%">
+        </div>
+
+
+
+
+
+        <div id="dlg-buttons" align="center" style="margin-bottom:10px">
+            <a href="javascript:void(0)" class="easyui-linkbutton c6" iconCls="icon-ok" onclick="auditPass()" style="left :-255px;width:90px">审核通过</a>
+            <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-cancel" onclick="auditFail()" style="left :-255px;width:90px">拒绝通过</a>
+           <!-- <a href="javascript:void(0)" class="easyui-linkbutton"  onclick="ChangeTx()" style="left :-255px;width:90px">change</a>  -->
+            <a href="javascript:void(0)" class="easyui-linkbutton"  onclick="javascript:$('#dlg').dialog('close')" style="left :-255px;width:90px">取消操作</a>
+        </div>
+
+    </form>
+</div>
+
+
+
+
+
+<script>
+
+
+
+    //弹出模态框
+    function openMyWind(){
+
+        var row = $('#tt').datagrid('getSelected');
+        //alert(row)
+       if ('未完成'==row.orderState) {
+           $("#tender").show();
+           $("#buyer").show();
+       }else{
+           $("#tender").hide();
+           $("#buyer").hide();
+       }
+        //根据用户名查找出审核数据
+        //并将审核数据赋值给模态框
+        // PostToControllerFindUserMessageByUserName(row);
+        if (row){
+
+            $('#dlg').dialog('open').dialog('center').dialog('setTitle', '供货商退货详情');
+            $('#fm').form('load',row);
+           // url="/findByScopeOrder.lovo?orderId="+row.orderId;
+       }
+        $('#tt1').datagrid('load',{
+            orderId: row.orderId,
+            page:1,
+        });
+    // else {
+    //         $.messager.alert('错误!','请先选中你要审核的数据!','error');
+    //     }
+    }
+
+
+
+    var initNum=1;
+    //初始化加载
+    $(document).ready(function () {
+        doSearch();
+        // getWebSocketMessage();
+        // if (initNum==1) {
+        //     return;
+        // }
+        // $.post("/savaOrderGoodsMessage.lovo",function (r) {
+        //     if (r!=null){
+        //         initNum= initNum+1;
+        //     }
+        //
+        // })
+    });
+
+
+    //查询
+    function doSearch(){
+        // $('#tt').attr("url","../../findUserAuditMessagePage.lovo")
+        $('#tt').datagrid('load',{
+            orderState: $('#orderState').val(),
+            orderId:$("#orderId1").val(),
+            supplierName:$("#supplierNameId").val(),
+            page:1,
+        });
+       //alert(  $('#tt').attr("url"))
+    }
+
+    var url;
+    //审核通过
+    function auditPass() {
+        $("#orderOpinion").val("审核通过")
+        $("#orderState").val("审核通过")
+        url="updateScopeOrder.lovo"
+        $('#fm').form('submit',{
+            url: url,
+            onSubmit: function(){
+                return $(this).form('validate');
+            },
+            success: function(result){
+
+                var result = eval('('+result+')');
+
+                if (result.errorMsg){
+                    $.messager.show({
+                        title: 'Error',
+                        msg: result.errorMsg
+                    });
+                } else {
+                    $('#dlg').dialog('close');		// close the dialog
+                    $('#tt').datagrid('reload');	// reload the user data
+                }
+            }
+        });
+    }
+
+
+    //审核不通过
+    function auditFail() {
+            $.messager.prompt('请输入拒绝理由', '请输入拒绝通过理由', function (r) {
+                if (r != "") {
+                    $("#orderOpinion").val(r);
+                    $("#orderState").val("审核未通过")
+                    return;
+                }
+                if (r == "") {
+                    $("#orderOpinion").val("其他");
+                    $("#orderState").val("审核未通过")
+
+                }
+                // $('#dlg').dialog('close');		// close the dialog
+                // $('#tt').datagrid('reload');	// reload the user data
+                url="updateScopeOrder.lovo"
+                $('#fm').form('submit',{
+                    url: url,
+                    onSubmit: function(){
+                        return $(this).form('validate');
+                    },
+                    success: function(result){
+
+                        var result = eval('('+result+')');
+
+                        if (result.errorMsg){
+                            $.messager.show({
+                                title: 'Error',
+                                msg: result.errorMsg
+                            });
+                        } else {
+                            $('#dlg').dialog('close');		// close the dialog
+                            $('#tt').datagrid('reload');	// reload the user data
+                        }
+                    }
+                });
+            });
+
+    }
+
+
+
+
+    //提交到后台查找用户信息
+    function PostToControllerFindUserMessageByUserName(row) {
+       // alert()
+        var orderId= row.orderId
+        $.post('../../findByScopeOrder.lovo',{orderId:$(row).orderId},
+            function(result){
+            // var result = eval('('+result+')');
+            if (result!=""){
+                $("#Id").val(result.Id)
+                $("#auditType").val(result.auditType)
+                $("#goodsId").val(result.goodsId)
+                $("#goodsName").val(result.goodsName)
+                $("#goodsNum").val(result.goodsNum)
+                $("#goodsBid").val(result.goodsBid)
+
+                $("#orderId").val(result.orderId)
+                $("#scopeOrderId").val(result.scopeOrderId)
+                $("#supplierName").val(result.supplierName)
+                $("#orderAudit").val(result.orderAudit)
+                $("#closeTime").val(result.closeTime)
+                $("#goodsSales").val(result.goodsSales)
+                $("#orderState").val(result.orderState)
+                $("#orderAuditState").val(result.orderAuditState)
+                $("#orderOpinion").val(result.orderOpinion)
+            } else {
+                $.messager.show({	// show error message
+                    title: 'Error',
+                    msg: result.errorMsg
+                });
+            }
+        },'json');
+    }
+
+
+
+    //提交审核结果到供货商
+    function PostToControllerUpdateUserMessageByUserName() {
+            $.post('../../updateScopeOrder.lovo',
+                {orderId:$("#orderId").val(),
+                    auditType:$("#auditType").val(),
+                    orderOpinion:$("#orderOpinion").val()},
+                function(result){
+                var result = eval('('+result+')');
+
+                if (result.success){
+                    $('#tt').datagrid('load',{
+                       // userId: $('#userId').val()
+                    });
+                } else {
+                    $.messager.show({	// show error message
+                        title: 'Error',
+                        msg: result.errorMsg
+                    });
+                }
+            },'json');
+
+        $('#fm').form('clear');
+
+    }
+
+
+
+
+</script>
+</body>
+</html>

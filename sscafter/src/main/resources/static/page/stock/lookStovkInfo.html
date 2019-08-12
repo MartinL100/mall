@@ -13,7 +13,7 @@
 
 </head>
 
-
+<body onload="websocket()">
 
 <p>
 <div align="center">
@@ -161,7 +161,7 @@
         $('#fm2').form('submit',{
             url: "/saveGoods2",
             success: function(re) {
-                alert(re)
+
               if("no"==re){
                   $('#dlg2').dialog('close');
                   $.messager.alert('警告窗口', '该商品已存在！请重新输入!', 'info', function () {
@@ -242,7 +242,6 @@ $("#bt2").click(function () {
         });
         if(ids.length>1||ids.length==0){
             $.messager.alert('警告窗口', '请选择一行修改！', 'info', function () {
-
             });
             return;
         }
@@ -269,6 +268,50 @@ $("#bt4").click(function () {
     $('#fm2').form('load',row);
 
 })
+
+
+
+    //webSocket
+    function websocket() {
+
+        var socket;
+        if(typeof(WebSocket) == "undefined") {
+            alert("您的浏览器不支持WebSocket");
+        }else{
+
+            //实现化WebSocket对象，指定要连接的服务器地址与端口  建立连接
+            socket = new WebSocket("ws://localhost:8002/goodsStockwebsocket");
+
+            //打开事件
+            socket.onopen = function() {
+
+                // socket.send("这是来自客户端的消息" + location.href + new Date());
+            };
+            //获得消息事件
+            socket.onmessage = function(msg) {
+                var r = msg.data;//获得socket服务器的信息
+                if ("yes"==r) {
+                    $('#tt').datagrid('load', {
+                        goodsType: $("#indexType").combobox("getValue"),
+                        goodsName: $("#text1").val()
+
+                    });
+
+                }
+                ;
+            }
+            //关闭事件
+            socket.onclose = function() {
+
+            };
+            //发生了错误事件
+            socket.onerror = function() {
+
+                //此时可以尝试刷新页面
+            }
+
+        }
+    }
 
 </script>
 
