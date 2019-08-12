@@ -11,6 +11,7 @@ import com.lovo.sscbfore.entity.ReturnEntity;
 import com.lovo.sscbfore.entity.ReturnFailedMQ;
 import com.lovo.sscbfore.entity.ReturnGoodsEntity;
 import com.lovo.sscbfore.entity.ReturnSuccessMQEntity;
+import com.lovo.sscbfore.entity.TableDateEntity;
 import com.lovo.sscbfore.service.IUserMessageService;
 import com.lovo.sscbfore.user.entity2.UserEntity;
 import com.lovo.sscbfore.user.entity2.UserInfoEntity;
@@ -60,33 +61,6 @@ public class ReturnGoodsController {
         OrderDTO orderStr = restTemplate.getForEntity("http://sscAfter/findGoodsInfo/" + orderNum + "/", OrderDTO.class).getBody();
         JSONObject jsonObject = new JSONObject(orderStr);
         return jsonObject.toString();
-
-//        List<GoodsDTO> goodsDTOList = new ArrayList<>();
-//
-//        for (int i = 0; i < 5; i++) {
-//            GoodsDTO goods = new GoodsDTO();
-//            goods.setGoodsId(i + "");
-//            goods.setGoodsName("水果" + i);
-//            goods.setGoodsNorms("个");
-//            goods.setGoodsPrice(123123f);
-//            goods.setGoodsNum(Long.parseLong(i + ""));
-//            goods.setGoodsType("123");
-//            goods.setGoodsUnit("123123123");
-//            goodsDTOList.add(goods);
-//        }
-//
-//        OrderDTO order = new OrderDTO();
-//        order.setAddressId("123123123");
-//        order.setOrderNum("1ahsdkj123123");
-//        order.setOrderDate(System.currentTimeMillis() + "");
-//        order.setUserName("che");
-//        order.setOrderMoney(123123f);
-//        order.setPayMoney(123123 + "");
-//        order.setPayMethod("allipay");
-//        order.setGoodsDTOList(goodsDTOList);
-//
-//        JSON json = JSONUtil.parse(order);
-//        return json.toString();
     }
 
     /**
@@ -98,35 +72,28 @@ public class ReturnGoodsController {
     @RequestMapping("returngoods/req/{orderNum}")
     public String orderGoodsList(@PathVariable String orderNum, HttpServletRequest request) {
 
-
         Map<String, String[]> map = request.getParameterMap();
         int page = Integer.parseInt(map.get("page")[0]);
         int limit = Integer.parseInt(map.get("limit")[0]);
-//
-//
-        List<OrderForGoodsDTO> goosDto = restTemplate.getForEntity("http://sscAfter/findGoodsRows/" + orderNum + "/" + page + "/" + limit, List.class).getBody();
-        return JSONUtil.toJsonStr(goosDto);
+//        sscAfter/findGoods/{orderNum}/{currentPage}/{rows}
+        final String findOrderGoodsUrl = "http://sscAfter/findGoods/";
+//        /sscAfter/findGoodsRows/{orderNum}
+        final String findOrderGoodsRowsUrl = "http://sscAfter/findGoodsRows/";
+
+        String url = findOrderGoodsUrl + orderNum + "/" + page + "/" + limit;
+        String url1 = findOrderGoodsRowsUrl + orderNum;
 
 
-//        List<ReturnGoodsVo> goodsVoList = new ArrayList<>();
-//        for (int i = (page - 1) * limit; i < page * limit; i++) {
-//            ReturnGoodsVo goodsVo = new ReturnGoodsVo();
-//            goodsVo.setGoodsId(i);
-//            goodsVo.setGoodsName("水果" + i);
-//            goodsVo.setGoodsNum(100);
-//            goodsVo.setGoodsPrice("1");
-//            goodsVoList.add(goodsVo);
-//        }
-//
-//        TableDateEntity tableDate = new TableDateEntity<ReturnGoodsVo>();
-//        tableDate.setCode(0);
-//        tableDate.setData(goodsVoList);
-//        tableDate.setCount(120);
-//        tableDate.setMsg("");
-//
-//        JSON json = JSONUtil.parse(tableDate);
-//        System.out.println(json.toString());
-//        return json.toString();
+        List<OrderForGoodsDTO> goosDto = restTemplate.getForEntity(url, List.class).getBody();
+        int rows = restTemplate.getForEntity(url1, int.class).getBody();
+
+        TableDateEntity<OrderForGoodsDTO> tableDate = new TableDateEntity<>();
+        tableDate.setCode(0);
+        tableDate.setData(goosDto);
+        tableDate.setCount(rows);
+        tableDate.setMsg("");
+
+        return JSONUtil.toJsonStr(tableDate);
     }
 
     @RequestMapping("returngoods/creat")
@@ -155,7 +122,7 @@ public class ReturnGoodsController {
 
             OrderReturnMQEntity orderReturnMQEntity = new OrderReturnMQEntity(orderNum, goodsId, "1");
 
-            ActiveMQQueue queue = new ActiveMQQueue("orderReturnMQ");
+            ActiveMQQueue queue = new ActiveMQQueue("orderReturnMQ1");
             jmsMessagingTemplate.convertAndSend(queue, JSONUtil.toJsonStr(orderReturnMQEntity));
         }
     }
@@ -184,7 +151,7 @@ public class ReturnGoodsController {
         }
         re.setReturnGoodsList(list);
 
-        ActiveMQQueue queue = new ActiveMQQueue("goodsReturnMQ");
+        ActiveMQQueue queue = new ActiveMQQueue("goodsReturnMQ1");
         jmsMessagingTemplate.convertAndSend(queue, JSONUtil.toJsonStr(re));
     }
 
