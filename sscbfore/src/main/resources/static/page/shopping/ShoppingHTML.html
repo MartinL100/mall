@@ -15,44 +15,24 @@
             <div class="layui-header" style="background-color: #ffffff">
                 <!-- 头部区域 -->
                 <ul class="layui-nav layui-layout-left" style="background-color: #ffffff">
-                    <li class="layui-nav-item layui-hide-xs" lay-unselect >
-                        <input type="text" placeholder="搜索..." autocomplete="off" class="layui-input layui-input-search" id="textId" style="border:none ">
-                    </li>
-                    <!--下拉框-->
-                    <li class="layui-nav-item layui-hide-xs" lay-unselect >
-                        <select id="opId" class="layui-input layui-input-search"style="width: 200px;height: 45px;border:none ">
-                            <option value="">请选择一个城市</option>
-                            <option value="010">北京</option>
-                            <option value="021">上海</option>
-                            <option value="0571">杭州</option>
-                        </select>
-                    </li>
 
-                    <!--查询按键-->
-                    <li class="layui-nav-item layui-hide-xs" lay-unselect>
-                        <a onclick="findGoods()" layadmin-event="note"title="查询">
-                            <i class="layui-icon layui-icon-search"></i>
-                        </a>
-                    </li>
+
+
                 </ul>
 
                 <!--购物车和用户按钮-->
                 <ul class="layui-nav layui-layout-right" lay-filter="layadmin-layout-right" style="background-color: #ffffff">
                     <li class="layui-nav-item layui-hide-xs" lay-unselect>
-                        <a href="javascript:;" layadmin-event="theme"title="用户">
+                        <a href="../user/userShow.html" layadmin-event="theme"title="用户">
                             <i class="layui-icon layui-icon-user" style="border: black"></i>
                         </a>
                     </li>
                     <li class="layui-nav-item layui-hide-xs" lay-unselect>
-                        <a href="javascript:;" layadmin-event="note"title="购物车">
+                        <a href="../shopping/ShoppingHTML.html" layadmin-event="note"title="购物车">
                             <i class="layui-icon layui-icon-cart"></i>
                         </a>
                     </li>
-                    <li class="layui-nav-item layui-hide-xs" lay-unselect>
-                        <a href="javascript:;" layadmin-event="fullscreen">
-                            <i class="layui-icon layui-icon-screen-full"></i>
-                        </a>
-                    </li>
+
                 </ul>
             </div>
           <!-- 主体内容-->
@@ -70,7 +50,7 @@
                                 <!--<button id="BBid" class="layui-btn layui-btn-xs">取消</button>-->
                             <!--</div>-->
                             <div style="margin-top: 20px;margin-left: 400px" >
-                            <button class="layui-btn">返回主界面</button>
+                            <button class="layui-btn" id="buttonId2">返回主界面</button>
                             <button class="layui-btn" style="margin-left: 400px" id="buttonId">结算</button>
                             </div>
 
@@ -104,10 +84,10 @@
                     ,even : true
                     ,cols: [[//表头\
                          {type:'checkbox', width:211,LAY_CHECKED:true}
+                        ,{field:'goodsId', width:211, title: '商品ID',align:"center"}
                          ,{field:'goodsName', width:211, title: '商品名', sort: true,align:"center"}
                         ,{field:'goodsNum', width:211, title: '商品数量',align:"center"}
                         ,{field:'goodsPrice', width:211, title: '商品价格', sort: true,align:"center"}
-                        ,{field:'choose', width:211, title: '商品ID',align:"center"}
                         ,{field:'goodsDiscount', title: '商品类型', width: '211', minWidth: 211,align:"center"} //minWidth：局部定义当前单元格的最小宽度，layui 2.2.1 新增
                         ,{fixed : 'right',title : '操作',width : 211,align : 'center',toolbar : '#barDemo'}
                     ]]
@@ -140,7 +120,6 @@
                         $("#Bid").click(function () {
                             var Num= $("#spid").val();
                             $("#spid").value="";
-                            alert(Num);
                             //修改MAP中的数量
                             $.ajax({
                                 url: "/setingMap",    //换成自己的url
@@ -212,9 +191,6 @@
                     $(checkStatus.data).each(function (i, o) {//o即为表格中一行的数据
                         ids.push(o.goodsName);
                         var goodsName=ids[i];
-                        alert(ids.length);
-                        alert(ids.valueOf());
-                        alert(goodsName);
                         $.ajax({
                             url: "/setingChoose",    //换成自己的url
                             type: "POST",
@@ -236,6 +212,9 @@
                     });
 
 
+                })
+                $("#buttonId2").click(function () {
+                    window.location.href ="../show/allShow.html";
                 })
 
             });

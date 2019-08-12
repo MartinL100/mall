@@ -56,26 +56,13 @@ public class ShoppingController {
         }
 
 
-
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
 //        System.out.printf(""+map2.size()+"*/*");
 //        //判断公用MAP是否为空
 //        if (map2.size()==0) {
 //            //如果为空新建一个 用户名为KEY 商品信息为VLUE的对象（MAP）
-//            System.out.printf(dto.getGoodsName());
 //            Map<String, GoodssDTO> mapMin = new HashMap<String, GoodssDTO>();
 //            mapMin.put(dto.getGoodsName(), dto);
 //            map2.put("集合1", mapMin);
-//            System.out.printf("啦啦"+map2.get("集合1").size()+"啦啦啦");
 //            //集合1应该是Seeion里的用户名
 ////        spring mvc中session获取
 ////        HttpSession session= ((ServletRequestAttributes)RequestContextHolder.getRequestAttributes()).getRequest().getSession();
@@ -90,48 +77,43 @@ public class ShoppingController {
 
 //修改数量
     @RequestMapping("setingMap")
-    public void setingMap(String goodsName,String goodNum){
-        System.out.printf(goodsName+"/////"+goodNum+"@1");
+    public void setingMap(String goodsName,String goodNum, HttpServletRequest request){
+        String userName =((UserEntity)request.getSession().getAttribute("userEntity")).getUserName() ;
       //  从MAP中获取到要修改的对象
-        System.out.printf(map2.get("集合1").get(goodsName).getGoodsId()+"@2");
-        //找到要修改的对象赋值给goodssDTO
-        GoodssDTO goodssDTO=map2.get("集合1").get(goodsName);
-        System.out.printf(goodssDTO.getGoodsNum()+"@3");
+        GoodssDTO goodssDTO=map2.get(userName).get(goodsName);
         //进行重新赋值修改
         goodssDTO.setGoodsNum(Long.parseLong(goodNum));
         //删除MAP里的对象
-        map2.get("集合1").remove(goodsName);
+        map2.get(userName).remove(goodsName);
         //重新把修改过的对象加入到MAP中
-        map2.get("集合1").put(goodssDTO.getGoodsName(),goodssDTO);
-        System.out.printf(map2.get("集合1").get(goodsName).getGoodsNum()+"");
-
+        map2.get(userName).put(goodssDTO.getGoodsName(),goodssDTO);
     }
 
     //删除其中一个对象
     @RequestMapping("delMap")
-    public void delMap(String goodsName){
-        map2.get("集合1").remove(goodsName);
+    public void delMap(String goodsName, HttpServletRequest request){
+        String userName =((UserEntity)request.getSession().getAttribute("userEntity")).getUserName() ;
+        map2.get(userName).remove(goodsName);
 
     }
 
 //修改选中状态  ??????重写一个公共实体类
 @RequestMapping("setingChoose")
-    public void setingChoose(String goodsName){
-    System.out.printf(""+goodsName);
+    public void setingChoose(String goodsName, HttpServletRequest request){
+    String userName =((UserEntity)request.getSession().getAttribute("userEntity")).getUserName() ;
     //找到要修改的对象赋值给goodssDTO
-    GoodssDTO goodssDTO=map2.get("集合1").get(goodsName);
+    GoodssDTO goodssDTO=map2.get(userName).get(goodsName);
     //进行重新赋值修改
     goodssDTO.setChoose(1);
     //删除MAP里的对象
-    map2.get("集合1").remove(goodsName);
+    map2.get(userName).remove(goodsName);
     //放进MAp中z
-    map2.get("集合1").put(goodssDTO.getGoodsId(),goodssDTO);
-//    System.out.printf(map2.get("集合1").get(goodsName).getChoose()+"");
+    map2.get(userName).put(goodssDTO.getGoodsName(),goodssDTO);
+    System.out.printf(map2.get(userName).get(goodsName).getChoose()+"");
 
     //通过传过来的商品名修改其判定属性是否已经选中
 
 
-                //放进map中
 
             }
 
