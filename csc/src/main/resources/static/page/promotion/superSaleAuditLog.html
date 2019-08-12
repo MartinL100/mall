@@ -14,12 +14,14 @@
 <body>
 <h2 align="center">促销审核</h2>
 <div id="toolbar">
-    <span>商品名:</span>
-    <input class="easyui-validatebox" type="text" id="goodsName" name="goodsName"style="margin: 0px 28px 0px 0px; padding-top: 0px; padding-bottom: 0px; height: 30px; line-height: 30px; width: 170px;"/>
-    <span>审核结果:</span>
-    <input class="easyui-validatebox" type="text" id="auditResult" name="goodsName" style="margin: 0px 28px 0px 0px; padding-top: 0px; padding-bottom: 0px; height: 30px; line-height: 30px; width: 170px;""/>
-    开始时间：<input class="easyui-datebox" id="startTime" name="startTime" style="width: 200px;"  />
-    结束时间：<input class="easyui-datebox" id="endTime" name="endTime" style="width: 200px;"  />
+    <div style="margin-bottom:20px">
+        <input id="goodsName" class="easyui-textbox" label="商品名:" style="width:45%">
+        <input id="auditResult" name="goodsName" class="easyui-textbox" label="审核结果:" style="width:45%">
+    </div>
+    <div style="margin-bottom:10px">
+        <input class="easyui-datebox"  id="startTime" name="startTime" label="开始时间:" prompt="搜索请求审核开始时间" data-options="editable:false,panelWidth:220,panelHeight:240,iconWidth:30" style="width:45%">
+        <input class="easyui-datebox"  id="endTime" name="endTime" label="结束时间:" prompt="搜索请求审核结束时间" data-options="editable:false,panelWidth:220,panelHeight:240,iconWidth:30" style="width:45%">
+    </div>
     <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-search" plain="true" onclick="doSearch()">搜索</a>
     <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-back" plain="true" onclick="goto()" style="float: right" >返回</a>
 </div>
