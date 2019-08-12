@@ -145,8 +145,8 @@ public class UserController {
     public String userEntityList(@PathVariable("userName")String userName,@PathVariable("userState")String userState,@PathVariable("currentPage")String currentPage,@PathVariable("rows")String rows){
        List<UserEntity> list= serService.userList(userName,userState,Integer.parseInt(currentPage),Integer.parseInt(rows));
        List<UserShowDto> list1=new ArrayList<>();
-       UserShowDto user=new UserShowDto();
         for (UserEntity u:list) {
+            UserShowDto user=new UserShowDto();
             user.setUserId(u.getUserId());
             user.setUserName(u.getUserName());
             user.setPassword(u.getPassword());
@@ -171,8 +171,8 @@ public class UserController {
     }
 
     @RequestMapping("userRows/{userName}/{userState}")
-    public int userRows(@PathVariable("userName")String userName,@PathVariable("userState")String userState){
-        int i=serService.userRows(userName,userState);
+    public String userRows(@PathVariable("userName")String userName,@PathVariable("userState")String userState){
+        String i= String.valueOf(serService.userRows(userName,userState));
         return i;
     }
 
