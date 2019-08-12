@@ -11,6 +11,7 @@ import com.lovo.sscafter.goodsStock.service.IOrderServicr;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -73,15 +74,16 @@ public class CloudController {
 
         goodsStockService.updateGoodsTag1ById(goodsId);
     }
-    @RequestMapping("/findGoodsBidById/{goodsId}")
-    @ResponseBody
-    public float findGoodsBidById(@PathVariable("goodsId")String goodsId){
+//    @RequestMapping("/findGoodsBidById/{goodsId}")
+//    @ResponseBody
+//    public float findGoodsBidById(@PathVariable("goodsId")String goodsId){
+//
+//         return orderGoodsService.findGoodsBidByGoodsId(goodsId);
+//    }
 
-         return orderGoodsService.findGoodsBidByGoodsId(goodsId);
-    }
-@RequestMapping("/findGoodsNum/{goodsMap}")
+@RequestMapping("/findGoodsNum")
 @ResponseBody
-    public String findGoodsNum(@PathVariable("goodsMap")String goodsMap) throws IOException {
+    public String findGoodsNum(@RequestBody String goodsMap) throws IOException {
  ObjectMapper mapper = new ObjectMapper();
      Map<String,String> map=(Map<String,String>) mapper.readValue(goodsMap,Object.class);
    List<String> list=new ArrayList<>();

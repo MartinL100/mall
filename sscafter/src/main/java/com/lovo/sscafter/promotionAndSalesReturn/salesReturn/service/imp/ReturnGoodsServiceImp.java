@@ -1,7 +1,8 @@
 package com.lovo.sscafter.promotionAndSalesReturn.salesReturn.service.imp;
 
 import com.lovo.sscafter.promotionAndSalesReturn.salesReturn.dao.IReturnGoodsDao;
-import com.lovo.sscafter.promotionAndSalesReturn.salesReturn.entity.ReturnGoodsEntity;
+
+import com.lovo.sscafter.promotionAndSalesReturn.salesReturn.entity.ReturnGoodsEntity2;
 import com.lovo.sscafter.promotionAndSalesReturn.salesReturn.service.IReturnGoodsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -20,7 +21,7 @@ public class ReturnGoodsServiceImp implements IReturnGoodsService {
     private IReturnGoodsDao dao;
 
     @Override
-    public void sava(ReturnGoodsEntity goodsEntity) {
+    public void sava(ReturnGoodsEntity2 goodsEntity) {
         dao.save(goodsEntity);
     }
 
@@ -31,7 +32,7 @@ public class ReturnGoodsServiceImp implements IReturnGoodsService {
      * @return  商品集合
      */
     @Override
-    public List<ReturnGoodsEntity> findByReturnOderId(String returnOrderId) {
+    public List<ReturnGoodsEntity2> findByReturnOderId(String returnOrderId) {
         return dao.findByReturnOderId(returnOrderId);
     }
 

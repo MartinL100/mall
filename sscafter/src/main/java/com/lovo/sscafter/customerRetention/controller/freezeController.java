@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.client.RestTemplate;
 
 import javax.servlet.http.HttpServletRequest;
+import java.net.URLDecoder;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -33,7 +34,7 @@ public class freezeController {
     @HystrixCommand(fallbackMethod = "getInfoError")
     @RequestMapping("freezePage")
     @ResponseBody
-    public Map<String,Object> freezePage(int page, int rows, String userName, String userState){
+    public Map<String,Object> freezePage(int page, int rows, String userName, String userState) throws Exception{
         //远程调用,假设得到list
         if(null == userName ||"".equals(userName) ){
             userName = "no";
@@ -41,28 +42,35 @@ public class freezeController {
         if(null == userState ){
             userState = "0";
         }
-        //List<CustomerDTO> list = restTemplate.getForEntity("http://servicename/userList/{userName}/{userState}/{currentPage}/{rows}",List.class).getBody();
-//        //----
-        List<CustomerDTO> list = new ArrayList<>();
-        for (int i =0;i<10;i++){
-            CustomerDTO customerDTO = new CustomerDTO();
-            customerDTO.setUserId("asdasd"+i);
-            customerDTO.setUserName("lw"+i);
-            customerDTO.setPassword("123456"+i);
-            customerDTO.setTrueName("廖文"+i);
-            customerDTO.setSex("男");
-            customerDTO.setTelephone("15184483910");
-            customerDTO.setUserState("正常");
+       String temp = restTemplate.getForEntity("http://sscbefore/userList/"+userName+"/"+userState+"/"+page+"/"+rows,String.class).getBody();
+        String tempList = URLDecoder.decode(temp,"utf-8");
+        ObjectMapper om = new ObjectMapper();
+        List<CustomerDTO> list = null;
+        try {
+            list = om.readValue(tempList, List.class);
+        }catch (Exception e){e.printStackTrace();}
 
-            list.add(customerDTO);
-        }
+//        //----
+//        List<CustomerDTO> list = new ArrayList<>();
+//        for (int i =0;i<10;i++){
+//            CustomerDTO customerDTO = new CustomerDTO();
+//            customerDTO.setUserId("asdasd"+i);
+//            customerDTO.setUserName("lw"+i);
+//            customerDTO.setPassword("123456"+i);
+//            customerDTO.setTrueName("廖文"+i);
+//            customerDTO.setSex("男");
+//            customerDTO.setTelephone("15184483910");
+//            customerDTO.setUserState("正常");
+//
+//            list.add(customerDTO);
+//        }
         //----
         Map map = new HashMap();
         map.put("rows",list);
         map.put("pageTwo",page);
         //假设总行数为 远程调用
-        //int userRows = restTemplate.getForEntity("http://servicename/userRows/{userName}/{userState}",Integer.class).getBody();
-        map.put("total",10);
+        int userRows = restTemplate.getForEntity("http://sscbefore/userRows"+userName+"/"+userState,Integer.class).getBody();
+        map.put("total",userRows);
         return map;
     }
 
