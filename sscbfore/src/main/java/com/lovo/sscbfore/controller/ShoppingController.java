@@ -28,13 +28,16 @@ public class ShoppingController {
         String info2="{\"code\":0,\"msg\":\"\",\"count\":1000,\"data\":[";
         for (Map<String,GoodssDTO> m:map2.values()){
             for (GoodssDTO g:m.values()) {
-                info2+="{\"choose\":\""+g.getChoose()+"\",\"goodsId\":\""+g.getGoodsId()+"\",\"goodsName\":\""+g.getGoodsName()+"\",\"goodsNum\":\""+g.getGoodsNum()+"\",\"goodsPrice\":\""+g.getGoodsPrice()+"\",\"goodsDiscount\":\""+g.getGoodsType()+"\"}," ;
+                if(g.getChoose()!=3) {
+                    info2 += "{\"choose\":\"" + g.getChoose() + "\",\"goodsId\":\"" + g.getGoodsId() + "\",\"goodsName\":\"" + g.getGoodsName() + "\",\"goodsNum\":\"" + g.getGoodsNum() + "\",\"goodsPrice\":\"" + g.getGoodsPrice() + "\",\"goodsDiscount\":\"" + g.getGoodsType() + "\"},";
+                }
             }
         }
         String str1 = info2.substring(0, info2.length()-1);
         System.out.print(str1);
         str1+="]}";
         System.out.printf(str1);
+
       return str1;
     }
     //加入Map集合
@@ -92,8 +95,20 @@ public class ShoppingController {
     //删除其中一个对象
     @RequestMapping("delMap")
     public void delMap(String goodsName, HttpServletRequest request){
+//        String userName =((UserEntity)request.getSession().getAttribute("userEntity")).getUserName() ;
+//        map2.get(userName).remove(goodsName);
+
         String userName =((UserEntity)request.getSession().getAttribute("userEntity")).getUserName() ;
+        //找到要修改的对象赋值给goodssDTO
+        GoodssDTO goodssDTO=map2.get(userName).get(goodsName);
+        //进行重新赋值修改
+        goodssDTO.setChoose(3);
+        //删除MAP里的对象
         map2.get(userName).remove(goodsName);
+        //放进MAp中z
+        map2.get(userName).put(goodssDTO.getGoodsName(),goodssDTO);
+//测试打印修改的选项    System.out.printf(map2.get(userName).get(goodsName).getChoose()+"");
+//测试打印长度    System.out.printf(map2.get(userName).size()+"");
 
     }
 
