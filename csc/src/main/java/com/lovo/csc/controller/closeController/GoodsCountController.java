@@ -14,10 +14,7 @@ import com.lovo.csc.service.closeService.IOrderService;
 import com.lovo.csc.service.depositService.IDepositService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.jaxb.SpringDataJaxb;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.transaction.Transactional;
 import java.io.IOException;
@@ -27,7 +24,6 @@ import java.util.List;
 import java.util.Map;
 
 @RestController
-
 public class GoodsCountController {
     @Autowired
     private IOrderService orderService;
@@ -55,8 +51,8 @@ public class GoodsCountController {
         return payMoney;
     }
     //结算订单，数据以json传输,添加订单信息
-    @RequestMapping(value = "checkOrder/{str}")
-    public String addOrder(@PathVariable("str") String jsonStr) throws JsonProcessingException {
+    @RequestMapping(value = "checkOrder")
+    public String addOrder(@RequestBody String jsonStr) throws JsonProcessingException {
         //将json字符串转换为对象
 //         jsonStr="{\"orderNum\":\"092349070823569\",\"orderDate\":\"07/03/2019\",\"userName\":\"小1\"" +
 //                ",\"orderMoney\":25235.2,\"payMoney\":\"0.0\",\"payMethod\":\"deposit\",\"goodsDTOList\":[{" +
