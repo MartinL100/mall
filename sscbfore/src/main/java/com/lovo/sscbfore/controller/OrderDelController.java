@@ -50,6 +50,7 @@ public class OrderDelController {
         orderDto2.setPayMethod("银联支付");
         orderDto2.setOrderMoney(40000);
 
+
         OrderManagementDTO orderDto3=new OrderManagementDTO();
         orderDto3.setOrderNum("J16820190401");
         orderDto3.setOrderType("已完结");
