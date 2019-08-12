@@ -3,6 +3,7 @@ package com.lovo.csc.service.supplierService;
 import com.lovo.csc.entity.SupplierEntity;
 import com.lovo.csc.vo.suppliervo.SupplierVO;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 public interface ISupplierService {
@@ -31,5 +32,5 @@ public interface ISupplierService {
      * @return
      */
     public long countAll(String supplierName,String supplierType,String supplierLevel,String supplierTag);
-    public void AJAXSupplier(SupplierVO vo);
+    public void AJAXSupplier(SupplierVO vo, HttpServletRequest request);
 }

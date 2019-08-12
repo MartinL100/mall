@@ -1,6 +1,6 @@
 package com.lovo.csc.dao.supplierDao;
 
-import com.lovo.csc.entity.AuditEntity;
+import com.lovo.csc.entity.supplierEntity.AuditEntity;
 import org.springframework.data.repository.CrudRepository;
 
 public interface IAuditDao extends CrudRepository<AuditEntity,String> {

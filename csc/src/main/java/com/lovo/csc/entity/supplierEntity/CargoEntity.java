@@ -1,5 +1,7 @@
-package com.lovo.csc.entity;
+package com.lovo.csc.entity.supplierEntity;
 
+import com.lovo.csc.entity.SupplierEntity;
+import com.lovo.csc.entity.supplierEntity.SupplyEntity;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;

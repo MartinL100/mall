@@ -1,8 +1,7 @@
 package com.lovo.csc.service.supplierService;
 
-import com.lovo.csc.entity.IndentEntity;
+import com.lovo.csc.entity.supplierEntity.IndentEntity;
 
-import java.util.Date;
 import java.util.List;
 
 public interface IIndentService {

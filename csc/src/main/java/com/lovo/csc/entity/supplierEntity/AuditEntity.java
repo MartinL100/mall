@@ -1,4 +1,4 @@
-package com.lovo.csc.entity;
+package com.lovo.csc.entity.supplierEntity;
 
 import org.hibernate.annotations.GenericGenerator;
 

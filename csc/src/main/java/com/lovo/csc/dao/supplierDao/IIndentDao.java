@@ -1,11 +1,7 @@
 package com.lovo.csc.dao.supplierDao;
 
-import com.lovo.csc.entity.IndentEntity;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.jpa.repository.Query;
+import com.lovo.csc.entity.supplierEntity.IndentEntity;
 import org.springframework.data.repository.CrudRepository;
-
-import java.util.List;
 
 public interface IIndentDao extends CrudRepository<IndentEntity,String> {
     /**

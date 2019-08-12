@@ -1,12 +1,14 @@
 package com.lovo.csc.service.supplierService.impl;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.lovo.csc.dao.supplierDao.ICargoDao;
 import com.lovo.csc.dao.supplierDao.ISupplierDao;
 import com.lovo.csc.dao.supplierDao.ISupplyDao;
-import com.lovo.csc.entity.AuditEntity;
-import com.lovo.csc.entity.CargoEntity;
+import com.lovo.csc.entity.supplierEntity.AuditEntity;
+import com.lovo.csc.entity.supplierEntity.CargoEntity;
 import com.lovo.csc.entity.SupplierEntity;
-import com.lovo.csc.entity.SupplyEntity;
+import com.lovo.csc.entity.supplierEntity.SupplyEntity;
 import com.lovo.csc.service.supplierService.ICargoService;
 import com.lovo.csc.util.promotionutil.DateFormat;
 import com.lovo.csc.vo.suppliervo.SupplyVO;
@@ -23,10 +25,10 @@ import java.util.List;
 public class CargoServiceImpl implements ICargoService {
     @Autowired
     private JmsMessagingTemplate jmsMessagingTemplate;
-    @Autowired
-    private ActiveMQQueue FBMQ;
-    @Autowired
-    private ActiveMQQueue priceMQ;
+//    @Autowired
+//    private ActiveMQQueue FBMQ;
+//    @Autowired
+//    private ActiveMQQueue priceMQ;
     @Autowired
     private ICargoDao cargoDao;
     @Autowired
@@ -69,7 +71,14 @@ public class CargoServiceImpl implements ICargoService {
                     str);
             list.add(vo);
         }
-        jmsMessagingTemplate.convertAndSend(FBMQ,list);
+        ActiveMQQueue queue=new ActiveMQQueue("FBMQ");
+        ObjectMapper mapper=new ObjectMapper();
+        try {
+            String v=mapper.writeValueAsString(list);
+            jmsMessagingTemplate.convertAndSend(queue,v);
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
+        }
     }
     public void AJAXCargo(String cargoId,int supplyNum, HttpServletRequest request){
         CargoEntity cargo=cargoDao.findByCargoId(cargoId);
@@ -80,6 +89,13 @@ public class CargoServiceImpl implements ICargoService {
         cargo.setPurchasePeople(audit.getAuditPeople());
         cargoDao.save(cargo);
         TenderVO vo=new TenderVO(cargo.getSupplyId().getIndentId().getIndentId(),cargoId,supplyNum);
-        jmsMessagingTemplate.convertAndSend(FBMQ,vo);
+        ActiveMQQueue queue=new ActiveMQQueue("priceMQ");
+        ObjectMapper mapper=new ObjectMapper();
+        try {
+            String v=mapper.writeValueAsString(vo);
+            jmsMessagingTemplate.convertAndSend(queue,v);
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
+        }
     }
 }

@@ -1,7 +1,9 @@
 package com.lovo.csc.service.supplierService.impl;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.lovo.csc.dao.supplierDao.ISupplierGoodsDao;
-import com.lovo.csc.entity.SupplierGoodsEntity;
+import com.lovo.csc.entity.supplierEntity.SupplierGoodsEntity;
 import com.lovo.csc.service.supplierService.ISupplierGoodsService;
 import com.lovo.csc.vo.suppliervo.SupplierGoodsVO;
 import org.apache.activemq.command.ActiveMQQueue;
@@ -15,8 +17,8 @@ import java.util.List;
 public class SupplierGoodsServiceImpl implements ISupplierGoodsService {
     @Autowired
     private JmsMessagingTemplate jmsMessagingTemplate;
-    @Autowired
-    private ActiveMQQueue returnSupplierGoodsAudit;
+//    @Autowired
+//    private ActiveMQQueue returnSupplierGoodsAudit;
     @Autowired
     private ISupplierGoodsDao supplierGoodsDao;
     @Override
@@ -48,7 +50,14 @@ public class SupplierGoodsServiceImpl implements ISupplierGoodsService {
             supplierGoodsDao.save(s);
             list.add(new SupplierGoodsVO(str,supplierStatusArray));
         }
-        jmsMessagingTemplate.convertAndSend(returnSupplierGoodsAudit,list);
+        ActiveMQQueue queue=new ActiveMQQueue("returnSupplierGoodsAudit");
+        ObjectMapper mapper=new ObjectMapper();
+        try {
+            String v=mapper.writeValueAsString(list);
+            jmsMessagingTemplate.convertAndSend(queue,v);
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
