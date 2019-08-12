@@ -12,6 +12,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -72,11 +75,15 @@ public class OrderManagementController {
     }
     @RequestMapping("receiveOrder")
     @ResponseBody
-    public void receiveOrder(@RequestBody OrderDTO orderDTO){
-        orderManagementService.receiveOrder2(orderManagementService.receiveOrder(orderDTO));
-        try{
+    public String receiveOrder(@RequestBody String orderDTO3) throws Exception {
+
+         String  orderDTO=  URLDecoder.decode(orderDTO3,"utf-8");
+        ObjectMapper om = new ObjectMapper();
+        OrderDTO orderDTO1 = null;
+        orderDTO1 = om.readValue(orderDTO, OrderDTO.class);
+        orderManagementService.receiveOrder2(orderManagementService.receiveOrder(orderDTO1));
             MqUtil.orderQueue.put("true");
-        }catch (Exception e){e.printStackTrace();}
+        return "true";
     }
 
     @RequestMapping("updateOrderType/{orderNum}")

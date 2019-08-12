@@ -15,8 +15,7 @@ public interface IGoodsStockCurdDao extends CrudRepository<GoodsStockEntity,Stri
     public void updateGoodsNum(long goodsNum, String goodsId);
 
 
-@Query("select g.goodsNum from GoodsStockEntity g where g.goodsId=?1")
-     public long findGoodsNumId(String Id);
+
 
     @Query("update GoodsStockEntity g set g.goodsMinNum=?1 where g.goodsId=?2")
     @Modifying

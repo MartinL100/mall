@@ -14,13 +14,15 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
-
+import org.springframework.web.client.RestTemplate;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
 @Controller
 public class GoodsStockController {
+    @Autowired
+    private RestTemplate restTemplate;
     @Autowired
     private JmsMessagingTemplate jmsMessagingTemplate;
     @Autowired
@@ -214,6 +216,13 @@ return "yes";
             Map<String,Object> map = new HashMap<>();
          List<ReturnGoodsDto> list=  returnGoodsService.findOrderGoods(goodsName,goodsType,startDate,endDate,page,rows);
        Long ro=returnGoodsService.findOrderGoodsCount(goodsName,goodsType,startDate,endDate);
+//    for (ReturnGoodsDto rg:list
+//         ) {
+//        //远程调用,查询供应商名称
+//       String supplierName=restTemplate.getForEntity("http://psc/findSupplierNameBySupplierId/"+rg.getSupplierId(),String .class).getBody();
+//       rg.setSupplierName(supplierName);
+//    }
+
     map.put("rows",list);
     map.put("pageTwo",page);
     map.put("total",ro);

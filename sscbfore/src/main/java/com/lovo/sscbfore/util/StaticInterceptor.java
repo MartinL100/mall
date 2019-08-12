@@ -14,6 +14,12 @@ public class StaticInterceptor   implements HandlerInterceptor {
         String url = request.getRequestURI();
         if(url.indexOf("userLogin") != -1){
             return true;
+        }   if(url.indexOf("codeimg") != -1){
+            return true;
+        }  if(url.indexOf("rapidEnrollment") != -1){
+            return true;
+        } if(url.indexOf("find2") != -1){
+            return true;
         }
         if(request.getSession().getAttribute("userEntity") == null){
             response.sendRedirect("/page/user/userLogin.html");

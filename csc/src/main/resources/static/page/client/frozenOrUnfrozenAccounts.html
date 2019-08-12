@@ -14,6 +14,7 @@
     <!--<script type="text/javascript" src="../../easyui/jquery.js"></script>-->
 </head>
 <body>
+<h1 align="center">客户账号冻结与解冻审核</h1>
 <div id="tb" style="padding:3px">
     <div style="margin-bottom:20px">
         <input class="easyui-datebox"  id="startTime" name="startTime" label="开始时间:" prompt="搜索请求审核开始时间" data-options="editable:false,panelWidth:220,panelHeight:240,iconWidth:30" style="width:45%">
@@ -26,15 +27,14 @@
                 <option value="冻结" >                       冻结</option>
                 <option value="解冻">                        解冻</option>
             </select>
-            <select name="auditStateSelected" id="auditStateSelected" label="状态:" class="easyui-combobox" name="state" style="width:45%" panelHeight="100">
-                <option value="" >                       不限</option>
-                <option value="已处理" >                       已处理</option>
-                <option value="未审核">                        未审核</option>
-            </select>
         </div>
-
     </div>
-    <div style="margin-bottom:20px" align="center">
+    <div style="margin-bottom:20px">
+        <select name="auditStateSelected" id="auditStateSelected" label="状态:" class="easyui-combobox" name="state" style="width:45%" panelHeight="100">
+            <option value="" >                       不限</option>
+            <option value="已处理" >                       已处理</option>
+            <option value="未审核">                        未审核</option>
+        </select>
     <input id="auditTypeTag" name="auditTypeTag" type="hidden">
     <a href="javascript:void(0)" class="easyui-linkbutton"  onclick="doSearch()" style="right :0px;width:90px;">搜索</a>
     </div>

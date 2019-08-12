@@ -2,6 +2,8 @@ package com.lovo.sscafter.orderManagement.service.impl;
 
 import com.lovo.common.entity.GoodsDTO;
 import com.lovo.common.entity.OrderDTO;
+import com.lovo.sscafter.goodsStock.service.IGoodsStockService;
+import com.lovo.sscafter.goodsStock.service.IOrderGoodsService;
 import com.lovo.sscafter.orderManagement.dao.IGoodsManagementDao;
 import com.lovo.sscafter.orderManagement.dao.IOrderManagementDao;
 import com.lovo.sscafter.orderManagement.dao.IOrderTrendsDao;
@@ -25,6 +27,9 @@ public class OrderManagementServiceImpl implements IOrderManagementService {
     //远程调用的模板
     @Autowired
     private RestTemplate restTemplate;
+    @Autowired
+    private IOrderGoodsService orderGoodsService;
+
     @Autowired
     IGoodsManagementDao goodsManagementDao;
     @Autowired
@@ -77,8 +82,8 @@ public class OrderManagementServiceImpl implements IOrderManagementService {
             ofge.setGoodsStatus("1");
             ofge.setOrderObj(orderEntity);
             ofge.setStockGoodsId(goodsDTO.getGoodsId());
-            //假设得到了进价为20,设置利润
-            float tempPrice = restTemplate.getForEntity("http://sscafter/findGoodsBidById/"+goodsDTO.getGoodsId(),Float.class).getBody();
+            //假设得到了进价为20,设置利润 restTemplate.getForEntity("http://sscafter/findGoodsBidById/"+goodsDTO.getGoodsId(),Float.class).getBody();
+            float tempPrice = orderGoodsService.findGoodsBidByGoodsId(goodsDTO.getGoodsId());
             float profit = (goodsDTO.getGoodsPrice()-tempPrice)*goodsDTO.getGoodsNum();
             ofge.setOrderProfit(profit);
             tempOrderProfit+=profit;
