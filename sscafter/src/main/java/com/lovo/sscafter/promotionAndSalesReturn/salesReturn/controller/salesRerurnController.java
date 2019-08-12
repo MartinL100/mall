@@ -3,7 +3,7 @@ package com.lovo.sscafter.promotionAndSalesReturn.salesReturn.controller;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.lovo.sscafter.promotionAndSalesReturn.salesReturn.entity.ReturnGoodsEntity;
+import com.lovo.sscafter.promotionAndSalesReturn.salesReturn.entity.ReturnGoodsEntity2;
 import com.lovo.sscafter.promotionAndSalesReturn.salesReturn.entity.ReturnOrderEntity;
 import com.lovo.sscafter.promotionAndSalesReturn.salesReturn.service.IReturnGoodsService;
 import com.lovo.sscafter.promotionAndSalesReturn.salesReturn.service.IReturnOrderService;
@@ -43,6 +43,8 @@ public class salesRerurnController {
     @Autowired
     private JmsMessagingTemplate jmsMessagingTemplate;
 
+
+
     /**
      * 根据退货单单号查询商品
      * @param oderNum 退货单单号
@@ -50,7 +52,7 @@ public class salesRerurnController {
      */
     @RequestMapping("/findGoodsByreturnOderNum/{returnOderNum}")
     public String findGoodsByreturnOderNum(@PathVariable("returnOderNum")String oderNum) throws JsonProcessingException {
-    List<ReturnGoodsEntity> list=goodsService.findByReturnOderId(oderNum);
+    List<ReturnGoodsEntity2> list=goodsService.findByReturnOderId(oderNum);
     ObjectMapper mapper=new ObjectMapper();
     //集合转换未字符串
       String json=  mapper.writeValueAsString(list);
@@ -106,8 +108,8 @@ public class salesRerurnController {
         //将字符转换为集合,然后保存到字符串
         ObjectMapper mapper=new ObjectMapper();
 
-       List<ReturnGoodsEntity> goodsEntities= mapper.readValue(json,List.class);
-        for (ReturnGoodsEntity goods: goodsEntities ) {
+       List<ReturnGoodsEntity2> goodsEntities= mapper.readValue(json,List.class);
+        for (ReturnGoodsEntity2 goods: goodsEntities ) {
             goodsService.sava(goods);
         }
         int nowPage=0;

@@ -8,7 +8,7 @@ import javax.persistence.*;
  */
 @Entity
 @Table(name="sys_returngoods")
-public class ReturnGoodsEntity {
+public class ReturnGoodsEntity2 {
     //商品id
     @Id
     @Column(name = "goodsId")

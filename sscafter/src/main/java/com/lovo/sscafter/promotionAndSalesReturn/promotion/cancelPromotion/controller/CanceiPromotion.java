@@ -12,6 +12,7 @@ import org.apache.activemq.command.ActiveMQQueue;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jms.annotation.JmsListener;
 import org.springframework.jms.core.JmsMessagingTemplate;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -40,6 +41,35 @@ public class CanceiPromotion {
     //调用atvicmq的模板
     @Autowired
     private JmsMessagingTemplate jmsMessagingTemplate;
+
+
+
+    @RequestMapping("returnFindAll/{page}/{rows}/{goodsType}/{goodsName}")
+    @ResponseBody
+    public String returnFindAll(@PathVariable("page")int page, @PathVariable("rows") int rows, @PathVariable String goodsType, @PathVariable String goodsName) throws JsonProcessingException {
+
+        Map<String,Object> map=new HashMap<>();
+        if ("null".equals(goodsType)){
+            goodsType=null;
+        }
+        if ("null".equals(goodsName)){
+            goodsName=null;
+        }
+
+
+        int countPage=(int)service.findCount(goodsName,goodsType);
+        int nowPage=(page-1)*countPage;
+        List<GoodsEntity> list=service.findBygoodsNameAndgoodsState(goodsName,goodsType,nowPage,rows);
+
+        map.put("rows",list);
+        map.put("page",nowPage);
+        map.put("total",countPage);
+
+        //将map转换未json
+        ObjectMapper mapper=new ObjectMapper();
+        String json=  mapper.writeValueAsString(map);
+        return json;
+    }
 
 
 

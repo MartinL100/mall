@@ -15,7 +15,7 @@ private String orderGoodsId;
     private Long goodsNum;
     private float goodsBid;
     private String isReturnGoods;
-    private String supplierName="a公司";
+    private String supplierName;
     private String goodsId;
 
 

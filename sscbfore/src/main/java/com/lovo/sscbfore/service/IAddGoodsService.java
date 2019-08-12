@@ -14,7 +14,7 @@ import java.io.IOException;
 public interface IAddGoodsService {
 
     /**
-     * 商品上架
+     * 添加商品
      * 1、将文件保存到XXX
      * 2、根据Id 查询商品，生成商品对象
      * 3、修改商品价格，地址路径

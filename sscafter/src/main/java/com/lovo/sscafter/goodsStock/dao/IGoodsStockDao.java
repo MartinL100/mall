@@ -19,4 +19,6 @@ public interface IGoodsStockDao {
     public long findAllGoodsStockCountCloud(String goodsName, String goodsType);
 
 
+    public long findGoodsNumId(String Id);
+
 }

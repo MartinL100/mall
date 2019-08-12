@@ -27,6 +27,7 @@ public class GoodsMQController {
         try {
             GoodsEntity goods=   objectMapper.readValue(message, GoodsEntity.class);
             goods.setGoodsState("下架");
+            goods.setGoodsDiscount(100);
             goods.setLowerTime("手动下架");
             goodsService.saveGoods(goods);
         } catch (IOException e) {
@@ -39,12 +40,16 @@ public class GoodsMQController {
       public String dynamicPresell(@PathVariable("goodsType") String goodsType,@PathVariable("goodsName") String goodsName,
                                  @PathVariable("currentPage") int currentPage,@PathVariable("pageNumber") int pageNumber ){
         String result="";
+
         int page=currentPage;
         int rows=pageNumber;
         String goodsState="";
         String goodsBooking="预售";
-        if(null==goodsName){
+        if("null".equals(goodsName)){
             goodsName="";
+        }
+        if("null".equals(goodsType)){
+            goodsType="";
         }
        // System.out.printf(""+goodsState+""+page+"/"+rows);
         Map<String,Object> map=new HashMap<>();

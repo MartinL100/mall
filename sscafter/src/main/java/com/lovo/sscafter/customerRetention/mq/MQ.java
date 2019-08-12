@@ -59,7 +59,7 @@ public class MQ {
         //1的话就是解冻,像前段发送MQ
         if("1".equals(preresult.getUserState())){
             for (String userName:preresult.getUserNameArray()) {
-                restTemplate.getForEntity("http://sscafter/update2/"+userName+"/"+preresult.getUserState(),String.class).getBody();
+                restTemplate.getForEntity("http://sscbefore/update2/"+userName+"/"+preresult.getUserState(),String.class).getBody();
                 //将理由等放入MQ
                 ActiveMQQueue queue=new ActiveMQQueue("frozenOrUnfrozenUpsetMQ");
                 UserUnfrozenUpsetDto userUnfrozenUpsetDto = new UserUnfrozenUpsetDto();
@@ -73,7 +73,7 @@ public class MQ {
             //这里为冻结,
             for (String userName:preresult.getUserNameArray()) {
                 //直接调用接口修改用户状态
-                restTemplate.getForEntity("http://sscafter/update2/"+userName+"/"+preresult.getUserState(),String.class).getBody();
+                restTemplate.getForEntity("http://sscbefore/update2/"+userName+"/"+preresult.getUserState(),String.class).getBody();
             }
         }
             MqUtil.queue.put("true");

@@ -19,45 +19,21 @@
     <div class="layui-layout layui-layout-admin">
         <div class="layui-header">
             <!-- 头部区域 -->
-            <ul class="layui-nav layui-layout-left">
-                <li class="layui-nav-item layui-hide-xs" lay-unselect>
-                    <input type="text" placeholder="搜索..." autocomplete="off" class="layui-input layui-input-search" id="textId">
-                </li>
-                <!--下拉框-->
-                <li class="layui-nav-item layui-hide-xs" lay-unselect>
-                    <select id="opId" class="layui-input layui-input-search"style="width: 200px;height: 45px">
-                        <option value="">请选择一个城市</option>
-                        <option value="010">北京</option>
-                        <option value="021">上海</option>
-                        <option value="0571">杭州</option>
-                    </select>
-                </li>
 
-                <!--查询按键-->
-                <li class="layui-nav-item layui-hide-xs" lay-unselect>
-                    <a onclick="findGoods()" layadmin-event="note"title="查询">
-                        <i class="layui-icon layui-icon-search"></i>
-                    </a>
-                </li>
-            </ul>
 
             <!--购物车和用户按钮-->
             <ul class="layui-nav layui-layout-right" lay-filter="layadmin-layout-right">
                 <li class="layui-nav-item layui-hide-xs" lay-unselect>
-                    <a href="javascript:;" layadmin-event="theme"title="用户">
+                    <a href="../user/userShow.html" title="个人中心">
                         <i class="layui-icon layui-icon-user"></i>
                     </a>
                 </li>
                 <li class="layui-nav-item layui-hide-xs" lay-unselect>
-                    <a href="javascript:;" layadmin-event="note"title="购物车">
+                    <a href="../shopping/ShoppingHTML.html"title="购物车">
                         <i class="layui-icon layui-icon-cart"></i>
                     </a>
                 </li>
-                <li class="layui-nav-item layui-hide-xs" lay-unselect>
-                    <a href="javascript:;" layadmin-event="fullscreen">
-                        <i class="layui-icon layui-icon-screen-full"></i>
-                    </a>
-                </li>
+
             </ul>
         </div>
     </div>

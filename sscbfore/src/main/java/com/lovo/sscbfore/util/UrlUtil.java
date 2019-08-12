@@ -25,6 +25,6 @@ public class UrlUtil {
     /**动态查询预售商品 商品类型、商品名、当前页、每页显示行数*/
     public static final String FIND_GOODS_PRESELL="Http://sscAfter/dynamicPresell/";
     /**{page}当前页/{rows}每页显示行数*/
-    public static final String FIND_GOODS_CUXIAO="http://localhost:8002/promotion/returnFindAll/";
+    public static final String FIND_GOODS_CUXIAO="http://sscAfter/cancei/returnFindAll/";
 
 }

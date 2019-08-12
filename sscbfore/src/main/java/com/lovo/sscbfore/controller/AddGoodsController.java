@@ -40,8 +40,9 @@ public class AddGoodsController {
     private RestTemplate restTemplate;
 
     @RequestMapping("addgoods/jump/{goodsId}")
-    public ModelAndView jumpAddGoodsTwo(@PathVariable("goodsId") String goodsId) {
+    public ModelAndView jumpAddGoodsTwo(@PathVariable("goodsId") String goodsId, HttpServletRequest request) {
         ModelAndView mv = new ModelAndView("/page/show/addGoodsTwo.html");
+        request.getSession().setAttribute("goodsId", goodsId);
         return mv;
     }
 
@@ -60,19 +61,19 @@ public class AddGoodsController {
         final String AllgoodsCountUrl = "http://sscAfter/findAllCount/";
 
         //获取商品信息
-        String url1 = AllgoodsUrl + goodsType + "/" + goodsName + "/" + (page - 1) + "/" + limit;
+        String url1 = AllgoodsUrl + goodsType + "/" + goodsName + "/" + (page) + "/" + limit;
         //获取商品信息总数
-        String url2 = AllgoodsCountUrl + goodsType + "/" + goodsName + "/" + (page - 1) + "/" + limit;
+        String url2 = AllgoodsCountUrl + goodsType + "/" + goodsName + "/";
 
         String goodsListStr = restTemplate.getForEntity(url1, String.class).getBody();
-        String totalRows = restTemplate.getForEntity(url2, String.class).getBody();
+        Long totalRows = restTemplate.getForEntity(url2, Long.class).getBody();
 
         JSONArray goodsListJsonArray = JSONUtil.parseArray(goodsListStr);
 
         TableDateEntity tableDateEntity = new TableDateEntity();
         tableDateEntity.setCode(0);
         tableDateEntity.setMsg("");
-        tableDateEntity.setCount(Integer.parseInt(totalRows));
+        tableDateEntity.setCount(Integer.parseInt(totalRows + ""));
         tableDateEntity.setData(goodsListJsonArray);
 
         return JSONUtil.toJsonStr(tableDateEntity);
@@ -93,7 +94,9 @@ public class AddGoodsController {
 
     @RequestMapping(value = "addGoods/findgoods/{goodsId}")
     @ResponseBody
-    public String findGoodsBiGoodsId(@PathVariable("goodsId") String goodsId) {
+    public String findGoodsBiGoodsId(@PathVariable("goodsId") String goodsId, HttpServletRequest request) {
+
+        goodsId = (String) request.getSession().getAttribute("goodsId");
 
         final String findGoodsUrl = "http://sscAfter/findGoodsByGoodsId/";
         GoodsEntity goodsEntity = restTemplate.getForEntity(findGoodsUrl + goodsId, GoodsEntity.class).getBody();

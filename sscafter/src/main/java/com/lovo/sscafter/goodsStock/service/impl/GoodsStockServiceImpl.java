@@ -44,7 +44,7 @@ public class GoodsStockServiceImpl implements IGoodsStockService {
     @Override
     public long findGoodsNumId(String Id) {
 
-        return goodsStockCurdDao.findGoodsNumId(Id);
+        return goodsStockDao.findGoodsNumId(Id);
     }
 
     @Override
