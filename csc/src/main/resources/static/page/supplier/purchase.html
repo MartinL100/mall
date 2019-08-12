@@ -143,11 +143,11 @@
                rownumbers="false" pagination="true"  singleSelect="true">
             <thead>
             <tr>
-                <th field="supplierId" width="34%" hidden="hidden">ID</th>
-                <th field="supplierName" width="26%">供应商名称</th>
-                <th field="supplierLevel"width="26%">供应商等级</th>
-                <th field="supplierType" width="26%">供应类型</th>
-                <th field="goodsNorms"width="26%">报价</th>
+                <th field="cargoId" width="0%" >ID</th>
+                <th field="supplierId.supplierName" width="26%">供应商名称</th>
+                <th field="supplierId.supplierLevel"width="26%">供应商等级</th>
+                <th field="supplierId.supplierType" width="26%">供应类型</th>
+                <th field="supplyPrice"width="26%">报价</th>
             </tr>
             </thead>
         </table>
@@ -211,35 +211,48 @@
         var status=$('#indentStatus1').val();
         if('已完成'==status){
             $("#buyer3").hide();
+            $('#dlg3').dialog('open').dialog('center').dialog('setTitle','采购');
+            $('#fm3').form('load',row);
+            url = '/findCargo.lovo?supplyId='+row.supplyId;
+            $('#tt3').datagrid('load',{
+                supplyId: row.supplyId,
+                page:1,
+            });
         }else if('已采购'==row.indentStatus){
             $.messager.confirm('提示！','已采购，你确定要重新采购吗?',function(r) {
                 if (r) {
                     $("#buyer3").show();
+                    $('#dlg3').dialog('open').dialog('center').dialog('setTitle','采购');
+                    $('#fm3').form('load',row);
+                    url = '/findCargo.lovo?supplyId='+row.supplyId;
+                    $('#tt3').datagrid('load',{
+                        supplyId: row.supplyId,
+                        page:1,
+                    });
                 }else{
                     return;
                 }
             });
-        }else if('待采购'==row.indentStatus){
+        }else if('未采购'==row.indentStatus){
             $("#buyer3").show();
-
+            $('#dlg3').dialog('open').dialog('center').dialog('setTitle','采购');
+            $('#fm3').form('load',row);
+            url = '/findCargo.lovo?supplyId='+row.supplyId;
+            $('#tt3').datagrid('load',{
+                supplyId: row.supplyId,
+                page:1,
+            });
         }else{
             $.messager.alert('温馨提示','未投标或供应商未报价!')
             return;
         }
-        $('#dlg3').dialog('open').dialog('center').dialog('setTitle','采购');
-        $('#fm3').form('load',row);
-        url = '/findCargo.lovo?supplyId='+row.supplyId;
-        $('#tt3').datagrid('load',{
-            supplyId: row.supplyId,
-            page:1,
-        });
     }
     function tender() {
         var row = $('#tt1').datagrid('getSelected');
         var status=$('#indentStatus1').val();
         if('已完成'==status){
             $("#tender2").hide();
-        }else if('待投标'!=row.indentStatus){
+        }else if('未投标'!=row.indentStatus){
             $.messager.confirm('提示！','已投标，你确定要重新投标吗?',function(r) {
                 if (r) {
                     $("#tender2").show();
@@ -293,12 +306,12 @@
     }
     //初始化加载
     $(document).ready(function () {
-        $.post("/getBuyMQ.lovo",function () {
-        })
-        $.post("/getOrderMQ.lovo",function () {
-        })
-        post1();
-        post2();
+        // $.post("/getBuyMQ.lovo",function () {
+        // })
+        // $.post("/getOrderMQ.lovo",function () {
+        // })
+        // post1();
+        // post2();
         doSearch();
     });
     function post2() {

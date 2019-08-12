@@ -1,6 +1,6 @@
 package com.lovo.csc.util;
 
-import com.lovo.csc.entity.AuditEntity;
+import com.lovo.csc.entity.supplierEntity.AuditEntity;
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;

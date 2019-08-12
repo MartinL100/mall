@@ -1,12 +1,9 @@
 package com.lovo.csc.dao.supplierDao;
 
-import com.lovo.csc.entity.IndentEntity;
+import com.lovo.csc.entity.supplierEntity.IndentEntity;
 import com.lovo.csc.entity.SupplierEntity;
-import com.lovo.csc.entity.SupplyEntity;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.jpa.repository.Query;
+import com.lovo.csc.entity.supplierEntity.SupplyEntity;
 
-import java.util.Date;
 import java.util.List;
 
 public interface IBaseDao {

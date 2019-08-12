@@ -54,7 +54,7 @@ public class OrderController {
     @JmsListener(destination = "returnAuditMQ ")
 //    @RequestMapping("savaOrderGoodsMessage.lovo")
     public String savaGoods(String message) {
-        OrderGoodsEntity order = restTemplate.getForEntity("http:8002/findGoodsByreturnOderNum/'" + message + "'", OrderGoodsEntity.class).getBody();
+        OrderGoodsEntity order = restTemplate.getForEntity("http://sscafter/findGoodsByreturnOderNum/'" + message + "'", OrderGoodsEntity.class).getBody();
         orderGoodsService.savaOrderGoods(order);
 
 

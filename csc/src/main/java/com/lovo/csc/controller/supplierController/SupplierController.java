@@ -1,15 +1,13 @@
 package com.lovo.csc.controller.supplierController;
 
 import com.lovo.csc.entity.SupplierEntity;
-import com.lovo.csc.entity.SupplierGoodsEntity;
+import com.lovo.csc.entity.supplierEntity.SupplierGoodsEntity;
 import com.lovo.csc.service.supplierService.ISupplierGoodsService;
 import com.lovo.csc.service.supplierService.ISupplierService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import javax.persistence.Column;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;

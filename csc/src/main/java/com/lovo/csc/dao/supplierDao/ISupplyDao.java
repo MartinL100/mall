@@ -1,7 +1,6 @@
 package com.lovo.csc.dao.supplierDao;
 
-import com.lovo.csc.entity.SupplyEntity;
-import org.springframework.data.domain.Pageable;
+import com.lovo.csc.entity.supplierEntity.SupplyEntity;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 

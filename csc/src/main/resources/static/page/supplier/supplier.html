@@ -32,7 +32,7 @@
         <div style="margin-bottom:10px">
             <select name="supplierTag" id="supplierTag" labelWidth="120" label="供应商状态:" class="easyui-combobox" name="state" style="width:45%" panelHeight="100">
                 <option value="供应商未审核">供应商未审核</option>
-                <option value="供应商供应商品未审核">供应商供应商品未审核</option>
+                <option value="供应商品未审核">供应商品未审核</option>
                 <option value="不限">不限</option>
                 <option value="已审核">已审核</option>
             </select>
@@ -52,7 +52,7 @@
         <th field="supplierLevel" width="17%">供应商等级</th>
         <th field="supplierTag"width="17%">审核情况</th>
         <th field="supplierPrincipal" width="0%" hidden="hidden"></th>
-        <th field="principalTel" width="0%" hidden="hidden"></th>
+        <th field="principalTel" width="0%"></th>
         <th field="supplierAddress" width="0%" hidden="hidden"></th>
         <th field="checkId.auditName"width="17%">审核人</th>
         <th field="checkDate"width="17%">审核时间</th>
@@ -87,7 +87,7 @@
         </div>
             <div style="margin-bottom:10px">
                 <select name="supplierLevel" id="supplierLeve2" labelWidth="120" label="供应商等级:" class="easyui-combobox" name="state" style="width:100%" panelHeight="100">
-                    <option value="">请选择供应商等级</option>
+                    <option value="请选择供应商等级">请选择供应商等级</option>
                     <option value="大型">大型</option>
                     <option value="中型">中型</option>
                     <option value="小型">小型</option>
@@ -135,8 +135,8 @@
             </thead>
         </table>
         <div id="buttons3" align="center" style="margin-bottom:40px;margin-top: 40px;position: relative;right: -300px" >
-            <a href="javascript:void(0)" id="audit3"  class="easyui-linkbutton" onclick="update('商品供应')" style="left :-255px;width:150px"> 商品供应 </a>
-            <a href="javascript:void(0)" id="audit4"  class="easyui-linkbutton" onclick="update2('取消供应')" style="left :-255px;width:150px"> 取消供应 </a>
+            <a href="javascript:void(0)" id="audit3"  class="easyui-linkbutton" onclick="update()" style="left :-255px;width:150px"> 商品供应 </a>
+            <a href="javascript:void(0)" id="audit4"  class="easyui-linkbutton" onclick="update2()" style="left :-255px;width:150px"> 取消供应 </a>
             <a href="javascript:void(0)" class="easyui-linkbutton" onclick="back()" style="left :-255px;width:150px"> 取消 </a>
         </div>
     </form>
@@ -158,7 +158,13 @@
     </form>
 </div>
 <script>
-    function update(obj) {
+    function update() {
+        updateGoods("商品供应")
+    }
+    function update2() {
+        updateGoods("取消供应")
+    }
+    function updateGoods(obj) {
         var row = $('#tt3').datagrid('getSelections');
         if(row) {
             var codeArray="";
@@ -185,7 +191,7 @@
     }
     function audit2() {
         var supplierTag=$("#supplierTag2").val();
-        if(null==supplierTag||supplierTag==""){
+        if(null==supplierTag||supplierTag==""||supplierTag=="请选择供应商等级"){
             $.messager.alert('温馨提示','请输入问题反馈!')
             return;
         }
@@ -274,12 +280,12 @@
     }
     //初始化加载
     $(document).ready(function () {
-        $.post("/getZCMQ.lovo",function () {
-    })
-    $.post("/getSupplierGoodsAudit.lovo",function () {
-    })
-    post1();
-    post2();
+    //     $.post("/getZCMQ.lovo",function () {
+    // })
+    // $.post("/getSupplierGoodsAudit.lovo",function () {
+    // })
+    // post1();
+    // post2();
     doSearch();
     });
     function post2() {
