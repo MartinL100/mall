@@ -23,8 +23,8 @@ public class OrderDelController {
     @Autowired
     ObjectMapper objectMapper;
     @RequestMapping("orderDel")
-    public String orderDel(){
-
+    public String orderDel(String orderDate,String orderType){
+        System.out.printf(orderDate+""+orderType);
         List<OrderManagementDTO> orderManagementDTOlist=new ArrayList<>();
         OrderManagementDTO orderDto=new OrderManagementDTO();
         orderDto.setOrderNum("J16820190801");
