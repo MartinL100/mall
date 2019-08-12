@@ -23,8 +23,8 @@ public class OrderDelController {
     @Autowired
     ObjectMapper objectMapper;
     @RequestMapping("orderDel")
-    public String orderDel(){
-
+    public String orderDel(String orderDate,String orderType){
+        System.out.printf(orderDate+""+orderType);
         List<OrderManagementDTO> orderManagementDTOlist=new ArrayList<>();
         OrderManagementDTO orderDto=new OrderManagementDTO();
         orderDto.setOrderNum("J16820190801");
@@ -49,6 +49,7 @@ public class OrderDelController {
         orderDto2.setOrderDate("2018-06-01");
         orderDto2.setPayMethod("银联支付");
         orderDto2.setOrderMoney(40000);
+
 
         OrderManagementDTO orderDto3=new OrderManagementDTO();
         orderDto3.setOrderNum("J16820190401");

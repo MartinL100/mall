@@ -10,7 +10,7 @@
                     </a>
                 </li>
                 <li class="layui-nav-item layui-hide-xs" lay-unselect>
-                    <a href="javascript:;" layadmin-event="note"title="购物车">
+                    <a href="../shopping/ShoppingHTML.html" layadmin-event="note"title="购物车">
                         <i class="layui-icon layui-icon-cart"></i>
                     </a>
                 </li>
