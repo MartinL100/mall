@@ -32,13 +32,21 @@ public class OrderController {
    }
 //根据下单日期,订单类型,用户名模糊查询
     @RequestMapping("orderDellist")
-    public List<OrderManagementDTO> orderFindByDateAndTypeAndName(HttpServletRequest request, String orderDate, String orderType, int pageTwo , int limit)throws JsonProcessingException {
+    public String orderFindByDateAndTypeAndName(HttpServletRequest request, String orderDate, String orderType, int pageTwo , int limit)throws JsonProcessingException {
        //从session中获取登录的用户名
         String userName =((UserEntity)request.getSession().getAttribute("userEntity")).getUserName() ;
 
         //远程调用接口
         List<OrderManagementDTO> order= restTemplate.getForEntity("http://sscAfter/findOrderInfo/"+orderDate+"/"+orderType+"/"+pageTwo+"/"+limit+"/"+userName+"/",List.class).getBody();
-        return order;
+        String orderInfo="";
+        try {
+            orderInfo = objectMapper.writeValueAsString(order);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        orderInfo= "{\"code\":0,\"msg\":\"\",\"count\":1000,\"data\":"+orderInfo+"}";
+
+        return orderInfo;
 
     }
     //根据下单日期,订单类型,用户名 查询总行数
@@ -50,10 +58,19 @@ public class OrderController {
     }
 //根据订单号查询商品的集合 进行分页
     @RequestMapping("orderNumlist")
-    public List<OrderForGoodsDTO> orderFindByOrderNum(String orderNum,int pageTwo ,int limit){
+    public String orderFindByOrderNum(String orderNum,int pageTwo ,int limit){
 
-      List<OrderForGoodsDTO> goosDto=  restTemplate.getForEntity("http://sscAfter/findGoodsRows/"+orderNum+"/"+pageTwo+"/"+limit+"/",List.class).getBody();
-        return goosDto;
+      List<OrderForGoodsDTO> goodsDto=  restTemplate.getForEntity("http://sscAfter/findGoodsRows/"+orderNum+"/"+pageTwo+"/"+limit+"/",List.class).getBody();
+        String goodsInfo="";
+        try {
+            goodsInfo = objectMapper.writeValueAsString(goodsDto);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        goodsInfo= "{\"code\":0,\"msg\":\"\",\"count\":1000,\"data\":"+goodsInfo+"}";
+
+        return goodsInfo;
+
     }
 //根据订单号 查询商品的总行数
     @RequestMapping("orderNum")
