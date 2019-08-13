@@ -56,7 +56,7 @@
     <div class="layui-input-block">
         <div class="layui-footer" style="left: 0;">
             <a href="siteAdd.html"><button class="layui-btn" onclick="tianjia()">添加地址</button></a>
-            <button class="layui-btn">返回商城</button>
+            <button class="layui-btn" id="rbt">返回商城</button>
         </div>
     </div>
 
@@ -219,6 +219,9 @@
         });
     })
 
+    $("#rbt").click(function () {
+        location.href="../show/cuxiaoShow.html";
+    })
 
 
 </script>

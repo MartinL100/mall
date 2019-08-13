@@ -143,11 +143,12 @@
                rownumbers="false" pagination="true"  singleSelect="true">
             <thead>
             <tr>
-                <th field="cargoId" width="0%" >ID</th>
-                <th field="supplierId.supplierName" width="26%">供应商名称</th>
-                <th field="supplierId.supplierLevel"width="26%">供应商等级</th>
-                <th field="supplierId.supplierType" width="26%">供应类型</th>
-                <th field="supplyPrice"width="26%">报价</th>
+                <th field="cargoId" width="0%" hidden="hidden">ID</th>
+                <th field="supplierId.supplierName" width="20%">供应商名称</th>
+                <th field="supplierId.supplierLevel" width="20%">供应商等级</th>
+                <th field="supplierId.supplierType" width="20%">供应商类型</th>
+                <th field="cargoStatus" width="20%">状态</th>
+                <th field="supplyPrice"width="20%">报价</th>
             </tr>
             </thead>
         </table>
@@ -171,14 +172,15 @@
                 'supplyId':supplyId
             }, function (resultHtml) {
                 var JSonobj = eval("(" + resultHtml + ")")
-                if (JSonobj.errorMsg) {
-                    $.messager.show({
-                        title: 'Error',
-                        msg: result.errorMsg
-                    });
-                } else {
+                // if (JSonobj.errorMsg) {
+                //     $.messager.show({
+                //         title: 'Error',
+                //         msg: result.errorMsg
+                //     });
+                // } else {
                     $('#dlg3').dialog('close');
-                }
+                    doSearch();
+                // }
             });
         }
     }
@@ -186,20 +188,24 @@
         var row = $('#tt3').datagrid('getSelected');
         if(row) {
             var supplyNum=$("#supplyNum").val()
+            if("未采购"!=row.cargoStatus){
+                $.messager.alert('温馨提示','供应商未报价或已采购!')
+            }
             if(""!=supplyNum&&supplyNum>=1) {
                 $.post('/AJAXCargo', {
                     'cargoId': row.cargoId,
                     'supplyNum':supplyNum
                 }, function (resultHtml) {
-                    var JSonobj = eval("(" + resultHtml + ")")
-                    if (JSonobj.errorMsg) {
-                        $.messager.show({
-                            title: 'Error',
-                            msg: result.errorMsg
-                        });
-                    } else {
+                    // var JSonobj = eval("(" + resultHtml + ")")
+                    // if (JSonobj.errorMsg) {
+                    //     $.messager.show({
+                    //         title: 'Error',
+                    //         msg: result.errorMsg
+                    //     });
+                    // } else {
                         $('#dlg3').dialog('close');
-                    }
+                    doSearch();
+                    // }
                 });
             }else{
                 $.messager.alert('温馨提示','采购数量需大于1!')

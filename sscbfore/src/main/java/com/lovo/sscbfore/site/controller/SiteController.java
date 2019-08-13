@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.client.RestTemplate;
 
 import javax.servlet.http.HttpServletRequest;
+import java.io.IOException;
 import java.util.List;
 @Controller
 //@RequestMapping("site")
@@ -43,9 +44,8 @@ public class SiteController {
     @RequestMapping("/index/get/username")
     @ResponseBody
     public String getUserInfo(HttpServletRequest request) throws JsonProcessingException {
-        Object user = request.getSession().getAttribute("user");
-        String username="1";
-        List<SiteEntity> siteEntityList = isiteService.findAllByUserSite(username);
+        String userName=((UserEntity)request.getSession().getAttribute("userEntity")).getUserName();
+        List<SiteEntity> siteEntityList = isiteService.findAllByUserSite(userName);
         siteEntityList.forEach(System.out::println);
 //       String str=new ObjectMapper().writeValueAsString(siteEntityList);
 //       System.out.println(str);
@@ -74,10 +74,12 @@ public class SiteController {
       //TODO 修改地址信息
     @RequestMapping("/update")
     @ResponseBody
-    public String updateSite(@RequestBody SiteEntity siteEntity){
+    public String updateSite(@RequestBody SiteEntity siteEntity,HttpServletRequest request){
         UserEntity userEntity=new UserEntity();
-        userEntity.setUserName("1");
-        userEntity.setUserId("1");
+        String userName=((UserEntity)request.getSession().getAttribute("userEntity")).getUserName();
+        String userId=((UserEntity)request.getSession().getAttribute("userEntity")).getUserName();
+        userEntity.setUserName(userName);
+        userEntity.setUserId(userId);
         siteEntity.setUserSite(userEntity);
         int result = isiteService.updateSite(siteEntity);
         return "OK";
@@ -88,26 +90,26 @@ public class SiteController {
     @RequestMapping("/update/execute")
     public String updateExecuteSite(String wid){
      isiteService.updateSiteDefaultById(wid);
-        return "/static/page/address/siteIndex.html";
+        return "";
     }
            //TODO 删除地址
     @RequestMapping("/delete/sid")
     public String deleteSite( String sid){
-
        isiteService.deleteSite(sid);
-
-        return "/static/page/address/siteIndex.html";
-
+        return "";
     }
     //TODO 保存
     @RequestMapping("/save")
-    public String saveSite(SiteEntity siteEntity){
+    @ResponseBody
+    public String saveSite(String jsonStr,HttpServletRequest request) throws IOException {
+        SiteEntity siteEntity = new ObjectMapper().readValue(jsonStr,SiteEntity.class);
         UserEntity userEntity=new UserEntity();
-        userEntity.setUserName("1");
+        String userName=((UserEntity)request.getSession().getAttribute("userEntity")).getUserName();
+        userEntity.setUserName(userName);
         siteEntity.setUserSite(userEntity);
         isiteService.saveSite(siteEntity);
 
-        return "/static/page/address/siteIndex.html";
+        return "yes";
     }
 
 

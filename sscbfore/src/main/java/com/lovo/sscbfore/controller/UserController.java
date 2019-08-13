@@ -77,6 +77,7 @@ public class UserController {
         //创建输出流
         ServletOutputStream out = null;
 
+
         try {
             map = verityCode.GraphicCode(130, 30, 4);
             out = response.getOutputStream();
@@ -178,13 +179,14 @@ public class UserController {
 
     @JmsListener(destination = "accountsRegistrationAuditResultMQ")
     public void userInfo(String message) {
-        System.out.printf(message);
         if(message!=null || !"".equals(message)){
             ObjectMapper obj=new ObjectMapper();
             try {
                 RegisterResultVo vo= obj.readValue(message,RegisterResultVo.class);
-              UserEntity user=  serService.findUserByName(vo.getUserName());
-              user.setUserGrade(vo.getUserGrade());
+                UserEntity user=  serService.findUserByName(vo.getUserName());
+                if(null==vo.getUserGrade() || "".equals(vo.getUserGrade())){
+                    user.setUserGrade("普通会员");
+                }
               user.setUserState(vo.getUserState());
               serService.rapidEnrollment(user);
                UserInfoEntity info=new UserInfoEntity();

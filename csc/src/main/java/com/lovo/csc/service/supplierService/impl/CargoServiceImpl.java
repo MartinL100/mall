@@ -64,6 +64,7 @@ public class CargoServiceImpl implements ICargoService {
             cargo1.setTenderDate(new DateFormat().getNow());
             AuditEntity audit=(AuditEntity) request.getSession().getAttribute("auditObj");
             cargo1.setTenderPeople(audit.getAuditPeople());
+            cargo1.setCargoStatus("未报价");
             CargoEntity cargo=cargoDao.save(cargo1);
             SupplyVO vo=new SupplyVO(cargo.getSupplyId().getIndentId().getIndentId(),cargo.getSupplyId().getIndentId().getIndentDate(),
                     cargo.getCargoId(),cargo.getSupplyId().getGoodsName(),cargo.getSupplyId().getGoodsNorms(),
@@ -87,6 +88,7 @@ public class CargoServiceImpl implements ICargoService {
         cargo.setPurchaseDate(new DateFormat().getNow());
         AuditEntity audit=(AuditEntity) request.getSession().getAttribute("auditObj");
         cargo.setPurchasePeople(audit.getAuditPeople());
+        cargo.setCargoStatus("已采购");
         cargoDao.save(cargo);
         TenderVO vo=new TenderVO(cargo.getSupplyId().getIndentId().getIndentId(),cargoId,supplyNum);
         ActiveMQQueue queue=new ActiveMQQueue("priceMQ");

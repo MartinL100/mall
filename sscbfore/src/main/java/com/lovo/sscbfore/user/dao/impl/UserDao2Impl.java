@@ -21,13 +21,11 @@ public class UserDao2Impl implements IUserDao2 {
     }
     @Override
     public List<UserEntity> userList(String userName,String userState,int currentPage,int rows) {
-        String hql="from UserEntity where 1=1 ";
+        String hql="from UserEntity where userState=1 ";
         if(!userName.equals("no")){
             hql+=" and userName like :userName";
         }
-        if(userState.equals("1")){
-            hql+=" and userState=1 ";
-        }else if(userState.equals("2")){
+       if(userState.equals("2")){
             hql+=" and userState=3 ";
         }
         Query query=getEntityManager().createQuery(hql);
@@ -42,15 +40,14 @@ public class UserDao2Impl implements IUserDao2 {
 
     @Override
     public int userRows(String userName, String userState) {
-        String hql="from UserEntity where 1=1 ";
+        String hql="from UserEntity where userState=1 ";
         if(!userName.equals("no")){
             hql+=" and userName like :userName ";
         }
-        if(userState.equals("1")){
-            hql+=" and userState=1 ";
-        }else if(userState.equals("2")){
+        if(userState.equals("2")){
             hql+=" and userState=3 ";
         }
+
         Query query=getEntityManager().createQuery(hql);
         if(!userName.equals("no")){
             query.setParameter("userName","%"+userName+"%");
