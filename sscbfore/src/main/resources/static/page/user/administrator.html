@@ -35,7 +35,6 @@
 <script>
     $(document).ready(function () {
         $.post("../../../showUser",function (re) {
-            alert(re);
             $("#sid").text(re.userName);
             $("#sid1").text(re.trueName);
             $("#sid2").text(re.sex);
