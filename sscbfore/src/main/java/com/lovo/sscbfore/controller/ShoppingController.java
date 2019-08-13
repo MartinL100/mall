@@ -96,7 +96,7 @@ public class ShoppingController {
         //重新把修改过的对象加入到MAP中
         map2.get(userName).put(goodssDTO.getGoodsName(),goodssDTO);
     }
-
+//
     //删除其中一个对象
     @RequestMapping("delMap")
     public void delMap(String goodsName, HttpServletRequest request){
