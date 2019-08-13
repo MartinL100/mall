@@ -23,7 +23,7 @@
     <div style="margin-bottom:20px">
         <div style="margin-bottom:10px">
             <select name="orderState" id="orderState" label="订单状态:" class="easyui-combobox" name="state" style="width:45%" panelHeight="100" labelWidth="100px">
-                <option value="" >                       请选择状态</option>
+                <!--<option value="" >                       请选择状态</option>-->
                 <option value="未审核" >                       未审核</option>
                 <option value="审核通过">                      审核通过</option>
                 <option value="审核未通过">                    审核未通过</option>
@@ -58,7 +58,7 @@
 <a href="javascript:void(0)"  class="easyui-linkbutton" onclick="openMyWind()" style="left :-255px;width:90px"> 审 核 </a>
 </div>
 <!-- 模态框 -->
-<div id="dlg" class="easyui-dialog" style="width:800px;height: 600px" data-options="closed:true,modal:true,border:'thin',buttons:'#dlg-buttons'">
+<div id="dlg1" class="easyui-dialog" style="width:800px;height: 600px" data-options="closed:true,modal:true,border:'thin',buttons:'#dlg-buttons'">
     <form id="fm" method="post" novalidate style="margin:0;padding:20px 50px">
        <input type="hidden" name="auditType" id="auditType">
        <input type="hidden" name="userAuditInformationId" id="userAuditInformationId">
@@ -139,7 +139,7 @@
             <a href="javascript:void(0)" class="easyui-linkbutton c6" iconCls="icon-ok" onclick="auditPass()" style="left :-255px;width:90px">审核通过</a>
             <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-cancel" onclick="auditFail()" style="left :-255px;width:90px">拒绝通过</a>
            <!-- <a href="javascript:void(0)" class="easyui-linkbutton"  onclick="ChangeTx()" style="left :-255px;width:90px">change</a>  -->
-            <a href="javascript:void(0)" class="easyui-linkbutton"  onclick="javascript:$('#dlg').dialog('close')" style="left :-255px;width:90px">取消操作</a>
+            <a href="javascript:void(0)" class="easyui-linkbutton"  onclick="javascript:$('#dlg1').dialog('close')" style="left :-255px;width:90px">取消操作</a>
         </div>
 
     </form>
@@ -170,35 +170,20 @@
         // PostToControllerFindUserMessageByUserName(row);
         if (row){
 
-            $('#dlg').dialog('open').dialog('center').dialog('setTitle', '供货商退货详情');
+            $('#dlg1').dialog('open').dialog('center').dialog('setTitle', '供货商退货详情');
             $('#fm').form('load',row);
            // url="/findByScopeOrder.lovo?orderId="+row.orderId;
        }
         $('#tt1').datagrid('load',{
             orderId: row.orderId,
-            page:1,
         });
-    // else {
-    //         $.messager.alert('错误!','请先选中你要审核的数据!','error');
-    //     }
     }
 
 
 
-    var initNum=1;
     //初始化加载
     $(document).ready(function () {
         doSearch();
-        // getWebSocketMessage();
-        // if (initNum==1) {
-        //     return;
-        // }
-        // $.post("/savaOrderGoodsMessage.lovo",function (r) {
-        //     if (r!=null){
-        //         initNum= initNum+1;
-        //     }
-        //
-        // })
     });
 
 
@@ -206,10 +191,9 @@
     function doSearch(){
         // $('#tt').attr("url","../../findUserAuditMessagePage.lovo")
         $('#tt').datagrid('load',{
-            orderState: $('#orderState').val(),
-            orderId:$("#orderId1").val(),
-            supplierName:$("#supplierNameId").val(),
-            page:1,
+            orderState: '未审核',
+            orderId:'',
+            supplierName:''
         });
        //alert(  $('#tt').attr("url"))
     }
@@ -237,7 +221,7 @@
                         msg: result.errorMsg
                     });
                 } else {
-                    $('#dlg').dialog('close');		// close the dialog
+                    $('#dlg1').dialog('close');		// close the dialog
                     $('#tt').datagrid('reload');	// reload the user data
                 }
             }
@@ -276,7 +260,7 @@
                                 msg: result.errorMsg
                             });
                         } else {
-                            $('#dlg').dialog('close');		// close the dialog
+                            $('#dlg1').dialog('close');		// close the dialog
                             $('#tt').datagrid('reload');	// reload the user data
                         }
                     }

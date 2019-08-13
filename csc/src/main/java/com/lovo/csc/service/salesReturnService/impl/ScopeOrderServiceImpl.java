@@ -57,12 +57,19 @@ public class ScopeOrderServiceImpl implements IScopeOrderService {
     public String updateScopeOrder(ScopeOrderEntity scopeOrderEntity, String orderState) {
         scopeOrderEntity.setOrderState(orderState);
         String userState=scopeOrderEntity.getOrderState();
+        String state="";
+        //vo中默认返回结果状态为1
+        state="1";
+        //如果审核不通过 将结果状态改成2
+        if (!"审核通过".equals(userState)){
+            state="2";
+        }
         scopeOrderWSDao.save(scopeOrderEntity);
         ScopeOrderVo vo=new ScopeOrderVo();
         vo.setOrderId(scopeOrderEntity.getOrderId());
         vo.setAuditOpinion(scopeOrderEntity.getOrderOpinion());
         vo.setCloseTime(scopeOrderEntity.getCloseTime());
-        vo.setOrderState(orderState);
+        vo.setOrderState(state);
         vo.setSupplierName(scopeOrderEntity.getSupplierName());
         String json="";
         try {
