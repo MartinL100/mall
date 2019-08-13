@@ -15,7 +15,7 @@
     <div class="layui-card">
         <div class="layui-card-header" align="center"><h1>添加新地址</h1></div>
         <div class="layui-card-body" style="padding: 15px;">
-            <form class="layui-form" action="/save" lay-filter="component-form-group" method="post">
+            <form class="layui-form"  lay-filter="component-form-group">
                 <div class="layui-form-item">
                     <label class="layui-form-label">地址信息</label>
                     <div class="layui-input-block">
@@ -59,7 +59,7 @@
                 <div class="layui-form-item layui-layout-admin">
                     <div class="layui-input-block">
                         <div class="layui-footer" style="left: 0;">
-                           <button class="layui-btn" type="submit">保存地址</button>
+                            <button class="layui-btn" lay-submit lay-filter="*">添加地址</button>
                            <a href="siteIndex.html"><button class="layui-btn">返回主页</button></a>
                         </div>
                     </div>
@@ -95,6 +95,18 @@
         laydate.render({
             elem: '#LAY-component-form-group-date'
         });
+
+        form.on('submit(*)', function(data) {
+
+            var payInfo = data.field;
+            payInfo = JSON.stringify(payInfo);
+
+            $.post("/save",{"jsonStr":payInfo},function (r) {
+
+                location.href="siteIndex.html";
+            })
+            return false;
+        })
     });
 </script>
 <script>

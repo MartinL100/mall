@@ -1,11 +1,10 @@
 package com.lovo.sscbfore.controller;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
+
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.lovo.common.entity.GoodsDTO;
 import com.lovo.common.entity.GoodssDTO;
-import com.lovo.sscbfore.user.entity2.NumDto;
 import com.lovo.sscbfore.user.entity2.UserEntity;
+import com.lovo.sscbfore.util.DealErroInfos;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -47,8 +46,15 @@ public class ShoppingController {
     }
     //加入Map集合
     @RequestMapping("shoppingJion")
-    public void joinMap(String info, HttpServletRequest request) throws IOException {
-        System.out.println(info);
+    public String joinMap(String info, HttpServletRequest request) throws IOException {
+        UserEntity userEntity = (UserEntity) request.getSession().getAttribute("userEntity");
+        //判断登录的用户是否实名注册
+        String statu = userEntity.getUserState();
+        if("0".equals(statu)||"2".equals(statu)){
+            return DealErroInfos.DATA_REGISTER;
+        }else   if("3".equals(statu)){
+            return DealErroInfos.UNFREZZE;
+        }
         GoodssDTO  dto=objectMapper.readValue(info,GoodssDTO.class);
         //判断有没有当前用户
         String userName =((UserEntity)request.getSession().getAttribute("userEntity")).getUserName() ;
@@ -62,7 +68,7 @@ public class ShoppingController {
             //将商品信息放入当前用户的map中
             map.put(dto.getGoodsName(),dto);
         }
-        System.out.printf("123");
+        return "";
 
 //        System.out.printf(""+map2.size()+"*/*");
 //        //判断公用MAP是否为空

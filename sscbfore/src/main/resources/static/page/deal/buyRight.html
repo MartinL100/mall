@@ -72,19 +72,19 @@
                                 </select>
                             </div>
                         </div>
-                            <!--下拉-->
+                        <!--下拉-->
 
-                            <div style="display: block;margin-top: 15px;">
-                                <label style="margin-right:8%;font-size: 16px">选择付款方式：</label>
+                        <div style="display: block;margin-top: 15px;">
+                            <label style="margin-right:8%;font-size: 16px">选择付款方式：</label>
+                        </div>
+                        <div class="layui-form-item">
+                            <div class="layui-input-block">
+                                <input type="radio" name="payMethod" value="deposit" title="预存款" >
+                                <input type="radio" name="payMethod" value="alipay" title="支付宝">
+                                <input type="radio" name="payMethod" value="weChatpay" title="微信">
+                                <input type="radio" name="payMethod" value="unionpay" title="银联">
                             </div>
-                            <div class="layui-form-item">
-                                <div class="layui-input-block">
-                                    <input type="radio" name="payMethod" value="deposit" title="预存款" >
-                                    <input type="radio" name="payMethod" value="alipay" title="支付宝">
-                                    <input type="radio" name="payMethod" value="weChatpay" title="微信">
-                                    <input type="radio" name="payMethod" value="unionpay" title="银联">
-                                </div>
-                            </div>
+                        </div>
 
 
 
@@ -95,14 +95,14 @@
                             </div>
                         </div>
 
-                            <div class="layui-form-item">
-                                <div class="layui-input-block">
-                                    <button class="layui-btn" lay-submit lay-filter="*">立即付款</button>
+                        <div class="layui-form-item">
+                            <div class="layui-input-block">
+                                <button class="layui-btn" lay-submit lay-filter="*">立即付款</button>
 
-                                </div>
+                            </div>
 
 
-                     </div>
+                        </div>
 
                     </div>
 
@@ -148,7 +148,7 @@
         form.render(null, 'component-form-element');
         table.render({
             elem: '#goodsCount'
-            ,url: '/initDel'
+            ,url: '/presellMakeDealInit'
             ,page:false
             ,cellMinWidth: 80 //全局定义常规单元格的最小宽度，layui 2.2.1 新增
             ,cols: [[
@@ -165,9 +165,9 @@
                 // console.log(res);
                 var goodInfos=res.data;
 
-              $.each(goodInfos,function () {
-                  allPrice+=this.goodsNum*this.goodsPrice;
-              })
+                $.each(goodInfos,function () {
+                    allPrice+=this.goodsNum*this.goodsPrice;
+                })
 
                 //表单赋初值
                 form.val("component-form-element", {
@@ -179,7 +179,7 @@
                     var htmlStr="";
                     $.each(addressObj.data,function () {
 
-                         htmlStr+="<option value=\""+this.siteId+"\">"+this.siteDetail+"</option>";
+                        htmlStr+="<option value=\""+this.siteId+"\">"+this.siteDetail+"</option>";
 
                     })
                     $("#addressSelect").append(htmlStr);
@@ -196,7 +196,7 @@
         //监听单选按钮
         form.on('radio()', function(data){
             // console.log(data.value); //被点击的radio的value值
-           var  payMethod=data.value;
+            var  payMethod=data.value;
             if (payMethod=="alipay") {
                 payMoneyPage();
                 $("#countDepositMoneyId").hide()
@@ -311,6 +311,7 @@
                         icon: 1  //此数字可以改变图标，根据你弹出的信心性质选择不同的图标
                         ,shade: 0.01
                     });
+
                     setTimeout(function(){   location.href="../show/show.html";}, 3000);
                 }
 
