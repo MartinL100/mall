@@ -204,7 +204,18 @@
                 //直接购买
                 $.post("/buyRight",{"goodsInfo":Info},function (r) {
 
-                    window.location.href ="../deal/makeDeal.html";
+                    if(r.indexOf("实名认证")>-1){
+                        layer.msg(r, {
+                            icon: 1  //此数字可以改变图标，根据你弹出的信心性质选择不同的图标
+                            ,shade: 0.01
+                        });
+                        setTimeout(function(){   window.location.href ="../user/dataRegister.html";}, 3000);
+                    }else if(r.indexOf("请申请解冻")>-1){
+                        setTimeout(function(){   window.location.href ="../user/unfreeze.html";}, 3000);
+                    }
+                    else {
+                        window.location.href ="../deal/buyRight.html";
+                    }
                 })
             });
 
@@ -238,24 +249,26 @@
                 elem: 'showGoodsPage'
                 , count: countGoods //数据总数
                 , jump: function (obj, first) {
-                    // 分页查询
-                    var limit = obj.limit;
-                    var page = obj.curr;
-                    var goodsType = $("#selectId").val();
-                    var goodsName = $("#goodsName").val();
-                    $.post("/findGoodsCuXiao", {
-                        "goodsType": goodsType,
-                        "goodsName": goodsName,
-                        "page": page,
-                        "limit": limit
-                    }, function (r) {
-                        if (r.indexOf("密码错误") > -1) {
-                            location.href = "../user/userLogin.html";
-                        }else {
-                            fullData(r);
-                        }
+                   if(!first){
+                       // 分页查询
+                       var limit = obj.limit;
+                       var page = obj.curr;
+                       var goodsType = $("#selectId").val();
+                       var goodsName = $("#goodsName").val();
+                       $.post("/findGoodsCuXiao", {
+                           "goodsType": goodsType,
+                           "goodsName": goodsName,
+                           "page": page,
+                           "limit": limit
+                       }, function (r) {
+                           if (r.indexOf("密码错误") > -1) {
+                               location.href = "../user/userLogin.html";
+                           }else {
+                               fullData(r);
+                           }
 
-                    })
+                       })
+                   }
 
                 }
             });
