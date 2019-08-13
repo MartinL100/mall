@@ -178,13 +178,14 @@ public class UserController {
 
     @JmsListener(destination = "accountsRegistrationAuditResultMQ")
     public void userInfo(String message) {
-        System.out.printf(message);
         if(message!=null || !"".equals(message)){
             ObjectMapper obj=new ObjectMapper();
             try {
                 RegisterResultVo vo= obj.readValue(message,RegisterResultVo.class);
-              UserEntity user=  serService.findUserByName(vo.getUserName());
-              user.setUserGrade(vo.getUserGrade());
+                UserEntity user=  serService.findUserByName(vo.getUserName());
+                if(null==vo.getUserGrade() || "".equals(vo.getUserGrade())){
+                    user.setUserGrade("普通会员");
+                }
               user.setUserState(vo.getUserState());
               serService.rapidEnrollment(user);
                UserInfoEntity info=new UserInfoEntity();
