@@ -54,7 +54,7 @@ public class SupplierServiceImpl implements ISupplierService {
         AuditEntity audit=(AuditEntity) request.getSession().getAttribute("auditObj");
         s.setCheckId(audit);
         s.setCheckDate(new DateFormat().getNow());
-        vo.setCheckName(audit.getAuditName());
+        vo.setCheckName(audit.getAuditPeople());
         vo.setCheckDate(new DateFormat().getNow());
         supplierDao.save(s);
         ActiveMQQueue queue=new ActiveMQQueue("SHHMQ");

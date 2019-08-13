@@ -92,7 +92,7 @@ public class MQController {
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
-                supplier.setSupplierTag("未审核");
+                supplier.setSupplierTag("供应商未审核");
                 supplierService.save(supplier);
             }
         }
@@ -142,6 +142,7 @@ public class MQController {
                     e.printStackTrace();
                 }
                 supplierGoods.getSupplierId().setSupplierTag("供应商品未审核");
+                supplierService.save(supplierGoods.getSupplierId());
                 if("下架".equals(supplierGoods.getSupplierType()))
                     supplierGoods.setSupplierStatus("取消供应");
                 supplierGoodsService.save(supplierGoods);
@@ -275,7 +276,7 @@ public class MQController {
             }
         }
     }
-    @JmsListener(destination = "orderMQ1")
+    @JmsListener(destination = "orderMQ")
 //    @RequestMapping("orderMQ")
     public void orderMQ(String message) {
         if (null==message||"".equals(message)){
@@ -292,6 +293,7 @@ public class MQController {
             cargo.setSupplyPrice(vo.getSupplyPrice());
             cargo.getSupplyId().setIndentStatus("未采购");
             supplyService.save(cargo.getSupplyId());
+            cargo.setCargoStatus("未采购");
             cargoService.save(cargo);
         }
 //        return "{'errorMsg':true}";
