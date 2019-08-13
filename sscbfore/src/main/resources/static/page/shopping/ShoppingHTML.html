@@ -106,7 +106,7 @@
                     // alert(layEvent)
                     // alert(data.goodsName)
                     if (layEvent  === 'edit') {
-
+//如果是点击的修改按钮 弹出模态框
                         layer.open({
                             area: ['300px', '100px'],
                             title :" ",
@@ -115,12 +115,54 @@
                                 '<input type="text" id="spid"><button id="Bid" class="layui-btn layui-btn-xs">确定</button>' +
                                 '<button id="BBid" class="layui-btn layui-btn-xs">取消</button></div>'
                         });
-
-                     // $("#divID").show();
+//模态框点击确定按钮 获取表单的信息
                         $("#Bid").click(function () {
+                            alert(456548);
                             var Num= $("#spid").val();
                             $("#spid").value="";
-                            //修改MAP中的数量
+//阿贾克斯请求查询商品ID库存
+//                            alert(goodsID5);
+//                             $.ajax({
+//                                 url: "/CheckTheInventory",    //换成自己的url
+//                                 type: "POST",
+//                                 dataType: "json",
+//                                 data: {
+//                                     goodsID:data.goodsId
+//
+//                                 },
+//                                 //contrrol返回的字段用findNum接收
+//                                 success: function (findNum) {
+//                                     alert(findNum);
+//                                     //传入字符串转换成int
+//                                     findNum2 = parseInt(findNum);
+//                                     alert(findNum2);
+//                                     //如果库存数大于用户输入量
+//                                     if (findNum2 >Num) {
+//                                         //阿贾克斯请求修改订单数量
+//                                         $.ajax({
+//                                             url: "/setingMap",    //换成自己的url
+//                                             type: "POST",
+//                                             dataType: "json",
+//                                             data: {
+//                                                 goodsName: data.goodsName,
+//                                                 goodNum:Num
+//                                             },
+//
+//                                         })
+//                                         //刷新页面
+//                                         window.location.href ="ShoppingHTML.html";
+//                                      //如果小于则弹出信息
+//                                     } else {
+//                                         layer.msg("你输入的数量大于库存数!当前库存为"+findNum);
+//                                     }
+//                                 },
+//                                 error: function (e) {
+//                                     layer.msg("未知错误");
+//                                 }
+//
+//
+//                             })
+//                             修改MAP中的数量
                             $.ajax({
                                 url: "/setingMap",    //换成自己的url
                                 type: "POST",
@@ -140,24 +182,14 @@
                                     layer.msg(e);
                                 }
                             })
+                            alert("啦啦啦")
                             window.location.href ="ShoppingHTML.html";
                         });
-                        // $("#BBid").click(function () {
-                        //     $("#divID").hide();
-                        //     var Num= $("#spid").val();
-                        //     $("#spid").value="";
-                        //     alert(Num);
-                        // });
+                        $("#BBid").click(function () {
+                            window.location.href ="ShoppingHTML.html";
 
-                        //引用接口判断输入的数量是否大于最大库存数
-
-
-
-                        //同步更新缓存对应的值
-                        obj.update({
-                            username: '123'
-                            ,title: 'xxx'
                         });
+
                     } else if (layEvent === 'del') {
                         layer.confirm("确定要删除该条数据吗？",  function(index) {
                             obj.del();//删除对应行（tr）的DOM结构，并更新缓存
@@ -211,7 +243,7 @@
                         })
                     });
 
-
+                    window.location.href ="../deal/makeDeal.html";
                 })
                 $("#buttonId2").click(function () {
                     window.location.href ="../show/allShow.html";

@@ -1,12 +1,16 @@
 package com.lovo.sscbfore.controller;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.lovo.common.entity.GoodsDTO;
 import com.lovo.common.entity.GoodssDTO;
+import com.lovo.sscbfore.user.entity2.NumDto;
 import com.lovo.sscbfore.user.entity2.UserEntity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.client.RestTemplate;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
@@ -17,22 +21,23 @@ import java.util.Map;
 
 @RestController
 public class ShoppingController {
+    //远程调用模板
+    @Autowired
+    private RestTemplate restTemplate;
     //加入购物车的MAP
     @Autowired
     ObjectMapper objectMapper;
    public static Map<String ,Map<String,GoodssDTO>>map2 = new HashMap<String, Map<String,GoodssDTO>>();
 
     @RequestMapping("shoppingAll")
-    public String shopping(){
-
+    public String shopping(HttpServletRequest request){
+        String userName =((UserEntity)request.getSession().getAttribute("userEntity")).getUserName();
         String info2="{\"code\":0,\"msg\":\"\",\"count\":1000,\"data\":[";
-        for (Map<String,GoodssDTO> m:map2.values()){
-            for (GoodssDTO g:m.values()) {
-                if(g.getChoose()!=3) {
-                    info2 += "{\"choose\":\"" + g.getChoose() + "\",\"goodsId\":\"" + g.getGoodsId() + "\",\"goodsName\":\"" + g.getGoodsName() + "\",\"goodsNum\":\"" + g.getGoodsNum() + "\",\"goodsPrice\":\"" + g.getGoodsPrice() + "\",\"goodsDiscount\":\"" + g.getGoodsType() + "\"},";
+        for (GoodssDTO g:map2.get(userName).values()){
+                    if ( g.getChoose()!= 3) {
+                        info2 += "{\"choose\":\"" + g.getChoose() + "\",\"goodsId\":\"" + g.getGoodsId() + "\",\"goodsName\":\"" + g.getGoodsName() + "\",\"goodsNum\":\"" + g.getGoodsNum() + "\",\"goodsPrice\":\"" + g.getGoodsPrice() + "\",\"goodsDiscount\":\"" + g.getGoodsType() + "\"},";
+                    }
                 }
-            }
-        }
         String str1 = info2.substring(0, info2.length()-1);
         System.out.print(str1);
         str1+="]}";
@@ -57,7 +62,7 @@ public class ShoppingController {
             //将商品信息放入当前用户的map中
             map.put(dto.getGoodsName(),dto);
         }
-
+        System.out.printf("123");
 
 //        System.out.printf(""+map2.size()+"*/*");
 //        //判断公用MAP是否为空
@@ -126,12 +131,22 @@ public class ShoppingController {
     map2.get(userName).put(goodssDTO.getGoodsName(),goodssDTO);
     System.out.printf(map2.get(userName).get(goodsName).getChoose()+"");
 
-    //通过传过来的商品名修改其判定属性是否已经选中
-
-
-
             }
 
+
+
+
+//    //远端查询商品ID的库存
+//    @RequestMapping("CheckTheInventory")
+//    @ResponseBody
+//    public NumDto CheckTheInventory(String goodsID ){
+//       Long i= restTemplate.getForEntity( "http://sscAfter/findGoodsNumByGoodsId/"+goodsID,Long.class).getBody();
+//        System.out.printf(""+i);
+//        NumDto num=new NumDto();
+//        num.setNum(i);
+//        return num;
+//            }
+//
     }
 
 
