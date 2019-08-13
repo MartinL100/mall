@@ -22,6 +22,11 @@ public class ReturnEntity {
     private String orderNum;
 
     /**
+     * 用户名
+     */
+    private String userName;
+
+    /**
      * 退货日期
      */
     private String returnDate;
@@ -74,5 +79,13 @@ public class ReturnEntity {
 
     public void setReturnGoodsList(List<ReturnGoodsEntity> returnGoodsList) {
         this.returnGoodsList = returnGoodsList;
+    }
+
+    public String getUserName() {
+        return userName;
+    }
+
+    public void setUserName(String userName) {
+        this.userName = userName;
     }
 }
