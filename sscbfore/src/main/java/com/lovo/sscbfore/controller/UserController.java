@@ -187,6 +187,7 @@ public class UserController {
                 if(null==vo.getUserGrade() || "".equals(vo.getUserGrade())){
                     user.setUserGrade("普通会员");
                 }
+
               user.setUserState(vo.getUserState());
               serService.rapidEnrollment(user);
               request.getSession().setAttribute("userEntity",user);
