@@ -4,7 +4,8 @@ public class SupplierVO {
     private String supplierId;
     private String supplierLevel;
     private String supplierTag;
-
+    private String checkName;
+    private String checkDate;
     public SupplierVO() {
     }
 
@@ -12,6 +13,22 @@ public class SupplierVO {
         this.supplierId = supplierId;
         this.supplierLevel = supplierLevel;
         this.supplierTag = supplierTag;
+    }
+
+    public String getCheckDate() {
+        return checkDate;
+    }
+
+    public void setCheckDate(String checkDate) {
+        this.checkDate = checkDate;
+    }
+
+    public String getCheckName() {
+        return checkName;
+    }
+
+    public void setCheckName(String checkName) {
+        this.checkName = checkName;
     }
 
     public String getSupplierId() {

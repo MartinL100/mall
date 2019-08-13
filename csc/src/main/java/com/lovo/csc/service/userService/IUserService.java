@@ -1,6 +1,6 @@
 package com.lovo.csc.service.userService;
 
-import com.lovo.csc.entity.AuditEntity;
+import com.lovo.csc.entity.supplierEntity.AuditEntity;
 
 public interface IUserService {
     /**

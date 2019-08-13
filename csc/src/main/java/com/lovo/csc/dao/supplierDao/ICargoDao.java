@@ -1,6 +1,6 @@
 package com.lovo.csc.dao.supplierDao;
 
-import com.lovo.csc.entity.CargoEntity;
+import com.lovo.csc.entity.supplierEntity.CargoEntity;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 
@@ -13,6 +13,7 @@ public interface ICargoDao extends CrudRepository<CargoEntity,String> {
      */
     public CargoEntity save(CargoEntity cargo);
 
+    @Query("from  CargoEntity where supplyId.supplyId=?1")
     public List<CargoEntity> findBySupplyId(String supplyId);
     public CargoEntity findByCargoId(String cargoId);
 }

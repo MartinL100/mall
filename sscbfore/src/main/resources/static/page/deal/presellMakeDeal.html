@@ -223,8 +223,10 @@
                     end:function(){
                         $.post("/depositMoneyIsEnough",{"allPrice":allPrice,"payMethod":payMethod},function (r) {
                             if(isNaN(r)){
-                                //如果返回的结果不是数字
-                                alert(r)
+                                layer.msg(r, {
+                                    icon: 2  //此数字可以改变图标，根据你弹出的信心性质选择不同的图标
+                                    ,shade: 0.01
+                                });
                             }else {
                                 form.val("component-form-element", {
                                     "payMoney": r // "name": "value"
@@ -267,6 +269,7 @@
                         icon: 1  //此数字可以改变图标，根据你弹出的信心性质选择不同的图标
                         ,shade: 0.01
                     });
+                    setTimeout(function(){   location.href="../show/show.html";}, 3000);
                 }
 
             })

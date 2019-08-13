@@ -1,6 +1,6 @@
 package com.lovo.csc.dao.supplierDao;
 
-import com.lovo.csc.entity.SupplierGoodsEntity;
+import com.lovo.csc.entity.supplierEntity.SupplierGoodsEntity;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 

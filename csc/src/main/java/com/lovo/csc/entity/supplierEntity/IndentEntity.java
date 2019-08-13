@@ -1,11 +1,9 @@
-package com.lovo.csc.entity;
+package com.lovo.csc.entity.supplierEntity;
 
-import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
-import java.util.Date;
 
 /**
  * 供货订单表
@@ -16,8 +14,8 @@ public class IndentEntity {
     //供货订单ID
     @Id
     @Column(length=48)
-    @GenericGenerator(name="myuuid",strategy="uuid")
-    @GeneratedValue(generator="myuuid")
+//    @GenericGenerator(name="myuuid",strategy="uuid")
+//    @GeneratedValue(generator="myuuid")
     private String indentId;
     //订单生产日期
     @Column(length=48)

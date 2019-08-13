@@ -2,12 +2,11 @@ package com.lovo.csc.service.supplierService.impl;
 
 import com.lovo.csc.dao.supplierDao.IBaseDao;
 import com.lovo.csc.dao.supplierDao.IIndentDao;
-import com.lovo.csc.entity.IndentEntity;
+import com.lovo.csc.entity.supplierEntity.IndentEntity;
 import com.lovo.csc.service.supplierService.IIndentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.Date;
 import java.util.List;
 @Service(value = "indentService")
 public class IndentServiceImpl implements IIndentService {

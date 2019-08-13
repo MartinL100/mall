@@ -35,7 +35,7 @@
 
                     <div class="layui-row goodsTable" style="text-align: center">
                         <div class="layui-col-md6" style="height: 300px">
-                            <button class="layui-btn" data-type="isAll">返回</button>
+                            <a class="layui-btn" href="../user/administrator.html">返回</a>
                         </div>
                         <div class="layui-col-md6" style="height: 300px">
                             <!--查询-->
@@ -51,12 +51,6 @@
                                 <div class="layui-form-item">
                                     <label class="layui-form-label" for="selectId">商品类型</label>
                                     <div class="layui-input-block">
-                                        <!--<select id="goodsType" name="goodsType" lay-filter="aihao">-->
-                                        <!--<option value="">请选择商品类型</option>-->
-                                        <!--<option value="0">写作</option>-->
-                                        <!--<option value="1">阅读</option>-->
-                                        <!--</select>-->
-
                                         <select id="selectId" name="goodsType" class="layui-form"
                                                 lay-filter="goodsType"> </select>
                                     </div>
@@ -65,7 +59,6 @@
                                 <div class="layui-form-item">
                                     <div class="layui-input-block">
                                         <button class="layui-btn" lay-submit lay-filter="*">查询</button>
-                                        <button type="reset" class="layui-btn layui-btn-primary">重置</button>
                                     </div>
                                 </div>
                             </div>
@@ -106,23 +99,18 @@
             active[type] ? active[type].call(this) : '';
         });
         //初始化加载
-        $.ready(table1(), initSelect(), form.render('select'));
+        $.ready(table1(), initSelect());
 
         function initSelect() {
             $.post("/initSelect", function (r) {
                 let selectObj = eval("(" + r + ")");
                 let htmlStr = "";
-
                 $.each(selectObj, function (index, item) {
-                    $('#selectId').append('<option value="' + index + '">' + item + '</option>');
+                    $('#selectId').append('<option value="' + item + '">' + item + '</option>');
                 });
-
                 form.render();
             })
-
-
         }
-
 
         table.on('tool(goodsTable)', function (obj) {
             let data = obj.data;
@@ -172,13 +160,13 @@
             goodsName = data.goodsName;
             goodsType = data.goodsType;
 
-            if (goodsName != '' || goodsType != '') {
+            if (goodsName !== '' || goodsType !== '') {
 
-                if (goodsName == '') {
+                if (goodsName === '') {
                     goodsName = "null";
                 }
 
-                if (goodsType == '') {
+                if (goodsType === '' || goodsType === '不限') {
                     goodsType = "null";
                 }
 
@@ -205,10 +193,6 @@
 
         })
     });
-
-</script>
-<script>
-
 
 </script>
 

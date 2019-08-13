@@ -16,6 +16,8 @@ import org.springframework.web.client.RestTemplate;
 
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 @RestController
 public class OrderMqController {
@@ -32,7 +34,7 @@ public class OrderMqController {
 
     //监听供货商MQ 如果有新数据则保存到数据库中
     //并实现服务器主推
-    @JmsListener(destination = "returnGoodsMQTwo ")
+    @JmsListener(destination = "returnGoodsMQTwo5 ")
 //    @RequestMapping("savaOrderGoodsMessage.lovo")
     public String savaOrderGoods(String message) {
 
@@ -45,6 +47,8 @@ public class OrderMqController {
             s.setCloseTime(dto.getReturnGoodsDate());
             s.setGoodsSales(dto.getReturnGoodsCause());
             s.setOrderAudit("秦某某");
+            s.setOrderState("未审核");
+            s.setOrderOpinion("没意见");
             OrderEntity o=new OrderEntity();
             o.setGoodsName(dto.getGoodsName());
             o.setGoodsBid(dto.getGoodsBid());
@@ -52,9 +56,14 @@ public class OrderMqController {
             o.setGoodsId(dto.getGoodsId());
             o.setScopeOrder(s);
 
-            SupplierEntity1 goods= restTemplate.getForEntity
-                    ("http://psc/findGoodsId/'"+dto.getReturnGoodsId()+"'",SupplierEntity1.class).getBody();
-               s.setSupplierName(goods.getSupplierName());
+            List<String> list = new ArrayList<>();
+
+            list.add(dto.getSupplierId());
+              ObjectMapper mapper = new ObjectMapper();
+             String idStr= mapper.writeValueAsString(list);
+            String supplyName= restTemplate.getForEntity
+                    ("http://psc/findSupplierNameBySupplierId/"+idStr,String.class).getBody();
+               s.setSupplierName(supplyName);
                         scopeOrderService.sava(s);
 
 
@@ -64,7 +73,6 @@ public class OrderMqController {
 //            System.out.println(json);
             ActiveMQQueue gueue=new ActiveMQQueue("backReturnScopeGoodsMq");
            jmsMessagingTemplate.convertAndSend(gueue,json);
-
 
 
         } catch (IOException e) {

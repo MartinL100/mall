@@ -16,6 +16,26 @@
 
 <body>
 
+<div id="LAY_app">
+    <div class="layui-layout layui-layout-admin">
+        <div class="layui-header">
+            <!-- 头部区域 -->
+            <!--购物车和用户按钮-->
+            <ul class="layui-nav layui-layout-right" lay-filter="layadmin-layout-right">
+                <li class="layui-nav-item layui-hide-xs" lay-unselect>
+                    <a href="userShow.html" layadmin-event="theme"title="用户">
+                        <i class="layui-icon layui-icon-user"></i>
+                    </a>
+                </li>
+                <li class="layui-nav-item layui-hide-xs" lay-unselect>
+                    <a href="../shopping/ShoppingHTML.html" title="购物车">
+                        <i class="layui-icon layui-icon-cart"></i>
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>
 
 <div class="layui-card layadmin-header">
 </div>
@@ -36,7 +56,7 @@
     <div class="layui-input-block">
         <div class="layui-footer" style="left: 0;">
             <a href="siteAdd.html"><button class="layui-btn" onclick="tianjia()">添加地址</button></a>
-            <button class="layui-btn">返回商城</button>
+            <button class="layui-btn" id="rbt">返回商城</button>
         </div>
     </div>
 
@@ -199,6 +219,9 @@
         });
     })
 
+    $("#rbt").click(function () {
+        location.href="../show/cuxiaoShow.html";
+    })
 
 
 </script>

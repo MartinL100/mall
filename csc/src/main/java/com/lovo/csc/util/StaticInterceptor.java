@@ -1,6 +1,6 @@
 package com.lovo.csc.util;
 
-import com.lovo.csc.entity.AuditEntity;
+import com.lovo.csc.entity.supplierEntity.AuditEntity;
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
@@ -25,6 +25,7 @@ public class StaticInterceptor  implements HandlerInterceptor {
         }
         response.sendRedirect("/page/index.html");
         return false;
+//        return true;
     }
 
     @Override

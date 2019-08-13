@@ -1,45 +1,40 @@
-package com.lovo.csc.entity;
+package com.lovo.csc.vo;
 
-import org.hibernate.annotations.ColumnDefault;
-import org.hibernate.annotations.GenericGenerator;
 
-import javax.persistence.*;
 import java.math.BigDecimal;
 
-/**
- * 供货中间表表
- */
-@Entity
-@Table(name = "sys_supply")
-public class SupplyEntity {
-    //供货中间表ID
-    @Id
-    @Column(length = 48)
-    @GenericGenerator(name = "myuuid", strategy = "uuid")
-    @GeneratedValue(generator = "myuuid")
+public class IndentSupplyDto {
+
     private String supplyId;
     //商品名
-    @Column(length = 48)
     private String goodsName;
     //商品规格
-    @Column(length = 48)
     private String goodsNorms;
     //商品类型
-    @Column(length = 48)
     private String goodsType;
     //商品单位
-    @Column(length = 48)
     private String goodsUnit;
     //供货数量
-    @Column()
     private int supplyNum;
     //供货订单ID
-    @ManyToOne
-    @JoinColumn(name = "indent_id")
-    private IndentEntity indentId;
-    //采购商品状态
-    @Column(length = 48)
-    private String indentStatus;
+    private String indentId;
+    //报价
+    private BigDecimal supplyPrice;
+
+    public IndentSupplyDto(){
+
+    }
+
+    public IndentSupplyDto(String supplyId,String goodsName,String goodsNorms,String goodsType,String goodsUnit,int supplyNum,String indentId,BigDecimal supplyPrice){
+        this.supplyId=supplyId;
+        this.goodsName=goodsName;
+        this.goodsNorms=goodsNorms;
+        this.goodsType=goodsType;
+        this.goodsUnit=goodsUnit;
+        this.supplyNum=supplyNum;
+        this.indentId=indentId;
+        this.supplyPrice=supplyPrice;
+    }
 
     public String getSupplyId() {
         return supplyId;
@@ -89,19 +84,20 @@ public class SupplyEntity {
         this.supplyNum = supplyNum;
     }
 
-    public IndentEntity getIndentId() {
+    public String getIndentId() {
         return indentId;
     }
 
-    public void setIndentId(IndentEntity indentId) {
+    public void setIndentId(String indentId) {
         this.indentId = indentId;
     }
 
-    public String getIndentStatus() {
-        return indentStatus;
+    public BigDecimal getSupplyPrice() {
+        return supplyPrice;
     }
 
-    public void setIndentStatus(String indentStatus) {
-        this.indentStatus = indentStatus;
+    public void setSupplyPrice(BigDecimal supplyPrice) {
+        this.supplyPrice = supplyPrice;
     }
+
 }

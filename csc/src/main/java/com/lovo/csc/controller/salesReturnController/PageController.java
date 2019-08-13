@@ -57,13 +57,9 @@ public class PageController {
      * @return
      */
     @RequestMapping("pageOrder.lovo")
-    public Map<String,Object> pageOrder(int page,int rows,String orderState, String orderId, String supplierName){
+    public Map<String,Object> pageOrder(int page,int rows,@RequestParam("orderState") String orderState,@RequestParam("orderId") String orderId,@RequestParam("supplierName") String supplierName){
         Map<String,Object> map=new HashMap<>();
         List<ScopeOrderEntity> lists=scopeOrderService.findByScopeOrder(orderState,orderId,supplierName,page,rows);
-        for(int i=0;i<lists.size();i++){
-            lists.get(i);
-        }
-//        List<OrderEntity>list=scopeOrderService.findByOrder()
         map.put("rows",lists);
         map.put("page",page);
         long total=scopeOrderService.getPageListScopeOrderCount(orderState,orderId,supplierName);

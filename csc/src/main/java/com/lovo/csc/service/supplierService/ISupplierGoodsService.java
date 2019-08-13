@@ -1,7 +1,6 @@
 package com.lovo.csc.service.supplierService;
 
-import com.lovo.csc.entity.SupplierGoodsEntity;
-import org.springframework.data.jpa.repository.Query;
+import com.lovo.csc.entity.supplierEntity.SupplierGoodsEntity;
 
 import java.util.List;
 
