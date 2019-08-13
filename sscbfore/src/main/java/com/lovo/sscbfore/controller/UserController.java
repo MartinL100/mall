@@ -178,7 +178,7 @@ public class UserController {
     }
 
     @JmsListener(destination = "accountsRegistrationAuditResultMQ")
-    public void userInfo(String message) {
+    public void userInfo(String message,HttpServletRequest request) {
         if(message!=null || !"".equals(message)){
             ObjectMapper obj=new ObjectMapper();
             try {
@@ -189,6 +189,7 @@ public class UserController {
                 }
               user.setUserState(vo.getUserState());
               serService.rapidEnrollment(user);
+              request.getSession().setAttribute("userEntity",user);
                UserInfoEntity info=new UserInfoEntity();
                info.setUserInfo(user);
                info.setMessageInfo(vo.getAuditOpinion());
