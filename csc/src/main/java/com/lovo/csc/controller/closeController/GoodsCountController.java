@@ -77,12 +77,12 @@ public class GoodsCountController {
         }
         if(payMoney==-1){
             this.full(orderDto,2);
-            return  "{'payMoney':0,'errorInfo':'预付款余额不足，支付失败'}";
+            return  "{\"payMoney\":\"0\",\"errorInfo\":\"预付款余额不足，支付失败\"}";
         }else{
             orderDto.setPayMoney(payMoney+"");
             //保存
             this.full(orderDto,1);
-            return  "{'payMoney':"+payMoney+",'errorInfo':'null'}";
+            return  "{\"payMoney\":\""+payMoney+"\",\"errorInfo\":\"null\"}";
         }
 
     }

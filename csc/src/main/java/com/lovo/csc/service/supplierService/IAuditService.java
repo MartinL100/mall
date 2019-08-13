@@ -1,6 +1,6 @@
 package com.lovo.csc.service.supplierService;
 
-import com.lovo.csc.entity.AuditEntity;
+import com.lovo.csc.entity.supplierEntity.AuditEntity;
 
 public interface IAuditService {
     /**

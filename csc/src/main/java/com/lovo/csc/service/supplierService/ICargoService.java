@@ -1,6 +1,6 @@
 package com.lovo.csc.service.supplierService;
 
-import com.lovo.csc.entity.CargoEntity;
+import com.lovo.csc.entity.supplierEntity.CargoEntity;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;

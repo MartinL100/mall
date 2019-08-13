@@ -2,7 +2,7 @@ package com.lovo.csc.controller.userController;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.lovo.csc.entity.AuditEntity;
+import com.lovo.csc.entity.supplierEntity.AuditEntity;
 import com.lovo.csc.service.userService.IUserService;
 import com.lovo.csc.util.verityCode;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -1,6 +1,6 @@
 package com.lovo.csc.service.supplierService;
 
-import com.lovo.csc.entity.SupplyEntity;
+import com.lovo.csc.entity.supplierEntity.SupplyEntity;
 
 import java.util.List;
 

@@ -3,10 +3,12 @@ package com.lovo.csc.controller.supplierController;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.lovo.csc.entity.*;
-import com.lovo.csc.service.supplierService.ICargoService;
-import com.lovo.csc.service.supplierService.ISupplierGoodsService;
-import com.lovo.csc.service.supplierService.ISupplierService;
-import com.lovo.csc.service.supplierService.ISupplyService;
+import com.lovo.csc.entity.supplierEntity.CargoEntity;
+import com.lovo.csc.entity.supplierEntity.IndentEntity;
+import com.lovo.csc.entity.supplierEntity.SupplierGoodsEntity;
+import com.lovo.csc.entity.supplierEntity.SupplyEntity;
+import com.lovo.csc.service.supplierService.*;
+import com.lovo.csc.vo.suppliervo.SupplierGoodsDTO;
 import com.lovo.csc.vo.suppliervo.SupplierVO;
 import com.lovo.csc.vo.suppliervo.SupplyTenderVo;
 import com.lovo.csc.vo.suppliervo.SupplyVO;
@@ -20,7 +22,6 @@ import org.springframework.web.bind.annotation.RestController;
 import javax.jms.JMSException;
 import javax.jms.TextMessage;
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.util.List;
 
@@ -37,10 +38,12 @@ public class MQController {
     private ISupplierGoodsService supplierGoodsService;
     @Autowired
     private ICargoService cargoService;
+    @Autowired
+    private IIndentService indentService;
 
     @RequestMapping("AJAXSupplier")
-    public String AJAXSupplier(SupplierVO vo){
-        supplierService.AJAXSupplier(vo);
+    public String AJAXSupplier(SupplierVO vo,HttpServletRequest request){
+        supplierService.AJAXSupplier(vo,request);
         return "{'errorMsg':fasle}";
     }
 
@@ -89,16 +92,17 @@ public class MQController {
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
-                supplier.setSupplierTag("未审核");
+                supplier.setSupplierTag("供应商未审核");
                 supplierService.save(supplier);
             }
         }
     }
     @JmsListener(destination = "ZCMQ")
-    @RequestMapping("saveSupplierMQ")
-    public String saveSupplier(String message) {
+//    @RequestMapping("saveSupplierMQ")
+    public void saveSupplier(String message) {
         if (null==message||"".equals(message)){
-            return "{'errorMsg':false}";
+//            return "{'errorMsg':false}";
+            return;
         }
         SupplierEntity supplier=null;
         try {
@@ -107,10 +111,10 @@ public class MQController {
             e.printStackTrace();
         }
         if (null != supplier) {
-            supplier.setSupplierTag("未审核");
+            supplier.setSupplierTag("供应商未审核");
             supplierService.save(supplier);
         }
-        return "{'errorMsg':true}";
+//        return "{'errorMsg':true}";
     }
     //服务器重启 从MQ中取出数据并保存到数据库
     @RequestMapping("getSupplierGoodsAudit.lovo")
@@ -137,30 +141,43 @@ public class MQController {
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
+                supplierGoods.getSupplierId().setSupplierTag("供应商品未审核");
+                supplierService.save(supplierGoods.getSupplierId());
                 if("下架".equals(supplierGoods.getSupplierType()))
                     supplierGoods.setSupplierStatus("取消供应");
                 supplierGoodsService.save(supplierGoods);
             }
         }
     }
-    @JmsListener(destination = "supplierGoodsAudit")
-    @RequestMapping("supplierGoodsAudit")
-    public String supplierGoodsAudit(String message) {
+    @JmsListener(destination = "AddSupplierGoodsAudit")
+//    @RequestMapping("supplierGoodsAudit")
+    public void supplierGoodsAudit(String message) {
         if (null==message||"".equals(message)){
-            return "{'errorMsg':false}";
+            return;
         }
-        SupplierGoodsEntity supplierGoods=null;
+        SupplierGoodsDTO vo=null;
         try {
-            supplierGoods=new ObjectMapper().readValue(message,SupplierGoodsEntity.class);
+            vo=new ObjectMapper().readValue(message,SupplierGoodsDTO.class);
         } catch (IOException e) {
             e.printStackTrace();
         }
-        if (null != supplierGoods) {
-            if("下架".equals(supplierGoods.getSupplierType()))
-            supplierGoods.setSupplierStatus("取消供应");
-            supplierGoodsService.save(supplierGoods);
+        if (null != vo) {
+            if("下架".equals(vo.getSupplierType()))
+                vo.setSupplierStatus("取消供应");
+            SupplierGoodsEntity s=new SupplierGoodsEntity();
+            s.setCodeId(vo.getCodeId());
+            s.setSupplierStatus(vo.getSupplierStatus());
+            s.setGoodsName(vo.getGoodsName());
+            s.setGoodsNorms(vo.getGoodsNorms());
+            s.setGoodsType(vo.getGoodsType());
+            s.setGoodsUnit(vo.getGoodsUnit());
+            s.setSupplierType(vo.getSupplierType());
+            SupplierEntity supplier=supplierService.findBySupplierId(vo.getSupplierId());
+            supplier.setSupplierTag("供应商品未审核");
+            s.setSupplierId(supplier);
+            supplierGoodsService.save(s);
         }
-        return "{'errorMsg':true}";
+//        return "{'errorMsg':true}";
     }
 
     //服务器重启 从MQ中取出数据并保存到数据库
@@ -193,10 +210,10 @@ public class MQController {
         }
     }
     @JmsListener(destination = "buyMQ")
-    @RequestMapping("buyMQ")
-    public String buyMQ(String message) {
+//    @RequestMapping("buyMQ")
+    public void buyMQ(String message) {
         if (null==message||"".equals(message)){
-            return "{'errorMsg':false}";
+            return;
         }
         List<SupplyVO> list=null;
         try {
@@ -207,7 +224,7 @@ public class MQController {
         if (null != list) {
             saveSupply(list);
         }
-        return "{'errorMsg':true}";
+//        return "{'errorMsg':true}";
     }
     public void saveSupply(List<SupplyVO> list){
         for (SupplyVO vo:list) {
@@ -223,6 +240,7 @@ public class MQController {
             supply.setGoodsNorms(vo.getGoodsNorms());
             supply.setGoodsType(vo.getGoodsType());
             supply.setGoodsUnit(vo.getGoodsUnit());
+            indentService.save(indent);
             SupplyEntity s=supplyService.save(supply);
         }
     }
@@ -252,17 +270,17 @@ public class MQController {
                     e.printStackTrace();
                 }
                 CargoEntity cargo=cargoService.findByCargoId(vo.getCargoId());
-                cargo.setSupplyPrice(vo.getPrice());
+                cargo.setSupplyPrice(vo.getSupplyPrice());
                 cargo.getSupplyId().setIndentStatus("已采购");
                 cargoService.save(cargo);
             }
         }
     }
     @JmsListener(destination = "orderMQ")
-    @RequestMapping("orderMQ")
-    public String orderMQ(String message) {
+//    @RequestMapping("orderMQ")
+    public void orderMQ(String message) {
         if (null==message||"".equals(message)){
-            return "{'errorMsg':false}";
+            return ;
         }
         SupplyTenderVo vo=null;
         try {
@@ -272,10 +290,12 @@ public class MQController {
         }
         if (null != vo) {
             CargoEntity cargo=cargoService.findByCargoId(vo.getCargoId());
-            cargo.setSupplyPrice(vo.getPrice());
-            cargo.getSupplyId().setIndentStatus("已采购");
+            cargo.setSupplyPrice(vo.getSupplyPrice());
+            cargo.getSupplyId().setIndentStatus("未采购");
+            supplyService.save(cargo.getSupplyId());
+            cargo.setCargoStatus("未采购");
             cargoService.save(cargo);
         }
-        return "{'errorMsg':true}";
+//        return "{'errorMsg':true}";
     }
 }
