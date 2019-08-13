@@ -72,7 +72,7 @@ public class CargoServiceImpl implements ICargoService {
                     str);
             list.add(vo);
         }
-        ActiveMQQueue queue=new ActiveMQQueue("FBMQ");
+        ActiveMQQueue queue=new ActiveMQQueue("FBMQ1");
         ObjectMapper mapper=new ObjectMapper();
         try {
             String v=mapper.writeValueAsString(list);
@@ -91,7 +91,7 @@ public class CargoServiceImpl implements ICargoService {
         cargo.setCargoStatus("已采购");
         cargoDao.save(cargo);
         TenderVO vo=new TenderVO(cargo.getSupplyId().getIndentId().getIndentId(),cargoId,supplyNum);
-        ActiveMQQueue queue=new ActiveMQQueue("priceMQ");
+        ActiveMQQueue queue=new ActiveMQQueue("priceMQ1");
         ObjectMapper mapper=new ObjectMapper();
         try {
             String v=mapper.writeValueAsString(vo);

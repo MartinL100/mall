@@ -25,6 +25,7 @@ public class StaticInterceptor  implements HandlerInterceptor {
         }
         response.sendRedirect("/page/index.html");
         return false;
+//        return true;
     }
 
     @Override

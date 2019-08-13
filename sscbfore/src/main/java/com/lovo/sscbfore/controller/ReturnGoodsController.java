@@ -101,7 +101,7 @@ public class ReturnGoodsController {
         Map<String, String[]> map = request.getParameterMap();
         String dataStr = map.get("data")[0];
 
-        sendToOrderReturnMQ(dataStr);
+//        sendToOrderReturnMQ(dataStr);
         sendToGoodsReturnMQ(dataStr);
         return "{'info': 'Success'}";
     }
@@ -135,9 +135,12 @@ public class ReturnGoodsController {
     private void sendToGoodsReturnMQ(String dataStr) {
         JSONObject dataobj = new JSONObject(dataStr);
         String orderNum = dataobj.getStr("orderNum");
+        String userName = "";
         JSONArray returnGoods = dataobj.getJSONArray("data");
 
+
         ReturnEntity re = new ReturnEntity();
+
         re.setReturnId(IdUtil.simpleUUID() + "");
         re.setOrderNum(orderNum);
         re.setReturnDate(System.currentTimeMillis() + "");
@@ -147,8 +150,14 @@ public class ReturnGoodsController {
         for (int i = 0; i < returnGoods.size(); i++) {
             JSONObject goodsObj = new JSONObject(returnGoods.get(i));
             ReturnGoodsEntity g = goodsObj.toBean(ReturnGoodsEntity.class);
+            if ("".equals(userName)) {
+                String orderStr = goodsObj.getStr("orderObj");
+                JSONObject orderObj = new JSONObject(orderStr);
+                userName = orderObj.getStr("userName");
+            }
             list.add(g);
         }
+        re.setUserName(userName);
         re.setReturnGoodsList(list);
 
         ActiveMQQueue queue = new ActiveMQQueue("goodsReturnMQ1");

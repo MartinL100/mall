@@ -57,7 +57,7 @@ public class SupplierGoodsServiceImpl implements ISupplierGoodsService {
         SupplierGoodsEntity s=supplierGoodsDao.findByCodeId(code[0]);
         s.getSupplierId().setSupplierTag("已审核");
         supplierDao.save(s.getSupplierId());
-        ActiveMQQueue queue=new ActiveMQQueue("returnSupplierGoodsAudit");
+        ActiveMQQueue queue=new ActiveMQQueue("returnSupplierGoodsAudit1");
         ObjectMapper mapper=new ObjectMapper();
         try {
             String v=mapper.writeValueAsString(list);

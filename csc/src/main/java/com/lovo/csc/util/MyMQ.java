@@ -23,15 +23,15 @@ public class MyMQ {
 
     //创建一个给用户注册管理员队列
 
-   // @LoadBalanced   //使用负载均衡机制
+    // @LoadBalanced   //使用负载均衡机制
     @Bean
     public ActiveMQQueue frozenOrUnfrozenAccountsResultMQ(){
         return new ActiveMQQueue("frozenOrUnfrozenAccountsResultMQ");
     }
 
 
-   //@LoadBalanced   //使用负载均衡机制
-   //websocket 放入到spring容器
+    //@LoadBalanced   //使用负载均衡机制
+    //websocket 放入到spring容器
     @Bean
     public ServerEndpointExporter serverEndpointExporter() {
         return new ServerEndpointExporter();
