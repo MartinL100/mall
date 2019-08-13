@@ -57,7 +57,7 @@ public class SupplierServiceImpl implements ISupplierService {
         vo.setCheckName(audit.getAuditPeople());
         vo.setCheckDate(new DateFormat().getNow());
         supplierDao.save(s);
-        ActiveMQQueue queue=new ActiveMQQueue("SHHMQ");
+        ActiveMQQueue queue=new ActiveMQQueue("SHHMQ1");
         ObjectMapper mapper=new ObjectMapper();
         try {
             String v=mapper.writeValueAsString(vo);

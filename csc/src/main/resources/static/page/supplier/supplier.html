@@ -184,11 +184,11 @@
                 //         msg: result.errorMsg
                 //     });
                 // } else {
-                    $('#dlg3').dialog('close');
-                    doSearch();
                 // }
             });
         }
+        $('#dlg3').dialog('close');
+        doSearch();
     }
     function audit2() {
         var supplierTag=$("#supplierTag2").val();
@@ -217,11 +217,11 @@
             //         msg: result.errorMsg
             //     });
             // } else {
-                $('#dlg2').dialog('close');
-                $('#dlg1').dialog('close');
-                doSearch();
             // }
         });
+        $('#dlg2').dialog('close');
+        $('#dlg1').dialog('close');
+        doSearch();
     }
     function SupplierGoods() {
         var row = $('#tt').datagrid('getSelected');

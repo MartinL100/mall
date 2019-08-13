@@ -97,7 +97,7 @@ public class MQController {
             }
         }
     }
-    @JmsListener(destination = "ZCMQ")
+    @JmsListener(destination = "ZCMQ1")
 //    @RequestMapping("saveSupplierMQ")
     public void saveSupplier(String message) {
         if (null==message||"".equals(message)){
@@ -149,7 +149,7 @@ public class MQController {
             }
         }
     }
-    @JmsListener(destination = "AddSupplierGoodsAudit")
+    @JmsListener(destination = "AddSupplierGoodsAudit1")
 //    @RequestMapping("supplierGoodsAudit")
     public void supplierGoodsAudit(String message) {
         if (null==message||"".equals(message)){
@@ -174,6 +174,7 @@ public class MQController {
             s.setSupplierType(vo.getSupplierType());
             SupplierEntity supplier=supplierService.findBySupplierId(vo.getSupplierId());
             supplier.setSupplierTag("供应商品未审核");
+            supplierService.save(supplier);
             s.setSupplierId(supplier);
             supplierGoodsService.save(s);
         }
@@ -209,7 +210,7 @@ public class MQController {
             }
         }
     }
-    @JmsListener(destination = "buyMQ")
+    @JmsListener(destination = "buyMQ1")
 //    @RequestMapping("buyMQ")
     public void buyMQ(String message) {
         if (null==message||"".equals(message)){
@@ -232,7 +233,7 @@ public class MQController {
             IndentEntity indent=new IndentEntity();
             indent.setIndentId(vo.getIndentId());
             indent.setIndentDate(vo.getIndentDate());
-            indent.setIndentStatus("未完成");
+            indent.setIndentStatus("未结算");
             supply.setIndentId(indent);
             supply.setIndentStatus("未投标");
             supply.setSupplyNum(vo.getSupplyNum());
@@ -276,7 +277,7 @@ public class MQController {
             }
         }
     }
-    @JmsListener(destination = "orderMQ")
+    @JmsListener(destination = "orderMQ1")
 //    @RequestMapping("orderMQ")
     public void orderMQ(String message) {
         if (null==message||"".equals(message)){
