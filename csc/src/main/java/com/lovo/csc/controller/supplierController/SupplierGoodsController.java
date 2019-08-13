@@ -1,14 +1,12 @@
 package com.lovo.csc.controller.supplierController;
 
-import com.lovo.csc.entity.SupplierGoodsEntity;
+import com.lovo.csc.entity.supplierEntity.SupplierGoodsEntity;
 import com.lovo.csc.service.supplierService.ISupplierGoodsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 @RestController
 public class SupplierGoodsController {

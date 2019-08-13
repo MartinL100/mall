@@ -2,7 +2,7 @@ package com.lovo.csc.service.supplierService.impl;
 
 import com.lovo.csc.dao.supplierDao.IBaseDao;
 import com.lovo.csc.dao.supplierDao.ISupplyDao;
-import com.lovo.csc.entity.SupplyEntity;
+import com.lovo.csc.entity.supplierEntity.SupplyEntity;
 import com.lovo.csc.service.supplierService.ISupplyService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

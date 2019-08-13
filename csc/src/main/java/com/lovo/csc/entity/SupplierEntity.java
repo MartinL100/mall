@@ -1,5 +1,6 @@
 package com.lovo.csc.entity;
 
+import com.lovo.csc.entity.supplierEntity.AuditEntity;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
@@ -13,8 +14,8 @@ public class SupplierEntity {
     //供应商ID
     @Id
     @Column(length=48)
-    @GenericGenerator(name="myuuid",strategy="uuid")
-    @GeneratedValue(generator="myuuid")
+//    @GenericGenerator(name="myuuid",strategy="uuid")
+//    @GeneratedValue(generator="myuuid")
     private String supplierId;
     //供应商名称
     @Column(length=48)
@@ -44,6 +45,16 @@ public class SupplierEntity {
     @OneToOne
     @JoinColumn(name="audit_id")
     private AuditEntity checkId;
+    @Column(length=48)
+    private String checkName;
+
+    public String getCheckName() {
+        return checkName;
+    }
+
+    public void setCheckName(String checkName) {
+        this.checkName = checkName;
+    }
 
     public String getSupplierId() {
         return supplierId;

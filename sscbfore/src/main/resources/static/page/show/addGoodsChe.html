@@ -39,7 +39,7 @@
                         </div>
                         <div class="layui-col-md6" style="height: 300px">
                             <!--查询-->
-                            <form class="layui-form"> <!-- 提示：如果你不想用form，你可以换成div等任何一个普通元素 -->
+                            <div class="layui-form"> <!-- 提示：如果你不想用form，你可以换成div等任何一个普通元素 -->
                                 <div class="layui-form-item">
                                     <label class="layui-form-label">商品名称</label>
                                     <div class="layui-input-block">
@@ -49,22 +49,19 @@
                                     </div>
                                 </div>
                                 <div class="layui-form-item">
-                                    <label class="layui-form-label" for="goodsType">商品类型</label>
+                                    <label class="layui-form-label" for="selectId">商品类型</label>
                                     <div class="layui-input-block">
-                                        <select id="goodsType" name="interest" lay-filter="aihao">
-                                            <option value="0">写作</option>
-                                            <option value="1">阅读</option>
-                                        </select>
+                                        <select id="selectId" name="goodsType" class="layui-form"
+                                                lay-filter="goodsType"> </select>
                                     </div>
                                 </div>
 
                                 <div class="layui-form-item">
                                     <div class="layui-input-block">
                                         <button class="layui-btn" lay-submit lay-filter="*">查询</button>
-                                        <button type="reset" class="layui-btn layui-btn-primary">重置</button>
                                     </div>
                                 </div>
-                            </form>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -85,7 +82,7 @@
     }).extend({
         index: 'lib/index' //主入口模块
     }).use(['index', 'table', 'element', 'laytpl', 'layer', 'form', 'upload'], function () {
-        let table = layui.table;
+        var table = layui.table;
         let form = layui.form;
         let layer = layui.layer;
 
@@ -102,7 +99,18 @@
             active[type] ? active[type].call(this) : '';
         });
         //初始化加载
-        $.ready(table1());
+        $.ready(table1(), initSelect());
+
+        function initSelect() {
+            $.post("/initSelect", function (r) {
+                let selectObj = eval("(" + r + ")");
+                let htmlStr = "";
+                $.each(selectObj, function (index, item) {
+                    $('#selectId').append('<option value="' + item + '">' + item + '</option>');
+                });
+                form.render();
+            })
+        }
 
         table.on('tool(goodsTable)', function (obj) {
             let data = obj.data;
@@ -146,15 +154,48 @@
             });
         }
 
+        form.on('submit(*)', function (res) {
 
+            let data = res.field;
+            goodsName = data.goodsName;
+            goodsType = data.goodsType;
+
+            if (goodsName !== '' || goodsType !== '') {
+
+                if (goodsName === '') {
+                    goodsName = "null";
+                }
+
+                if (goodsType === '' || goodsType === '不限') {
+                    goodsType = "null";
+                }
+
+                table.render({
+                    elem: '#goodsTable'
+                    , url: '/addgoods/req/allgoods/' + goodsName + '/' + goodsType
+                    , id: 'goodsTable'
+                    , page: true
+                    , cols: [[
+                        {field: 'goodsId', title: '商品编号', sort: true}
+                        , {field: 'goodsName', title: '商品名称'}
+                        , {field: 'goodsType', title: '商品类型'}
+                        , {field: 'goodsNorms', title: '规格'}
+                        , {field: 'goodsUnit', title: '计量单位'}
+                        , {field: 'goodsNum', title: '库存'}
+                        , {align: 'center', toolbar: '#barDemo', title: '操作'}
+                    ]]
+                });
+                goodsName = null;
+                goodsType = null;
+            } else {
+                layer.msg('请输入查询条件');
+            }
+
+        })
     });
 
 </script>
-<!--表单-->
-<script>
-    layui.use('form', function () {
-        var form = layui.form;
-    });
-</script>
+
+
 </body>
 </html>

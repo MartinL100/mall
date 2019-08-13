@@ -1,43 +1,21 @@
-package com.lovo.csc.entity;
+package com.lovo.csc.vo.suppliervo;
 
-import org.hibernate.annotations.GenericGenerator;
-
-import javax.persistence.*;
-
-/**
- * 供应商供应商品表
- */
-@Entity
-@Table(name = "sys_supplierGoods")
-public class SupplierGoodsEntity {
-    //供应商品表ID
-    @Id
-    @Column(length=48)
-    @GenericGenerator(name="myuuid",strategy="uuid")
-    @GeneratedValue(generator="myuuid")
+public class SupplierGoodsDTO {
     private String codeId;
-    //商品名
-    @Column(length=48)
+
     private String goodsName;
-    //商品规格
-    @Column(length=48)
+
     private String goodsNorms;
-    //商品类型
-    @Column(length=48)
+
     private String goodsType;
-    //商品单位
-    @Column(length=48)
+
     private String goodsUnit;
-    //供应商品状态（商品供应/取消供应）
-    @Column(length=48)
+
     private String supplierStatus;
-    //进行的操作（上架/下架）
-    @Column(length=48)
+
     private String supplierType;
-    //供应商ID
-    @ManyToOne
-    @JoinColumn(name="supplier_id")
-    private SupplierEntity supplierId;
+
+    private String supplierId;
 
     public String getCodeId() {
         return codeId;
@@ -95,11 +73,11 @@ public class SupplierGoodsEntity {
         this.supplierType = supplierType;
     }
 
-    public SupplierEntity getSupplierId() {
+    public String getSupplierId() {
         return supplierId;
     }
 
-    public void setSupplierId(SupplierEntity supplierId) {
+    public void setSupplierId(String supplierId) {
         this.supplierId = supplierId;
     }
 }

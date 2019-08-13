@@ -1,10 +1,8 @@
-package com.lovo.csc.entity;
+package com.lovo.csc.entity.supplierEntity;
 
-import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
-import java.math.BigDecimal;
 
 /**
  * 供货中间表表

@@ -18,8 +18,8 @@
     <div style="margin-bottom:20px">
         <!--<input class="easyui-datebox"  id="startTime" name="startTime" label="开始时间:" prompt="搜索请求审核开始时间" data-options="editable:false,panelWidth:220,panelHeight:240,iconWidth:30" style="width:45%">-->
         <!--<input class="easyui-datebox"  id="endTime" name="endTime" label="结束时间:" prompt="搜索请求审核结束时间" data-options="editable:false,panelWidth:220,panelHeight:240,iconWidth:30" style="width:45%">-->
-        <input id="orderId1" class="easyui-textbox" name="orderId" label="订单号" labelWidth="100px" style="width: 45%">
-        <input id="orderNameId" class="easyui-textbox" name="orderName" label="退货用户" labelWidth="70px" style="width: 45%">
+        <input id="orderId1" class="easyui-textbox" name="orderId" label="订单编号:" labelWidth="100px" style="width: 45%">
+        <input id="orderNameId" class="easyui-textbox" name="orderName" label="退货用户:" labelWidth="90px" style="width: 45%">
     </div>
 
     <div style="margin-bottom:20px">
@@ -32,7 +32,7 @@
                 <option value="审核未通过">                    审核未通过</option>
             </select>
             <input id="auditTypeTag" name="auditTypeTag" type="hidden">
-            <a href="javascript:void(0)" class="easyui-linkbutton"  onclick="doSearch()" style="right :0px;width:90px;">搜索</a>
+            <a href="javascript:void(0)" class="easyui-linkbutton"  onclick="doSearch()" style="right :0px;width:90px;left: 90px">搜索</a>
         </div>
     </div>
 
@@ -99,37 +99,6 @@
                    style="width: 224px; margin: 0px; padding-top: 0px; padding-bottom: 0px;position: relative;left: 34px;
             height: 30px; line-height: 30px;">
         </div>
-
-
-        <!--<div style="margin-bottom:10px;position: relative;right: -32px">-->
-            <!--&lt;!&ndash; 商品名&ndash;&gt;-->
-            <!--<span>商品名：</span>-->
-            <!--<input id="goodsName"  name="goodsName"-->
-                   <!--class="textbox-text validatebox-text validatebox-readonly textbox-prompt"-->
-                   <!--autocomplete="off" tabindex="" readonly="" placeholder=""-->
-                   <!--style="width: 224px; margin: 0px; padding-top: 0px; padding-bottom: 0px;-->
-            <!--height: 30px; line-height: 30px;">-->
-
-            <!--&lt;!&ndash; 商品数量&ndash;&gt;-->
-            <!--<span style="position: relative;left: 1.6%">商品数量：</span>-->
-            <!--<input id="goodsNum"  name="goodsNum" class="textbox-text validatebox-text validatebox-readonly textbox-prompt"-->
-                   <!--autocomplete="off" tabindex="" readonly="" placeholder=""-->
-                   <!--style="width: 224px; margin: 0px; padding-top: 0px; padding-bottom: 0px;-->
-            <!--height: 30px; line-height: 30px;position: relative;left: 3.5%">-->
-
-        <!--</div>-->
-
-
-        <!--<div style="margin-bottom:10px;position: relative;right: -32px;left: 18px">-->
-            <!--&lt;!&ndash; 商品价格&ndash;&gt;-->
-            <!--<span>商品价格：</span>-->
-            <!--<input id="goodsPrice"  name="goodsPrice"-->
-                   <!--class="textbox-text validatebox-text validatebox-readonly textbox-prompt"-->
-                   <!--autocomplete="off" tabindex="" readonly="" placeholder=""-->
-                   <!--style="width: 224px; margin: 0px; padding-top: 0px; padding-bottom: 0px;-->
-            <!--height: 30px; line-height: 30px;">-->
-        <!--</div>-->
-
 
 
 
@@ -242,6 +211,8 @@
     var url;
     //审核通过
     function auditPass() {
+        $("#auditOpinion").attr("readonly",true);
+        var url;
         $("#auditOpinion").val("审核通过")
         $("#goodsState").val("审核通过")
 

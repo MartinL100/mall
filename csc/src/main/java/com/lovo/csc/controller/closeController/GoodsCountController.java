@@ -52,9 +52,9 @@ public class GoodsCountController {
     }
     //结算订单，数据以json传输,添加订单信息
     @RequestMapping(value = "checkOrder")
-    public String addOrder(@RequestBody String jsonStr) throws JsonProcessingException {
+    public String addOrder(@RequestBody String orderInfo) throws JsonProcessingException {
         //将json字符串转换为对象
-//         jsonStr="{\"orderNum\":\"092349070823569\",\"orderDate\":\"07/03/2019\",\"userName\":\"小1\"" +
+//         orderInfo="{\"orderNum\":\"092349070823569\",\"orderDate\":\"07/03/2019\",\"userName\":\"小1\"" +
 //                ",\"orderMoney\":25235.2,\"payMoney\":\"0.0\",\"payMethod\":\"deposit\",\"goodsDTOList\":[{" +
 //                "\"goodsId\":\"352\",\"goodsName\":\"梨子\",\"goodsNorms\":\"大\",\"goodsPrice\":120.0" +
 //                ",\"goodsNum\":200,\"goodsType\":\"水果\",\"goodsUnit\":\"一筐\"},{" +
@@ -62,7 +62,7 @@ public class GoodsCountController {
 //                ",\"goodsNum\":200,\"goodsType\":\"水果\",\"goodsUnit\":\"一筐\"}]}";
         OrderDTO orderDto=null;
         try {
-            orderDto=new ObjectMapper().readValue(jsonStr, OrderDTO.class);
+            orderDto=new ObjectMapper().readValue(orderInfo, OrderDTO.class);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -77,12 +77,12 @@ public class GoodsCountController {
         }
         if(payMoney==-1){
             this.full(orderDto,2);
-            return  "{'payMoney':0,'errorInfo':'预付款余额不足，支付失败'}";
+            return  "{\"payMoney\":\"0\",\"errorInfo\":\"预付款余额不足，支付失败\"}";
         }else{
             orderDto.setPayMoney(payMoney+"");
             //保存
             this.full(orderDto,1);
-            return  "{'payMoney':"+payMoney+",'errorInfo':'null'}";
+            return  "{\"payMoney\":\""+payMoney+"\",\"errorInfo\":\"null\"}";
         }
 
     }

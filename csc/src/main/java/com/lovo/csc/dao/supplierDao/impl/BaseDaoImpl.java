@@ -1,18 +1,16 @@
 package com.lovo.csc.dao.supplierDao.impl;
 
-import java.util.Date;
 import java.util.List;
 
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
 
 import com.lovo.csc.dao.supplierDao.IBaseDao;
-import com.lovo.csc.entity.IndentEntity;
+import com.lovo.csc.entity.supplierEntity.IndentEntity;
 import com.lovo.csc.entity.SupplierEntity;
-import com.lovo.csc.entity.SupplyEntity;
+import com.lovo.csc.entity.supplierEntity.SupplyEntity;
 import com.lovo.csc.util.Verify;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Pageable;
 import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
 import org.springframework.stereotype.Repository;
 

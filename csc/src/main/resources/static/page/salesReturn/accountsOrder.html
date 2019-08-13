@@ -16,20 +16,20 @@
 <h1 align="center">供应商退货审核</h1>
 <div id="tb" style="padding:3px">
     <div style="margin-bottom:20px">
-        <input id="orderId1" class="easyui-textbox" name="orderId" label="订单号id" labelWidth="100px" style="width: 45%">
-        <input id="supplierNameId" class="easyui-textbox" name="supplierName" label="供应商名称" labelWidth="70px" style="width: 45%">
+        <input id="orderId1" class="easyui-textbox" name="orderId" label="订单编号:" labelWidth="100px" style="width: 45%">
+        <input id="supplierNameId" class="easyui-textbox" name="supplierName" label="供应商名称:" labelWidth="100px" style="width: 45%">
 
     </div>
     <div style="margin-bottom:20px">
         <div style="margin-bottom:10px">
-            <select name="orderState" id="orderState" label="订单状态:" class="easyui-combobox" name="state" style="width:45%" panelHeight="100">
+            <select name="orderState" id="orderState" label="订单状态:" class="easyui-combobox" name="state" style="width:45%" panelHeight="100" labelWidth="100px">
                 <option value="" >                       请选择状态</option>
                 <option value="未审核" >                       未审核</option>
                 <option value="审核通过">                      审核通过</option>
                 <option value="审核未通过">                    审核未通过</option>
             </select>
             <input id="auditTypeTag" name="auditTypeTag" type="hidden">
-            <a href="javascript:void(0)" class="easyui-linkbutton"  onclick="doSearch()" style="right :0px;width:90px;">搜索</a>
+            <a href="javascript:void(0)" class="easyui-linkbutton"  onclick="doSearch()" style="right :0px;width:90px;left: 99px">搜索</a>
         </div>
     </div>
 
@@ -92,32 +92,7 @@
                 </div>
 
 
-                <!--<div style="margin-bottom:10px;position: relative;right: -32px">-->
-                    <!--&lt;!&ndash; 商品名&ndash;&gt;-->
-                    <!--<span>商品名：</span>-->
-                    <!--<input id="goodsName"  name="goodsName"-->
-                           <!--class="textbox-text validatebox-text validatebox-readonly textbox-prompt"-->
-                           <!--autocomplete="off" tabindex="" readonly="" placeholder=""-->
-                           <!--style="width: 224px; margin: 0px; padding-top: 0px; padding-bottom: 0px;-->
-            <!--height: 30px; line-height: 30px;">-->
 
-                    <!--&lt;!&ndash; 商品数量&ndash;&gt;-->
-                    <!--<span style="position: relative;left: 1.6%">商品数量：</span>-->
-                    <!--<input id="goodsNum"  name="goodsNum" class="textbox-text validatebox-text validatebox-readonly textbox-prompt"-->
-                           <!--autocomplete="off" tabindex="" readonly="" placeholder=""-->
-                           <!--style="width: 224px; margin: 0px; padding-top: 0px; padding-bottom: 0px;-->
-            <!--height: 30px; line-height: 30px;position: relative;left: 3.5%">-->
-
-                <!--</div>-->
-        <!--<div style="margin-bottom:10px;position: relative;right: -32px;left: 18px">-->
-                    <!--&lt;!&ndash; 商品价格&ndash;&gt;-->
-                    <!--<span>商品价格：</span>-->
-                    <!--<input id="goodsBid"  name="goodsBid"-->
-                           <!--class="textbox-text validatebox-text validatebox-readonly textbox-prompt"-->
-                           <!--autocomplete="off" tabindex="" readonly="" placeholder=""-->
-                           <!--style="width: 224px; margin: 0px; padding-top: 0px; padding-bottom: 0px;-->
-            <!--height: 30px; line-height: 30px;">-->
-                <!--</div>-->
 
 
         <!-- 退货原因-->
@@ -242,9 +217,11 @@
     var url;
     //审核通过
     function auditPass() {
+        $("#orderOpinion").attr("readonly",true);
+        var url;
         $("#orderOpinion").val("审核通过")
         $("#orderState").val("审核通过")
-        url="updateScopeOrder.lovo"
+        url="/updateScopeOrder.lovo"
         $('#fm').form('submit',{
             url: url,
             onSubmit: function(){

@@ -23,7 +23,7 @@ public class UserDao2Impl implements IUserDao2 {
     public List<UserEntity> userList(String userName,String userState,int currentPage,int rows) {
         String hql="from UserEntity where 1=1 ";
         if(!userName.equals("no")){
-            hql+=" and userName=:userName ";
+            hql+=" and userName like :userName";
         }
         if(userState.equals("1")){
             hql+=" and userState=1 ";
@@ -32,7 +32,7 @@ public class UserDao2Impl implements IUserDao2 {
         }
         Query query=getEntityManager().createQuery(hql);
         if(!userName.equals("no")){
-            query.setParameter("userName",userName);
+            query.setParameter("userName","%"+userName+"%");
         }
 //        if(currentPage>1){
 //         List<UserEntity> list=   query.setFirstResult((currentPage-1)*rows).setMaxResults(rows).getResultList();
@@ -44,7 +44,7 @@ public class UserDao2Impl implements IUserDao2 {
     public int userRows(String userName, String userState) {
         String hql="from UserEntity where 1=1 ";
         if(!userName.equals("no")){
-            hql+=" and userName=:userName ";
+            hql+=" and userName like :userName ";
         }
         if(userState.equals("1")){
             hql+=" and userState=1 ";
@@ -53,7 +53,7 @@ public class UserDao2Impl implements IUserDao2 {
         }
         Query query=getEntityManager().createQuery(hql);
         if(!userName.equals("no")){
-            query.setParameter("userName",userName);
+            query.setParameter("userName","%"+userName+"%");
         }
         int i= query.getResultList().size();
         return i;

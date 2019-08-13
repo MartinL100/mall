@@ -159,7 +159,7 @@ layui.config({
     });
 
     //初始化加载
-    $.ready(table2(), getOrder());
+    $.ready(table1(), table2(), getOrder());
 
     function getOrder() {
         $.get('/returngoods/123/jump/1', null, function (res) {
@@ -188,7 +188,6 @@ layui.config({
             , url: '/returngoods/req/1'
             , id: 'orderTable'
             , page: true
-            // , cellMinWidth: 80
             , cols: [[
                 {field: 'ch', title: '选择', type: 'checkbox'}
                 , {field: 'goodsId', title: '商品编号', sort: true}
