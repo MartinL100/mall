@@ -47,6 +47,7 @@ public class UserDao2Impl implements IUserDao2 {
         if(userState.equals("2")){
             hql+=" and userState=3 ";
         }
+
         Query query=getEntityManager().createQuery(hql);
         if(!userName.equals("no")){
             query.setParameter("userName","%"+userName+"%");

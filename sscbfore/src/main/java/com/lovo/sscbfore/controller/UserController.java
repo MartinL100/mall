@@ -77,6 +77,7 @@ public class UserController {
         //创建输出流
         ServletOutputStream out = null;
 
+
         try {
             map = verityCode.GraphicCode(130, 30, 4);
             out = response.getOutputStream();
